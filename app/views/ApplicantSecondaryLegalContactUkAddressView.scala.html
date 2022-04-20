@@ -1,0 +1,102 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    heading1: designsystembasedcomponents.heading1,
+    inputText: designsystembasedcomponents.inputText,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, contactName: String, afaId: AfaId)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(errorPrefix(form) + " " + messages("applicantSecondaryLegalContactUkAddress.title", contactName))
+) {
+
+    @formHelper(action = routes.ApplicantSecondaryLegalContactUkAddressController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors)
+
+        @afaReferenceHeading(afaId)
+
+        @heading1("applicantSecondaryLegalContactUkAddress.heading", contactName)
+
+        @inputText(
+            form = form,
+            id = "line1",
+            name = "line1",
+            label = "applicantSecondaryLegalContactUkAddress.line1",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+            form = form,
+            id = "line2",
+            name = "line2",
+            label = "applicantSecondaryLegalContactUkAddress.line2",
+            labelClasses = Some("govuk-visually-hidden"),
+            isPageHeading = false,
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+            form = form,
+            id = "town",
+            name = "town",
+            label = "applicantSecondaryLegalContactUkAddress.town",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-two-thirds")
+        )
+
+        @inputText(
+            form = form,
+            id = "county",
+            name = "county",
+            label = "applicantSecondaryLegalContactUkAddress.county",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-two-thirds")
+        )
+
+        @inputText(
+            form = form,
+            id = "postCode",
+            name = "postCode",
+            label = "applicantSecondaryLegalContactUkAddress.postCode",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-one-half")
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

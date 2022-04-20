@@ -1,0 +1,290 @@
+# microservice specific routes
+->         /hmrc-frontend                                                                hmrcfrontend.Routes
+
+GET         /create-afa-id                                                               controllers.CreateAfaIdController.onPageLoad
+
+GET         /assets/*file                                                                controllers.Assets.versioned(path="/public", file: Asset)
+
+GET         /language/:lang                                                              controllers.LanguageSwitchController.switchToLanguage(lang: String)
+
+GET         /this-service-has-been-reset                                                 controllers.SessionExpiredController.onPageLoad
+
+GET         /:afaId/check-your-answers                                                   controllers.CheckYourAnswersController.onPageLoad(afaId: AfaId)
+
+GET         /unauthorised                                                                controllers.UnauthorisedController.onPageLoad
+
+GET         /:afaId/date-application-received                                            controllers.ApplicationReceiptDateController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/date-application-received                                            controllers.ApplicationReceiptDateController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-application-receipt-date                                      controllers.ApplicationReceiptDateController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-application-receipt-date                                      controllers.ApplicationReceiptDateController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/evidence-of-power-to-act                                             controllers.EvidenceOfPowerToActController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/evidence-of-power-to-act                                             controllers.EvidenceOfPowerToActController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-evidence-of-power-to-act                                      controllers.EvidenceOfPowerToActController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-evidence-of-power-to-act                                      controllers.EvidenceOfPowerToActController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/technical-contact-location                                           controllers.IsTechnicalContactUkBasedController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/technical-contact-location                                           controllers.IsTechnicalContactUkBasedController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-technical-contact-location                                    controllers.IsTechnicalContactUkBasedController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-technical-contact-location                                    controllers.IsTechnicalContactUkBasedController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/legal-contact-location                                               controllers.IsApplicantLegalContactUkBasedController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/legal-contact-location                                               controllers.IsApplicantLegalContactUkBasedController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-legal-contact-location                                        controllers.IsApplicantLegalContactUkBasedController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-legal-contact-location                                        controllers.IsApplicantLegalContactUkBasedController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/other-legal-contact-location                                        controllers.IsApplicantSecondaryLegalContactUkBasedController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/other-legal-contact-location                                        controllers.IsApplicantSecondaryLegalContactUkBasedController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-other-legal-contact-location                                 controllers.IsApplicantSecondaryLegalContactUkBasedController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-other-legal-contact-location                                 controllers.IsApplicantSecondaryLegalContactUkBasedController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/technical-contact-uk-address                                         controllers.TechnicalContactUkAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/technical-contact-uk-address                                         controllers.TechnicalContactUkAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-technical-contact-uk-address                                  controllers.TechnicalContactUkAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-technical-contact-uk-address                                  controllers.TechnicalContactUkAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/legal-contact-uk-address                                            controllers.ApplicantLegalContactUkAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/legal-contact-uk-address                                            controllers.ApplicantLegalContactUkAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-legal-contact-uk-address                                     controllers.ApplicantLegalContactUkAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-legal-contact-uk-address                                     controllers.ApplicantLegalContactUkAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/other-legal-contact-uk-address                                      controllers.ApplicantSecondaryLegalContactUkAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/other-legal-contact-uk-address                                      controllers.ApplicantSecondaryLegalContactUkAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-other-legal-contact-uk-address                               controllers.ApplicantSecondaryLegalContactUkAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-other-legal-contact-uk-address                                controllers.ApplicantSecondaryLegalContactUkAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/legal-contact-international-address                                  controllers.ApplicantLegalContactInternationalAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/legal-contact-international-address                                  controllers.ApplicantLegalContactInternationalAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-legal-contact-international-address                           controllers.ApplicantLegalContactInternationalAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-legal-contact-international-address                           controllers.ApplicantLegalContactInternationalAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/other-legal-contact-international-address                           controllers.ApplicantSecondaryLegalContactInternationalAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/other-legal-contact-international-address                           controllers.ApplicantSecondaryLegalContactInternationalAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-other-legal-contact-international-address                    controllers.ApplicantSecondaryLegalContactInternationalAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-other-legal-contact-international-address                    controllers.ApplicantSecondaryLegalContactInternationalAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+
+GET         /:afaId/technical-contact-international-address                              controllers.TechnicalContactInternationalAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/technical-contact-international-address                              controllers.TechnicalContactInternationalAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-technical-contact-international-address                       controllers.TechnicalContactInternationalAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-technical-contact-international-address                       controllers.TechnicalContactInternationalAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/other-technical-contact-international-address                        controllers.SecondaryTechnicalContactInternationalAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/other-technical-contact-international-address                        controllers.SecondaryTechnicalContactInternationalAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-other-technical-contact-international-address                 controllers.SecondaryTechnicalContactInternationalAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-other-technical-contact-international-address                 controllers.SecondaryTechnicalContactInternationalAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/other-technical-contact-uk-address                                   controllers.SecondaryTechnicalContactUkAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/other-technical-contact-uk-address                                   controllers.SecondaryTechnicalContactUkAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-other-technical-contact-uk-address                            controllers.SecondaryTechnicalContactUkAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-other-technical-contact-uk-address                            controllers.SecondaryTechnicalContactUkAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/other-technical-contact-location                                     controllers.IsSecondaryTechnicalContactUkBasedController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/other-technical-contact-location                                     controllers.IsSecondaryTechnicalContactUkBasedController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-other-technical-contact-location                              controllers.IsSecondaryTechnicalContactUkBasedController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-other-technical-contact-location                              controllers.IsSecondaryTechnicalContactUkBasedController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/ex-officio-response                                                  controllers.IsExOfficioController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/ex-officio-response                                                  controllers.IsExOfficioController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-ex-officio-response                                           controllers.IsExOfficioController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-ex-officio-response                                           controllers.IsExOfficioController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/ip-rights/:index/type-of-right                                       controllers.IpRightsTypeController.onPageLoad(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/type-of-right                                       controllers.IpRightsTypeController.onSubmit(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/change-type-of-right                                controllers.IpRightsTypeController.onPageLoad(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/change-type-of-right                                controllers.IpRightsTypeController.onSubmit(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/modify-type-of-right                                controllers.IpRightsTypeController.onPageLoad(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/modify-type-of-right                                controllers.IpRightsTypeController.onSubmit(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+
+GET         /:afaId/one-year-rights-protection                                           controllers.WantsOneYearRightsProtectionController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/one-year-rights-protection                                           controllers.WantsOneYearRightsProtectionController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-one-year-rights-protection                                    controllers.WantsOneYearRightsProtectionController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-one-year-rights-protection                                    controllers.WantsOneYearRightsProtectionController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/permission-to-destroy-small-consignments                             controllers.PermissionToDestroySmallConsignmentsController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/permission-to-destroy-small-consignments                             controllers.PermissionToDestroySmallConsignmentsController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-permission-to-destroy-small-consignments                      controllers.PermissionToDestroySmallConsignmentsController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-permission-to-destroy-small-consignments                      controllers.PermissionToDestroySmallConsignmentsController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/ip-rights/:index/registration-number                                 controllers.IpRightsRegistrationNumberController.onPageLoad(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/registration-number                                 controllers.IpRightsRegistrationNumberController.onSubmit(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/change-registration-number                          controllers.IpRightsRegistrationNumberController.onPageLoad(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/change-registration-number                          controllers.IpRightsRegistrationNumberController.onSubmit(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/modify-registration-number                          controllers.IpRightsRegistrationNumberController.onPageLoad(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/modify-registration-number                          controllers.IpRightsRegistrationNumberController.onSubmit(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+
+GET         /:afaId/ip-rights/:index/registration-end-date                               controllers.IpRightsRegistrationEndController.onPageLoad(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/registration-end-date                               controllers.IpRightsRegistrationEndController.onSubmit(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/change-registration-end-date                        controllers.IpRightsRegistrationEndController.onPageLoad(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/change-registration-end-date                        controllers.IpRightsRegistrationEndController.onSubmit(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/modify-registration-end-date                        controllers.IpRightsRegistrationEndController.onPageLoad(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/modify-registration-end-date                        controllers.IpRightsRegistrationEndController.onSubmit(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+
+GET         /:afaId/ip-rights/:iprIndex/:niceClassIndex/delete-nice-class                controllers.DeleteNiceClassController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId, iprIndex: Int, niceClassIndex: Int)
+POST        /:afaId/ip-rights/:iprIndex/:niceClassIndex/delete-nice-class                controllers.DeleteNiceClassController.onSubmit(mode: Mode = NormalMode, afaId: AfaId, iprIndex: Int, niceClassIndex: Int)
+GET         /:afaId/ip-rights/:iprIndex/:niceClassIndex/change-delete-nice-class         controllers.DeleteNiceClassController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId, iprIndex: Int, niceClassIndex: Int)
+POST        /:afaId/ip-rights/:iprIndex/:niceClassIndex/change-delete-nice-class         controllers.DeleteNiceClassController.onSubmit(mode: Mode = CheckMode, afaId: AfaId, iprIndex: Int, niceClassIndex: Int)
+
+GET         /:afaId/ip-rights/:index/nice-classes-added                                  controllers.IpRightsAddNiceClassController.onPageLoad(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/change-nice-classes-added                           controllers.IpRightsAddNiceClassController.onPageLoad(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:iprIndex/:niceClassIndex/delete-nice-class-for-ipr        controllers.IpRightsAddNiceClassController.onDelete(mode: Mode = NormalMode, iprIndex: Int, niceClassIndex:Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:iprIndex/:niceClassIndex/change-delete-nice-class-for-ipr controllers.IpRightsAddNiceClassController.onDelete(mode: Mode = CheckMode, iprIndex: Int, niceClassIndex:Int, afaId: AfaId)
+
+GET         /:afaId/ip-rights/:index/check-your-answers                                  controllers.CheckIprDetailsController.onPageLoad(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/change-check-your-answers                           controllers.CheckIprDetailsController.onPageLoad(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+
+GET         /:afaId/ip-rights/rights-added                                               controllers.AddIpRightController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/ip-rights/change-rights-added                                        controllers.AddIpRightController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/ip-rights/:index/delete-ip-right                                     controllers.AddIpRightController.onDelete(mode: Mode = NormalMode, afaId: AfaId, index: Int)
+GET         /:afaId/ip-rights/:index/change-delete-ip-right                              controllers.AddIpRightController.onDelete(mode: Mode = CheckMode, afaId: AfaId, index: Int)
+
+GET         /:afaId/application-complete                                                 controllers.SubmissionResultController.onPageLoad(afaId: AfaId)
+
+GET         /view-drafts                                                                 controllers.ViewDraftsController.onPageLoad()
+
+GET         /:afaId/unlock-draft                                                         controllers.UnlockAfaController.onPageLoad(afaId: AfaId)
+POST        /:afaId/unlock-draft                                                         controllers.UnlockAfaController.onSubmit(afaId: AfaId)
+
+GET         /:afaId/delete-draft                                                         controllers.DeleteDraftController.onPageLoad(afaId: AfaId)
+POST        /:afaId/delete-draft                                                         controllers.DeleteDraftController.onSubmit(afaId: AfaId)
+
+GET         /:afaId/applicant-or-company-applying                                        controllers.CompanyApplyingController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/applicant-or-company-applying                                        controllers.CompanyApplyingController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-applicant-or-company-applying                                 controllers.CompanyApplyingController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-applicant-or-company-applying                                 controllers.CompanyApplyingController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/company-applying-location                                            controllers.IsCompanyApplyingUkBasedController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/company-applying-location                                            controllers.IsCompanyApplyingUkBasedController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-company-applying-location                                     controllers.IsCompanyApplyingUkBasedController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-company-applying-location                                     controllers.IsCompanyApplyingUkBasedController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/company-applying-uk-address                                          controllers.CompanyApplyingUkAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/company-applying-uk-address                                          controllers.CompanyApplyingUkAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-company-applying-uk-address                                   controllers.CompanyApplyingUkAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-company-applying-uk-address                                   controllers.CompanyApplyingUkAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/company-applying-international-address                               controllers.CompanyApplyingInternationalAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/company-applying-international-address                               controllers.CompanyApplyingInternationalAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-company-applying-international-address                        controllers.CompanyApplyingInternationalAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-company-applying-international-address                        controllers.CompanyApplyingInternationalAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/status-of-applicant                                                  controllers.CompanyApplyingIsRightsHolderController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/status-of-applicant                                                  controllers.CompanyApplyingIsRightsHolderController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-status-of-applicant                                           controllers.CompanyApplyingIsRightsHolderController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-status-of-applicant                                           controllers.CompanyApplyingIsRightsHolderController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/rights-contact-details                                              controllers.RepresentativeContactController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/rights-contact-details                                              controllers.RepresentativeContactController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-rights-contact-details                                       controllers.RepresentativeContactController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-rights-contact-details                                       controllers.RepresentativeContactController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/rights-contact-location                                             controllers.IsRepresentativeContactUkBasedController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/rights-contact-location                                             controllers.IsRepresentativeContactUkBasedController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-rights-contact-location                                      controllers.IsRepresentativeContactUkBasedController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-rights-contact-location                                      controllers.IsRepresentativeContactUkBasedController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/rights-contact-uk-address                                           controllers.RepresentativeContactUkAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/rights-contact-uk-address                                           controllers.RepresentativeContactUkAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-rights-contact-uk-address                                    controllers.RepresentativeContactUkAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-rights-contact-uk-address                                    controllers.RepresentativeContactUkAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/rights-contact-international-address                                controllers.RepresentativeContactInternationalAddressController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/rights-contact-international-address                                controllers.RepresentativeContactInternationalAddressController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-rights-contact-international-address                         controllers.RepresentativeContactInternationalAddressController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-rights-contact-international-address                         controllers.RepresentativeContactInternationalAddressController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/legal-contact                                                        controllers.ApplicantLegalContactController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/legal-contact                                                        controllers.ApplicantLegalContactController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-legal-contact                                                 controllers.ApplicantLegalContactController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-legal-contact                                                 controllers.ApplicantLegalContactController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/legal-contact-same-as-rights-contact                                 controllers.IsRepresentativeContactLegalContactController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/legal-contact-same-as-rights-contact                                 controllers.IsRepresentativeContactLegalContactController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-legal-contact-same-as-rights-contact                          controllers.IsRepresentativeContactLegalContactController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-legal-contact-same-as-rights-contact                          controllers.IsRepresentativeContactLegalContactController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/technical-contact                                                    controllers.WhoIsTechnicalContactController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/technical-contact                                                    controllers.WhoIsTechnicalContactController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-technical-contact                                             controllers.WhoIsTechnicalContactController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-technical-contact                                             controllers.WhoIsTechnicalContactController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/ip-rights/:index/description                                         controllers.IpRightsDescriptionController.onPageLoad(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/description                                         controllers.IpRightsDescriptionController.onSubmit(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/change-description                                  controllers.IpRightsDescriptionController.onPageLoad(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/change-description                                  controllers.IpRightsDescriptionController.onSubmit(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/modify-description                                  controllers.IpRightsDescriptionController.onPageLoad(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/modify-description                                  controllers.IpRightsDescriptionController.onSubmit(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+
+GET         /:afaId/ip-rights/:index/description-and-brand-name                          controllers.IpRightsDescriptionWithBrandController.onPageLoad(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/description-and-brand-name                          controllers.IpRightsDescriptionWithBrandController.onSubmit(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/change-description-and-brand-name                   controllers.IpRightsDescriptionWithBrandController.onPageLoad(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/change-description-and-brand-name                   controllers.IpRightsDescriptionWithBrandController.onSubmit(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/modify-description-and-brand-name                   controllers.IpRightsDescriptionWithBrandController.onPageLoad(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/modify-description-and-brand-name                   controllers.IpRightsDescriptionWithBrandController.onSubmit(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+
+GET         /:afaId/ip-rights/:iprIndex/nice-class/:niceClassIndex                       controllers.IpRightsNiceClassController.onPageLoad(mode: Mode = NormalMode, iprIndex: Int, niceClassIndex: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:iprIndex/nice-class/:niceClassIndex                       controllers.IpRightsNiceClassController.onSubmit(mode: Mode = NormalMode, iprIndex: Int, niceClassIndex: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:iprIndex/change-nice-class/:niceClassIndex                controllers.IpRightsNiceClassController.onPageLoad(mode: Mode = CheckMode, iprIndex: Int, niceClassIndex: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:iprIndex/change-nice-class/:niceClassIndex                controllers.IpRightsNiceClassController.onSubmit(mode: Mode = CheckMode, iprIndex: Int, niceClassIndex: Int, afaId: AfaId)
+
+GET         /:afaId/ip-rights/:index/certificate-type                                    controllers.IpRightsSupplementaryProtectionCertificateTypeController.onPageLoad(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/certificate-type                                    controllers.IpRightsSupplementaryProtectionCertificateTypeController.onSubmit(mode: Mode = NormalMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/change-certificate-type                             controllers.IpRightsSupplementaryProtectionCertificateTypeController.onPageLoad(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/change-certificate-type                             controllers.IpRightsSupplementaryProtectionCertificateTypeController.onSubmit(mode: Mode = CheckMode, index: Int, afaId: AfaId)
+GET         /:afaId/ip-rights/:index/modify-certificate-type                             controllers.IpRightsSupplementaryProtectionCertificateTypeController.onPageLoad(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+POST        /:afaId/ip-rights/:index/modify-certificate-type                             controllers.IpRightsSupplementaryProtectionCertificateTypeController.onSubmit(mode: Mode = ModifyMode, index: Int, afaId: AfaId)
+
+GET         /:afaId/deleteIpRight                                                        controllers.DeleteIpRightController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId, index: Int)
+POST        /:afaId/deleteIpRight                                                        controllers.DeleteIpRightController.onSubmit(mode: Mode = NormalMode, afaId: AfaId, index: Int)
+GET         /:afaId/change-deleteIpRight                                                 controllers.DeleteIpRightController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId, index: Int)
+POST        /:afaId/change-deleteIpRight                                                 controllers.DeleteIpRightController.onSubmit(mode: Mode = CheckMode, afaId: AfaId, index: Int)
+
+GET         /:afaId/restricted-handling                                                  controllers.RestrictedHandlingController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/restricted-handling                                                  controllers.RestrictedHandlingController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-restricted-handling                                           controllers.RestrictedHandlingController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-restricted-handling                                           controllers.RestrictedHandlingController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/additional-info-provided                                             controllers.AdditionalInfoProvidedController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/additional-info-provided                                             controllers.AdditionalInfoProvidedController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-additional-info-provided                                      controllers.AdditionalInfoProvidedController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-additional-info-provided                                      controllers.AdditionalInfoProvidedController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/add-another-legal-contact                                            controllers.AddAnotherLegalContactController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/add-another-legal-contact                                            controllers.AddAnotherLegalContactController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-add-another-legal-contact                                     controllers.AddAnotherLegalContactController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-add-another-legal-contact                                     controllers.AddAnotherLegalContactController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/add-another-technical-contact                                        controllers.AddAnotherTechnicalContactController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/add-another-technical-contact                                        controllers.AddAnotherTechnicalContactController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-add-another-technical-contact                                 controllers.AddAnotherTechnicalContactController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-add-another-technical-contact                                 controllers.AddAnotherTechnicalContactController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/select-technical-contact                                             controllers.SelectTechnicalContactController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/select-technical-contact                                             controllers.SelectTechnicalContactController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-select-technical-contact                                      controllers.SelectTechnicalContactController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-select-technical-contact                                      controllers.SelectTechnicalContactController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+
+GET         /:afaId/other-legal-contact                                                  controllers.WhoIsSecondaryLegalContactController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/other-legal-contact                                                  controllers.WhoIsSecondaryLegalContactController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-other-legal-contact                                           controllers.WhoIsSecondaryLegalContactController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-other-legal-contact                                           controllers.WhoIsSecondaryLegalContactController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/other-technical-contact                                              controllers.WhoIsSecondaryTechnicalContactController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/other-technical-contact                                              controllers.WhoIsSecondaryTechnicalContactController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-other-technical-contact                                       controllers.WhoIsSecondaryTechnicalContactController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-other-technical-contact                                       controllers.WhoIsSecondaryTechnicalContactController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/confirm-remove-other-legal-contact                                   controllers.ConfirmRemoveOtherContactController.onPageLoad(afaId: AfaId, contactToRemove: String = "legal")
+GET         /:afaId/confirm-remove-other-technical-contact                               controllers.ConfirmRemoveOtherContactController.onPageLoad(afaId: AfaId, contactToRemove: String = "technical")
+
+GET         /:afaId/remove-other-contact                                                 controllers.RemoveOtherContactController.onDelete(afaId: AfaId, contactToRemove: String)
+
+GET         /:afaId/select-other-technical-contact                                       controllers.SelectOtherTechnicalContactController.onPageLoad(mode: Mode = NormalMode, afaId: AfaId)
+POST        /:afaId/select-other-technical-contact                                       controllers.SelectOtherTechnicalContactController.onSubmit(mode: Mode = NormalMode, afaId: AfaId)
+GET         /:afaId/change-select-other-technical-contact                                controllers.SelectOtherTechnicalContactController.onPageLoad(mode: Mode = CheckMode, afaId: AfaId)
+POST        /:afaId/change-select-other-technical-contact                                controllers.SelectOtherTechnicalContactController.onSubmit(mode: Mode = CheckMode, afaId: AfaId)
+
+GET         /:afaId/confirmed-removed-legal-contact                                      controllers.ConfirmedRemovedContactController.onPageLoad(afaId: AfaId, contactToRemove: String="legal")
+GET         /:afaId/confirmed-removed-technical-contact                                  controllers.ConfirmedRemovedContactController.onPageLoad(afaId: AfaId, contactToRemove: String="technical")

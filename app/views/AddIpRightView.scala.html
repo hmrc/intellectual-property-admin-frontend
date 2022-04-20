@@ -1,0 +1,106 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import controllers.routes._
+@import models.Mode
+@import viewmodels.IprReviewRow
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+
+@this(
+    layout: Layout,
+    backLink: designsystembasedcomponents.backLink,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    heading1: designsystembasedcomponents.heading1,
+    link: designsystembasedcomponents.link,
+    linkButton: designsystembasedcomponents.linkButton,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink,
+    answerSection: designsystembasedcomponents.answerSection
+)
+
+@(mode: Mode, afaId: AfaId, reviewRows: Either[DisplayAnswerRow, Seq[IprReviewRow]], addIpRightUrl: String, numberOfIpRights: Int, nextPage: Call)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle =
+        if(numberOfIpRights == 1){
+            Some(messages("addIpRight.title", numberOfIpRights))
+        }else{
+            Some(messages("addIpRight.title.plural", numberOfIpRights))
+        }
+) {
+
+    @backLink()
+
+    @afaReferenceHeading(afaId)
+
+    @heading1(
+        if(numberOfIpRights == 1){
+            "addIpRight.heading"
+        }else{
+            "addIpRight.heading.plural"
+        },
+        numberOfIpRights.toString
+    )
+
+    @reviewRows match {
+        case Left(row) => {
+            @answerSection(AnswerSection(None, Seq(row)))
+        }
+        case Right(rows) => {
+            <dl class="govuk-summary-list">
+                @for(row <- rows) {
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            @messages(row.rightsType)
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @messages(row.descriptor)
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                            @link(
+                                link = row.deleteUrl,
+                                messageKey = "site.delete",
+                                visuallyHiddenText = Some(messages("site.right.hiddenText", row.index))
+                            )
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                            @link(
+                                link = row.changeUrl,
+                                messageKey = "site.edit",
+                                visuallyHiddenText = Some(messages("site.right.hiddenText", row.index))
+                            )
+                        </dd>
+                    </div>
+                }
+            </dl>
+        }
+    }
+
+    <div class="govuk-form-group">
+        @link(
+            link = addIpRightUrl,
+            messageKey = "addIpRight.link.add",
+            id = Some("add-another-right")
+        )
+    </div>
+
+    @linkButton(nextPage.url, "site.continue")
+
+    @goToHomeLink()
+}
+
+@{
+    //$COVERAGE-OFF$
+}
