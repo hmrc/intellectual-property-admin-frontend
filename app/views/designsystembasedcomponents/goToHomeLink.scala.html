@@ -1,0 +1,17 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import config.FrontendAppConfig
+
+@this(
+    config: FrontendAppConfig
+)
+
+@()(implicit messages: Messages)
+<div class="section">
+    <a href="@config.manageIprHomeUrl" class="govuk-link" id="manage-applications-home">
+        @messages("goToManageApplicationsHome")
+    </a>
+</div>

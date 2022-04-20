@@ -1,0 +1,14 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@(text: String)(implicit messages: Messages)
+
+@{
+    if(messages(s"$text.hiddenText") == s"$text.hiddenText") {
+        messages(text)
+    } else {
+        messages(s"$text.hiddenText")
+    }
+}

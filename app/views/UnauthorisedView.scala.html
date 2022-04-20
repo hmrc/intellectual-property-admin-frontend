@@ -1,0 +1,20 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@this(
+    layout: Layout,
+    heading1: designsystembasedcomponents.heading1,
+)
+
+@()(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = Some(messages("unauthorised.title")), timeout = false) {
+
+    @heading1("unauthorised.heading")
+}
+
+@{
+    //$COVERAGE-OFF$
+}

@@ -1,0 +1,52 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    heading1: designsystembasedcomponents.heading1,
+    inputText: designsystembasedcomponents.inputText,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, iprIndex: Int, niceClassIndex: Int, afaId: AfaId)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsNiceClass.title")}")) {
+
+    @formHelper(action = IpRightsNiceClassController.onSubmit(mode, iprIndex, niceClassIndex, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors)
+
+        @afaReferenceHeading(afaId)
+
+        @heading1("ipRightsNiceClass.heading")
+
+        @inputText(
+            form = form,
+            id = "value",
+            name = "value",
+            label = "ipRightsNiceClass.guidance",
+            isPageHeading = false,
+            classes = Some("govuk-input--width-3")
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

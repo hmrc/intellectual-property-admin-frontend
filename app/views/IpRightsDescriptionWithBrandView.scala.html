@@ -1,0 +1,61 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    heading1: designsystembasedcomponents.heading1,
+    inputText: designsystembasedcomponents.inputText,
+    inputTextArea: designsystembasedcomponents.inputTextArea,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, index: Int, afaId: AfaId)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = Some(errorPrefix(form) + " " + messages("ipRightsDescriptionWithBrand.title"))) {
+
+    @formHelper(action = IpRightsDescriptionWithBrandController.onSubmit(mode, index, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors)
+
+        @afaReferenceHeading(afaId)
+
+        @heading1("ipRightsDescriptionWithBrand.heading")
+
+        @inputText(
+            form = form,
+            id = "brand",
+            name = "brand",
+            label = messages("ipRightsDescriptionWithBrand.brand"),
+            isPageHeading = false,
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputTextArea(
+            form = form,
+            id = "value",
+            name = "value",
+            label = messages("ipRightsDescriptionWithBrand.description"),
+            isPageHeading = false
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

@@ -1,0 +1,44 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+
+@this(govukInput: GovukInput)
+
+@(
+        form: Form[_],
+        id: String,
+        name: String,
+        label: String,
+        isPageHeading: Boolean,
+        headingMessageArgs: Seq[String] = Seq(),
+        hintText: Option[String] = None,
+        hintArgs: Seq[String] = Seq(),
+        classes: Option[String] = None,
+        stripWhitespace: Boolean = false,
+        autocomplete: Option[String] = None,
+        inputmode: Option[String] = None,
+        pattern: Option[String] = None,
+        labelClasses: Option[String] = None,
+        inputType: String = "text"
+)(implicit messages: Messages)
+
+@govukInput(Input(
+    id,
+    name,
+    classes = classes.fold("")(x => x),
+    label = Label(
+        content = Text(messages(label, headingMessageArgs:_*)),
+        isPageHeading = isPageHeading,
+        classes = if(isPageHeading) "govuk-label--xl " + labelClasses.getOrElse("") else labelClasses.getOrElse("")
+    ),
+    hint = hintText.map(hint => Hint(content = Text(messages(hint, hintArgs:_*)))),
+    value = form(name).value,
+    errorMessage = form(name).error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*)))),
+    autocomplete = autocomplete,
+    inputmode = inputmode,
+    pattern = pattern,
+    inputType = inputType
+))

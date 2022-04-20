@@ -1,0 +1,16 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+
+@this(govukWarningText : GovukWarningText)
+
+@(warningKey: String, warningHidden: String)(implicit messages: Messages)
+
+
+@govukWarningText(WarningText(
+    iconFallbackText = messages(warningHidden),
+    content = Text(messages(warningKey))
+))

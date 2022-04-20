@@ -1,0 +1,50 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    inputRadiosYesNo: designsystembasedcomponents.inputRadiosYesNo,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], afaId: AfaId, lockHeldBy: String, rightsHolder: Option[String])(implicit request: Request[_], messages: Messages)
+
+@title = @{rightsHolder match{case Some(name) => messages("unlockAfa.title", name)
+    case _ => messages("unlockAfa.titleWithoutCompany")
+}}
+
+@heading = @{rightsHolder match{case Some(name) => messages("unlockAfa.heading", name)
+    case _ => messages("unlockAfa.headingWithoutCompany")
+}}
+
+@layout(pageTitle = Some(errorPrefix(form) + " " + title)) {
+
+    @formHelper(action = UnlockAfaController.onSubmit(afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors, Some("value-yes"))
+
+        @inputRadiosYesNo(
+            form = form,
+            legend = messages(heading),
+            hintKey = Some(messages("unlockAfa.guidance", lockHeldBy))
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

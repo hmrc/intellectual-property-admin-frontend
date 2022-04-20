@@ -1,0 +1,46 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.{Mode, IpRightsType}
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    inputRadios: designsystembasedcomponents.inputRadios,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, index: Int, afaId: AfaId)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsType.title")}")) {
+
+    @formHelper(action = IpRightsTypeController.onSubmit(mode, index, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors, Some("ipRightsType.trademark"))
+
+        @afaReferenceHeading(afaId)
+
+        @inputRadios(
+            form = form,
+            legend = messages("ipRightsType.heading"),
+            items = IpRightsType.radioItems(form)
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

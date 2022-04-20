@@ -1,0 +1,191 @@
+/*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ */
+
+package controllers
+
+import base.SpecBase
+import forms.RepresentativeContactInternationalAddressFormProvider
+import models.{AfaId, InternationalAddress, NormalMode, RepresentativeDetails, UserAnswers}
+import navigation.{FakeNavigator, Navigator}
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
+import org.scalatestplus.mockito.MockitoSugar
+import pages.{RepresentativeContactInternationalAddressPage, RepresentativeDetailsPage}
+import play.api.data.Form
+import play.api.inject.bind
+import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
+import play.api.test.FakeRequest
+import play.api.test.Helpers._
+import services.AfaService
+import views.html.RepresentativeContactInternationalAddressView
+
+import scala.concurrent.Future
+
+class RepresentativeContactInternationalAddressControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks {
+
+  def onwardRoute: Call = Call("GET", "/foo")
+
+  val afaId: AfaId = userAnswersId
+
+  val representativeContact: RepresentativeDetails = RepresentativeDetails("name", "companyName", "phone", "email", Some("role"))
+  val formProvider = new RepresentativeContactInternationalAddressFormProvider()
+  private def form: Form[InternationalAddress] = formProvider()
+
+  lazy val representativeContactInternationalAddressRoute: String =
+    routes.RepresentativeContactInternationalAddressController.onPageLoad(NormalMode, afaId).url
+
+  private val baseUserAnswers = UserAnswers(afaId).set(RepresentativeDetailsPage, representativeContact).success.value
+
+  val validAnswer: InternationalAddress = InternationalAddress("line 1", None, "town", "country", None)
+
+  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+    FakeRequest(GET, representativeContactInternationalAddressRoute)
+
+  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+    FakeRequest(POST, representativeContactInternationalAddressRoute)
+      .withFormUrlEncodedBody(("line1", "line 1"), ("town", "town"), ("country", "country"))
+
+  "RepresentativeContactInternationalAddress Controller" must {
+
+    "return OK and the correct view for a GET" in {
+
+      val application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
+
+      val view = application.injector.instanceOf[RepresentativeContactInternationalAddressView]
+
+      val result = route(application, getRequest()).value
+
+      status(result) mustEqual OK
+
+      contentAsString(result) mustEqual
+        view(form, NormalMode, representativeContact.contactName, afaId)(getRequest(), messages).toString
+
+      application.stop()
+    }
+
+    "populate the view correctly on a GET when the question has previously been answered" in {
+
+      val userAnswers = baseUserAnswers.set(RepresentativeContactInternationalAddressPage, validAnswer).success.value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      val view = application.injector.instanceOf[RepresentativeContactInternationalAddressView]
+
+      val result = route(application, getRequest()).value
+
+      status(result) mustEqual OK
+
+      contentAsString(result) mustEqual
+        view(form.fill(validAnswer), NormalMode, representativeContact.contactName, afaId)(getRequest(), messages).toString
+
+      application.stop()
+    }
+
+    "redirect to the next page when valid data is submitted" in {
+
+      val mockAfaService = mock[AfaService]
+
+      when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
+
+      val application =
+        applicationBuilder(userAnswers = Some(baseUserAnswers))
+          .overrides(
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[AfaService].toInstance(mockAfaService)
+          )
+          .build()
+
+      val result = route(application, postRequest()).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual onwardRoute.url
+
+      application.stop()
+    }
+
+    "return a Bad Request and errors when invalid data is submitted" in {
+
+      val application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
+
+      val request =
+        FakeRequest(POST, representativeContactInternationalAddressRoute)
+          .withFormUrlEncodedBody(("value", "invalid value"))
+
+      val boundForm = form.bind(Map("value" -> "invalid value"))
+
+      val view = application.injector.instanceOf[RepresentativeContactInternationalAddressView]
+
+      val result = route(application, request).value
+
+      status(result) mustEqual BAD_REQUEST
+
+      contentAsString(result) mustEqual
+        view(boundForm, NormalMode, representativeContact.contactName, afaId)(fakeRequest, messages).toString
+
+      application.stop()
+    }
+
+    "redirect to Session Expired for a GET if no existing data is found" in {
+
+      val application = applicationBuilder(userAnswers = None).build()
+
+      val result = route(application, getRequest()).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+
+      application.stop()
+    }
+
+    "redirect to Session Expired for a POST if no existing data is found" in {
+
+      val application = applicationBuilder(userAnswers = None).build()
+
+      val result = route(application, postRequest()).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+
+      application.stop()
+    }
+
+    "redirect to Session Expired for a GET if Rights Holder Contact Name has not been answered" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val result = route(application, getRequest()).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+
+      application.stop()
+    }
+
+    "redirect to Session Expired for a POST if Rights Holder Contact Name has not been answered" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val result = route(application, postRequest()).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+
+      application.stop()
+    }
+
+    "for a GET" must {
+
+      redirectIfLocked(afaId, getRequest)
+    }
+
+    "for a POST" must {
+
+      redirectIfLocked(afaId, postRequest)
+    }
+  }
+}

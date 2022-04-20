@@ -1,0 +1,68 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components._
+@import views.designsystembasedcomponents.FooterLinks
+
+@this(
+        govukLayout: GovukLayout,
+        govukPhaseBanner: GovukPhaseBanner,
+        siteHeader: designsystembasedcomponents.siteHeader,
+        link: designsystembasedcomponents.link,
+        appConfig: config.FrontendAppConfig,
+        footerLinks: FooterLinks,
+        hmrcTimeoutDialog: HmrcTimeoutDialog
+)
+
+@(pageTitle: Option[String] = None,
+        headBlock: Option[Html] = None,
+        timeout: Boolean = true,
+        js: Option[Html] = None,
+)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
+
+@head = {
+        <script src="https://cdn.optimizely.com/js/20055379615.js"></script>
+        <script src='@controllers.routes.Assets.versioned("javascripts/gtm.js")'></script>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PLWQQZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
+        <!--[if lte IE 8]><link href='@controllers.routes.Assets.versioned("stylesheets/application-ie-8.css")' rel="stylesheet" type="text/css" /><![endif]-->
+        <!--[if gt IE 8]><!--><link href='@controllers.routes.Assets.versioned("stylesheets/application.css")' media="screen" rel="stylesheet" type="text/css" /><!--<![endif]-->
+
+        <!-- TODO: Put in auth sign out link -->
+@if(timeout) {
+    @hmrcTimeoutDialog(TimeoutDialog(
+        timeout = Some(appConfig.timeoutPeriodSeconds),
+        countdown = Some(appConfig.timeoutCountdownSeconds),
+        keepAliveUrl = Some("?keepAlive=true"),
+        keepAliveButtonText = Some(messages("timeout.keepAlive")),
+        signOutUrl = Some(routes.SessionExpiredController.onPageLoad().url),
+        signOutButtonText = Some(messages("timeout.signOutLink")),
+        title = Some(messages("timeout.heading")),
+        message = Some(messages("timeout.text"))
+        ))
+}
+}
+
+@scripts = {
+    <script src='@routes.Assets.versioned("lib/govuk-frontend/govuk/all.js")'></script>
+    <script src='@routes.Assets.versioned("lib/hmrc-frontend/hmrc/all.js")'></script>
+    <script src='@routes.Assets.versioned("javascripts/admin.js")'></script>
+
+@js.map(x => x)
+}
+
+
+@govukLayout(
+    pageTitle = if(pageTitle.isDefined) {Some(pageTitle.get + " - " + messages("site.service_name"))} else {None},
+    headBlock = Some(head),
+    beforeContentBlock = None,
+    bodyEndBlock = None,
+    scriptsBlock = Some(scripts),
+    headerBlock = Some(siteHeader(timeout)),
+    footerItems = footerLinks.items
+)(contentBlock)

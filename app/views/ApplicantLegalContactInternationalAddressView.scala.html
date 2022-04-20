@@ -1,0 +1,91 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    heading1: designsystembasedcomponents.heading1,
+    inputText: designsystembasedcomponents.inputText,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, contactName: String, afaId: AfaId)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("applicantLegalContactInternationalAddress.title", contactName)}")
+) {
+
+    @formHelper(action = ApplicantLegalContactInternationalAddressController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+
+    @backLink()
+
+    @errorSummary(form.errors)
+
+    @afaReferenceHeading(afaId)
+
+    @heading1("applicantLegalContactInternationalAddress.heading", contactName)
+
+    @inputText(
+        form = form,
+        id = "line1",
+        name = "line1",
+        label = "applicantLegalContactInternationalAddress.line1",
+        isPageHeading = false,
+        classes = Some("govuk-!-width-three-quarters")
+    )
+
+    @inputText(
+        form = form,
+        id = "line2",
+        name = "line2",
+        label = "applicantLegalContactInternationalAddress.line2",
+        labelClasses = Some("govuk-visually-hidden"),
+        isPageHeading = false,
+        classes = Some("govuk-!-width-three-quarters")
+    )
+
+    @inputText(
+        form = form,
+        id = "town",
+        name = "town",
+        label = "applicantLegalContactInternationalAddress.town",
+        isPageHeading = false,
+        classes = Some("govuk-!-width-two-thirds")
+    )
+
+    @inputText(
+        form = form,
+        id = "country",
+        name = "country",
+        label = "applicantLegalContactInternationalAddress.country",
+        isPageHeading = false,
+        classes = Some("govuk-!-width-two-thirds")
+    )
+
+    @inputText(
+        form = form,
+        id = "postCode",
+        name = "postCode",
+        label = "applicantLegalContactInternationalAddress.postCode",
+        isPageHeading = false,
+        classes = Some("govuk-!-width-one-half")
+    )
+
+    @button("site.continue")
+
+    @goToHomeLink()
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

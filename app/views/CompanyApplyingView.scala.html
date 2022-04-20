@@ -1,0 +1,64 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    heading1: designsystembasedcomponents.heading1,
+    inputText: designsystembasedcomponents.inputText,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, afaId: AfaId)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("companyApplying.title")}")
+    ) {
+
+    @formHelper(action = CompanyApplyingController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors)
+
+        @afaReferenceHeading(afaId)
+
+        @heading1("companyApplying.heading")
+
+        @inputText(
+            form = form,
+            id = "companyName",
+            name = "companyName",
+            label = "companyApplying.companyName",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+            form = form,
+            id = "companyAcronym",
+            name = "companyAcronym",
+            label = "companyApplying.companyAcronym",
+            isPageHeading = false,
+            hintText = Some("companyApplying.hint"),
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

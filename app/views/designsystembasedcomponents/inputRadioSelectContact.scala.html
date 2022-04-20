@@ -1,0 +1,50 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components.{RadioItem, Text}
+@import models.ContactOptions._
+
+@this(inputRadios: designsystembasedcomponents.inputRadios)
+
+@(
+    form: Form[_],
+    legend: String,
+    legendAsHeading: Boolean = true,
+    hintKey: Option[String] = None,
+    classes: String = "govuk-fieldset__legend--xl",
+    inline: Boolean = false,
+    radioOptions: Seq[(ContactOptions, String)]
+)(implicit messages: Messages)
+
+@getRadioOptions=@{
+    for(option <- radioOptions) yield(
+        RadioItem(
+            content = Text(messages(option._2)),
+            id = Some("value-" + option._1),
+            value = Some(option._1.toString),
+            checked = form("value").value.contains(option._1.toString)
+        )
+    )
+}
+
+@inputRadios(
+    form = form,
+    legend = legend,
+    items = getRadioOptions.union(Seq(
+        RadioItem(
+            divider = Some("or")
+        ),
+        RadioItem(
+            content = Text(messages("selectTechnicalContact.someoneElse")),
+            id = Some("someone-else"),
+            value = Some(ContactOptions.SomeoneElse.toString),
+            checked = form("value").value.contains(ContactOptions.SomeoneElse.toString)
+        )
+    )),
+    legendAsHeading = legendAsHeading,
+    hintKey = hintKey,
+    classes = classes,
+    inline = inline
+)

@@ -1,0 +1,91 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    heading1: designsystembasedcomponents.heading1,
+    inputText: designsystembasedcomponents.inputText,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, contactName: String, afaId: AfaId)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("companyApplyingUkAddress.title", contactName)}")
+) {
+
+    @formHelper(action = CompanyApplyingUkAddressController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+
+         @backLink()
+
+         @errorSummary(form.errors)
+
+         @afaReferenceHeading(afaId)
+
+         @heading1("companyApplyingUkAddress.heading", contactName)
+
+        @inputText(
+            form = form,
+            id = "line1",
+            name = "line1",
+            label = "companyApplyingUkAddress.line1",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+            form = form,
+            id = "line2",
+            name = "line2",
+            label = "companyApplyingUkAddress.line2",
+            labelClasses = Some("govuk-visually-hidden"),
+            isPageHeading = false,
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+            form = form,
+            id = "town",
+            name = "town",
+            label = "companyApplyingUkAddress.town",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-two-thirds")
+        )
+
+        @inputText(
+            form = form,
+            id = "county",
+            name = "county",
+            label = "companyApplyingUkAddress.county",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-two-thirds")
+        )
+
+        @inputText(
+            form = form,
+            id = "postCode",
+            name = "postCode",
+            label = "companyApplyingUkAddress.postCode",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-one-half")
+        )
+
+         @button("site.continue")
+
+         @goToHomeLink()
+}
+}
+
+@{
+//$COVERAGE-OFF$
+}

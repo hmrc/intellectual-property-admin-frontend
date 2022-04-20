@@ -1,0 +1,71 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import viewmodels._
+@import views.html._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+
+@this(
+  govukSummaryList: GovukSummaryList,
+)
+
+@(answerSection: AnswerSection)(implicit messages: Messages)
+
+@if(answerSection.headingKey.isDefined){
+    <h2 class="govuk-heading-l">@messages(answerSection.headingKey.get)</h2>
+}
+
+@govukSummaryList(SummaryList(
+    rows = answerSection.rows.map{
+        case displayRow: DisplayAnswerRow => display(displayRow)
+        case answerRow: AnswerRowWithUrl => answer(answerRow)
+    }
+))
+
+@if(answerSection.sectionLink.isDefined){
+<p class="govuk-body">
+    <a href='@answerSection.sectionLink.get.route' class="govuk-link">@messages(answerSection.sectionLink.get.linkMessageKey)</a>
+</p>
+}
+
+@display(row: DisplayAnswerRow) = @{
+    SummaryListRow(
+        key = Key(
+            content = Text(messages(row.label))
+        ),
+        value = Value(
+            content = HtmlContent(row.answer)
+        )
+    )
+}
+
+@answer(row: AnswerRowWithUrl) = @{
+    val text = row match {
+        case r: IpRightAnswerRowWithUrl => messages("site.right.hiddenText", r.ipRightIndex, messages(r.label))
+        case r: CompanyAnswerRowWithUrl =>
+            if(messages(s"${r.label}.hiddenText") == s"${r.label}.hiddenText") messages("site.legalContact.hiddenText", r.companyText)
+            else messages(s"${r.label}.hiddenText", r.companyText)
+        case r: NiceClassAnswerRowWithUrl => messages("site.niceClass.hiddenText", r.label)
+        case r => designsystembasedcomponents.hidden_text(row.label).toString
+    }
+
+    SummaryListRow(
+        key = Key(
+            content = Text(messages(row.label))
+        ),
+        value = Value(
+            content = HtmlContent(row.answer)
+        ),
+        actions = Some(Actions(
+            items = Seq(
+                ActionItem(
+                    href = row.changeUrl,
+                    content = Text(messages("site.edit")),
+                    visuallyHiddenText = Some(text)
+                )
+            )
+        ))
+    )
+}

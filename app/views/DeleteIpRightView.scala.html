@@ -1,0 +1,44 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    inputRadiosYesNo: designsystembasedcomponents.inputRadiosYesNo,
+    button: designsystembasedcomponents.button
+)
+
+@(form: Form[_], mode: Mode, afaId: AfaId, index: Int)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("deleteIpRight.title")}")
+) {
+
+    @formHelper(action = DeleteIpRightController.onSubmit(mode, afaId, index), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors, Some("value-yes"))
+
+        @afaReferenceHeading(afaId)
+
+        @inputRadiosYesNo(
+            form = form,
+            legend = messages("deleteIpRight.heading")
+        )
+
+        @button("site.continue")
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

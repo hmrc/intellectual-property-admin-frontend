@@ -1,0 +1,54 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    selectContactErrorSummary: designsystembasedcomponents.selectContactErrorSummary,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    heading1: designsystembasedcomponents.heading1,
+    inputRadioSelectContact: designsystembasedcomponents.inputRadioSelectContact,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, afaId: AfaId, companyName: String, contactsRadioOptions: Seq[(ContactOptions, String)])(implicit request: Request[_], messages: Messages)
+
+    @layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("selectOtherTechnicalContact.title")}")) {
+
+        @formHelper(action = routes.SelectOtherTechnicalContactController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+
+            @backLink()
+
+            @selectContactErrorSummary(errors = form.errors, firstField = contactsRadioOptions.headOption)
+
+            @afaReferenceHeading(afaId)
+
+            @heading1("selectOtherTechnicalContact.heading", companyName)
+
+            <p class="govuk-body">@messages("selectOtherTechnicalContact.guidance")</p>
+
+            @inputRadioSelectContact(
+                form = form,
+                legend = messages("selectOtherTechnicalContact.hiddenText"),
+                legendAsHeading = false,
+                classes = "govuk-visually-hidden",
+                radioOptions = contactsRadioOptions
+            )
+
+            @button("site.continue")
+
+            @goToHomeLink()
+
+    }
+}
+
+@{
+//$COVERAGE-OFF$
+}

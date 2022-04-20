@@ -1,0 +1,36 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+
+@this(
+    layout: Layout,
+    backLink: designsystembasedcomponents.backLink,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    heading1: designsystembasedcomponents.heading1,
+    linkButton: designsystembasedcomponents.linkButton
+)
+
+@(afaId: AfaId, contactToRemove: String)(implicit request: Request[_], messages: Messages)
+
+@layout(
+ pageTitle = Some(messages("confirmRemoveOtherContact.title", contactToRemove))
+) {
+
+    @backLink()
+
+    @afaReferenceHeading(afaId)
+
+    @heading1("confirmRemoveOtherContact.heading", contactToRemove)
+
+    <p class="govuk-body">@messages("confirmRemoveOtherContact.guidance", contactToRemove)</p>
+
+    @linkButton(routes.RemoveOtherContactController.onDelete(afaId, contactToRemove).url, "confirmRemoveOtherContact.button.confirm")
+
+}
+
+@{
+    //$COVERAGE-OFF$
+}

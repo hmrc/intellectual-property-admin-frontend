@@ -1,0 +1,28 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+
+@this(
+    layout: Layout,
+    linkButton: designsystembasedcomponents.linkButton,
+    govukPanel : GovukPanel
+
+)
+
+@(afaId: AfaId, messageKey: String)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(messages("confirmedRemovedContact.title", messages("confirmedRemovedContact." + s"$messageKey"), afaId))
+) {
+
+    @govukPanel(Panel(
+        title = Text(messages("confirmedRemovedContact.heading",  messages("confirmedRemovedContact." + s"$messageKey"), afaId))
+        )
+    )
+    <br />
+
+    @linkButton(routes.CheckYourAnswersController.onPageLoad(afaId).url, "confirmedRemovedContact.returnToCheck")
+}

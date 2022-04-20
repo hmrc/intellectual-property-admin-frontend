@@ -1,0 +1,36 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import viewmodels.SubmissionResult
+@import models.Formatter.HtmlFormattedOps
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+
+@this(
+    layout: Layout,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink,
+    govukPanel : GovukPanel
+)
+
+@(submissionResult: SubmissionResult)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = Some(messages("submissionResult.title"))) {
+
+    @govukPanel(Panel(
+        title = Text(messages("submissionResult.heading")),
+        content = HtmlContent(
+                    s"""${messages("submissionResult.reference", submissionResult.applicantCompanyName)}<br><strong>
+                        ${submissionResult.afaId.format}</strong>
+                    """
+        )
+    ))
+
+    <p class="govuk-body">@messages("submissionResult.guidance", submissionResult.applicantCompanyName, submissionResult.expirationDate)</p>
+
+    @goToHomeLink()
+}
+
+@{
+    //$COVERAGE-OFF$
+}

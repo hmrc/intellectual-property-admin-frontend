@@ -1,0 +1,92 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    heading1: designsystembasedcomponents.heading1,
+    inputText: designsystembasedcomponents.inputText,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, afaId: AfaId, applicantName: String)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("representativeContact.title")}")
+) {
+
+    @formHelper(action = RepresentativeContactController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors)
+
+        @afaReferenceHeading(afaId)
+
+        @heading1("representativeContact.heading")
+
+        @inputText(
+            form = form,
+            id = "name",
+            name = "name",
+            label = "representativeContact.name.label",
+            isPageHeading = false,
+            hintText = Some("representativeContact.name.hint"),
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+            form = form,
+            id = "companyName",
+            name = "companyName",
+            label = "representativeContact.companyName.label",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+            form = form,
+            id = "telephone",
+            name = "telephone",
+            label = "representativeContact.telephone.label",
+            isPageHeading = false,
+            hintText = Some("representativeContact.telephone.hint"),
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+            form = form,
+            id = "email",
+            name = "email",
+            label = "representativeContact.email.label",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+            form = form,
+            id = "role",
+            name = "role",
+            label = "representativeContact.role.label",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+//$COVERAGE-OFF$
+}

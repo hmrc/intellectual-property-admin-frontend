@@ -1,0 +1,28 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@this(
+    appConfig: config.FrontendAppConfig,
+)
+
+@(showSignOut: Boolean = true)(implicit messages: Messages)
+
+<div class="govuk-body">
+    <header role="banner" class="hmrc-internal-header">
+        <div class="govuk-width-container">
+            <div class="hmrc-internal-header__logo">
+                <span class="hmrc-internal-header__logo-link">
+                    HM Revenue &amp; Customs
+                </span>
+            </div>
+
+            <div class="hmrc-internal-header__service-name">
+                <a href="@appConfig.manageIprHomeUrl" class="govuk-header__link hmrc-internal-header__link">
+                    @messages("site.service_name")
+                </a>
+            </div>
+        </div>
+    </header>
+</div>

@@ -1,0 +1,10 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@this()
+
+@(headingKey: String, args: String*)(implicit messages: Messages)
+
+<h1 class="govuk-heading-xl">@messages(headingKey, args:_*)</h1>

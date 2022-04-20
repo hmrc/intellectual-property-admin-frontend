@@ -1,0 +1,36 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.testonly.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    heading1: designsystembasedcomponents.heading1,
+    inputTextArea: designsystembasedcomponents.inputTextArea,
+    button: designsystembasedcomponents.button
+)
+
+@(form: Form[_])(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = Some("Insert single afa for testing")) {
+
+    @formHelper(action = InsertSingleAfaController.submit(), 'autoComplete -> "off") {
+
+        @heading1("Insert single afa for testing")
+
+        @inputTextArea(
+            form = form,
+            id = "value",
+            name = "value",
+            label = "single afa",
+            isPageHeading = false
+        )
+
+        @button("Insert afa")
+
+    }
+}

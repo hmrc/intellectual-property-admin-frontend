@@ -1,0 +1,15 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+
+@this(govukButton: GovukButton)
+
+@(url: String, msg: String)(implicit messages: Messages)
+
+@govukButton(Button(
+    href = Some(url),
+    content = Text(messages(msg))
+))

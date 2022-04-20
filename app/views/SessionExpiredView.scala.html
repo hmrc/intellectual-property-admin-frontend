@@ -1,0 +1,25 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@this(
+    layout: Layout,
+    heading1: designsystembasedcomponents.heading1
+)
+
+@()(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(messages("session_expired.title")), timeout = false
+) {
+
+    @heading1("session_expired.heading")
+
+    <p class="govuk-body">@messages("session_expired.guidance.one")</p>
+    <p class="govuk-body">@messages("session_expired.guidance.two")</p>
+}
+
+@{
+    //$COVERAGE-OFF$
+}

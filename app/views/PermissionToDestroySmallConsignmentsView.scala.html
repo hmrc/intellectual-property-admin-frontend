@@ -1,0 +1,55 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    heading1: designsystembasedcomponents.heading1,
+    inputRadiosYesNo: designsystembasedcomponents.inputRadiosYesNo,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, afaId: AfaId)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = Some(errorPrefix(form) + " " + messages("permissionToDestroySmallConsignments.title"))) {
+
+    @formHelper(action = PermissionToDestroySmallConsignmentsController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors, Some("value-yes"))
+
+        @afaReferenceHeading(afaId)
+
+        @heading1("permissionToDestroySmallConsignments.heading")
+
+        <div class="govuk-body">
+            <p>@messages("permissionToDestroySmallConsignments.paragraph.reason")</p>
+            <p id="guidance-applicability">@messages("permissionToDestroySmallConsignments.paragraph.applicability")</p>
+        </div>
+
+        @inputRadiosYesNo(
+            form = form,
+            legend = messages("permissionToDestroySmallConsignments.heading"),
+            legendAsHeading = false,
+            classes = "govuk-visually-hidden"
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

@@ -1,0 +1,20 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import viewmodels._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+
+@(row: DisplayAnswerRow)(implicit messages: Messages)
+
+@{
+    SummaryListRow(
+        key = Key(
+            content = Text(messages(row.label))
+        ),
+        value = Value(
+            content = HtmlContent(row.answer)
+        )
+    )
+}

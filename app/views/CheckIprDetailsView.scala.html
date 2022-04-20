@@ -1,0 +1,46 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import models.Mode
+@import viewmodels.{AnswerSection, Section}
+@import config.FrontendAppConfig
+
+@this(
+    layout: Layout,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    heading1: designsystembasedcomponents.heading1,
+    answerSection: designsystembasedcomponents.answerSection,
+    linkButton: designsystembasedcomponents.linkButton,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(mode: Mode, afaId: AfaId, index: Int, mainSection: AnswerSection, niceClassSection: Option[AnswerSection], nextPage: Call)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(messages("checkIprDetails.title"))
+) {
+
+    @afaReferenceHeading(afaId)
+
+    @heading1("checkIprDetails.heading")
+
+    @answerSection(mainSection)
+
+    @niceClassSection.map { section =>
+        <div class="govuk-!-margin-bottom-4">
+            @answerSection(section)
+
+            <a href="@routes.IpRightsAddNiceClassController.onPageLoad(mode, index, afaId)" class="govuk-link">@messages("checkIprDetails.addOrDeleteNiceClass")</a>
+        </div>
+    }
+
+    @linkButton(nextPage.url, "site.continue")
+
+    @goToHomeLink()
+}
+
+@{
+    //$COVERAGE-OFF$
+}

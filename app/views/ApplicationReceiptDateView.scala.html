@@ -1,0 +1,49 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import utils.DateHintHelper
+@import java.time.LocalDate
+
+@this(
+    layout: Layout,
+    backLink: designsystembasedcomponents.backLink,
+    dateErrorSummary: designsystembasedcomponents.dateErrorSummary,
+    inputDate: designsystembasedcomponents.inputDate,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    formHelper: FormWithCSRF,
+)
+
+@(form: Form[_], mode: Mode, afaId: AfaId)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = Some(errorPrefix(form) + " " + messages("applicationReceiptDate.title"))) {
+
+    @formHelper(action = ApplicationReceiptDateController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @dateErrorSummary(form.errors)
+
+        @afaReferenceHeading(afaId = afaId)
+
+        @inputDate(
+            form = form,
+            legendContent = "applicationReceiptDate.heading",
+            id = "value",
+            hintText = Some("applicationReceiptDate.hint"),
+            hintArgs = Seq("7 7 2021")
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

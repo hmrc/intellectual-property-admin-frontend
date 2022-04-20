@@ -1,0 +1,10 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@this()
+
+@* to display the afa id above the H1 where the header is separate *@
+@(afaId: AfaId)(implicit messages: Messages)
+ <span id="afaid-header" class="govuk-caption-xl">@messages("site.afaId") @afaId</span>

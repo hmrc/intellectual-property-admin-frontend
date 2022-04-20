@@ -1,0 +1,59 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+
+@this(
+    formHelper: FormWithCSRF,
+    layout: Layout,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    backLink: designsystembasedcomponents.backLink,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    button: designsystembasedcomponents.button,
+    inputRadiosYesNo: designsystembasedcomponents.inputRadiosYesNo,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink,
+    heading1: designsystembasedcomponents.heading1
+)
+
+@(form: Form[_], mode: Mode, afaId: AfaId, representativeContactName: String)(implicit request: Request[_], messages: Messages)
+
+@layout(
+pageTitle = Some(s"${errorPrefix(form)} ${messages("representativeEvidenceOfPowerToAct.title", representativeContactName)}")) {
+
+    @formHelper(action = EvidenceOfPowerToActController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors, Some("value-yes"))
+
+        @afaReferenceHeading(afaId)
+
+        @heading1("representativeEvidenceOfPowerToAct.heading", representativeContactName)
+
+        <ul class = "govuk-list govuk-list--bullet">@messages("representativeEvidenceOfPowerToAct.guidance")
+            <li>@messages("representativeEvidenceOfPowerToAct.guidance.bulletOne")</li>
+            <li>@messages("representativeEvidenceOfPowerToAct.guidance.bulletTwo")</li>
+        </ul>
+
+        <p class="govuk-body">@messages("representativeEvidenceOfPowerToAct.guidance.check")</p>
+
+        @inputRadiosYesNo(
+            form = form,
+            legend = messages("representativeEvidenceOfPowerToAct.heading", representativeContactName),
+            legendAsHeading = false,
+            classes = "govuk-visually-hidden"
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+//$COVERAGE-OFF$
+}

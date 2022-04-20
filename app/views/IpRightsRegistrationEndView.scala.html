@@ -1,0 +1,48 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import utils.DateHintHelper
+@import java.time.LocalDate
+
+@this(
+    layout: Layout,
+    backLink: designsystembasedcomponents.backLink,
+    dateErrorSummary: designsystembasedcomponents.dateErrorSummary,
+    inputDate: designsystembasedcomponents.inputDate,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    formHelper: FormWithCSRF
+)
+
+@(form: Form[_], mode: Mode, index: Int, afaId: AfaId, ipRightsType: String)(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsRegistrationEnd.title", ipRightsType)}")) {
+
+    @formHelper(action = IpRightsRegistrationEndController.onSubmit(mode, index, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @dateErrorSummary(form.errors)
+
+        @afaReferenceHeading(afaId)
+
+        @inputDate(
+            form = form,
+            id = "value",
+            legendContent = messages("ipRightsRegistrationEnd.heading", ipRightsType),
+            hintText = Some("ipRightsRegistrationEnd.hint"),
+            hintArgs = Seq(DateHintHelper.dateInFuture(LocalDate.now))
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

@@ -1,0 +1,51 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import viewmodels.{AnswerSection, RepeaterAnswerSection, Section}
+@import models.CheckMode
+
+@this(
+    layout: Layout,
+    heading1: designsystembasedcomponents.heading1,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    warning: designsystembasedcomponents.warning,
+    answerSection: designsystembasedcomponents.answerSection,
+    linkButton: designsystembasedcomponents.linkButton,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(afaId: AfaId, answerSections: Seq[AnswerSection], onwardUrl: String, buttonKey: String, canCreateAfa: Boolean, noEvidenceProvided: Boolean, companyName: String)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(messages("checkYourAnswers.title"))
+) {
+
+    @afaReferenceHeading(afaId)
+
+    @heading1("checkYourAnswers.heading")
+
+    @if(!canCreateAfa && noEvidenceProvided ) {
+        @warning("checkYourAnswers.noEvidenceWarning", "checkYourAnswers.noEvidenceWarning")
+    }
+     @if(!canCreateAfa && !noEvidenceProvided) {
+           @warning("checkYourAnswers.warning", "checkYourAnswers.warning")
+    }
+
+    @for(section <- answerSections){
+        @answerSection(section)
+    }
+
+    @if(canCreateAfa) {
+        <p class="govuk-body">@messages("checkYourAnswers.guidance", companyName)</p>
+    }
+
+    @linkButton(onwardUrl, buttonKey)
+
+    @goToHomeLink()
+}
+
+@{
+    //$COVERAGE-OFF$
+}

@@ -1,0 +1,86 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import java.time.format.DateTimeFormatter
+@import models.Formatter.HtmlFormattedOps
+
+@this(
+    layout: Layout,
+    backLink: designsystembasedcomponents.backLink,
+    heading1: designsystembasedcomponents.heading1,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(drafts: List[DraftRow])(implicit request: Request[_], messages: Messages)
+
+@hiddenText(draft: DraftRow)=@{
+    if(draft.companyName.isDefined) {
+        messages("viewDrafts.link.hiddenTextWithCompanyName", draft.reference, draft.companyName.get)
+    } else {
+        messages("viewDrafts.link.hiddenTextWithoutCompanyName", draft.reference)
+    }
+}
+
+@layout(pageTitle = Some(messages("viewDrafts.title"))) {
+
+    @backLink()
+
+    @heading1("viewDrafts.heading")
+
+    @if(drafts.isEmpty) {
+        <p class="govuk-body">@messages("viewDrafts.empty")</p>
+    } else {
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">@messages("viewDrafts.headings.company")</th>
+                    <th scope="col" class="govuk-table__header">@messages("viewDrafts.headings.reference")</th>
+                    <th scope="col" class="govuk-table__header">@messages("viewDrafts.headings.publishBy")</th>
+                    <th scope="col" class="govuk-table__header">@messages("viewDrafts.headings.continue")</th>
+                    <th scope="col" class="govuk-table__header">@messages("viewDrafts.headings.delete")</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                @drafts.map { draft =>
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">@draft.companyName</td>
+                        <td class="govuk-table__cell">@draft.reference.format</td>
+                        <td class="govuk-table__cell">@draft.publishBy.map(_.format(DateTimeFormatter.ofPattern("d MMMM yyyy")))</td>
+                        @if(draft.isLocked) {
+                            <td class="govuk-table__cell">
+                                <a href="@controllers.routes.UnlockAfaController.onPageLoad(draft.reference)" class="govuk-link">
+                                    <span>@messages("viewDrafts.unlock")</span>
+                                    <span class="govuk-visually-hidden">@hiddenText(draft)</span>
+                                </a>
+                            </td>
+                            <td class="govuk-table__cell"></td>
+                        } else {
+                            <td class="govuk-table__cell">
+                                <a href="@controllers.routes.CheckYourAnswersController.onPageLoad(draft.reference)" class="govuk-link">
+                                    <span>@messages("viewDrafts.headings.continue")</span>
+                                    <span class="govuk-visually-hidden">@hiddenText(draft)</span>
+                                </a>
+                            </td>
+                            <td class="govuk-table__cell">
+                                <a href="@controllers.routes.DeleteDraftController.onPageLoad(draft.reference)" class="govuk-link">
+                                    <span>@messages("viewDrafts.headings.delete")</span>
+                                    <span class="govuk-visually-hidden">@hiddenText(draft)</span>
+                                </a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <div class="govuk-margin-top">
+        @goToHomeLink()
+    </div>
+
+}
+
+@{
+//$COVERAGE-OFF$
+}

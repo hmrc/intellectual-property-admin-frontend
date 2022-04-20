@@ -1,0 +1,78 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    heading1: designsystembasedcomponents.heading1,
+    inputText: designsystembasedcomponents.inputText,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, afaId: AfaId, applicantName: String)(implicit request: Request[_], messages: Messages)
+
+@layout(
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("whoIsSecondaryTechnicalContact.title")}")
+) {
+    @formHelper(action = routes.WhoIsSecondaryTechnicalContactController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors)
+
+        @afaReferenceHeading(afaId)
+
+        @heading1("whoIsSecondaryTechnicalContact.heading", applicantName)
+
+        @inputText(
+            form = form,
+            id = "name",
+            name = "name",
+            label = "whoIsSecondaryTechnicalContact.name.label",
+            isPageHeading = false,
+            hintText = Some("whoIsSecondaryTechnicalContact.name.hint"),
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+            form = form,
+            id = "companyName",
+            name = "companyName",
+            label = "whoIsSecondaryTechnicalContact.companyName.label",
+            isPageHeading = false,
+            classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+        form = form,
+        id = "telephone",
+        name = "telephone",
+        label = "whoIsSecondaryTechnicalContact.telephone.label",
+        isPageHeading = false,
+        hintText = Some("whoIsSecondaryTechnicalContact.telephone.hint"),
+        classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @inputText(
+        form = form,
+        id = "email",
+        name = "email",
+        label = "whoIsSecondaryTechnicalContact.email.label",
+        isPageHeading = false,
+        classes = Some("govuk-!-width-three-quarters")
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+
+    }
+}

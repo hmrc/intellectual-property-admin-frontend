@@ -1,0 +1,51 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import controllers.routes._
+@import models.Mode
+
+@this(
+    layout: Layout,
+    formHelper: FormWithCSRF,
+    backLink: designsystembasedcomponents.backLink,
+    errorSummary: designsystembasedcomponents.errorSummary,
+    afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
+    heading1: designsystembasedcomponents.heading1,
+    inputTextArea: designsystembasedcomponents.inputTextArea,
+    button: designsystembasedcomponents.button,
+    goToHomeLink: designsystembasedcomponents.goToHomeLink
+)
+
+@(form: Form[_], mode: Mode, index: Int, afaId: AfaId, rightType: Option[IpRightsType])(implicit request: Request[_], messages: Messages)
+
+@layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsDescription.title", messages(s"ipRightsType.${rightType.getOrElse("right").toString}").toLowerCase)}")) {
+
+    @formHelper(action = IpRightsDescriptionController.onSubmit(mode, index, afaId), 'autoComplete -> "off") {
+
+        @backLink()
+
+        @errorSummary(form.errors)
+
+        @afaReferenceHeading(afaId)
+
+        @heading1("ipRightsDescription.heading", messages(s"ipRightsType.${rightType.getOrElse("right").toString}").toLowerCase)
+
+        @inputTextArea(
+            form = form,
+            id = "value",
+            name = "value",
+            label = "ipRightsDescription.label",
+            isPageHeading = false
+        )
+
+        @button("site.continue")
+
+        @goToHomeLink()
+    }
+}
+
+@{
+    //$COVERAGE-OFF$
+}

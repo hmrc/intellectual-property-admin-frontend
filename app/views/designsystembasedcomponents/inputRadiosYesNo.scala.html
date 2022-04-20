@@ -1,0 +1,39 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components.{RadioItem, Text}
+
+@this(inputRadios: designsystembasedcomponents.inputRadios)
+
+@(      form: Form[_],
+        legend: String,
+        legendAsHeading: Boolean = true,
+        hintKey: Option[String] = None,
+        classes: String = "govuk-fieldset__legend--xl",
+        inline: Boolean = true
+)(implicit messages: Messages)
+
+@inputRadios(
+    form = form,
+    legend = legend,
+    items = Seq(
+        RadioItem(
+            content = Text(messages("site.yes")),
+            id = Some("value-yes"),
+            value = Some("true"),
+            checked = form("value").value.contains("true")
+        ),
+        RadioItem(
+            content = Text(messages("site.no")),
+            id = Some("value-no"),
+            value = Some("false"),
+            checked = form("value").value.contains("false")
+        )
+    ),
+    legendAsHeading = legendAsHeading,
+    hintKey = hintKey,
+    classes = classes,
+    inline = inline
+)
