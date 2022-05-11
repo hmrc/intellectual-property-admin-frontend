@@ -55,7 +55,7 @@
             </thead>
             <tbody class="govuk-table__body">
                 @drafts.map { draft =>
-                    <tr class="govuk-table__row">
+                    <tr class="govuk-table__row draft-@drafts.indexOf(draft)">
                         <td class="govuk-table__cell">@draft.companyName</td>
                         <td class="govuk-table__cell">@draft.reference.format</td>
                         <td class="govuk-table__cell">@draft.publishBy.map(_.format(DateTimeFormatter.ofPattern("d MMMM yyyy")))</td>
