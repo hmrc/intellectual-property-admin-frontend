@@ -6,7 +6,6 @@ object AppDependencies {
   val compile = Seq(
     play.sbt.PlayImport.ws,
     "uk.gov.hmrc"       %% "logback-json-logger"            % "5.1.0",
-    "uk.gov.hmrc"       %% "govuk-template"                 % "5.75.0-play-28",
     "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.11.0-play-28",
     "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % "5.20.0",
     "uk.gov.hmrc"       %% "crypto"                         % "6.1.0",
