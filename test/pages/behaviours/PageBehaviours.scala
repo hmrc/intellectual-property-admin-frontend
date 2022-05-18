@@ -118,7 +118,7 @@ trait PageBehaviours extends AnyWordSpec with Matchers with ScalaCheckPropertyCh
   }
 
   class BeRequired[A] {
-    def apply[P <: QuestionPage[A]](genP: Gen[P])(implicit ev1: Arbitrary[A], ev2: Format[A]): Unit = {
+    def apply[P <: QuestionPage[A]](genP: Gen[P]): Unit = {
 
       "be required" in {
 

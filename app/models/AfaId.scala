@@ -23,7 +23,7 @@ import play.api.mvc.PathBindable
 
 import scala.util.Try
 
-final case class AfaId private (year: Year, id: Int, prefix: AfaId.Prefix = AfaId.UK) {
+final case class AfaId private (year: Year, id: Int, prefix: AfaId.Prefix) {
 
   require {
     prefix match {
