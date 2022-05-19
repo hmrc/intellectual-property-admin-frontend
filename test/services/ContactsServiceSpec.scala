@@ -117,7 +117,6 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
     }
 
     "contactsToRadioOptions" - {
-      implicit val isLegalPage: Boolean = false
 
         "must return an empty sequence when no complete rep, legal or otherLegal contact exists" in {
           implicit val implicitUserAnswers: UserAnswers = userAnswers
@@ -175,8 +174,6 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
             )
           }
           "remove the secondary legal contact" in {
-            implicit val removeContact: String = "2"
-
             service.contactsToRadioOptions(Some(ContactOptions.SecondaryLegalContact)) mustBe Seq(
               (ContactOptions.RepresentativeContact, representativeDetails.contactName),
               (ContactOptions.LegalContact, applicantLegalDetails.name)
