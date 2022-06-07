@@ -148,7 +148,7 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
       val result = route(application, getRequest()).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -161,7 +161,7 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -173,7 +173,7 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
       val result = route(application, getRequest()).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -186,7 +186,7 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

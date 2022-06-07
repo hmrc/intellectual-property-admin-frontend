@@ -157,7 +157,7 @@ class IpRightsRegistrationEndControllerSpec extends SpecBase with IprIndexValida
       val result = route(application, getRequest()).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -170,7 +170,7 @@ class IpRightsRegistrationEndControllerSpec extends SpecBase with IprIndexValida
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

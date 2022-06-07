@@ -212,7 +212,7 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
         val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
         application.stop()
       }
 
@@ -238,7 +238,7 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
         val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
         application.stop()
       }
 
@@ -263,7 +263,7 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
         val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
         application.stop()
       }
     }
@@ -298,7 +298,7 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -311,7 +311,7 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

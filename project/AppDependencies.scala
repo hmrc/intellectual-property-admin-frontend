@@ -7,7 +7,7 @@ object AppDependencies {
     play.sbt.PlayImport.ws,
     "uk.gov.hmrc"       %% "logback-json-logger"            % "5.1.0",
     "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.11.0-play-28",
-    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % "5.20.0",
+    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % "5.24.0",
     "uk.gov.hmrc"       %% "crypto"                         % "6.1.0",
     "uk.gov.hmrc"       %% "secure"                         % "8.1.0",
     "org.typelevel"     %% "cats-core"                      % "2.7.0",

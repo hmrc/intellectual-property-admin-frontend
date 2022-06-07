@@ -95,6 +95,6 @@ class IpRightsRegistrationEndController @Inject()(
       rightsType: IpRightsType =>
 
         block(messages(s"ipRightsType.${rightsType.toString}").toLowerCase)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad())))
+    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
   }
 }

@@ -87,7 +87,7 @@ class ApplicantSecondaryLegalContactUkAddressController @Inject()(
     request.userAnswers.get(WhoIsSecondaryLegalContactPage).map {
       secondaryLegalContactName =>
         block(secondaryLegalContactName.contactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad())))
+    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 
   }
 }

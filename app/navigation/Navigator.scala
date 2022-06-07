@@ -92,7 +92,7 @@ class Navigator @Inject()() {
     case CheckIprDetailsPage(_)                                 => ua => routes.AddIpRightController.onPageLoad(NormalMode, ua.id)
     case UnlockAfaPage                                          => unlockAfaRoute
     case DeleteDraftPage                                        => _ => routes.ViewDraftsController.onPageLoad()
-    case _                                                      => _ => controllers.routes.CreateAfaIdController .onPageLoad()
+    case _                                                      => _ => controllers.routes.CreateAfaIdController.onPageLoad
   }
 
   private def additionalInfoProvidedRoute(mode: Mode)(answers:UserAnswers): Call = {
@@ -122,19 +122,19 @@ class Navigator @Inject()() {
 
   private def isApplicantRightsHolder(answers: UserAnswers): Call = answers.get(CompanyApplyingIsRightsHolderPage) match {
     case Some(_) => routes.RepresentativeContactController.onPageLoad(NormalMode, answers.id)
-    case None               => routes.SessionExpiredController.onPageLoad()
+    case None               => routes.SessionExpiredController.onPageLoad
   }
 
   private def selectTechnicalContactRoute(userAnswers: UserAnswers): Call = userAnswers.get(SelectTechnicalContactPage) match {
     case Some(ContactOptions.SomeoneElse) => routes.WhoIsTechnicalContactController.onPageLoad(NormalMode, userAnswers.id)
     case Some(_)              => routes.AddAnotherTechnicalContactController.onPageLoad(NormalMode, userAnswers.id)
-    case _                    => routes.SessionExpiredController.onPageLoad()
+    case _                    => routes.SessionExpiredController.onPageLoad
   }
 
   private def selectOtherTechnicalContactRoute(userAnswers: UserAnswers): Call = userAnswers.get(SelectOtherTechnicalContactPage) match{
     case Some(ContactOptions.SomeoneElse) => routes.WhoIsSecondaryTechnicalContactController.onPageLoad(NormalMode, userAnswers.id)
     case Some(_)              => routes.IpRightsTypeController.onPageLoad(NormalMode, 0, userAnswers.id)
-    case _                    => routes.SessionExpiredController.onPageLoad()
+    case _                    => routes.SessionExpiredController.onPageLoad
   }
 
   private def unlockAfaRoute(answers: UserAnswers): Call = answers.get(UnlockAfaPage) match {
@@ -178,60 +178,60 @@ class Navigator @Inject()() {
   private def isExOfficoRoute(answers: UserAnswers): Call = answers.get(IsExOfficioPage) match {
     case Some(true)  => routes.WantsOneYearRightsProtectionController.onPageLoad(NormalMode, answers.id)
     case Some(false) => routes.CheckYourAnswersController.onPageLoad(answers.id)
-    case None        => routes.SessionExpiredController.onPageLoad()
+    case None        => routes.SessionExpiredController.onPageLoad
   }
 
   private def isRepresentativeContactLegalContactRoute(userAnswers: UserAnswers): Call = userAnswers.get(IsRepresentativeContactLegalContactPage) match {
     case Some(true) => routes.AddAnotherLegalContactController.onPageLoad(NormalMode, userAnswers.id)
     case Some(false) => routes.ApplicantLegalContactController.onPageLoad(NormalMode, userAnswers.id)
-    case _ => routes.SessionExpiredController.onPageLoad()
+    case _ => routes.SessionExpiredController.onPageLoad
   }
 
   private def isRepresentativeContactUkBasedRoute(answers: UserAnswers): Call = answers.get(IsRepresentativeContactUkBasedPage) match {
     case Some(true)  => routes.RepresentativeContactUkAddressController.onPageLoad(NormalMode, answers.id)
     case Some(false) => routes.RepresentativeContactInternationalAddressController.onPageLoad(NormalMode, answers.id)
-    case None        => routes.SessionExpiredController.onPageLoad()
+    case None        => routes.SessionExpiredController.onPageLoad
   }
 
   private def isCompanyApplyingUkBasedRoute(answers: UserAnswers): Call = answers.get(IsCompanyApplyingUkBasedPage) match {
     case Some(true)  => routes.CompanyApplyingUkAddressController.onPageLoad(NormalMode, answers.id)
     case Some(false) => routes.CompanyApplyingInternationalAddressController.onPageLoad(NormalMode, answers.id)
-    case None        => routes.SessionExpiredController.onPageLoad()
+    case None        => routes.SessionExpiredController.onPageLoad
   }
 
   private def isApplicantLegalContactUkBasedRoute(answers: UserAnswers): Call = answers.get(IsApplicantLegalContactUkBasedPage) match {
     case Some(true)  => routes.ApplicantLegalContactUkAddressController.onPageLoad(NormalMode, answers.id)
     case Some(false) => routes.ApplicantLegalContactInternationalAddressController.onPageLoad(NormalMode, answers.id)
-    case None        => routes.SessionExpiredController.onPageLoad()
+    case None        => routes.SessionExpiredController.onPageLoad
   }
 
   private def addAnotherLegalContactRoute(userAnswers: UserAnswers): Call = userAnswers.get(AddAnotherLegalContactPage) match {
     case Some(true)   => routes.WhoIsSecondaryLegalContactController.onPageLoad(NormalMode, userAnswers.id)
     case Some(false)  => routes.SelectTechnicalContactController.onPageLoad(NormalMode, userAnswers.id)
-    case _ => routes.SessionExpiredController.onPageLoad()
+    case _ => routes.SessionExpiredController.onPageLoad
   }
 
   private def isApplicantSecondaryLegalContactUkBasedRoute(answers: UserAnswers): Call = answers.get(IsApplicantSecondaryLegalContactUkBasedPage) match {
     case Some(true)  => routes.ApplicantSecondaryLegalContactUkAddressController.onPageLoad(NormalMode, answers.id)
     case Some(false) => routes.ApplicantSecondaryLegalContactInternationalAddressController.onPageLoad(NormalMode, answers.id)
-    case None        => routes.SessionExpiredController.onPageLoad()
+    case None        => routes.SessionExpiredController.onPageLoad
   }
   private def isTechnicalContactUkBasedRoute(answers: UserAnswers): Call = answers.get(IsTechnicalContactUkBasedPage) match {
     case Some(true)  => routes.TechnicalContactUkAddressController.onPageLoad(NormalMode, answers.id)
     case Some(false) => routes.TechnicalContactInternationalAddressController.onPageLoad(NormalMode, answers.id)
-    case None        => routes.SessionExpiredController.onPageLoad()
+    case None        => routes.SessionExpiredController.onPageLoad
   }
 
   private def addAnotherTechnicalContactRoute(userAnswers: UserAnswers): Call = userAnswers.get(AddAnotherTechnicalContactPage) match {
     case Some(true) => routes.SelectOtherTechnicalContactController.onPageLoad(NormalMode, userAnswers.id)
     case Some(false) => routes.IpRightsTypeController.onPageLoad(NormalMode, 0, userAnswers.id)
-    case _ => routes.SessionExpiredController.onPageLoad()
+    case _ => routes.SessionExpiredController.onPageLoad
   }
 
   private def isSecondaryTechnicalContactUkBasedRoute(answers: UserAnswers): Call = answers.get(IsSecondaryTechnicalContactUkBasedPage) match {
     case Some(true)  => routes.SecondaryTechnicalContactUkAddressController.onPageLoad(NormalMode, answers.id)
     case Some(false) => routes.SecondaryTechnicalContactInternationalAddressController.onPageLoad(NormalMode, answers.id)
-    case None        => routes.SessionExpiredController.onPageLoad()
+    case None        => routes.SessionExpiredController.onPageLoad
   }
 
   private def ipRightsTypeRoute(iprIndex: Int)(answers: UserAnswers): Call = {

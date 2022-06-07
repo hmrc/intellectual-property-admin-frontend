@@ -42,7 +42,7 @@ class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generato
       "go to Index from a page that doesn't exist in the route map" in {
 
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, NormalMode, UserAnswers(afaId)) mustBe controllers.routes.CreateAfaIdController.onPageLoad()
+        navigator.nextPage(UnknownPage, NormalMode, UserAnswers(afaId)) mustBe controllers.routes.CreateAfaIdController.onPageLoad
       }
 
       // Application section
@@ -278,7 +278,7 @@ class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generato
             userAnswers =>
 
               navigator.nextPage(AddAnotherLegalContactPage, NormalMode, userAnswers)
-                .mustBe(routes.SessionExpiredController.onPageLoad())
+                .mustBe(routes.SessionExpiredController.onPageLoad)
           }
         }
       }
@@ -546,7 +546,7 @@ class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generato
               userAnswers.set(AddAnotherTechnicalContactPage, true).success.value
 
               navigator.nextPage(AddAnotherLegalContactPage, NormalMode, userAnswers)
-                .mustBe(routes.SessionExpiredController.onPageLoad())
+                .mustBe(routes.SessionExpiredController.onPageLoad)
           }
         }
       }

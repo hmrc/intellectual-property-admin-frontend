@@ -146,7 +146,7 @@ class IpRightsTypeControllerSpec extends SpecBase with IprIndexValidation with S
       val result = route(application, getRequest()).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -159,7 +159,7 @@ class IpRightsTypeControllerSpec extends SpecBase with IprIndexValidation with S
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

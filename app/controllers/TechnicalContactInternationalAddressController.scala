@@ -86,6 +86,6 @@ class TechnicalContactInternationalAddressController @Inject()(
     request.userAnswers.get(WhoIsTechnicalContactPage).map {
       technicalContact =>
         block(technicalContact.contactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad())))
+    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
   }
 }

@@ -182,7 +182,7 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -195,7 +195,7 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

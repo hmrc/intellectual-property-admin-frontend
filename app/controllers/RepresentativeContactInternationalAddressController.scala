@@ -87,7 +87,7 @@ class RepresentativeContactInternationalAddressController @Inject()(
     request.userAnswers.get(RepresentativeDetailsPage).map {
       representativeContact =>
         block(representativeContact.contactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad())))
+    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 
   }
 }

@@ -67,7 +67,7 @@ class RemoveOtherContactController @Inject()(
           } yield Redirect(routes.ConfirmedRemovedContactController.onPageLoad(afaId, contactToRemove))
         }
 
-        case _ => Future.successful(Redirect(routes.SessionExpiredController.onPageLoad()))
+        case _ => Future.successful(Redirect(routes.SessionExpiredController.onPageLoad))
       }
   }
 }

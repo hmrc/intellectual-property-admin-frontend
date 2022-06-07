@@ -90,7 +90,7 @@ class CompanyApplyingIsRightsHolderController @Inject()(
       companyApplying =>
 
         block(companyApplying.acronym.getOrElse(companyApplying.name))
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad())))
+    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
   }
 
 }
