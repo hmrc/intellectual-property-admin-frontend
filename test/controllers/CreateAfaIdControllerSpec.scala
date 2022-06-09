@@ -57,7 +57,7 @@ class CreateAfaIdControllerSpec extends SpecBase with ScalaCheckPropertyChecks w
               ).build()
           }
 
-          val request = FakeRequest(GET, controllers.routes.CreateAfaIdController.onPageLoad().url)
+          val request = FakeRequest(GET, controllers.routes.CreateAfaIdController.onPageLoad.url)
 
           val result = route(application, request).value
 

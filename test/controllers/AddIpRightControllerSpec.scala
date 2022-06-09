@@ -118,7 +118,7 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

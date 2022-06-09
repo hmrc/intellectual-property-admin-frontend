@@ -49,12 +49,12 @@ class StrideIdentifierAction @Inject()(
       case Some(Credentials(providerId, _)) ~ Some(Name(Some(name), _)) =>
         block(IdentifierRequest(request, providerId, name))
       case _ =>
-        Future.successful(Redirect(routes.UnauthorisedController.onPageLoad()))
+        Future.successful(Redirect(routes.UnauthorisedController.onPageLoad))
     } recover {
       case _: NoActiveSession =>
         Redirect(loginUrl, Map("successURL" -> Seq(loginContinueUrl)))
       case _: AuthorisationException =>
-        Redirect(routes.UnauthorisedController.onPageLoad())
+        Redirect(routes.UnauthorisedController.onPageLoad)
     }
   }
 }

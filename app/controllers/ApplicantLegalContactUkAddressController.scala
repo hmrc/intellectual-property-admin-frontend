@@ -88,7 +88,7 @@ class ApplicantLegalContactUkAddressController @Inject()(
       applicantLegalContactName =>
 
         block(applicantLegalContactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad())))
+    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 
   }
 }

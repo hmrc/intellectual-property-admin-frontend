@@ -88,7 +88,7 @@ class CompanyApplyingUkAddressController @Inject()(
       companyApplyingName =>
 
         block(companyApplyingName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad())))
+    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 
   }
 }

@@ -126,7 +126,7 @@ class DeleteIpRightControllerSpec extends SpecBase with MockitoSugar with LockAf
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -139,7 +139,7 @@ class DeleteIpRightControllerSpec extends SpecBase with MockitoSugar with LockAf
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

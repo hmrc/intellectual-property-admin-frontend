@@ -98,7 +98,7 @@ class SelectTechnicalContactController @Inject()(
         updateUserAnswersUkAddress(mode, request, value, contact, contactIsUKBased, contactUKAddress)
       case isUkBased if (isUkBased.contains(false) && contactInternationalAddress.isDefined) =>
         updateUserAnswersInternationalAddress(mode, request, value, contact, contactIsUKBased, contactInternationalAddress)
-      case _ => Future.successful(Redirect(routes.SessionExpiredController.onPageLoad()))
+      case _ => Future.successful(Redirect(routes.SessionExpiredController.onPageLoad))
     }
     //scalastyle:on simplify.boolean.expression
   }

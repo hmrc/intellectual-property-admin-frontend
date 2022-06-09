@@ -90,6 +90,6 @@ class IsTechnicalContactUkBasedController @Inject()(
       infringementContact =>
 
         block(infringementContact.contactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad())))
+    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
   }
 }

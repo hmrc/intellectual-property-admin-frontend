@@ -93,7 +93,7 @@ class CheckIprDetailsControllerSpec extends SpecBase with IprIndexValidation wit
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

@@ -462,7 +462,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

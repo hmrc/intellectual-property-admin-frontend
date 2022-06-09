@@ -208,7 +208,7 @@ class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar wi
         val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
         application.stop()
       }
       "redirect to session expired controller when there is true for contactUKAddress and uk address" +
@@ -231,7 +231,7 @@ class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar wi
         val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
         application.stop()
       }
       "redirect to session expired controller when there is false for contactUKAddress and internation address" +
@@ -254,7 +254,7 @@ class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar wi
         val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
         application.stop()
       }
     }
@@ -289,7 +289,7 @@ class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar wi
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -302,7 +302,7 @@ class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar wi
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

@@ -87,7 +87,7 @@ class IsSecondaryTechnicalContactUkBasedController @Inject()(
     request.userAnswers.get(WhoIsSecondaryTechnicalContactPage).map {
       secondaryTechnicalContactName =>
         block(secondaryTechnicalContactName.contactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad())))
+    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 
   }
 }

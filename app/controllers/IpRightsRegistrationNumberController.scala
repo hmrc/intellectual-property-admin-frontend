@@ -102,7 +102,7 @@ class IpRightsRegistrationNumberController @Inject()(
       ipRightsType =>
 
         block(messages(s"ipRightsRegistrationNumber.$ipRightsType.name"))
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad())))
+    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
   }
 
   private def getOtherExistingRegistrationNumbers(iprIndex: Int)
