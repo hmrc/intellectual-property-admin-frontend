@@ -35,7 +35,6 @@
 )(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @head = {
-
 @if(timeout) {
 @hmrcTimeoutDialog(TimeoutDialog(
 timeout = Some(appConfig.timeoutPeriodSeconds),
