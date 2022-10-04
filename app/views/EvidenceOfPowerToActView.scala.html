@@ -44,8 +44,8 @@ pageTitle = Some(s"${errorPrefix(form)} ${messages("representativeEvidenceOfPowe
         @afaReferenceHeading(afaId)
 
         @heading1("representativeEvidenceOfPowerToAct.heading", representativeContactName)
-
-        <ul class = "govuk-list govuk-list--bullet">@messages("representativeEvidenceOfPowerToAct.guidance")
+        <p class="govuk-body">@messages("representativeEvidenceOfPowerToAct.guidance")</p>
+        <ul class = "govuk-list govuk-list--bullet">
             <li>@messages("representativeEvidenceOfPowerToAct.guidance.bulletOne")</li>
             <li>@messages("representativeEvidenceOfPowerToAct.guidance.bulletTwo")</li>
         </ul>
