@@ -17,6 +17,7 @@
 package controllers.actions
 
 import com.google.inject.Inject
+import config.FrontendAppConfig
 import controllers.routes
 import models.requests.IdentifierRequest
 import play.api.Configuration
@@ -34,7 +35,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class StrideIdentifierAction @Inject()(
                                         override val authConnector: AuthConnector,
                                         config: Configuration,
-                                        val parser: BodyParsers.Default
+                                        val parser: BodyParsers.Default,
+                                        appConfig: FrontendAppConfig
                                       )(implicit val executionContext: ExecutionContext) extends IdentifierAction with AuthorisedFunctions {
 
   override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] = {
@@ -42,7 +44,6 @@ class StrideIdentifierAction @Inject()(
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     val loginUrl = config.get[String]("login.url")
-    val loginContinueUrl = config.get[String]("login.continue-url")
     val role = config.get[String]("login.role")
 
     authorised(AuthProviders(PrivilegedApplication) and Enrolment(role)).retrieve(Retrievals.credentials and Retrievals.name) {
@@ -52,7 +53,7 @@ class StrideIdentifierAction @Inject()(
         Future.successful(Redirect(routes.UnauthorisedController.onPageLoad))
     } recover {
       case _: NoActiveSession =>
-        Redirect(loginUrl, Map("successURL" -> Seq(loginContinueUrl)))
+        Redirect(loginUrl, Map("successURL" -> Seq(appConfig.manageIprHomeUrl)))
       case _: AuthorisationException =>
         Redirect(routes.UnauthorisedController.onPageLoad)
     }

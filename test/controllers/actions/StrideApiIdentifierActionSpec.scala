@@ -32,7 +32,7 @@ import uk.gov.hmrc.auth.core.retrieve.{Credentials, Name, ~}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class StrideIdentifierActionSpec extends SpecBase with Matchers with GuiceOneAppPerSuite with Injecting with MockitoSugar {
+class StrideApiIdentifierActionSpec extends SpecBase with Matchers with GuiceOneAppPerSuite with Injecting with MockitoSugar {
 
   class Harness(authAction: ApiIdentifierAction) {
     def onPageLoad(): Action[AnyContent] = authAction { _ => Results.Ok }

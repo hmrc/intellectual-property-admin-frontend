@@ -50,7 +50,7 @@ class AuthActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new StrideIdentifierAction(new FakeFailingAuthConnector(new MissingBearerToken), config, bodyParsers)
+        val authAction = new StrideIdentifierAction(new FakeFailingAuthConnector(new MissingBearerToken), config, bodyParsers, frontendAppConfig)
         val controller = new Harness(authAction)
         val result = controller.onPageLoad()(fakeRequest)
 
@@ -72,7 +72,7 @@ class AuthActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new StrideIdentifierAction(new FakeFailingAuthConnector(new BearerTokenExpired), config, bodyParsers)
+        val authAction = new StrideIdentifierAction(new FakeFailingAuthConnector(new BearerTokenExpired), config, bodyParsers, frontendAppConfig)
         val controller = new Harness(authAction)
         val result = controller.onPageLoad()(fakeRequest)
 
@@ -92,7 +92,7 @@ class AuthActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new StrideIdentifierAction(new FakeFailingAuthConnector(new InsufficientEnrolments), config, bodyParsers)
+        val authAction = new StrideIdentifierAction(new FakeFailingAuthConnector(new InsufficientEnrolments), config, bodyParsers, frontendAppConfig)
         val controller = new Harness(authAction)
         val result = controller.onPageLoad()(fakeRequest)
 
@@ -112,7 +112,7 @@ class AuthActionSpec extends SpecBase {
 
         val bodyParsers = application.injector.instanceOf[BodyParsers.Default]
 
-        val authAction = new StrideIdentifierAction(new FakeFailingAuthConnector(new UnsupportedAuthProvider), config, bodyParsers)
+        val authAction = new StrideIdentifierAction(new FakeFailingAuthConnector(new UnsupportedAuthProvider), config, bodyParsers, frontendAppConfig)
         val controller = new Harness(authAction)
         val result = controller.onPageLoad()(fakeRequest)
 
