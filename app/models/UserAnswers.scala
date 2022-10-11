@@ -26,7 +26,7 @@ import scala.util.{Failure, Success, Try}
 final case class UserAnswers(
                               id: AfaId,
                               data: JsObject = Json.obj(),
-                              lastUpdated: LocalDateTime = LocalDateTime.now
+                              lastUpdated: LocalDateTime = LocalDateTime.now.truncatedTo(java.time.temporal.ChronoUnit.MILLIS)
                             ) {
 
   def get[A](query: Gettable[A])(implicit rds: Reads[A]): Option[A] =

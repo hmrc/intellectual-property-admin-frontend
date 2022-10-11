@@ -45,7 +45,7 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
   val afaId: AfaId = AfaId.fromString("UK20190123").get
   val afaId2: AfaId = AfaId.fromString("UK20190125").get
   val jsonObj: JsObject = Json.obj("value" -> afaId)
-  val lastUpdated: LocalDateTime = LocalDateTime.now()
+  val lastUpdated: LocalDateTime = LocalDateTime.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS)
   lazy val userAnswers: UserAnswers = UserAnswers(afaId, jsonObj, lastUpdated)
   lazy val userAnswers2: UserAnswers = UserAnswers(afaId2, jsonObj, lastUpdated)
 
