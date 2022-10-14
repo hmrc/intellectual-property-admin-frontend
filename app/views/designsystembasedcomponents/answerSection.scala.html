@@ -74,7 +74,8 @@
                 ActionItem(
                     href = row.changeUrl,
                     content = Text(messages("site.edit")),
-                    visuallyHiddenText = Some(text)
+                    visuallyHiddenText = Some(text),
+                    attributes = Map("aria-label" -> row.changeUrl.substring(row.changeUrl.lastIndexOf('/')+1))
                 )
             )
         ))
