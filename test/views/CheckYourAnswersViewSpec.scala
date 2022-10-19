@@ -25,7 +25,7 @@ class CheckYourAnswersViewSpec extends ViewBehaviours {
   private val view = injectInstanceOf[CheckYourAnswersView](Some(emptyUserAnswers))
 
   def applyView(buttonKey: String, noEvidence: Boolean): HtmlFormat.Appendable =
-    view.apply(afaId = afaId, answerSections = Seq.empty, "", buttonKey, false, noEvidence, "company name")(fakeRequest, messages)
+    view.apply(afaId = afaId, answerSections = Seq.empty, "", buttonKey, false, noEvidence, "company name")(messages)
 
   behave like normalPageUsingDesignSystem(frontendAppConfig, applyView("", false), "checkYourAnswers", Seq.empty, true)
 

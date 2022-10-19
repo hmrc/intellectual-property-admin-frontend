@@ -27,7 +27,7 @@
     goToHomeLink: designsystembasedcomponents.goToHomeLink
 )
 
-@(mode: Mode, afaId: AfaId, index: Int, mainSection: AnswerSection, niceClassSection: Option[AnswerSection], nextPage: Call)(implicit request: Request[_], messages: Messages)
+@(mode: Mode, afaId: AfaId, index: Int, mainSection: AnswerSection, niceClassSection: Option[AnswerSection], nextPage: Call)(implicit messages: Messages)
 
 @layout(
     pageTitle = Some(messages("checkIprDetails.title"))

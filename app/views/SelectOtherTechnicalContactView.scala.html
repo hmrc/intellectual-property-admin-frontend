@@ -33,7 +33,7 @@
 
     @layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("selectOtherTechnicalContact.title")}")) {
 
-        @formHelper(action = routes.SelectOtherTechnicalContactController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+        @formHelper(action = routes.SelectOtherTechnicalContactController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
             @backLink()
 

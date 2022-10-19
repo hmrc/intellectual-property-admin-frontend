@@ -63,7 +63,7 @@ class ViewDraftsControllerSpec extends SpecBase with MockitoSugar with ModelGene
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(List.empty)(fakeRequest, messages).toString
+        view(List.empty)(messages).toString
 
       application.stop()
     }
@@ -121,7 +121,7 @@ class ViewDraftsControllerSpec extends SpecBase with MockitoSugar with ModelGene
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(List(expectedDraft1, expectedDraft2, expectedDraft3))(fakeRequest, messages).toString
+        view(List(expectedDraft1, expectedDraft2, expectedDraft3))(messages).toString
 
       application.stop()
     }

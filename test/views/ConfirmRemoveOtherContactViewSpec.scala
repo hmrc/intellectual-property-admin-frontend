@@ -33,7 +33,7 @@ class ConfirmRemoveOtherContactViewSpec extends ViewBehaviours {
       val view = injectInstanceOf[ConfirmRemoveOtherContactView](Some(UserAnswers(afaId)))
 
       def applyView: HtmlFormat.Appendable =
-        view.apply(afaId, "legal")(fakeRequest, messages)
+        view.apply(afaId, "legal")(messages)
 
       behave like normalPageUsingDesignSystem(
         frontendAppConfig,
@@ -58,7 +58,7 @@ class ConfirmRemoveOtherContactViewSpec extends ViewBehaviours {
       val view = injectInstanceOf[ConfirmRemoveOtherContactView](Some(UserAnswers(afaId)))
 
       def applyView: HtmlFormat.Appendable =
-        view.apply(afaId, "technical")(fakeRequest, messages)
+        view.apply(afaId, "technical")(messages)
 
       behave like normalPageUsingDesignSystem(
         frontendAppConfig,

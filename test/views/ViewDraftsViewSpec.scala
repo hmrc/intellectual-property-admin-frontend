@@ -32,7 +32,7 @@ class ViewDraftsViewSpec extends ViewBehaviours {
 
     val view = injectInstanceOf[ViewDraftsView](Some(emptyUserAnswers))
 
-    val applyView = view.apply(List.empty)(fakeRequest, messages)
+    val applyView = view.apply(List.empty)(messages)
 
     val newCompany = "New Company"
     val oldCompany = "Old Business"
@@ -56,14 +56,14 @@ class ViewDraftsViewSpec extends ViewBehaviours {
 
     "must show that there are no drafts when passed an empty list of drafts" in {
 
-      val doc = Jsoup.parse(view(List.empty)(fakeRequest, messages).toString)
+      val doc = Jsoup.parse(view(List.empty)(messages).toString)
 
       assertContainsMessages(doc, "viewDrafts.empty")
     }
 
     "show draft table" must {
 
-      def nonEmptyView(): HtmlFormat.Appendable = view.apply(List(draft, draft2))(fakeRequest, messages)
+      def nonEmptyView(): HtmlFormat.Appendable = view.apply(List(draft, draft2))(messages)
 
       lazy implicit val document: Document = asDocument(nonEmptyView())
 

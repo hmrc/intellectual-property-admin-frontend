@@ -32,7 +32,7 @@
 
 @layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsType.title")}")) {
 
-    @formHelper(action = IpRightsTypeController.onSubmit(mode, index, afaId), 'autoComplete -> "off") {
+    @formHelper(action = IpRightsTypeController.onSubmit(mode, index, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

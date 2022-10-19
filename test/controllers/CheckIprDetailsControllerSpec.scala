@@ -78,7 +78,7 @@ class CheckIprDetailsControllerSpec extends SpecBase with IprIndexValidation wit
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(NormalMode, afaId, index, expectedMainSection, None, onwardRoute)(fakeRequest, messages).toString
+        view(NormalMode, afaId, index, expectedMainSection, None, onwardRoute)(messages).toString
 
       application.stop()
     }

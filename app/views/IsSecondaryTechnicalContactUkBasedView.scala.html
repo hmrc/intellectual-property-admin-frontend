@@ -33,7 +33,7 @@
     pageTitle = Some(errorPrefix(form) + " " + messages("isSecondaryTechnicalContactUkBased.title", applicantSecondaryTechnicalContactName))
 ) {
 
-    @formHelper(action = routes.IsSecondaryTechnicalContactUkBasedController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+    @formHelper(action = routes.IsSecondaryTechnicalContactUkBasedController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

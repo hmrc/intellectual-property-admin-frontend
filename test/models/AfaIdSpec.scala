@@ -37,7 +37,7 @@ class AfaIdSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks 
       forAll(arbitrary[String], arbitrary[AfaId]) {
         (key, afaId) =>
 
-          pathBindable.bind(key, afaId.toString).right.value mustEqual afaId
+          pathBindable.bind(key, afaId.toString) mustBe Right(afaId)
       }
     }
 

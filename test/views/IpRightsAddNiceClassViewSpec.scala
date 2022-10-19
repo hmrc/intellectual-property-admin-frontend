@@ -40,7 +40,7 @@ class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
     val view = injectInstanceOf[IpRightsAddNiceClassView](Some(UserAnswers(afaId)))
 
     def applyView(): HtmlFormat.Appendable =
-      view.apply(NormalMode, 0, afaId, Seq.empty, routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url)(fakeRequest, messages)
+      view.apply(NormalMode, 0, afaId, Seq.empty, routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url)(messages)
 
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView(), messageKeyPrefix)
 
@@ -50,7 +50,7 @@ class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView())
 
-    implicit val doc = asDocument(view.apply(NormalMode, 0, afaId, Seq(reviewRow1, reviewRow2), routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url)(fakeRequest, messages))
+    implicit val doc = asDocument(view.apply(NormalMode, 0, afaId, Seq(reviewRow1, reviewRow2), routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url)(messages))
 
     "render a row without a delete option that" must {
       "have the correct key value" in {

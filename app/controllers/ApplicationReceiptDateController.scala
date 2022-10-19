@@ -16,11 +16,8 @@
 
 package controllers
 
-import java.time.LocalDate
 import controllers.actions._
 import forms.ApplicationReceiptDateFormProvider
-
-import javax.inject.Inject
 import models.auditing.DraftStarted
 import models.{AfaId, Mode, Region, UserAnswers}
 import navigation.Navigator
@@ -29,12 +26,13 @@ import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import queries.PublicationDeadlineQuery
-import services.AfaService
 import services.{AfaService, WorkingDaysService}
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.ApplicationReceiptDateView
 
+import java.time.LocalDate
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class ApplicationReceiptDateController @Inject()(

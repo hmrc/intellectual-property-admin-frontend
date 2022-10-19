@@ -76,7 +76,7 @@ class SubmissionResultControllerSpec extends SpecBase with MockitoSugar with Sca
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(SubmissionResult(afa.id, afa.applicant.name, afa.expirationDate.format(dateFormatter)))(fakeRequest, messages).toString
+          view(SubmissionResult(afa.id, afa.applicant.name, afa.expirationDate.format(dateFormatter)))(messages).toString
 
         verify(submissionService, times(1)).submit(any())(any())
         verify(submissionService, times(1)).removeDraft(eqTo(afa.id))(any())

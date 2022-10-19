@@ -33,7 +33,7 @@
 
 @layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("wantsOneYearRightsProtection.title")}")) {
 
-    @formHelper(action = WantsOneYearRightsProtectionController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+    @formHelper(action = WantsOneYearRightsProtectionController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

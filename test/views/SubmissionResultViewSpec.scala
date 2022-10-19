@@ -35,7 +35,7 @@ class SubmissionResultViewSpec extends ViewBehaviours {
 
     val submissionResult = SubmissionResult(afaId, applicantCompanyName, expirationDate)
 
-    val applyView = view.apply(submissionResult)(fakeRequest, messages)
+    val applyView = view.apply(submissionResult)(messages)
 
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView, "submissionResult", afaIdInHeader = false)
 

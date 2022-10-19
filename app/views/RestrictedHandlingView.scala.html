@@ -32,7 +32,7 @@
 
 @layout( pageTitle = Some(s"${errorPrefix(form)} ${messages("restrictedHandling.title")}")) {
 
-    @formHelper(action = RestrictedHandlingController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+    @formHelper(action = RestrictedHandlingController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

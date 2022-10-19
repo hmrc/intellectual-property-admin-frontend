@@ -48,7 +48,7 @@ trait ViewSpecBase extends SpecBase {
     document.select(cssSelector).first()
   }
 
-  def elementNotExist(selector: String)(implicit document: Document) {
+  def elementNotExist(selector: String)(implicit document: Document): Unit = {
     val elements = document.select(selector)
     if (elements.size != 0) {
       fail(s"Elements incorrectly exist with this selector '$selector'")

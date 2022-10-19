@@ -16,11 +16,9 @@
 
 package controllers
 
-import java.time.LocalDateTime
-
 import base.SpecBase
-import models.{AfaId, UkAddress, UserAnswers, WhoIsSecondaryLegalContact, TechnicalContact}
-import org.mockito.Matchers.any
+import models.{AfaId, TechnicalContact, UkAddress, UserAnswers, WhoIsSecondaryLegalContact}
+import org.mockito.Matchers.{any, eq => eqTo}
 import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
@@ -29,8 +27,8 @@ import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.AfaService
-import org.mockito.Matchers.{eq => eqTo, _}
 
+import java.time.LocalDateTime
 import scala.concurrent.Future
 
 class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with MockitoSugar {

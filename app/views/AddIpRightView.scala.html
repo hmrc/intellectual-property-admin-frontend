@@ -30,7 +30,7 @@
     answerSection: designsystembasedcomponents.answerSection
 )
 
-@(mode: Mode, afaId: AfaId, reviewRows: Either[DisplayAnswerRow, Seq[IprReviewRow]], addIpRightUrl: String, numberOfIpRights: Int, nextPage: Call)(implicit request: Request[_], messages: Messages)
+@(mode: Mode, afaId: AfaId, reviewRows: Either[DisplayAnswerRow, Seq[IprReviewRow]], addIpRightUrl: String, numberOfIpRights: Int, nextPage: Call)(implicit messages: Messages)
 
 @layout(
     pageTitle =

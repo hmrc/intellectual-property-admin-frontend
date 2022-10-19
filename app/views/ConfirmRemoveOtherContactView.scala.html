@@ -24,7 +24,7 @@
     linkButton: designsystembasedcomponents.linkButton
 )
 
-@(afaId: AfaId, contactToRemove: String)(implicit request: Request[_], messages: Messages)
+@(afaId: AfaId, contactToRemove: String)(implicit messages: Messages)
 
 @layout(
  pageTitle = Some(messages("confirmRemoveOtherContact.title", contactToRemove))

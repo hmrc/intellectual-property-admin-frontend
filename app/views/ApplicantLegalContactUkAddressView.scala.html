@@ -34,7 +34,7 @@
 @layout(
     pageTitle = Some(errorPrefix(form) + " " + messages("applicantLegalContactUkAddress.title", contactName))
 ) {
-    @formHelper(action = ApplicantLegalContactUkAddressController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+    @formHelper(action = ApplicantLegalContactUkAddressController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

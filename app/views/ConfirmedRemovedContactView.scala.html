@@ -23,7 +23,7 @@
 
 )
 
-@(afaId: AfaId, messageKey: String)(implicit request: Request[_], messages: Messages)
+@(afaId: AfaId, messageKey: String)(implicit messages: Messages)
 
 @layout(
     pageTitle = Some(messages("confirmedRemovedContact.title", messages("confirmedRemovedContact." + s"$messageKey"), afaId))

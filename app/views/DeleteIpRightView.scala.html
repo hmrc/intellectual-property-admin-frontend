@@ -33,7 +33,7 @@
     pageTitle = Some(s"${errorPrefix(form)} ${messages("deleteIpRight.title")}")
 ) {
 
-    @formHelper(action = DeleteIpRightController.onSubmit(mode, afaId, index), 'autoComplete -> "off") {
+    @formHelper(action = DeleteIpRightController.onSubmit(mode, afaId, index), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

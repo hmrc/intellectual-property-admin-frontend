@@ -29,7 +29,7 @@
 
 @layout(pageTitle = Some("Insert single afa for testing")) {
 
-    @formHelper(action = InsertSingleAfaController.submit(), 'autoComplete -> "off") {
+    @formHelper(action = InsertSingleAfaController.submit(), Symbol("autoComplete") -> "off") {
 
         @heading1("Insert single afa for testing")
 

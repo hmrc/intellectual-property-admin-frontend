@@ -33,7 +33,7 @@
 @layout(
 pageTitle = Some(s"${errorPrefix(form)} ${messages("isCompanyApplyingUkBased.title", companyApplyingName)}")) {
 
-     @formHelper(action = IsCompanyApplyingUkBasedController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+     @formHelper(action = IsCompanyApplyingUkBasedController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
           @backLink()
 

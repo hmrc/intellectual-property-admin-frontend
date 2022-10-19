@@ -35,7 +35,7 @@
     pageTitle = Some(errorPrefix(form) + " " + messages("technicalContactInternationalAddress.title", contactName))
 ) {
 
-    @formHelper(action = TechnicalContactInternationalAddressController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+    @formHelper(action = TechnicalContactInternationalAddressController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

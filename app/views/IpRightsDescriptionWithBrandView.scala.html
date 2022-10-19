@@ -34,7 +34,7 @@
 
 @layout(pageTitle = Some(errorPrefix(form) + " " + messages("ipRightsDescriptionWithBrand.title"))) {
 
-    @formHelper(action = IpRightsDescriptionWithBrandController.onSubmit(mode, index, afaId), 'autoComplete -> "off") {
+    @formHelper(action = IpRightsDescriptionWithBrandController.onSubmit(mode, index, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

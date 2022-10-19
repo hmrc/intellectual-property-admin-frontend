@@ -129,7 +129,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
 
       contentAsString(result) mustEqual
         view(afaId, expectedSections, continue.url, "checkYourAnswers.continue", canCreateAfa = false, noEvidenceProvided,
-          companyApplying.name)(fakeRequest, messages).toString
+          companyApplying.name)(messages).toString
 
       application.stop()
     }
@@ -192,7 +192,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
       val noEvidenceProvided = false
 
       contentAsString(result) mustEqual
-        view(afaId, expectedSections, continue.url, "checkYourAnswers.continue", canCreateAfa = false, noEvidenceProvided, companyApplying.name)(fakeRequest, messages).toString
+        view(afaId, expectedSections, continue.url, "checkYourAnswers.continue", canCreateAfa = false, noEvidenceProvided, companyApplying.name)(messages).toString
 
       application.stop()
     }
@@ -265,7 +265,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
 
       contentAsString(result) mustEqual
         view(afaId, expectedSections, continue.url, "checkYourAnswers.continue", canCreateAfa = false, noEvidenceProvided,
-          companyApplying.name)(fakeRequest, messages).toString
+          companyApplying.name)(messages).toString
 
       application.stop()
     }
@@ -329,7 +329,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
 
       contentAsString(result) mustEqual
         view(afaId, expectedSections, continue.url, "checkYourAnswers.continue", canCreateAfa = false, noEvidenceProvided,
-          companyApplying.name)(fakeRequest, messages).toString
+          companyApplying.name)(messages).toString
 
       application.stop()
     }
@@ -403,7 +403,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
 
       contentAsString(result) mustEqual
         view(afaId, expectedSections, continue.url, "checkYourAnswers.continue", canCreateAfa = false, noEvidenceProvided,
-          companyApplying.name)(fakeRequest, messages).toString
+          companyApplying.name)(messages).toString
 
       application.stop()
     }
@@ -447,7 +447,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
           canCreateAfa = true,
           noEvidenceProvided,
           companyApplying.name
-        )(fakeRequest, messages).toString
+        )(messages).toString
 
       application.stop()
     }
@@ -500,7 +500,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
 
       contentAsString(result) mustEqual
         view(afaId, expectedSections, continue.url, "checkYourAnswers.continue", canCreateAfa = false, noEvidenceProvided,
-          companyApplying.name)(fakeRequest, messages).toString
+          companyApplying.name)(messages).toString
 
       application.stop()
     }
@@ -541,7 +541,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
           canCreateAfa = true,
           noEvidenceProvided,
           companyApplying.name
-        )(fakeRequest, messages).toString
+        )(messages).toString
 
       application.stop()
     }

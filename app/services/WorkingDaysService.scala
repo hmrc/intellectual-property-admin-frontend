@@ -34,7 +34,7 @@ class WorkingDaysService @Inject()(config: Configuration, httpClient: HttpClient
   private val jsonReads: Reads[LocalDate] =
     (__ \ "date").read[LocalDate]
 
-  private def asDate(): HttpReads[LocalDate] =
+  private def asDate: HttpReads[LocalDate] =
     new HttpReads[LocalDate] {
 
       override def read(method: String, url: String, response: HttpResponse): LocalDate =
