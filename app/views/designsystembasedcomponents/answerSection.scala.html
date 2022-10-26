@@ -75,7 +75,11 @@
                     href = row.changeUrl,
                     content = Text(messages("site.edit")),
                     visuallyHiddenText = Some(text),
-                    attributes = Map("aria-label" -> row.changeUrl.substring(row.changeUrl.lastIndexOf('/')+1))
+                    attributes =
+                    answerSection.headingKey match {
+                    case Some(hk) if hk.contains("protected") => Map("aria-label" -> s"change-${text.replace(" ", "-").toLowerCase()}")
+                    case _ => Map("aria-label" -> row.changeUrl.substring(row.changeUrl.lastIndexOf('/')+1))
+                    }
                 )
             )
         ))
