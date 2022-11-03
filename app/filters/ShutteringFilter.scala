@@ -35,7 +35,7 @@ class ShutteringFilter @Inject() (
     .getOptional[Boolean]("shuttered")
     .getOrElse(false)
 
-  private val excludedPaths: Seq[Call] = configuration
+  private val excludedPaths: collection.Seq[Call] = configuration
     .getOptional[String]("shutter.urls.excluded")
     .getOrElse("")
     .split(",").map {

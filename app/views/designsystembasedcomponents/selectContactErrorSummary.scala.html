@@ -23,7 +23,7 @@
 @if(errors.nonEmpty) {
     @defining(errors.map { error =>
         ErrorLink(
-            href = Some(s"#${errorFieldName.getOrElse(error.key)}-${firstField.getOrElse(ContactOptions.SomeoneElse, "")._1.toString}"),
+            href = Some(s"#${errorFieldName.getOrElse(error.key)}-${firstField.getOrElse((ContactOptions.SomeoneElse, ""))._1.toString}"),
             content = Text(messages(error.message, error.args:_*))
         )
     }) { errorLinks =>

@@ -26,7 +26,7 @@ class ConfirmedRemovedContactViewSpec extends ViewBehaviours{
     "when passed technical return the confirmed removed technical contact page" must {
       val view = injectInstanceOf[ConfirmedRemovedContactView](Some(emptyUserAnswers))
 
-      val applyView = view.apply(afaId, "technical")(fakeRequest, messages)
+      val applyView = view.apply(afaId, "technical")(messages)
 
       behave like normalPageUsingDesignSystem(
         frontendAppConfig,
@@ -57,7 +57,7 @@ class ConfirmedRemovedContactViewSpec extends ViewBehaviours{
     "when passed legal return the confirmed removed legal contact page" must {
       val view = injectInstanceOf[ConfirmedRemovedContactView](Some(emptyUserAnswers))
 
-      val applyView = view.apply(afaId, "legal")(fakeRequest, messages)
+      val applyView = view.apply(afaId, "legal")(messages)
 
       behave like normalPageUsingDesignSystem(
         frontendAppConfig, applyView, "confirmedRemovedContact", args = Seq("Legal", afaId), argsUsedInBrowserTitle = true, afaIdInHeader = false)

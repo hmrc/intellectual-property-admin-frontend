@@ -35,7 +35,7 @@
 @layout(
 pageTitle = Some(s"${errorPrefix(form)} ${messages("representativeEvidenceOfPowerToAct.title", representativeContactName)}")) {
 
-    @formHelper(action = EvidenceOfPowerToActController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+    @formHelper(action = EvidenceOfPowerToActController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

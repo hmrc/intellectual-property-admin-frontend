@@ -75,7 +75,7 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(NormalMode, iprIndex, afaId, expectedSections, routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 1, afaId).url)(getRequest, messages).toString
+        view(NormalMode, iprIndex, afaId, expectedSections, routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 1, afaId).url)(messages).toString
 
       application.stop()
     }

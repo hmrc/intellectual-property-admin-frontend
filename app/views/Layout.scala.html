@@ -32,7 +32,7 @@
         headBlock: Option[Html] = None,
         timeout: Boolean = true,
         js: Option[Html] = None,
-)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
+)(contentBlock: Html)(implicit messages: Messages)
 
 @head = {
 @if(timeout) {

@@ -32,7 +32,7 @@
 
 @layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("deleteDraft.title", rightsHolder)}")) {
 
-    @formHelper(action = DeleteDraftController.onSubmit(afaId), 'autoComplete -> "off") {
+    @formHelper(action = DeleteDraftController.onSubmit(afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

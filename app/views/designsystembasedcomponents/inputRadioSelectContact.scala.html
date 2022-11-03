@@ -43,7 +43,7 @@
 @inputRadios(
     form = form,
     legend = legend,
-    items = getRadioOptions.union(Seq(
+    items = getRadioOptions.concat(Seq(
         RadioItem(
             divider = Some("or")
         ),

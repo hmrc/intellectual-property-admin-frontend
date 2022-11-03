@@ -35,7 +35,7 @@ class CheckIprDetailsViewSpec extends ViewBehaviours {
 
   val view = injectInstanceOf[CheckIprDetailsView]()
 
-  def applyView(answers: AnswerSection): HtmlFormat.Appendable = view.apply(NormalMode, afaId, 0, answers, None, emptyCall)(fakeRequest, messages)
+  def applyView(answers: AnswerSection): HtmlFormat.Appendable = view.apply(NormalMode, afaId, 0, answers, None, emptyCall)(messages)
 
   behave like normalPageUsingDesignSystem(frontendAppConfig, applyView(singleLine), "checkIprDetails")
 

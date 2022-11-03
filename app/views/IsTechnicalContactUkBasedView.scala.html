@@ -33,7 +33,7 @@
     pageTitle = Some(errorPrefix(form) + " " + messages("isTechnicalContactUkBased.title", infringementContactName))
 ) {
 
-    @formHelper(action = IsTechnicalContactUkBasedController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+    @formHelper(action = IsTechnicalContactUkBasedController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

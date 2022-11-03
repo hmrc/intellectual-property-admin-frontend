@@ -33,7 +33,7 @@
 
 @layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsNiceClass.title")}")) {
 
-    @formHelper(action = IpRightsNiceClassController.onSubmit(mode, iprIndex, niceClassIndex, afaId), 'autoComplete -> "off") {
+    @formHelper(action = IpRightsNiceClassController.onSubmit(mode, iprIndex, niceClassIndex, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

@@ -35,12 +35,12 @@ class AddIpRightViewSpec extends ViewBehaviours {
 
     def applyView(numberOfIpRights: Int): HtmlFormat.Appendable = {
       val nextPage = Call("get", "anything")
-      view.apply(NormalMode, afaId, Left(DisplayAnswerRow("", HtmlFormat.escape(""))), "", numberOfIpRights, nextPage)(fakeRequest, messages)
+      view.apply(NormalMode, afaId, Left(DisplayAnswerRow("", HtmlFormat.escape(""))), "", numberOfIpRights, nextPage)(messages)
     }
 
     def applyViewLinks(): HtmlFormat.Appendable = {
       val nextPage = Call("get", "anything")
-      view.apply(NormalMode, afaId, Right(Seq(IprReviewRow("Patent","description" ,"/delete", "/change", 0  ))), "/add", 1, nextPage)(fakeRequest, messages)
+      view.apply(NormalMode, afaId, Right(Seq(IprReviewRow("Patent","description" ,"/delete", "/change", 0  ))), "/add", 1, nextPage)(messages)
     }
 
     behave like normalPageUsingDesignSystem(

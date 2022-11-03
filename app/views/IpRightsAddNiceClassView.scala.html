@@ -30,7 +30,7 @@
     goToHomeLink: designsystembasedcomponents.goToHomeLink
 )
 
-@(mode: Mode, ipRightsIndex: Int, afaId: AfaId, reviewRows: Seq[ReviewRow], addNiceClassUrl: String)(implicit request: Request[_], messages: Messages)
+@(mode: Mode, ipRightsIndex: Int, afaId: AfaId, reviewRows: Seq[ReviewRow], addNiceClassUrl: String)(implicit messages: Messages)
 
 @layout(
     pageTitle = Some(messages("ipRightsAddNiceClass.title"))

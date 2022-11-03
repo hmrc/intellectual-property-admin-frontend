@@ -38,7 +38,7 @@
 
 @layout(pageTitle = Some(errorPrefix(form) + " " + title)) {
 
-    @formHelper(action = UnlockAfaController.onSubmit(afaId), 'autoComplete -> "off") {
+    @formHelper(action = UnlockAfaController.onSubmit(afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

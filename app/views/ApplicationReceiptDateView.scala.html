@@ -32,7 +32,7 @@
 
 @layout(pageTitle = Some(errorPrefix(form) + " " + messages("applicationReceiptDate.title"))) {
 
-    @formHelper(action = ApplicationReceiptDateController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+    @formHelper(action = ApplicationReceiptDateController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

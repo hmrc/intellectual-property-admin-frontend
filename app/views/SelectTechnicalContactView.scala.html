@@ -35,7 +35,7 @@
     pageTitle = Some(s"${errorPrefix(form)} ${messages("selectTechnicalContact.title")}")
 ) {
 
-    @formHelper(action = SelectTechnicalContactController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+    @formHelper(action = SelectTechnicalContactController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

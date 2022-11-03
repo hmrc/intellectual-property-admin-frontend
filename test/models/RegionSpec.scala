@@ -29,15 +29,15 @@ class RegionSpec extends AnyFreeSpec with Matchers with EitherValues {
     val bindable = implicitly[PathBindable[Region]]
 
     "must bind England And Wales from a url" in {
-      bindable.bind("", "england-and-wales").right.value mustEqual Region.EnglandAndWales
+      bindable.bind("", "england-and-wales") mustBe Right(Region.EnglandAndWales)
     }
 
     "must bind Scotland from a url" in {
-      bindable.bind("", "scotland").right.value mustEqual Region.Scotland
+      bindable.bind("", "scotland") mustBe Right(Region.Scotland)
     }
 
     "must bind Northern Ireland from a url" in {
-      bindable.bind("", "northern-ireland").right.value mustEqual Region.NorthernIreland
+      bindable.bind("", "northern-ireland") mustBe Right(Region.NorthernIreland)
     }
 
     "must fail to bind an invalid string" in {

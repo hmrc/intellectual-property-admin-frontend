@@ -40,7 +40,7 @@ class FakeAfaDraftDataRetrievalAction(
 
   override protected def refine[A](request: IdentifierRequest[A]): Future[Either[Result, OptionalDataRequest[A]]] =
     Future.successful {
-      dataToReturn.right.map {
+      dataToReturn.map {
         data =>
           OptionalDataRequest(request.request, request.identifier, request.name, data)
       }

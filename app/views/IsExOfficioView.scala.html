@@ -33,7 +33,7 @@
 
 @layout(pageTitle = Some(errorPrefix(form) + " " + messages("isExOfficio.title"))) {
 
-    @formHelper(action = IsExOfficioController.onSubmit(mode, afaId), 'autoComplete -> "off") {
+    @formHelper(action = IsExOfficioController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @backLink()
 

@@ -6,12 +6,12 @@ object AppDependencies {
   val compile = Seq(
     play.sbt.PlayImport.ws,
     "uk.gov.hmrc"       %% "logback-json-logger"            % "5.2.0",
-    "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.11.0-play-28",
-    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % "6.4.0",
+    "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.12.0-play-28",
+    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % "7.8.0",
     "uk.gov.hmrc"       %% "crypto"                         % "6.1.0",
     "uk.gov.hmrc"       %% "secure"                         % "8.1.0",
     "org.typelevel"     %% "cats-core"                      % "2.8.0",
-    "uk.gov.hmrc"       %% "play-frontend-hmrc"             % "3.22.0-play-28"
+    "uk.gov.hmrc"       %% "play-frontend-hmrc"             % "3.32.0-play-28"
   )
 
   val test: Seq[ModuleID] = Seq(
