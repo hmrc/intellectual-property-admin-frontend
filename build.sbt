@@ -54,11 +54,11 @@ lazy val root = (project in file("."))
     uglifyCompressOptions := Seq("unused=false", "dead_code=false"),
     pipelineStages := Seq(digest),
     // below line required to force asset pipeline to operate in dev rather than only prod
-    Assets / pipelineStages := Seq(concat,uglify)
+    Assets / pipelineStages := Seq(concat, uglify)
   )
 
 lazy val testSettings: Seq[Def.Setting[_]] = Seq(
-  fork        := true,
+  fork := true,
   javaOptions ++= Seq(
     "-Dconfig.resource=test.application.conf"
   ),
@@ -68,16 +68,16 @@ lazy val testSettings: Seq[Def.Setting[_]] = Seq(
 )
 
 lazy val itSettings = Defaults.itSettings ++ Seq(
-  unmanagedSourceDirectories   := Seq(
+  unmanagedSourceDirectories := Seq(
     baseDirectory.value / "it",
     baseDirectory.value / "test-utils"
   ),
   unmanagedResourceDirectories := Seq(
     baseDirectory.value / "it" / "resources"
   ),
-  parallelExecution            := false,
-  fork                         := true,
-  javaOptions                  ++= Seq(
+  parallelExecution := false,
+  fork := true,
+  javaOptions ++= Seq(
     "-Dconfig.resource=it.application.conf",
     "-Dlogger.resource=it.logback.xml"
   )

@@ -44,16 +44,20 @@ class IsRepresentativeContactLegalContactControllerSpec extends SpecBase with Mo
 
   private def form: Form[Boolean] = formProvider()
 
-  lazy val isRepresentativeContactLegalContactRoute: String = routes.IsRepresentativeContactLegalContactController.onPageLoad(NormalMode, afaId).url
+  lazy val isRepresentativeContactLegalContactRoute: String =
+    routes.IsRepresentativeContactLegalContactController.onPageLoad(NormalMode, afaId).url
 
-  val representativeContactName = "representative contact name"
-  val representativeContact: RepresentativeDetails = RepresentativeDetails(representativeContactName, "companyName", "telephone", "email", Some("role"))
-  val ukAddress: UkAddress = UkAddress("Grange Central", None, "Telford", None, "TF34ER")
+  val representativeContactName                    = "representative contact name"
+  val representativeContact: RepresentativeDetails =
+    RepresentativeDetails(representativeContactName, "companyName", "telephone", "email", Some("role"))
+  val ukAddress: UkAddress                         = UkAddress("Grange Central", None, "Telford", None, "TF34ER")
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
   val userAnswers: UserAnswers = UserAnswers(afaId)
-    .set(RepresentativeDetailsPage, representativeContact).success.value
+    .set(RepresentativeDetailsPage, representativeContact)
+    .success
+    .value
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isRepresentativeContactLegalContactRoute)
@@ -82,12 +86,19 @@ class IsRepresentativeContactLegalContactControllerSpec extends SpecBase with Mo
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-
       val userAnswersWithAnswer = userAnswers
-        .set(IsRepresentativeContactUkBasedPage, true).success.value
-        .set(RepresentativeDetailsPage, representativeContact).success.value
-        .set(RepresentativeContactUkAddressPage, ukAddress).success.value
-        .set(IsRepresentativeContactLegalContactPage, true).success.value
+        .set(IsRepresentativeContactUkBasedPage, true)
+        .success
+        .value
+        .set(RepresentativeDetailsPage, representativeContact)
+        .success
+        .value
+        .set(RepresentativeContactUkAddressPage, ukAddress)
+        .success
+        .value
+        .set(IsRepresentativeContactLegalContactPage, true)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswersWithAnswer)).build()
 
@@ -110,9 +121,15 @@ class IsRepresentativeContactLegalContactControllerSpec extends SpecBase with Mo
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
       val userAnswersWithoutAnswer = userAnswers
-        .set(RepresentativeDetailsPage, representativeContact).success.value
-        .set(IsRepresentativeContactUkBasedPage, true).success.value
-        .set(RepresentativeContactUkAddressPage, ukAddress).success.value
+        .set(RepresentativeDetailsPage, representativeContact)
+        .success
+        .value
+        .set(IsRepresentativeContactUkBasedPage, true)
+        .success
+        .value
+        .set(RepresentativeContactUkAddressPage, ukAddress)
+        .success
+        .value
 
       val application =
         applicationBuilder(userAnswers = Some(userAnswersWithoutAnswer))

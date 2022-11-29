@@ -49,12 +49,14 @@ class IsTechnicalContactUkBasedPageViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPageUsingDesignSystem(form,
+    behave like yesNoPageUsingDesignSystem(
+      form,
       applyView,
       messageKeyPrefix,
       routes.IsTechnicalContactUkBasedController.onSubmit(NormalMode, afaId).url,
       args = Seq(infringementContactName),
-      argsUsedInBrowserTitle = true)
+      argsUsedInBrowserTitle = true
+    )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
   }

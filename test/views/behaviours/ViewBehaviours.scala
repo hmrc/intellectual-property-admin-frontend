@@ -23,21 +23,21 @@ import views.ViewSpecBase
 
 trait ViewBehaviours extends ViewSpecBase {
 
-  def normalPage(view: HtmlFormat.Appendable,
-                 messageKeyPrefix: String,
-                 args: Seq[Any] = Seq.empty,
-                 afaIdInHeader: Boolean = true,
-                 argsUsedInBrowserTitle: Boolean = false
-                ): Unit = {
-
+  def normalPage(
+    view: HtmlFormat.Appendable,
+    messageKeyPrefix: String,
+    args: Seq[Any] = Seq.empty,
+    afaIdInHeader: Boolean = true,
+    argsUsedInBrowserTitle: Boolean = false
+  ): Unit =
     "behave like a normal page" when {
 
       "rendered" must {
 
         "have the correct banner title" in {
 
-          val doc = asDocument(view)
-          val nav = doc.getElementById("proposition-menu")
+          val doc  = asDocument(view)
+          val nav  = doc.getElementById("proposition-menu")
           val span = nav.children.first
 
           span.text mustEqual messages("site.service_name")
@@ -45,7 +45,7 @@ trait ViewBehaviours extends ViewSpecBase {
 
         "display the correct browser title" in {
 
-          val doc = asDocument(view)
+          val doc   = asDocument(view)
           val title = doc.getElementsByTag("title").first.text
 
           if (argsUsedInBrowserTitle) {
@@ -59,7 +59,7 @@ trait ViewBehaviours extends ViewSpecBase {
 
           val doc = asDocument(view)
 
-          if(afaIdInHeader) {
+          if (afaIdInHeader) {
             assertPageTitleWithAfaIdEqualsMessage(doc, s"$messageKeyPrefix.heading", args: _*)
           } else {
             assertPageTitleEqualsMessage(doc, s"$messageKeyPrefix.heading", args: _*)
@@ -79,23 +79,21 @@ trait ViewBehaviours extends ViewSpecBase {
         }
       }
     }
-  }
 
   def normalPageUsingDesignSystem(
-                                   appConfig: FrontendAppConfig,
-                                   view: HtmlFormat.Appendable,
-                                   messageKeyPrefix: String,
-                                   args: Seq[Any] = Seq.empty,
-                                   afaIdInHeader: Boolean = true,
-                                   argsUsedInBrowserTitle: Boolean = false
-                                 ): Unit = {
-
+    appConfig: FrontendAppConfig,
+    view: HtmlFormat.Appendable,
+    messageKeyPrefix: String,
+    args: Seq[Any] = Seq.empty,
+    afaIdInHeader: Boolean = true,
+    argsUsedInBrowserTitle: Boolean = false
+  ): Unit =
     "behave like a normal page" when {
 
       "rendered" must {
 
         "display the correct browser title" in {
-          val doc = asDocument(view)
+          val doc   = asDocument(view)
           val title = doc.getElementsByTag("title").first.text
 
           if (argsUsedInBrowserTitle) {
@@ -121,10 +119,8 @@ trait ViewBehaviours extends ViewSpecBase {
         }
       }
     }
-  }
 
-  def pageWithBackLink(view: HtmlFormat.Appendable): Unit = {
-
+  def pageWithBackLink(view: HtmlFormat.Appendable): Unit =
     "behave like a page with a back link" must {
 
       "have a back link" in {
@@ -133,37 +129,26 @@ trait ViewBehaviours extends ViewSpecBase {
         assertRenderedById(doc, "back-link")
       }
     }
-  }
 
-  def pageWithGuidance(view: HtmlFormat.Appendable,
-                       messageKeyPrefix: String,
-                       expectedGuidanceKeys: Seq[String]): Unit = {
-
+  def pageWithGuidance(view: HtmlFormat.Appendable, messageKeyPrefix: String, expectedGuidanceKeys: Seq[String]): Unit =
     "display the correct guidance" in {
 
       val doc = asDocument(view)
       for (key <- expectedGuidanceKeys) assertContainsText(doc, messages(s"$messageKeyPrefix.$key"))
     }
-  }
 
-  def pageWithGuidanceWithParameter(view: HtmlFormat.Appendable,
-                                    messageKey: String,
-                                    messageParameter: String): Unit = {
-
+  def pageWithGuidanceWithParameter(view: HtmlFormat.Appendable, messageKey: String, messageParameter: String): Unit =
     "display the correct guidance" in {
 
       val doc = asDocument(view)
       assertContainsText(doc, messages(s"$messageKey", messageParameter))
     }
-  }
 
-  def pageWithButtonLink(view: HtmlFormat.Appendable,
-                         messageKey: String,
-                         linkUrl: String): Unit = {
+  def pageWithButtonLink(view: HtmlFormat.Appendable, messageKey: String, linkUrl: String): Unit = {
 
     "display a single button link with the correct message" in {
 
-      val doc = asDocument(view)
+      val doc     = asDocument(view)
       val buttons = doc.getElementsByClass("button")
 
       buttons.size() mustEqual 1
@@ -173,18 +158,16 @@ trait ViewBehaviours extends ViewSpecBase {
     }
 
     "display a button with the correct navigation link" in {
-      val doc = asDocument(view)
+      val doc     = asDocument(view)
       val buttons = doc.getElementsByClass("button")
 
       buttons.first().attr("href") mustEqual linkUrl
     }
   }
 
-  def pageWithButtonLinkUsingDesignSystem(view: HtmlFormat.Appendable,
-                         messageKey: String,
-                         linkUrl: String): Unit = {
+  def pageWithButtonLinkUsingDesignSystem(view: HtmlFormat.Appendable, messageKey: String, linkUrl: String): Unit = {
 
-    val doc = asDocument(view)
+    val doc     = asDocument(view)
     val buttons = doc.getElementsByClass("govuk-button")
 
     "display a single button link with the correct message" in {
@@ -199,7 +182,7 @@ trait ViewBehaviours extends ViewSpecBase {
     }
   }
 
-  def pageWithGoHomeLink(view: HtmlFormat.Appendable): Unit = {
+  def pageWithGoHomeLink(view: HtmlFormat.Appendable): Unit =
     "display a 'Go to Home' link with the correct navigation link" in {
 
       val doc = asDocument(view)
@@ -210,13 +193,12 @@ trait ViewBehaviours extends ViewSpecBase {
 
       homeLink.attr("href") mustEqual injectInstanceOf[FrontendAppConfig]().manageIprHomeUrl
     }
-  }
 
   def pageWithSubmitButtonAndGoHomeLink(view: HtmlFormat.Appendable): Unit = {
 
     "display a submit button link with the correct message" in {
 
-      val doc = asDocument(view)
+      val doc             = asDocument(view)
       val button: Element = doc.getElementById("submit")
 
       button.text mustEqual messages("site.continue")
@@ -234,15 +216,14 @@ trait ViewBehaviours extends ViewSpecBase {
     behave like pageWithGoHomeLink(view)
   }
 
-  def pageWithSubmitButton(view: HtmlFormat.Appendable): Unit = {
+  def pageWithSubmitButton(view: HtmlFormat.Appendable): Unit =
     "display a submit button with the correct message" in {
 
-      val doc = asDocument(view)
+      val doc     = asDocument(view)
       val buttons = doc.getElementsByClass("govuk-button")
 
       buttons.first().text mustEqual "Save and continue"
 
     }
-  }
 
 }

@@ -24,7 +24,11 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsString, Json}
 
-class IpRightsSupplementaryProtectionCertificateTypeSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class IpRightsSupplementaryProtectionCertificateTypeSpec
+    extends AnyWordSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "IpRightsSupplementaryProtectionCertificateType" must {
 
@@ -32,21 +36,23 @@ class IpRightsSupplementaryProtectionCertificateTypeSpec extends AnyWordSpec wit
 
       val gen = Gen.oneOf(IpRightsSupplementaryProtectionCertificateType.values.toSeq)
 
-      forAll(gen) {
-        ipRightsSupplementaryProtectionCertificateType =>
-
-          JsString(ipRightsSupplementaryProtectionCertificateType.toString).validate[IpRightsSupplementaryProtectionCertificateType].asOpt.value mustEqual ipRightsSupplementaryProtectionCertificateType
+      forAll(gen) { ipRightsSupplementaryProtectionCertificateType =>
+        JsString(ipRightsSupplementaryProtectionCertificateType.toString)
+          .validate[IpRightsSupplementaryProtectionCertificateType]
+          .asOpt
+          .value mustEqual ipRightsSupplementaryProtectionCertificateType
       }
     }
 
     "fail to deserialise invalid values" in {
 
-      val gen = arbitrary[String] suchThat (!IpRightsSupplementaryProtectionCertificateType.values.map(_.toString).contains(_))
+      val gen =
+        arbitrary[String] suchThat (!IpRightsSupplementaryProtectionCertificateType.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[IpRightsSupplementaryProtectionCertificateType] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[IpRightsSupplementaryProtectionCertificateType] mustEqual JsError(
+          "error.invalid"
+        )
       }
     }
 
@@ -54,10 +60,10 @@ class IpRightsSupplementaryProtectionCertificateTypeSpec extends AnyWordSpec wit
 
       val gen = Gen.oneOf(IpRightsSupplementaryProtectionCertificateType.values.toSeq)
 
-      forAll(gen) {
-        ipRightsSupplementaryProtectionCertificateType =>
-
-          Json.toJson(ipRightsSupplementaryProtectionCertificateType) mustEqual JsString(ipRightsSupplementaryProtectionCertificateType.toString)
+      forAll(gen) { ipRightsSupplementaryProtectionCertificateType =>
+        Json.toJson(ipRightsSupplementaryProtectionCertificateType) mustEqual JsString(
+          ipRightsSupplementaryProtectionCertificateType.toString
+        )
       }
     }
   }

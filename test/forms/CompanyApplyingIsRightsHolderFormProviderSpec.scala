@@ -26,13 +26,13 @@ class CompanyApplyingIsRightsHolderFormProviderSpec extends OptionFieldBehaviour
 
   ".value" must {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "companyApplyingIsRightsHolder.error.required"
 
     behave like optionsField[CompanyApplyingIsRightsHolder](
       form,
       fieldName,
-      validValues  = CompanyApplyingIsRightsHolder.values.toSet,
+      validValues = CompanyApplyingIsRightsHolder.values.toSet,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

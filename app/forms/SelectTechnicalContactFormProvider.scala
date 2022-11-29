@@ -28,4 +28,3 @@ class SelectTechnicalContactFormProvider @Inject() extends Mappings {
       "value" -> enumerable[ContactOptions]("selectTechnicalContact.error.required")
     )
 }
-

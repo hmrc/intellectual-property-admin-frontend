@@ -20,15 +20,15 @@ import pages.behaviours.PageBehaviours
 
 class EvidenceOfPowerToActPageSpec extends PageBehaviours {
 
-    "EvidenceOfPowerToActPage" must {
+  "EvidenceOfPowerToActPage" must {
 
-      beRetrievable[Boolean](IsExOfficioPage)
+    beRetrievable[Boolean](IsExOfficioPage)
 
-      beSettable[Boolean](IsExOfficioPage)
+    beSettable[Boolean](IsExOfficioPage)
 
-      beRemovable[Boolean](IsExOfficioPage)
+    beRemovable[Boolean](IsExOfficioPage)
 
-      beRequired[Boolean](IsExOfficioPage)
+    beRequired[Boolean](IsExOfficioPage)
 
-    }
   }
+}

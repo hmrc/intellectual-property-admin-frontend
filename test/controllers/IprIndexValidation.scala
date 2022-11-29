@@ -38,44 +38,39 @@ import scala.concurrent.Future
 trait IprIndexValidation extends SpecBase with ScalaCheckPropertyChecks with MockitoSugar with Generators {
 
   def validateOnIprIndex[A, B](
-                                generator: Gen[A],
-                                createPage: Int => QuestionPage[A],
-                                requestForIndex: Int => Request[B]
-                              )(implicit writes: Writes[A], writeable: Writeable[B]): Unit = {
-
+    generator: Gen[A],
+    createPage: Int => QuestionPage[A],
+    requestForIndex: Int => Request[B]
+  )(implicit writes: Writes[A], writeable: Writeable[B]): Unit =
     "return not found if a given index is out of bounds" in {
 
       val gen = for {
         answers <- Gen.listOf(generator).map(_.zipWithIndex)
-        index <- Gen.oneOf(
-          Gen.chooseNum(answers.size + 1, answers.size + 100),
-          Gen.chooseNum(-100, -1)
-        )
+        index   <- Gen.oneOf(
+                     Gen.chooseNum(answers.size + 1, answers.size + 100),
+                     Gen.chooseNum(-100, -1)
+                   )
       } yield (answers, index)
 
-      forAll(gen, arbitrary[AfaId]) {
-        case ((answers, index), afaId) =>
+      forAll(gen, arbitrary[AfaId]) { case ((answers, index), afaId) =>
+        val userAnswers = answers.foldLeft(UserAnswers(afaId)) { case (userAnswers, (answer, index)) =>
+          userAnswers.set(createPage(index), answer).success.value
+        }
 
-          val userAnswers = answers.foldLeft(UserAnswers(afaId)) {
-            case (userAnswers, (answer, index)) =>
-              userAnswers.set(createPage(index), answer).success.value
-          }
+        val mockAfaService = mock[AfaService]
 
-          val mockAfaService = mock[AfaService]
+        when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
-          when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
+        val application =
+          applicationBuilder(Some(userAnswers))
+            .overrides(bind[AfaService].toInstance(mockAfaService))
+            .build()
 
-          val application =
-            applicationBuilder(Some(userAnswers))
-              .overrides(bind[AfaService].toInstance(mockAfaService))
-              .build()
+        val result = route(application, requestForIndex(index)).value
 
-          val result = route(application, requestForIndex(index)).value
+        status(result) mustEqual NOT_FOUND
 
-          status(result) mustEqual NOT_FOUND
-
-          application.stop()
+        application.stop()
       }
     }
-  }
 }

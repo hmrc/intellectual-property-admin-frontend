@@ -21,15 +21,15 @@ import play.api.data.FormError
 
 class TechnicalContactInternationalAddressFormProviderSpec extends StringFieldBehaviours {
 
-  val maxLength:Int = 100
+  val maxLength: Int = 100
 
   val form = new TechnicalContactInternationalAddressFormProvider()()
 
   ".line1" must {
 
-    val fieldName = "line1"
+    val fieldName   = "line1"
     val requiredKey = "technicalContactInternationalAddress.error.line1.required"
-    val lengthKey = "technicalContactInternationalAddress.error.line1.length"
+    val lengthKey   = "technicalContactInternationalAddress.error.line1.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -77,9 +77,9 @@ class TechnicalContactInternationalAddressFormProviderSpec extends StringFieldBe
 
   ".town" must {
 
-    val fieldName = "town"
+    val fieldName   = "town"
     val requiredKey = "technicalContactInternationalAddress.error.town.required"
-    val lengthKey = "technicalContactInternationalAddress.error.town.length"
+    val lengthKey   = "technicalContactInternationalAddress.error.town.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -103,9 +103,9 @@ class TechnicalContactInternationalAddressFormProviderSpec extends StringFieldBe
 
   ".country" must {
 
-    val fieldName = "country"
+    val fieldName   = "country"
     val requiredKey = "technicalContactInternationalAddress.error.country.required"
-    val lengthKey = "technicalContactInternationalAddress.error.country.length"
+    val lengthKey   = "technicalContactInternationalAddress.error.country.length"
 
     behave like fieldThatBindsValidData(
       form,

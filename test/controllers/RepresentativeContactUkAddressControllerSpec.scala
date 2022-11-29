@@ -40,22 +40,24 @@ class RepresentativeContactUkAddressControllerSpec extends SpecBase with Mockito
 
   val afaId: AfaId = userAnswersId
 
-  val  representativeContact: RepresentativeDetails =  RepresentativeDetails("name", "companyName", "phone", "email", Some("role"))
+  val representativeContact: RepresentativeDetails =
+    RepresentativeDetails("name", "companyName", "phone", "email", Some("role"))
 
-  val formProvider = new  RepresentativeContactUkAddressFormProvider()
+  val formProvider                  = new RepresentativeContactUkAddressFormProvider()
   private def form: Form[UkAddress] = formProvider()
 
-  lazy private val  representativeContactUkAddressRoute = routes. RepresentativeContactUkAddressController.onPageLoad(NormalMode, afaId).url
+  lazy private val representativeContactUkAddressRoute =
+    routes.RepresentativeContactUkAddressController.onPageLoad(NormalMode, afaId).url
 
-  private val baseUserAnswers = UserAnswers(afaId).set( RepresentativeDetailsPage,  representativeContact).success.value
+  private val baseUserAnswers = UserAnswers(afaId).set(RepresentativeDetailsPage, representativeContact).success.value
 
   val validAnswer: UkAddress = UkAddress("line 1", None, "town", None, "postcode")
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
-    FakeRequest(GET,  representativeContactUkAddressRoute)
+    FakeRequest(GET, representativeContactUkAddressRoute)
 
   def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
-    FakeRequest(POST,  representativeContactUkAddressRoute)
+    FakeRequest(POST, representativeContactUkAddressRoute)
       .withFormUrlEncodedBody(("line1", "line 1"), ("town", "town"), ("postCode", "postcode"))
 
   "Applicant Legal Contact UK Address Controller" must {
@@ -71,14 +73,14 @@ class RepresentativeContactUkAddressControllerSpec extends SpecBase with Mockito
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode,  representativeContact.contactName, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, representativeContact.contactName, afaId)(getRequest(), messages).toString
 
       application.stop()
     }
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = baseUserAnswers.set( RepresentativeContactUkAddressPage, validAnswer).success.value
+      val userAnswers = baseUserAnswers.set(RepresentativeContactUkAddressPage, validAnswer).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -89,7 +91,10 @@ class RepresentativeContactUkAddressControllerSpec extends SpecBase with Mockito
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode,  representativeContact.contactName, afaId)(getRequest, messages).toString
+        view(form.fill(validAnswer), NormalMode, representativeContact.contactName, afaId)(
+          getRequest,
+          messages
+        ).toString
 
       application.stop()
     }
@@ -122,7 +127,7 @@ class RepresentativeContactUkAddressControllerSpec extends SpecBase with Mockito
       val application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
 
       val request =
-        FakeRequest(POST,  representativeContactUkAddressRoute)
+        FakeRequest(POST, representativeContactUkAddressRoute)
           .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
@@ -134,7 +139,7 @@ class RepresentativeContactUkAddressControllerSpec extends SpecBase with Mockito
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode,  representativeContact.contactName, afaId)(fakeRequest, messages).toString
+        view(boundForm, NormalMode, representativeContact.contactName, afaId)(fakeRequest, messages).toString
 
       application.stop()
     }

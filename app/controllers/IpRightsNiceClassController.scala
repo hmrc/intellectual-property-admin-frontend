@@ -34,76 +34,82 @@ import views.html.IpRightsNiceClassView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IpRightsNiceClassController @Inject()(
-                                             override val messagesApi: MessagesApi,
-                                             afaService: AfaService,
-                                             navigator: Navigator,
-                                             identify: IdentifierAction,
-                                             getLock: LockAfaActionProvider,
-                                             getData: AfaDraftDataRetrievalAction,
-                                             requireData: DataRequiredAction,
-                                             validateIprIndex: IpRightsIndexActionFilterProvider,
-                                             validateNiceClassIndex: NiceClassIndexActionFilterProvider,
-                                             formProvider: IpRightsNiceClassFormProvider,
-                                             val controllerComponents: MessagesControllerComponents,
-                                             view: IpRightsNiceClassView
-                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
-
+class IpRightsNiceClassController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  validateIprIndex: IpRightsIndexActionFilterProvider,
+  validateNiceClassIndex: NiceClassIndexActionFilterProvider,
+  formProvider: IpRightsNiceClassFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IpRightsNiceClassView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def validateIndices(iprIndex: Int, goodsIndex: Int): ActionFunction[DataRequest, DataRequest] =
     validateIprIndex(iprIndex) andThen validateNiceClassIndex(iprIndex, goodsIndex)
 
   def onPageLoad(mode: Mode, iprIndex: Int, niceClassIndex: Int, afaId: AfaId): Action[AnyContent] =
-    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndices(iprIndex, niceClassIndex)).async {
-      implicit request =>
-        getOtherExistingNiceClasses(iprIndex, niceClassIndex) {
-          existingClasses =>
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndices(
+      iprIndex,
+      niceClassIndex
+    )).async { implicit request =>
+      getOtherExistingNiceClasses(iprIndex, niceClassIndex) { existingClasses =>
+        val form = formProvider(existingClasses)
 
-            val form = formProvider(existingClasses)
-
-            val preparedForm = request.userAnswers.get(IpRightsNiceClassPage(iprIndex, niceClassIndex)) match {
-              case None => form
-              case Some(value) => form.fill(value)
-            }
-
-            Future.successful(Ok(view(preparedForm, mode, iprIndex, niceClassIndex, afaId)))
+        val preparedForm = request.userAnswers.get(IpRightsNiceClassPage(iprIndex, niceClassIndex)) match {
+          case None        => form
+          case Some(value) => form.fill(value)
         }
+
+        Future.successful(Ok(view(preparedForm, mode, iprIndex, niceClassIndex, afaId)))
+      }
     }
 
   def onSubmit(mode: Mode, iprIndex: Int, niceClassIndex: Int, afaId: AfaId): Action[AnyContent] =
-    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndices(iprIndex, niceClassIndex)).async {
-      implicit request =>
-        getOtherExistingNiceClasses(iprIndex, niceClassIndex) {
-          existingClasses =>
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndices(
+      iprIndex,
+      niceClassIndex
+    )).async { implicit request =>
+      getOtherExistingNiceClasses(iprIndex, niceClassIndex) { existingClasses =>
+        val form = formProvider(existingClasses)
 
-            val form = formProvider(existingClasses)
-
-            form.bindFromRequest().fold(
-              (formWithErrors: Form[_]) =>
-                Future.successful(BadRequest(view(formWithErrors, mode, iprIndex, niceClassIndex, afaId))),
-
-              value => {
-                for {
-                  updatedAnswers <- Future.fromTry(request.userAnswers.set(IpRightsNiceClassPage(iprIndex, niceClassIndex), value))
-                  _              <- afaService.set(updatedAnswers)
-                } yield Redirect(navigator.nextPage(IpRightsNiceClassPage(iprIndex, niceClassIndex), mode, updatedAnswers))
-              }
-            )
-        }
+        form
+          .bindFromRequest()
+          .fold(
+            (formWithErrors: Form[_]) =>
+              Future.successful(BadRequest(view(formWithErrors, mode, iprIndex, niceClassIndex, afaId))),
+            value =>
+              for {
+                updatedAnswers <-
+                  Future.fromTry(request.userAnswers.set(IpRightsNiceClassPage(iprIndex, niceClassIndex), value))
+                _              <- afaService.set(updatedAnswers)
+              } yield Redirect(
+                navigator.nextPage(IpRightsNiceClassPage(iprIndex, niceClassIndex), mode, updatedAnswers)
+              )
+          )
+      }
     }
 
-  private def getOtherExistingNiceClasses(index: Int, niceClassIndex: Int)(block: Seq[NiceClassId] => Future[Result])
-                                         (implicit request: DataRequest[AnyContent]): Future[Result] = {
-
-    request.userAnswers.get(NiceClassIdsQuery(index)).map {
-      existingClasses =>
-
-        val otherClasses = existingClasses.lift(niceClassIndex).map {
-          currentNiceClass =>
+  private def getOtherExistingNiceClasses(index: Int, niceClassIndex: Int)(
+    block: Seq[NiceClassId] => Future[Result]
+  )(implicit request: DataRequest[AnyContent]): Future[Result] =
+    request.userAnswers
+      .get(NiceClassIdsQuery(index))
+      .map { existingClasses =>
+        val otherClasses = existingClasses
+          .lift(niceClassIndex)
+          .map { currentNiceClass =>
             existingClasses.filter(_ != currentNiceClass)
-        }.getOrElse(existingClasses)
+          }
+          .getOrElse(existingClasses)
 
         block(otherClasses)
-    }.getOrElse(block(Seq.empty))
-  }
+      }
+      .getOrElse(block(Seq.empty))
 }

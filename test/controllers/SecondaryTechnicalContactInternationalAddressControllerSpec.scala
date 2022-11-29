@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.SecondaryTechnicalContactInternationalAddressFormProvider
-import models.{AfaId, InternationalAddress, NormalMode, UserAnswers, TechnicalContact}
+import models.{AfaId, InternationalAddress, NormalMode, TechnicalContact, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
@@ -35,21 +35,25 @@ import views.html.SecondaryTechnicalContactInternationalAddressView
 
 import scala.concurrent.Future
 
-class SecondaryTechnicalContactInternationalAddressControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks {
+class SecondaryTechnicalContactInternationalAddressControllerSpec
+    extends SpecBase
+    with MockitoSugar
+    with LockAfaChecks {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
   val afaId: AfaId = userAnswersId
-  
+
   val secondaryTechnicalContact: TechnicalContact = TechnicalContact("companyName", "name", "telephone", "email")
 
-  val formProvider = new SecondaryTechnicalContactInternationalAddressFormProvider()
+  val formProvider                             = new SecondaryTechnicalContactInternationalAddressFormProvider()
   private def form: Form[InternationalAddress] = formProvider()
 
   lazy val applicantSecondaryTechnicalContactInternationalAddressRoute: String =
     routes.SecondaryTechnicalContactInternationalAddressController.onPageLoad(NormalMode, afaId).url
 
-  private val baseUserAnswers = UserAnswers(afaId).set(WhoIsSecondaryTechnicalContactPage, secondaryTechnicalContact).success.value
+  private val baseUserAnswers =
+    UserAnswers(afaId).set(WhoIsSecondaryTechnicalContactPage, secondaryTechnicalContact).success.value
 
   val validAnswer: InternationalAddress = InternationalAddress("line 1", None, "town", "country", None)
 
@@ -66,7 +70,8 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec extends SpecBa
 
       val application: Application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
 
-      val view: SecondaryTechnicalContactInternationalAddressView = application.injector.instanceOf[SecondaryTechnicalContactInternationalAddressView]
+      val view: SecondaryTechnicalContactInternationalAddressView =
+        application.injector.instanceOf[SecondaryTechnicalContactInternationalAddressView]
 
       val result: Future[Result] = route(application, getRequest()).value
 
@@ -80,18 +85,23 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec extends SpecBa
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers: UserAnswers = baseUserAnswers.set(SecondaryTechnicalContactInternationalAddressPage, validAnswer).success.value
+      val userAnswers: UserAnswers =
+        baseUserAnswers.set(SecondaryTechnicalContactInternationalAddressPage, validAnswer).success.value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val view: SecondaryTechnicalContactInternationalAddressView = application.injector.instanceOf[SecondaryTechnicalContactInternationalAddressView]
+      val view: SecondaryTechnicalContactInternationalAddressView =
+        application.injector.instanceOf[SecondaryTechnicalContactInternationalAddressView]
 
       val result: Future[Result] = route(application, getRequest()).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, secondaryTechnicalContact.contactName, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, secondaryTechnicalContact.contactName, afaId)(
+          getRequest(),
+          messages
+        ).toString
 
       application.stop()
     }
@@ -125,11 +135,12 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec extends SpecBa
 
       val request =
         FakeRequest(POST, applicantSecondaryTechnicalContactInternationalAddressRoute)
-      .withFormUrlEncodedBody(("value", "invalid value"))
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm: Form[InternationalAddress] = form.bind(Map("value" -> "invalid value"))
 
-      val view: SecondaryTechnicalContactInternationalAddressView = application.injector.instanceOf[SecondaryTechnicalContactInternationalAddressView]
+      val view: SecondaryTechnicalContactInternationalAddressView =
+        application.injector.instanceOf[SecondaryTechnicalContactInternationalAddressView]
 
       val result: Future[Result] = route(application, request).value
 

@@ -39,7 +39,8 @@ class EvidenceOfPowerToActControllerSpec extends SpecBase with MockitoSugar with
 
   val afaId: AfaId = userAnswersId
 
-  val rightsHolderContact: RepresentativeDetails = RepresentativeDetails("name", "companyName", "phone", "email", Some("role"))
+  val rightsHolderContact: RepresentativeDetails =
+    RepresentativeDetails("name", "companyName", "phone", "email", Some("role"))
 
   val formProvider = new EvidenceOfPowerToActFormProvider()
 

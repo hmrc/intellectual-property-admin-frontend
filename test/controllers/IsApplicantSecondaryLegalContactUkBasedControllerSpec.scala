@@ -41,12 +41,14 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
 
   val afaId: AfaId = userAnswersId
 
-  val secondaryLegalContact: WhoIsSecondaryLegalContact = WhoIsSecondaryLegalContact("name", "companyName", "telephone", "email")
+  val secondaryLegalContact: WhoIsSecondaryLegalContact =
+    WhoIsSecondaryLegalContact("name", "companyName", "telephone", "email")
 
-  val formProvider = new IsApplicantSecondaryLegalContactUkBasedFormProvider()
+  val formProvider        = new IsApplicantSecondaryLegalContactUkBasedFormProvider()
   val form: Form[Boolean] = formProvider(secondaryLegalContact.contactName)
 
-  private val baseUserAnswers = UserAnswers(afaId).set(WhoIsSecondaryLegalContactPage, secondaryLegalContact).success.value
+  private val baseUserAnswers =
+    UserAnswers(afaId).set(WhoIsSecondaryLegalContactPage, secondaryLegalContact).success.value
 
   lazy private val isApplicantSecondaryLegalContactUkBasedRoute =
     routes.IsApplicantSecondaryLegalContactUkBasedController.onPageLoad(NormalMode, afaId).url
@@ -78,11 +80,13 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers: UserAnswers = baseUserAnswers.set(IsApplicantSecondaryLegalContactUkBasedPage, true).success.value
+      val userAnswers: UserAnswers =
+        baseUserAnswers.set(IsApplicantSecondaryLegalContactUkBasedPage, true).success.value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val view: IsApplicantSecondaryLegalContactUkBasedView = application.injector.instanceOf[IsApplicantSecondaryLegalContactUkBasedView]
+      val view: IsApplicantSecondaryLegalContactUkBasedView =
+        application.injector.instanceOf[IsApplicantSecondaryLegalContactUkBasedView]
 
       val result = route(application, getRequest()).value
 

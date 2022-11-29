@@ -42,7 +42,8 @@ class PermissionToDestroySmallConsignmentsControllerSpec extends SpecBase with M
   val formProvider = new PermissionToDestroySmallConsignmentsFormProvider()
   private def form = formProvider()
 
-  lazy val permissionToDestroySmallConsignmentsRoute: String = routes.PermissionToDestroySmallConsignmentsController.onPageLoad(NormalMode, afaId).url
+  lazy val permissionToDestroySmallConsignmentsRoute: String =
+    routes.PermissionToDestroySmallConsignmentsController.onPageLoad(NormalMode, afaId).url
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 

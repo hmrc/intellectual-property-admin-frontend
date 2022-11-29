@@ -40,16 +40,18 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
   val afaId: AfaId = userAnswersId
 
-  val formProvider = new TechnicalContactInternationalAddressFormProvider()
+  val formProvider                             = new TechnicalContactInternationalAddressFormProvider()
   private def form: Form[InternationalAddress] = formProvider()
 
   lazy val technicalContactInternationalAddressRoute: String =
     routes.TechnicalContactInternationalAddressController.onPageLoad(NormalMode, afaId).url
 
   val technicalContact: TechnicalContact = TechnicalContact("companyName", "contactName", "123456", "email")
-  val contactName: String = technicalContact.contactName
-  private val baseUserAnswers = UserAnswers(afaId)
-    .set(WhoIsTechnicalContactPage, technicalContact).success.value
+  val contactName: String                = technicalContact.contactName
+  private val baseUserAnswers            = UserAnswers(afaId)
+    .set(WhoIsTechnicalContactPage, technicalContact)
+    .success
+    .value
 
   val validAnswer: InternationalAddress = InternationalAddress("line 1", None, "town", "country", None)
 
@@ -125,7 +127,7 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
       val request =
         FakeRequest(POST, technicalContactInternationalAddressRoute)
-      .withFormUrlEncodedBody(("value", "invalid value"))
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
 

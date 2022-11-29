@@ -40,21 +40,29 @@ class RepresentativeContactControllerSpec extends SpecBase with MockitoSugar wit
 
   val afaId: AfaId = userAnswersId
 
-  val formProvider = new RepresentativeContactFormProvider()
+  val formProvider                              = new RepresentativeContactFormProvider()
   private def form: Form[RepresentativeDetails] = formProvider()
 
   lazy val representativeContactRoute: String = routes.RepresentativeContactController.onPageLoad(NormalMode, afaId).url
 
-  val validAnswer: RepresentativeDetails = RepresentativeDetails("name", "CompanyName", "phone", "email@example.com", Some("role"))
+  val validAnswer: RepresentativeDetails =
+    RepresentativeDetails("name", "CompanyName", "phone", "email@example.com", Some("role"))
 
-  override val emptyUserAnswers: UserAnswers = UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.contactName,  None)).success.value
+  override val emptyUserAnswers: UserAnswers =
+    UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.contactName, None)).success.value
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, representativeContactRoute)
 
   def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, representativeContactRoute)
-      .withFormUrlEncodedBody(("name", "name value"), ("companyName", "companyName value"), ("role", "role value"), ("telephone", "telephone value"), ("email", "email@example.com"))
+      .withFormUrlEncodedBody(
+        ("name", "name value"),
+        ("companyName", "companyName value"),
+        ("role", "role value"),
+        ("telephone", "telephone value"),
+        ("email", "email@example.com")
+      )
 
   "RepresentativeDetails Controller" must {
 
@@ -75,7 +83,6 @@ class RepresentativeContactControllerSpec extends SpecBase with MockitoSugar wit
     }
 
     "populate the view correctly on a GET when the question has previously been answered" in {
-
 
       val userAnswers = emptyUserAnswers.set(RepresentativeDetailsPage, validAnswer).success.value
 

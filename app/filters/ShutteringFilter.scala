@@ -27,9 +27,10 @@ import scala.concurrent.Future
 
 @Singleton
 class ShutteringFilter @Inject() (
-                                   configuration: Configuration,
-                                   shutterPage: ShutterPage
-                                 )(implicit val mat: Materializer) extends Filter {
+  configuration: Configuration,
+  shutterPage: ShutterPage
+)(implicit val mat: Materializer)
+    extends Filter {
 
   private val shuttered: Boolean = configuration
     .getOptional[Boolean]("shuttered")
@@ -38,14 +39,15 @@ class ShutteringFilter @Inject() (
   private val excludedPaths: collection.Seq[Call] = configuration
     .getOptional[String]("shutter.urls.excluded")
     .getOrElse("")
-    .split(",").map {
-    path =>
+    .split(",")
+    .map { path =>
       Call("GET", path.trim)
-  }
+    }
 
   private def toCall(rh: RequestHeader): Call =
     Call(rh.method, rh.uri)
 
   override def apply(next: RequestHeader => Future[Result])(rh: RequestHeader): Future[Result] =
-    if (shuttered && !excludedPaths.contains(toCall(rh))) Future.successful(ServiceUnavailable(shutterPage())) else next(rh)
+    if (shuttered && !excludedPaths.contains(toCall(rh))) Future.successful(ServiceUnavailable(shutterPage()))
+    else next(rh)
 }

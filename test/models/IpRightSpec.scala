@@ -35,29 +35,25 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
 
       "from a copyright" in {
 
-        forAll(arbitrary[String]) {
-          description =>
+        forAll(arbitrary[String]) { description =>
+          val json = Json.obj(
+            "rightsType"  -> "copyright",
+            "description" -> description
+          )
 
-            val json = Json.obj(
-              "rightsType" -> "copyright",
-              "description" -> description
-            )
-
-            json.validate[IpRight] mustEqual JsSuccess(Copyright(description))
+          json.validate[IpRight] mustEqual JsSuccess(Copyright(description))
         }
       }
 
       "from a plantVariety" in {
 
-        forAll(arbitrary[String]) {
-          description =>
+        forAll(arbitrary[String]) { description =>
+          val json = Json.obj(
+            "rightsType"  -> "plantVariety",
+            "description" -> description
+          )
 
-            val json = Json.obj(
-              "rightsType" -> "plantVariety",
-              "description" -> description
-            )
-
-            json.validate[IpRight] mustEqual JsSuccess(PlantVariety(description))
+          json.validate[IpRight] mustEqual JsSuccess(PlantVariety(description))
         }
       }
 
@@ -65,44 +61,41 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
 
         forAll(arbitrary[String], arbitraryDates, arbitrary[String], arbitrary[String]) {
           (registrationNumber, registrationEnd, description, certificateType) =>
-
             val json = Json.obj(
               "rightsType"         -> "supplementaryProtectionCertificate",
               "registrationNumber" -> registrationNumber,
               "registrationEnd"    -> registrationEnd,
-              "certificateType"  -> certificateType,
+              "certificateType"    -> certificateType,
               "description"        -> description
             )
 
-            json.validate[IpRight] mustEqual JsSuccess(SupplementaryProtectionCertificate(certificateType, registrationNumber, registrationEnd, description))
+            json.validate[IpRight] mustEqual JsSuccess(
+              SupplementaryProtectionCertificate(certificateType, registrationNumber, registrationEnd, description)
+            )
         }
       }
 
       "from a semiconductorTopography" in {
 
-        forAll(arbitrary[String]) {
-          description =>
+        forAll(arbitrary[String]) { description =>
+          val json = Json.obj(
+            "rightsType"  -> "semiconductorTopography",
+            "description" -> description
+          )
 
-            val json = Json.obj(
-              "rightsType" -> "semiconductorTopography",
-              "description" -> description
-            )
-
-            json.validate[IpRight] mustEqual JsSuccess(SemiconductorTopography(description))
+          json.validate[IpRight] mustEqual JsSuccess(SemiconductorTopography(description))
         }
       }
 
       "from a geographicalIndication" in {
 
-        forAll(arbitrary[String]) {
-          description =>
+        forAll(arbitrary[String]) { description =>
+          val json = Json.obj(
+            "rightsType"  -> "geographicalIndication",
+            "description" -> description
+          )
 
-            val json = Json.obj(
-              "rightsType" -> "geographicalIndication",
-              "description" -> description
-            )
-
-            json.validate[IpRight] mustEqual JsSuccess(GeographicalIndication(description))
+          json.validate[IpRight] mustEqual JsSuccess(GeographicalIndication(description))
         }
       }
 
@@ -110,12 +103,11 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
 
         forAll(arbitrary[String], arbitraryDates, arbitrary[String]) {
           (registrationNumber, registrationEnd, description) =>
-
             val json = Json.obj(
-              "rightsType" -> "design",
+              "rightsType"         -> "design",
               "registrationNumber" -> registrationNumber,
-              "registrationEnd" -> registrationEnd,
-              "description" -> description
+              "registrationEnd"    -> registrationEnd,
+              "description"        -> description
             )
 
             json.validate[IpRight] mustEqual JsSuccess(Design(registrationNumber, registrationEnd, description))
@@ -126,12 +118,11 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
 
         forAll(arbitrary[String], arbitraryDates, arbitrary[String]) {
           (registrationNumber, registrationEnd, description) =>
-
             val json = Json.obj(
-              "rightsType" -> "patent",
+              "rightsType"         -> "patent",
               "registrationNumber" -> registrationNumber,
-              "registrationEnd" -> registrationEnd,
-              "description" -> description
+              "registrationEnd"    -> registrationEnd,
+              "description"        -> description
             )
 
             json.validate[IpRight] mustEqual JsSuccess(Patent(registrationNumber, registrationEnd, description))
@@ -142,22 +133,22 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
 
         forAll(arbitrary[String], arbitraryDates, arbitrary[String], arbitrary[String], arbitrary[Seq[NiceClassId]]) {
           (registrationNumber, registrationEnd, brand, description, niceClasses) =>
-
             val json = Json.obj(
-                  "rightsType" -> "trademark",
-                  "registrationNumber" -> registrationNumber,
-                  "registrationEnd" -> registrationEnd,
-                  "descriptionWithBrand" -> Json.obj(
-                    "brand" -> brand,
-                    "description" -> description
-                  ),
-                  "niceClasses" -> niceClasses.map {
-                    niceClass =>
-                      niceClass.value
-                  }
+              "rightsType"           -> "trademark",
+              "registrationNumber"   -> registrationNumber,
+              "registrationEnd"      -> registrationEnd,
+              "descriptionWithBrand" -> Json.obj(
+                "brand"       -> brand,
+                "description" -> description
+              ),
+              "niceClasses"          -> niceClasses.map { niceClass =>
+                niceClass.value
+              }
             )
 
-            json.validate[IpRight] mustEqual JsSuccess(Trademark(registrationNumber, registrationEnd, Some(brand), description, niceClasses))
+            json.validate[IpRight] mustEqual JsSuccess(
+              Trademark(registrationNumber, registrationEnd, Some(brand), description, niceClasses)
+            )
         }
       }
     }

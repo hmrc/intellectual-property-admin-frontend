@@ -38,12 +38,14 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val afaId: AfaId = userAnswersId
+  val afaId: AfaId   = userAnswersId
   val iprIndex       = 0
   val niceClassIndex = 0
 
-  lazy val ipRightsAddNiceClassRoute: String = routes.IpRightsAddNiceClassController.onPageLoad(NormalMode, 0, afaId).url
-  lazy val ipRightsDeleteNiceClassRoute: String = routes.IpRightsAddNiceClassController.onDelete(NormalMode, iprIndex, niceClassIndex, afaId).url
+  lazy val ipRightsAddNiceClassRoute: String    =
+    routes.IpRightsAddNiceClassController.onPageLoad(NormalMode, 0, afaId).url
+  lazy val ipRightsDeleteNiceClassRoute: String =
+    routes.IpRightsAddNiceClassController.onDelete(NormalMode, iprIndex, niceClassIndex, afaId).url
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
@@ -60,7 +62,9 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
 
       val userAnswers =
         UserAnswers(afaId)
-          .set(IpRightsNiceClassPage(iprIndex, 0), NiceClassId.fromInt(1).value).success.value
+          .set(IpRightsNiceClassPage(iprIndex, 0), NiceClassId.fromInt(1).value)
+          .success
+          .value
 
       val cyaHelper = new ReviewHelper(userAnswers)
 
@@ -75,7 +79,13 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(NormalMode, iprIndex, afaId, expectedSections, routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 1, afaId).url)(messages).toString
+        view(
+          NormalMode,
+          iprIndex,
+          afaId,
+          expectedSections,
+          routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 1, afaId).url
+        )(messages).toString
 
       application.stop()
     }
@@ -99,8 +109,12 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
       val niceClass2 = NiceClassId.fromInt(2).value
 
       val userAnswers = UserAnswers(userAnswersId)
-        .set(IpRightsNiceClassPage(iprIndex, niceClassIndex), niceClass1).success.value
-        .set(IpRightsNiceClassPage(iprIndex, niceClassIndex+1), niceClass2).success.value
+        .set(IpRightsNiceClassPage(iprIndex, niceClassIndex), niceClass1)
+        .success
+        .value
+        .set(IpRightsNiceClassPage(iprIndex, niceClassIndex + 1), niceClass2)
+        .success
+        .value
 
       val mockAfaService = mock[AfaService]
 

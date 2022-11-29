@@ -33,40 +33,39 @@ import views.html.DeleteDraftView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DeleteDraftController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       afaService: AfaService,
-                                       lockService: LockService,
-                                       navigator: Navigator,
-                                       identify: IdentifierAction,
-                                       getLock: LockAfaActionProvider,
-                                       getData: AfaDraftDataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       formProvider: DeleteDraftFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: DeleteDraftView
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DeleteDraftController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  lockService: LockService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: DeleteDraftFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: DeleteDraftView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def form = formProvider()
 
-  def onPageLoad(afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getCompanyApplyingName {
-        companyApplyingName =>
-
-          Future.successful(Ok(view(form, afaId, companyApplyingName)))
+  def onPageLoad(afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getCompanyApplyingName { companyApplyingName =>
+        Future.successful(Ok(view(form, afaId, companyApplyingName)))
       }
-  }
+    }
 
-  def onSubmit(afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getCompanyApplyingName {
-        companyApplyingName =>
-
-          form.bindFromRequest().fold(
+  def onSubmit(afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getCompanyApplyingName { companyApplyingName =>
+        form
+          .bindFromRequest()
+          .fold(
             (formWithErrors: Form[_]) =>
               Future.successful(BadRequest(view(formWithErrors, afaId, companyApplyingName))),
-
             deleteDraft =>
               if (deleteDraft) {
 
@@ -84,15 +83,15 @@ class DeleteDraftController @Inject()(
               }
           )
       }
-  }
+    }
 
-  private def getCompanyApplyingName(block: String => Future[Result])
-                                    (implicit request: DataRequest[AnyContent], messages: Messages): Future[Result] = {
-
-    request.userAnswers.get(CompanyApplyingPage).map {
-      company =>
-
+  private def getCompanyApplyingName(
+    block: String => Future[Result]
+  )(implicit request: DataRequest[AnyContent], messages: Messages): Future[Result] =
+    request.userAnswers
+      .get(CompanyApplyingPage)
+      .map { company =>
         block(company.acronym.getOrElse(company.name))
-    }.getOrElse(block(messages("companyApplying.unknown")))
-  }
+      }
+      .getOrElse(block(messages("companyApplying.unknown")))
 }

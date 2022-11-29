@@ -23,11 +23,11 @@ import pages.CompanyApplyingPage
 import queries.PublicationDeadlineQuery
 
 final case class DraftRow(
-                           companyName: Option[String],
-                           reference: AfaId,
-                           publishBy: Option[LocalDate],
-                           isLocked: Boolean
-                         )
+  companyName: Option[String],
+  reference: AfaId,
+  publishBy: Option[LocalDate],
+  isLocked: Boolean
+)
 
 object DraftRow {
 
@@ -35,8 +35,8 @@ object DraftRow {
 
     val company = answers.get(CompanyApplyingPage)
 
-    val companyName = company.map {
-      c => c.acronym.getOrElse(c.name)
+    val companyName = company.map { c =>
+      c.acronym.getOrElse(c.name)
     }
 
     val publishBy = answers.get(PublicationDeadlineQuery)

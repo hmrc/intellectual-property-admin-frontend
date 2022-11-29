@@ -25,12 +25,11 @@ import views.html.IpRightsAddNiceClassView
 
 class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
 
-  val messageKeyPrefix = "ipRightsAddNiceClass"
-  val reviewRow1: ReviewRow = ReviewRow("1",
-    None,
-    routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 0, afaId)
-  )
-  val reviewRow2: ReviewRow = ReviewRow("2",
+  val messageKeyPrefix      = "ipRightsAddNiceClass"
+  val reviewRow1: ReviewRow =
+    ReviewRow("1", None, routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 0, afaId))
+  val reviewRow2: ReviewRow = ReviewRow(
+    "2",
     Some(routes.DeleteNiceClassController.onPageLoad(NormalMode, afaId, 2, 2)),
     routes.IpRightsNiceClassController.onPageLoad(NormalMode, 3, 3, afaId)
   )
@@ -40,7 +39,13 @@ class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
     val view = injectInstanceOf[IpRightsAddNiceClassView](Some(UserAnswers(afaId)))
 
     def applyView(): HtmlFormat.Appendable =
-      view.apply(NormalMode, 0, afaId, Seq.empty, routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url)(messages)
+      view.apply(
+        NormalMode,
+        0,
+        afaId,
+        Seq.empty,
+        routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url
+      )(messages)
 
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView(), messageKeyPrefix)
 
@@ -50,7 +55,15 @@ class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView())
 
-    implicit val doc = asDocument(view.apply(NormalMode, 0, afaId, Seq(reviewRow1, reviewRow2), routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url)(messages))
+    implicit val doc = asDocument(
+      view.apply(
+        NormalMode,
+        0,
+        afaId,
+        Seq(reviewRow1, reviewRow2),
+        routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url
+      )(messages)
+    )
 
     "render a row without a delete option that" must {
       "have the correct key value" in {
@@ -71,7 +84,9 @@ class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
         elementText("#main-content > div > div > dl > div:nth-child(2) > dt") mustBe reviewRow2.name
       }
       "have 2 links" in {
-        element("#main-content > div > div > dl > div:nth-child(2)").getElementsByClass("govuk-summary-list__actions").size() mustBe 2
+        element("#main-content > div > div > dl > div:nth-child(2)")
+          .getElementsByClass("govuk-summary-list__actions")
+          .size() mustBe 2
       }
       "have a link saying change that takes you to the change nice class page" in {
         val changeButton = element("#main-content > div > div > dl > div:nth-child(2) > dd:nth-child(3) > a")
@@ -90,7 +105,8 @@ class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
         element("#main-content > div > div > a.govuk-link").text() mustBe "Add another Nice class"
       }
       "link to the correct page" in {
-        element("#main-content > div > div > a.govuk-link").attr("href") mustBe routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url
+        element("#main-content > div > div > a.govuk-link")
+          .attr("href") mustBe routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url
       }
     }
   }

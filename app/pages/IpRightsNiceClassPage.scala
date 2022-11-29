@@ -29,9 +29,8 @@ final case class IpRightsNiceClassPage(iprIndex: Int, niceClassIndex: Int) exten
     if (niceClassIndex == 0) {
       answers
         .get(IpRightsTypePage(iprIndex))
-        .map {
-          rightsType =>
-            rightsType == IpRightsType.Trademark
+        .map { rightsType =>
+          rightsType == IpRightsType.Trademark
         }
     } else {
       Some(false)

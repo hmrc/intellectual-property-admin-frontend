@@ -24,8 +24,8 @@ import play.api.data.FormError
 class IpRightsNiceClassFormProviderSpec extends FieldBehaviours {
 
   val requiredKey = "ipRightsNiceClass.error.required"
-  val lengthKey = "ipRightsNiceClass.error.length"
-  val maxLength = 2
+  val lengthKey   = "ipRightsNiceClass.error.length"
+  val maxLength   = 2
 
   val form = new IpRightsNiceClassFormProvider()(Seq.empty)
 
@@ -51,11 +51,9 @@ class IpRightsNiceClassFormProviderSpec extends FieldBehaviours {
 
       val validValues = (1 to 45).map(_.toString).toSet
 
-      forAll(stringsExceptSpecificValues(validValues)) {
-        invalidValue =>
-
-          val result = form.bind(Map("value" -> invalidValue)).apply("value")
-          result.errors shouldEqual Seq(FormError("value", "ipRightsNiceClass.error.format"))
+      forAll(stringsExceptSpecificValues(validValues)) { invalidValue =>
+        val result = form.bind(Map("value" -> invalidValue)).apply("value")
+        result.errors shouldEqual Seq(FormError("value", "ipRightsNiceClass.error.format"))
       }
     }
 

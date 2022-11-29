@@ -29,15 +29,17 @@ object GeographicalIndication {
 
     import play.api.libs.functional.syntax._
 
-    (__ \ "rightsType").read[String].flatMap[String] {
-      t =>
+    (__ \ "rightsType")
+      .read[String]
+      .flatMap[String] { t =>
         if (t == "geographicalIndication") {
           Reads(_ => JsSuccess(t))
         } else {
           Reads(_ => JsError("rightsType must be `geographicalIndication`"))
         }
-    }.andKeep(
-      (__ \ "description").read[String].map(GeographicalIndication(_))
-    )
+      }
+      .andKeep(
+        (__ \ "description").read[String].map(GeographicalIndication(_))
+      )
   }
 }

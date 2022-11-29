@@ -25,6 +25,10 @@ class IsRepresentativeContactUkBasedFormProvider @Inject() extends Mappings {
   def apply(representativeContactName: String): Form[Boolean] =
     Form(
       "value" ->
-        boolean("isRepresentativeContactUkBased.error.required", "isRepresentativeContactUkBased.error.required", representativeContactName)
+        boolean(
+          "isRepresentativeContactUkBased.error.required",
+          "isRepresentativeContactUkBased.error.required",
+          representativeContactName
+        )
     )
 }

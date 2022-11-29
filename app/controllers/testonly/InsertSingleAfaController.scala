@@ -31,34 +31,31 @@ import views.html.testonly.InsertSingleAfaView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class InsertSingleAfaController @Inject()(
-                                           identify: IdentifierAction,
-                                           afaConnector: AfaConnector,
-                                           view: InsertSingleAfaView,
-                                           formProvider: InsertSingleAfaFormProvider,
-                                           val controllerComponents: MessagesControllerComponents
-                                         )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class InsertSingleAfaController @Inject() (
+  identify: IdentifierAction,
+  afaConnector: AfaConnector,
+  view: InsertSingleAfaView,
+  formProvider: InsertSingleAfaFormProvider,
+  val controllerComponents: MessagesControllerComponents
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def form = formProvider()
 
-  def onPageLoad(): Action[AnyContent] = identify.async {
-    implicit request =>
-      Future.successful(Ok(view(form)))
+  def onPageLoad(): Action[AnyContent] = identify.async { implicit request =>
+    Future.successful(Ok(view(form)))
   }
 
-  def submit(): Action[AnyContent] = identify.async {
+  def submit(): Action[AnyContent] = identify.async { implicit request =>
+    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    implicit request =>
-
-      implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
-
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors))),
-
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors))),
         value => {
-          val afa: JsValue = Json.parse(value)
+          val afa: JsValue  = Json.parse(value)
           val afaId: String = (afa \ "id").as[String]
           afaConnector.submitTestOnlyAfa(value, afaId).map(_ => Ok)
         }

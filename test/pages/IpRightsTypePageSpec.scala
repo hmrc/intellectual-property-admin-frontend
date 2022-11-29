@@ -34,33 +34,29 @@ class IpRightsTypePageSpec extends PageBehaviours {
     "remove IP Rights Registration Number, Registration End, Description With Brand, and Nice classes " +
       "when the type is Copyright, Plant variety, Geographical Indication or Semiconductor topology" in {
 
-      import IpRightsType._
+        import IpRightsType._
 
-      val newTypeGen = Gen.oneOf(Copyright, PlantVariety, GeographicalIndication, SemiconductorTopography)
+        val newTypeGen = Gen.oneOf(Copyright, PlantVariety, GeographicalIndication, SemiconductorTopography)
 
-      forAll(arbitrary[UserAnswers], newTypeGen) {
-        (userAnswers, rightsType) =>
-
+        forAll(arbitrary[UserAnswers], newTypeGen) { (userAnswers, rightsType) =>
           val result = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-          result.get(IpRightsRegistrationNumberPage(0)) must not be defined
-          result.get(IpRightsRegistrationEndPage(0)) must not be defined
+          result.get(IpRightsRegistrationNumberPage(0))   must not be defined
+          result.get(IpRightsRegistrationEndPage(0))      must not be defined
           result.get(IpRightsDescriptionWithBrandPage(0)) must not be defined
-          result.get(IpRightsNiceClassPage(0,0)) must not be defined
+          result.get(IpRightsNiceClassPage(0, 0))         must not be defined
+        }
       }
-    }
 
     "remove Supplementary Protection Certificate Type when the type is changed to anything other than Supplementary Protection Certificate" in {
 
-      forAll(arbitrary[UserAnswers], arbitrary[IpRightsType]) {
-        (userAnswers, rightsType) =>
+      forAll(arbitrary[UserAnswers], arbitrary[IpRightsType]) { (userAnswers, rightsType) =>
+        whenever(rightsType != IpRightsType.SupplementaryProtectionCertificate) {
 
-          whenever(rightsType != IpRightsType.SupplementaryProtectionCertificate) {
+          val result = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-            val result = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
-
-            result.get(IpRightsSupplementaryProtectionCertificateTypePage(0)) must not be defined
-          }
+          result.get(IpRightsSupplementaryProtectionCertificateTypePage(0)) must not be defined
+        }
       }
     }
 
@@ -68,22 +64,18 @@ class IpRightsTypePageSpec extends PageBehaviours {
 
       val typeGen = Gen.oneOf(IpRightsType.Design, IpRightsType.Patent, IpRightsType.SupplementaryProtectionCertificate)
 
-      forAll(arbitrary[UserAnswers], typeGen) {
-        (userAnswers, rightsType) =>
+      forAll(arbitrary[UserAnswers], typeGen) { (userAnswers, rightsType) =>
+        val result = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-          val result = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
-
-          result.get(IpRightsDescriptionWithBrandPage(0)) must not be defined
-          result.get(IpRightsNiceClassPage(0, 0)) must not be defined
+        result.get(IpRightsDescriptionWithBrandPage(0)) must not be defined
+        result.get(IpRightsNiceClassPage(0, 0))         must not be defined
       }
     }
 
     "be required for index 0" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-
-          IpRightsTypePage(0).isRequired(userAnswers).value mustEqual true
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        IpRightsTypePage(0).isRequired(userAnswers).value mustEqual true
       }
     }
 
@@ -91,10 +83,8 @@ class IpRightsTypePageSpec extends PageBehaviours {
 
       val arbitrarilyHighIndex = 1000
 
-      forAll(arbitrary[UserAnswers], Gen.chooseNum(1, arbitrarilyHighIndex)) {
-        (userAnswers, index) =>
-
-          IpRightsTypePage(index).isRequired(userAnswers).value mustEqual false
+      forAll(arbitrary[UserAnswers], Gen.chooseNum(1, arbitrarilyHighIndex)) { (userAnswers, index) =>
+        IpRightsTypePage(index).isRequired(userAnswers).value mustEqual false
       }
     }
   }

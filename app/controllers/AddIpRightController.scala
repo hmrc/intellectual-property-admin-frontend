@@ -32,22 +32,23 @@ import views.html.AddIpRightView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AddIpRightController @Inject()(
-                                      override val messagesApi: MessagesApi,
-                                      afaService: AfaService,
-                                      navigator: Navigator,
-                                      identify: IdentifierAction,
-                                      getLock: LockAfaActionProvider,
-                                      getData: AfaDraftDataRetrievalAction,
-                                      requireData: DataRequiredAction,
-                                      validateIndex: IpRightsIndexActionFilterProvider,
-                                      val controllerComponents: MessagesControllerComponents,
-                                      view: AddIpRightView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AddIpRightController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  validateIndex: IpRightsIndexActionFilterProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: AddIpRightView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData) {
-    implicit request =>
-
+  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData) { implicit request =>
       val reviewRows = new ReviewHelper(request.userAnswers).iprReviewRow(mode)
 
       val numberOfIPRights: Int = reviewRows.fold(_ => 0, _.size)
@@ -61,15 +62,14 @@ class AddIpRightController @Inject()(
       }
 
       Ok(view(mode, afaId, reviewRows, addIpRightCall.url, numberOfIPRights, nextPage))
-  }
+    }
 
   def onDelete(mode: Mode, afaId: AfaId, index: Int): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndex(index)).async {
       implicit request =>
-
         for {
           updatedAnswers <- Future.fromTry(request.userAnswers.remove(RemoveIprQuery(index)))
-          _ <- afaService.set(updatedAnswers)
+          _              <- afaService.set(updatedAnswers)
         } yield Redirect(navigator.nextPage(RemoveIprPage, mode, updatedAnswers))
     }
 }

@@ -26,10 +26,9 @@ import views.html.IpRightsTypeView
 
 class IpRightsTypeViewSpec extends QuestionViewBehaviours[IpRightsType] {
 
-  val messageKeyPrefix = "ipRightsType"
+  val messageKeyPrefix    = "ipRightsType"
   val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > ul > li > a"
-  val radioErrorMessage = "#value-error"
-
+  val radioErrorMessage   = "#value-error"
 
   val form = new IpRightsTypeFormProvider()()
 
@@ -47,9 +46,8 @@ class IpRightsTypeViewSpec extends QuestionViewBehaviours[IpRightsType] {
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
   }
 
-  def radioButtonSelector(radioButtonIndex: Int) : String =
+  def radioButtonSelector(radioButtonIndex: Int): String =
     s"#main-content > div > div > form > div > fieldset > div > div:nth-child($radioButtonIndex)"
-
 
   "IprTypeView" when {
 
@@ -59,14 +57,12 @@ class IpRightsTypeViewSpec extends QuestionViewBehaviours[IpRightsType] {
 
         val doc = asDocument(applyView(form))
 
-        for (option <- IpRightsType.radioItems(form)) {
+        for (option <- IpRightsType.radioItems(form))
           assertContainsRadioButton(doc, option.id.get, "value", option.value.get, isChecked = false)
-        }
       }
     }
 
-    for (option <- IpRightsType.radioItems(form)) {
-
+    for (option <- IpRightsType.radioItems(form))
       s"rendered with a value of '${option.value.get}'" must {
 
         s"have the '${option.value.get}' radio button selected" in {
@@ -75,12 +71,16 @@ class IpRightsTypeViewSpec extends QuestionViewBehaviours[IpRightsType] {
 
           assertContainsRadioOption(doc, option.id.get, "value", option.value.get, "radio", isChecked = true)
 
-          for (unselectedOption <- IpRightsType.radioItems(form).filterNot(o => o == option)) {
-            assertContainsRadioButton(doc, unselectedOption.id.get, "value", unselectedOption.value.get, isChecked = false)
-          }
+          for (unselectedOption <- IpRightsType.radioItems(form).filterNot(o => o == option))
+            assertContainsRadioButton(
+              doc,
+              unselectedOption.id.get,
+              "value",
+              unselectedOption.value.get,
+              isChecked = false
+            )
         }
       }
-    }
 
     "contain the correct radio item label" must {
       implicit val doc: Document = asDocument(applyView(form))
@@ -120,8 +120,8 @@ class IpRightsTypeViewSpec extends QuestionViewBehaviours[IpRightsType] {
 
     "rendered with form error no options selected" must {
 
-      lazy implicit val document: Document = asDocument(view(form.bind(
-        Map("value" -> "")), NormalMode, 0, afaId)(fakeRequest, messages))
+      lazy implicit val document: Document =
+        asDocument(view(form.bind(Map("value" -> "")), NormalMode, 0, afaId)(fakeRequest, messages))
 
       "display the correct document title" in {
         document.title mustBe "Error: What right do they want to add to this application? - Protect intellectual property rights"

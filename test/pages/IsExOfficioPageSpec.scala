@@ -34,17 +34,16 @@ class IsExOfficioPageSpec extends PageBehaviours {
 
     "remove WantsOneYearRightsProtection when IsExOfficio is set to false" in {
 
-      forAll(arbitrary[UserAnswers], arbitrary[Option[Boolean]]) {
-        (initial, answer) =>
+      forAll(arbitrary[UserAnswers], arbitrary[Option[Boolean]]) { (initial, answer) =>
+        val answers = answer
+          .map { bool =>
+            initial.set(WantsOneYearRightsProtectionPage, bool).success.value
+          }
+          .getOrElse(initial)
 
-          val answers = answer.map {
-            bool =>
-              initial.set(WantsOneYearRightsProtectionPage, bool).success.value
-          }.getOrElse(initial)
+        val result = answers.set(IsExOfficioPage, false).success.value
 
-          val result = answers.set(IsExOfficioPage, false).success.value
-
-          result.get(WantsOneYearRightsProtectionPage) mustNot be (defined)
+        result.get(WantsOneYearRightsProtectionPage) mustNot be(defined)
       }
     }
   }

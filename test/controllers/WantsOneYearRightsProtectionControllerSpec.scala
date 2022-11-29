@@ -42,7 +42,8 @@ class WantsOneYearRightsProtectionControllerSpec extends SpecBase with MockitoSu
   val formProvider = new WantsOneYearRightsProtectionFormProvider()
   private def form = formProvider()
 
-  lazy val wantsOneYearRightsProtectionRoute: String = routes.WantsOneYearRightsProtectionController.onPageLoad(NormalMode, afaId).url
+  lazy val wantsOneYearRightsProtectionRoute: String =
+    routes.WantsOneYearRightsProtectionController.onPageLoad(NormalMode, afaId).url
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 

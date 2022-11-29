@@ -32,7 +32,13 @@ import play.api.libs.json.Json
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 
-trait SpecBase extends PlaySpec with GuiceOneAppPerSuite with TryValues with ScalaFutures with IntegrationPatience with ModelGenerators {
+trait SpecBase
+    extends PlaySpec
+    with GuiceOneAppPerSuite
+    with TryValues
+    with ScalaFutures
+    with IntegrationPatience
+    with ModelGenerators {
 
   val userAnswersId: AfaId = arbitrary[AfaId].sample.value
 
@@ -49,10 +55,10 @@ trait SpecBase extends PlaySpec with GuiceOneAppPerSuite with TryValues with Sca
   implicit def messages: Messages = messagesApi.preferred(fakeRequest)
 
   protected def applicationBuilder(
-                                    userAnswers: Option[UserAnswers] = None,
-                                    getLock: Boolean = true,
-                                    afaLockedUrl: String = "/"
-                                  ): GuiceApplicationBuilder =
+    userAnswers: Option[UserAnswers] = None,
+    getLock: Boolean = true,
+    afaLockedUrl: String = "/"
+  ): GuiceApplicationBuilder =
     new GuiceApplicationBuilder()
       .overrides(
         bind[DataRequiredAction].to[DataRequiredActionImpl],

@@ -33,26 +33,22 @@ class IpRightsNiceClassPageSpec extends PageBehaviours {
 
     "be required for index 0 if this right is a Trademark" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
 
-          val answers = userAnswers.set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-
-          IpRightsNiceClassPage(0, 0).isRequired(answers).value mustEqual true
+        IpRightsNiceClassPage(0, 0).isRequired(answers).value mustEqual true
       }
     }
 
     "not be required for index 0 if this right is not a Trademark" in {
 
-      forAll(arbitrary[UserAnswers], arbitrary[IpRightsType]) {
-        (userAnswers, rightsType) =>
+      forAll(arbitrary[UserAnswers], arbitrary[IpRightsType]) { (userAnswers, rightsType) =>
+        whenever(rightsType != IpRightsType.Trademark) {
 
-          whenever(rightsType != IpRightsType.Trademark) {
+          val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-            val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
-
-            IpRightsNiceClassPage(0, 0).isRequired(answers).value mustEqual false
-          }
+          IpRightsNiceClassPage(0, 0).isRequired(answers).value mustEqual false
+        }
       }
     }
 
@@ -60,21 +56,17 @@ class IpRightsNiceClassPageSpec extends PageBehaviours {
 
       val arbitrarilyHighIndex = 1000
 
-      forAll(arbitrary[UserAnswers], Gen.choose(1, arbitrarilyHighIndex)) {
-        (userAnswers, index) =>
-
-          IpRightsNiceClassPage(0, index).isRequired(userAnswers).value mustEqual false
+      forAll(arbitrary[UserAnswers], Gen.choose(1, arbitrarilyHighIndex)) { (userAnswers, index) =>
+        IpRightsNiceClassPage(0, index).isRequired(userAnswers).value mustEqual false
       }
     }
 
     "not know whether it's required if we don't know what type of right this is" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.remove(IpRightsTypePage(0)).success.value
 
-          val answers = userAnswers.remove(IpRightsTypePage(0)).success.value
-
-          IpRightsNiceClassPage(0, 0).isRequired(answers) must not be defined
+        IpRightsNiceClassPage(0, 0).isRequired(answers) must not be defined
       }
     }
   }

@@ -39,7 +39,7 @@ import scala.concurrent.Future
 class SubmissionResultControllerSpec extends SpecBase with MockitoSugar with ScalaCheckPropertyChecks {
 
   val submissionService: AfaService = mock[AfaService]
-  val lockService: LockService = mock[LockService]
+  val lockService: LockService      = mock[LockService]
 
   implicit lazy val hc: HeaderCarrier = HeaderCarrier()
 
@@ -51,38 +51,38 @@ class SubmissionResultControllerSpec extends SpecBase with MockitoSugar with Sca
 
       val afa: PublishedAfa = publishedAfa
 
-        reset(submissionService)
+      reset(submissionService)
 
-        val application =
-          applicationBuilder(userAnswers = Some(UserAnswers(afa.id)))
-            .overrides(
-              bind[AfaService].toInstance(submissionService),
-              bind[LockService].toInstance(lockService)
-            )
-            .build()
+      val application =
+        applicationBuilder(userAnswers = Some(UserAnswers(afa.id)))
+          .overrides(
+            bind[AfaService].toInstance(submissionService),
+            bind[LockService].toInstance(lockService)
+          )
+          .build()
 
-        when(submissionService.submit(any())(any())) thenReturn Future.successful(afa)
+      when(submissionService.submit(any())(any())) thenReturn Future.successful(afa)
 
-        when(submissionService.removeDraft(any())(any())) thenReturn Future.successful(Some(emptyUserAnswers))
+      when(submissionService.removeDraft(any())(any())) thenReturn Future.successful(Some(emptyUserAnswers))
 
-        when(lockService.removeLock(any())(any())) thenReturn Future.successful(())
+      when(lockService.removeLock(any())(any())) thenReturn Future.successful(())
 
-        val request = FakeRequest(GET, routes.SubmissionResultController.onPageLoad(afa.id).url)
+      val request = FakeRequest(GET, routes.SubmissionResultController.onPageLoad(afa.id).url)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[SubmissionResultView]
+      val view = application.injector.instanceOf[SubmissionResultView]
 
-        status(result) mustEqual OK
+      status(result) mustEqual OK
 
-        contentAsString(result) mustEqual
-          view(SubmissionResult(afa.id, afa.applicant.name, afa.expirationDate.format(dateFormatter)))(messages).toString
+      contentAsString(result) mustEqual
+        view(SubmissionResult(afa.id, afa.applicant.name, afa.expirationDate.format(dateFormatter)))(messages).toString
 
-        verify(submissionService, times(1)).submit(any())(any())
-        verify(submissionService, times(1)).removeDraft(eqTo(afa.id))(any())
-        verify(lockService, times(1)).removeLock(eqTo(afa.id))(any())
+      verify(submissionService, times(1)).submit(any())(any())
+      verify(submissionService, times(1)).removeDraft(eqTo(afa.id))(any())
+      verify(lockService, times(1)).removeLock(eqTo(afa.id))(any())
 
-        application.stop()
+      application.stop()
 
     }
   }

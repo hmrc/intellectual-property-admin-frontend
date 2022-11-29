@@ -36,8 +36,16 @@ import utils.WireMockHelper
 import java.time.LocalDate
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class WorkingDaysServiceSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuite with WireMockHelper
-  with ScalaCheckPropertyChecks with Generators with ScalaFutures with IntegrationPatience with OptionValues {
+class WorkingDaysServiceSpec
+    extends AnyFreeSpec
+    with Matchers
+    with GuiceOneAppPerSuite
+    with WireMockHelper
+    with ScalaCheckPropertyChecks
+    with Generators
+    with ScalaFutures
+    with IntegrationPatience
+    with OptionValues {
 
   implicit lazy val arbitraryHC: Arbitrary[HeaderCarrier] =
     Arbitrary(Gen.const(HeaderCarrier()))
@@ -55,37 +63,44 @@ class WorkingDaysServiceSpec extends AnyFreeSpec with Matchers with GuiceOneAppP
 
     "must return a date when one can be calculated" in {
 
-      val pastDate = LocalDate.now.minusYears(1)
+      val pastDate   = LocalDate.now.minusYears(1)
       val futureDate = LocalDate.now.plusYears(1)
-      val now = LocalDate.now
-      val daysToAdd = Gen.choose(1, 365)
+      val now        = LocalDate.now
+      val daysToAdd  = Gen.choose(1, 365)
 
-      forAll(datesBetween(pastDate, now), datesBetween(now, futureDate), daysToAdd, arbitrary[Region], arbitrary[HeaderCarrier]) {
-        (inputDate, replyDate, daysToAdd, region, hc) =>
-
-          server.stubFor(
-            get(urlEqualTo(s"/intellectual-property/working-days/$region/$inputDate/$daysToAdd"))
-              .willReturn(
-                ok(Json.obj(
-                  "date" -> replyDate
-                ).toString)
+      forAll(
+        datesBetween(pastDate, now),
+        datesBetween(now, futureDate),
+        daysToAdd,
+        arbitrary[Region],
+        arbitrary[HeaderCarrier]
+      ) { (inputDate, replyDate, daysToAdd, region, hc) =>
+        server.stubFor(
+          get(urlEqualTo(s"/intellectual-property/working-days/$region/$inputDate/$daysToAdd"))
+            .willReturn(
+              ok(
+                Json
+                  .obj(
+                    "date" -> replyDate
+                  )
+                  .toString
               )
-          )
+            )
+        )
 
-          service.workingDays(region, inputDate, daysToAdd)(implicitly, hc).futureValue mustEqual replyDate
+        service.workingDays(region, inputDate, daysToAdd)(implicitly, hc).futureValue mustEqual replyDate
       }
     }
 
     "must throw an exception when the server call fails" in {
 
-      val statuses = Gen.chooseNum(201, 599, 400, 499, 500)
-      val pastDate = LocalDate.now.minusYears(1)
-      val now = LocalDate.now
+      val statuses  = Gen.chooseNum(201, 599, 400, 499, 500)
+      val pastDate  = LocalDate.now.minusYears(1)
+      val now       = LocalDate.now
       val daysToAdd = Gen.choose(1, 365)
 
       forAll(statuses, datesBetween(pastDate, now), daysToAdd, arbitrary[Region], arbitrary[HeaderCarrier]) {
         (status, inputDate, daysToAdd, region, hc) =>
-
           server.stubFor(
             get(urlEqualTo(s"/intellectual-property/working-days/$region/$inputDate/$daysToAdd"))
               .willReturn(

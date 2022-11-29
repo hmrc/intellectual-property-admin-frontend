@@ -37,8 +37,13 @@ import views.html.IpRightsTypeView
 
 import scala.concurrent.Future
 
-class IpRightsTypeControllerSpec extends SpecBase with IprIndexValidation with ScalaCheckPropertyChecks
-  with Generators with MockitoSugar with LockAfaChecks {
+class IpRightsTypeControllerSpec
+    extends SpecBase
+    with IprIndexValidation
+    with ScalaCheckPropertyChecks
+    with Generators
+    with MockitoSugar
+    with LockAfaChecks {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
@@ -46,7 +51,7 @@ class IpRightsTypeControllerSpec extends SpecBase with IprIndexValidation with S
 
   lazy val ipRightsTypeRoute: String = routes.IpRightsTypeController.onPageLoad(NormalMode, 0, afaId).url
 
-  val formProvider = new IpRightsTypeFormProvider()
+  val formProvider                     = new IpRightsTypeFormProvider()
   private def form: Form[IpRightsType] = formProvider()
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)

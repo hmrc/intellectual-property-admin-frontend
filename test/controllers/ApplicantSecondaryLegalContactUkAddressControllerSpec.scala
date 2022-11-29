@@ -41,14 +41,17 @@ class ApplicantSecondaryLegalContactUkAddressControllerSpec extends SpecBase wit
 
   val afaId: AfaId = userAnswersId
 
-  val secondaryLegalContact: WhoIsSecondaryLegalContact = WhoIsSecondaryLegalContact("name", "companyName", "telephone", "email")
+  val secondaryLegalContact: WhoIsSecondaryLegalContact =
+    WhoIsSecondaryLegalContact("name", "companyName", "telephone", "email")
 
-  val formProvider = new ApplicantSecondaryLegalContactUkAddressFormProvider()
+  val formProvider                  = new ApplicantSecondaryLegalContactUkAddressFormProvider()
   private def form: Form[UkAddress] = formProvider()
 
-  lazy private val applicantLegalContactUkAddressRoute = routes.ApplicantSecondaryLegalContactUkAddressController.onPageLoad(NormalMode, afaId).url
+  lazy private val applicantLegalContactUkAddressRoute =
+    routes.ApplicantSecondaryLegalContactUkAddressController.onPageLoad(NormalMode, afaId).url
 
-  private val baseUserAnswers = UserAnswers(afaId).set(WhoIsSecondaryLegalContactPage, secondaryLegalContact).success.value
+  private val baseUserAnswers =
+    UserAnswers(afaId).set(WhoIsSecondaryLegalContactPage, secondaryLegalContact).success.value
 
   val validAnswer: UkAddress = UkAddress("line 1", None, "town", None, "postcode")
 
@@ -65,7 +68,8 @@ class ApplicantSecondaryLegalContactUkAddressControllerSpec extends SpecBase wit
 
       val application: Application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
 
-      val view: ApplicantSecondaryLegalContactUkAddressView = application.injector.instanceOf[ApplicantSecondaryLegalContactUkAddressView]
+      val view: ApplicantSecondaryLegalContactUkAddressView =
+        application.injector.instanceOf[ApplicantSecondaryLegalContactUkAddressView]
 
       val result: Future[Result] = route(application, getRequest()).value
 
@@ -79,18 +83,23 @@ class ApplicantSecondaryLegalContactUkAddressControllerSpec extends SpecBase wit
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers: UserAnswers = baseUserAnswers.set(ApplicantSecondaryLegalContactUkAddressPage, validAnswer).success.value
+      val userAnswers: UserAnswers =
+        baseUserAnswers.set(ApplicantSecondaryLegalContactUkAddressPage, validAnswer).success.value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val view: ApplicantSecondaryLegalContactUkAddressView = application.injector.instanceOf[ApplicantSecondaryLegalContactUkAddressView]
+      val view: ApplicantSecondaryLegalContactUkAddressView =
+        application.injector.instanceOf[ApplicantSecondaryLegalContactUkAddressView]
 
       val result = route(application, getRequest()).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, secondaryLegalContact.contactName, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, secondaryLegalContact.contactName, afaId)(
+          getRequest(),
+          messages
+        ).toString
 
       application.stop()
     }
@@ -128,7 +137,8 @@ class ApplicantSecondaryLegalContactUkAddressControllerSpec extends SpecBase wit
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
 
-      val view: ApplicantSecondaryLegalContactUkAddressView = application.injector.instanceOf[ApplicantSecondaryLegalContactUkAddressView]
+      val view: ApplicantSecondaryLegalContactUkAddressView =
+        application.injector.instanceOf[ApplicantSecondaryLegalContactUkAddressView]
 
       val result: Future[Result] = route(application, request).value
 

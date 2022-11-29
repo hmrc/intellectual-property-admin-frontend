@@ -36,15 +36,13 @@ class ReviewHelperSpec extends SpecBase with ScalaCheckPropertyChecks with Gener
 
       forAll(arbitrary[UserAnswers], Gen.listOfN(2, arbitrary[NiceClassId]).map(_.zipWithIndex)) {
         (userAnswers, niceClasses) =>
-
           val updatedUserAnswers: UserAnswers =
-            niceClasses.foldLeft(userAnswers) {
-              case (userAnswers, (niceClassName, index)) =>
-                userAnswers.set(IpRightsNiceClassPage(iprIndex, index), niceClassName).success.value
-          }
+            niceClasses.foldLeft(userAnswers) { case (userAnswers, (niceClassName, index)) =>
+              userAnswers.set(IpRightsNiceClassPage(iprIndex, index), niceClassName).success.value
+            }
 
-          val expectedReviewRows: Seq[ReviewRow] = niceClasses.map {
-            case (niceClass, niceClassIndex) => ReviewRow(
+          val expectedReviewRows: Seq[ReviewRow] = niceClasses.map { case (niceClass, niceClassIndex) =>
+            ReviewRow(
               niceClass.toString,
               Some(routes.DeleteNiceClassController.onPageLoad(NormalMode, userAnswers.id, iprIndex, niceClassIndex)),
               routes.IpRightsNiceClassController.onPageLoad(NormalMode, iprIndex, niceClassIndex, userAnswers.id)
@@ -56,22 +54,20 @@ class ReviewHelperSpec extends SpecBase with ScalaCheckPropertyChecks with Gener
           val result = reviewHelper.niceClassReviewRow(NormalMode, iprIndex).value
 
           result mustBe expectedReviewRows
-       }
+      }
     }
 
     "return a single Review Row for an IPR based on the Nice Class items" in {
 
       forAll(arbitrary[UserAnswers], Gen.listOfN(1, arbitrary[NiceClassId]).map(_.zipWithIndex)) {
         (userAnswers, niceClasses) =>
-
           val updatedUserAnswers: UserAnswers =
-            niceClasses.foldLeft(userAnswers) {
-              case (userAnswers, (niceClassName, index)) =>
-                userAnswers.set(IpRightsNiceClassPage(iprIndex, index), niceClassName).success.value
+            niceClasses.foldLeft(userAnswers) { case (userAnswers, (niceClassName, index)) =>
+              userAnswers.set(IpRightsNiceClassPage(iprIndex, index), niceClassName).success.value
             }
 
-          val expectedReviewRows: Seq[ReviewRow] = niceClasses.map {
-            case (niceClass, niceClassIndex) => ReviewRow(
+          val expectedReviewRows: Seq[ReviewRow] = niceClasses.map { case (niceClass, niceClassIndex) =>
+            ReviewRow(
               niceClass.toString,
               None,
               routes.IpRightsNiceClassController.onPageLoad(NormalMode, iprIndex, niceClassIndex, userAnswers.id)

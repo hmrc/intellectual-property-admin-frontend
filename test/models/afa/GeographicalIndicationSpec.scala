@@ -29,48 +29,42 @@ class GeographicalIndicationSpec extends AnyFreeSpec with Matchers with ScalaChe
 
     "must deserialise" in {
 
-      forAll(arbitrary[String]) {
-        description =>
+      forAll(arbitrary[String]) { description =>
+        val json = Json.obj(
+          "rightsType"  -> "geographicalIndication",
+          "description" -> description
+        )
 
-          val json = Json.obj(
-            "rightsType" -> "geographicalIndication",
-            "description" -> description
-          )
-
-          json.validate[GeographicalIndication] mustEqual JsSuccess(GeographicalIndication(description))
+        json.validate[GeographicalIndication] mustEqual JsSuccess(GeographicalIndication(description))
       }
     }
 
     "must fail to deserialise for a rightsType other than geographicalIndication" in {
 
-      forAll(arbitrary[String], Gen.alphaStr) {
-        (description, rightsType) =>
+      forAll(arbitrary[String], Gen.alphaStr) { (description, rightsType) =>
+        whenever(rightsType != "geographicalIndication") {
 
-          whenever (rightsType != "geographicalIndication") {
+          val json = Json.obj(
+            "rightsType"  -> rightsType,
+            "description" -> description
+          )
 
-            val json = Json.obj(
-              "rightsType" -> rightsType,
-              "description" -> description
-            )
-
-            json.validate[GeographicalIndication] mustEqual JsError(
-              "rightsType must be `geographicalIndication`"
-            )
-          }
+          json.validate[GeographicalIndication] mustEqual JsError(
+            "rightsType must be `geographicalIndication`"
+          )
+        }
       }
     }
 
     "must serialise" in {
 
-      forAll(arbitrary[String]) {
-        description =>
+      forAll(arbitrary[String]) { description =>
+        val json = Json.obj(
+          "rightsType"  -> "geographicalIndication",
+          "description" -> description
+        )
 
-          val json = Json.obj(
-            "rightsType" -> "geographicalIndication",
-            "description" -> description
-          )
-
-          Json.toJson(GeographicalIndication(description))(GeographicalIndication.writes) mustEqual json
+        Json.toJson(GeographicalIndication(description))(GeographicalIndication.writes) mustEqual json
       }
     }
   }

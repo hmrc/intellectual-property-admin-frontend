@@ -21,7 +21,7 @@ import javax.inject.Inject
 import models.ContactOptions
 import play.api.data.Form
 
-class   SelectOtherTechnicalContactFormProvider @Inject() extends Mappings {
+class SelectOtherTechnicalContactFormProvider @Inject() extends Mappings {
 
   def apply(): Form[ContactOptions] =
     Form(

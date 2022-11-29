@@ -26,7 +26,10 @@ class IsApplicantSecondaryLegalContactUkBasedFormProvider @Inject() extends Mapp
   def apply(applicantSecondaryLegalContactName: String): Form[Boolean] =
     Form(
       "value" ->
-        boolean("isApplicantSecondaryLegalContactUkBased.error.required",
-          "isApplicantSecondaryLegalContactUkBased.error.required", applicantSecondaryLegalContactName)
+        boolean(
+          "isApplicantSecondaryLegalContactUkBased.error.required",
+          "isApplicantSecondaryLegalContactUkBased.error.required",
+          applicantSecondaryLegalContactName
+        )
     )
 }

@@ -36,7 +36,12 @@ import views.html.IpRightsRegistrationEndView
 
 import scala.concurrent.Future
 
-class IpRightsRegistrationEndControllerSpec extends SpecBase with IprIndexValidation with Generators with MockitoSugar  with LockAfaChecks{
+class IpRightsRegistrationEndControllerSpec
+    extends SpecBase
+    with IprIndexValidation
+    with Generators
+    with MockitoSugar
+    with LockAfaChecks {
 
   val formProvider = new IpRightsRegistrationEndFormProvider()
 
@@ -54,7 +59,8 @@ class IpRightsRegistrationEndControllerSpec extends SpecBase with IprIndexValida
 
   val validAnswer: LocalDate = LocalDate.now(ZoneOffset.UTC).plusDays(1)
 
-  lazy val ipRightsRegistrationEndRoute: String = routes.IpRightsRegistrationEndController.onPageLoad(NormalMode, index, afaId).url
+  lazy val ipRightsRegistrationEndRoute: String =
+    routes.IpRightsRegistrationEndController.onPageLoad(NormalMode, index, afaId).url
 
   val baseAnswers: UserAnswers = UserAnswers(afaId).set(IpRightsTypePage(index), IpRightsType.Design).success.value
 

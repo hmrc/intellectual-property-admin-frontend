@@ -25,11 +25,9 @@ case object ApplicantSecondaryLegalContactInternationalAddressPage extends Quest
 
   override def toString: String = "applicantSecondaryLegalContactInternationalAddress"
 
-  override def isRequired(answers: UserAnswers): Option[Boolean] = {
+  override def isRequired(answers: UserAnswers): Option[Boolean] =
     answers
       .get(IsApplicantSecondaryLegalContactUkBasedPage)
       .map(ukBased => !ukBased)
-  }
 
 }
-

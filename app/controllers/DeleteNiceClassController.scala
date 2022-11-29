@@ -30,19 +30,21 @@ import views.html.DeleteNiceClassView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DeleteNiceClassController @Inject()(
-                                           override val messagesApi: MessagesApi,
-                                           navigator: Navigator,
-                                           identify: IdentifierAction,
-                                           getLock: LockAfaActionProvider,
-                                           getData: AfaDraftDataRetrievalAction,
-                                           requireData: DataRequiredAction,
-                                           formProvider: DeleteNiceClassFormProvider,
-                                           validateIprIndex: IpRightsIndexActionFilterProvider,
-                                           validateNiceClassIndex: NiceClassIndexActionFilterProvider,
-                                           val controllerComponents: MessagesControllerComponents,
-                                           view: DeleteNiceClassView
-                                         )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class DeleteNiceClassController @Inject() (
+  override val messagesApi: MessagesApi,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: DeleteNiceClassFormProvider,
+  validateIprIndex: IpRightsIndexActionFilterProvider,
+  validateNiceClassIndex: NiceClassIndexActionFilterProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: DeleteNiceClassView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def form = formProvider()
 
@@ -51,10 +53,8 @@ class DeleteNiceClassController @Inject()(
     andThen getData(afaId)
     andThen requireData
     andThen validateIprIndex(iprIndex)
-    andThen validateNiceClassIndex(iprIndex, niceClassIndex)) {
-    implicit request =>
-
-      Ok(view(form, mode, afaId, iprIndex, niceClassIndex))
+    andThen validateNiceClassIndex(iprIndex, niceClassIndex)) { implicit request =>
+    Ok(view(form, mode, afaId, iprIndex, niceClassIndex))
   }
 
   def onSubmit(mode: Mode, afaId: AfaId, iprIndex: Int, niceClassIndex: Int): Action[AnyContent] = (identify
@@ -62,19 +62,17 @@ class DeleteNiceClassController @Inject()(
     andThen getData(afaId)
     andThen requireData
     andThen validateIprIndex(iprIndex)
-    andThen validateNiceClassIndex(iprIndex, niceClassIndex)).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
+    andThen validateNiceClassIndex(iprIndex, niceClassIndex)).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(view(formWithErrors, mode, afaId, iprIndex, niceClassIndex))),
-
-        value => {
+        value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(DeleteNiceClassPage(iprIndex, niceClassIndex), value))
+            updatedAnswers <-
+              Future.fromTry(request.userAnswers.set(DeleteNiceClassPage(iprIndex, niceClassIndex), value))
           } yield Redirect(navigator.nextPage(DeleteNiceClassPage(iprIndex, niceClassIndex), mode, updatedAnswers))
-        }
       )
   }
 }
-

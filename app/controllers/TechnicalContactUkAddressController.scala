@@ -33,60 +33,58 @@ import views.html.TechnicalContactUkAddressView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class TechnicalContactUkAddressController @Inject()(
-                                                     override val messagesApi: MessagesApi,
-                                                     afaService: AfaService,
-                                                     navigator: Navigator,
-                                                     identify: IdentifierAction,
-                                                     getLock: LockAfaActionProvider,
-                                                     getData: AfaDraftDataRetrievalAction,
-                                                     requireData: DataRequiredAction,
-                                                     formProvider: TechnicalContactUkAddressFormProvider,
-                                                     val controllerComponents: MessagesControllerComponents,
-                                                     view: TechnicalContactUkAddressView
-                                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class TechnicalContactUkAddressController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: TechnicalContactUkAddressFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: TechnicalContactUkAddressView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def form: Form[UkAddress] = formProvider()
 
-  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getTechnicalContactName {
-        contactName =>
+  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getTechnicalContactName { contactName =>
+        val preparedForm = request.userAnswers.get(TechnicalContactUkAddressPage) match {
+          case None        => form
+          case Some(value) => form.fill(value)
+        }
 
-          val preparedForm = request.userAnswers.get(TechnicalContactUkAddressPage) match {
-            case None => form
-            case Some(value) => form.fill(value)
-          }
-
-          Future.successful(Ok(view(preparedForm, mode, contactName, afaId)))
+        Future.successful(Ok(view(preparedForm, mode, contactName, afaId)))
       }
-  }
+    }
 
-  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getTechnicalContactName {
-        contactName =>
-
-          form.bindFromRequest().fold(
-            (formWithErrors: Form[_]) =>
-              Future.successful(BadRequest(view(formWithErrors, mode, contactName, afaId))),
-
-            value => {
+  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getTechnicalContactName { contactName =>
+        form
+          .bindFromRequest()
+          .fold(
+            (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, mode, contactName, afaId))),
+            value =>
               for {
                 updatedAnswers <- Future.fromTry(request.userAnswers.set(TechnicalContactUkAddressPage, value))
-                _ <- afaService.set(updatedAnswers)
+                _              <- afaService.set(updatedAnswers)
               } yield Redirect(navigator.nextPage(TechnicalContactUkAddressPage, mode, updatedAnswers))
-            }
           )
       }
-  }
+    }
 
-  private def getTechnicalContactName(block: String => Future[Result])
-                                     (implicit request: DataRequest[AnyContent]): Future[Result] = {
-
-    request.userAnswers.get(WhoIsTechnicalContactPage).map {
-      technicalContact =>
+  private def getTechnicalContactName(
+    block: String => Future[Result]
+  )(implicit request: DataRequest[AnyContent]): Future[Result] =
+    request.userAnswers
+      .get(WhoIsTechnicalContactPage)
+      .map { technicalContact =>
         block(technicalContact.contactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
-  }
+      }
+      .getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 }

@@ -34,45 +34,46 @@ import views.html.IpRightsAddNiceClassView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IpRightsAddNiceClassController @Inject()(
-                                                override val messagesApi: MessagesApi,
-                                                afaService: AfaService,
-                                                navigator: Navigator,
-                                                identify: IdentifierAction,
-                                                getLock: LockAfaActionProvider,
-                                                getData: AfaDraftDataRetrievalAction,
-                                                requireData: DataRequiredAction,
-                                                validateIprIndex: IpRightsIndexActionFilterProvider,
-                                                validateNiceClassIndex: NiceClassIndexActionFilterProvider,
-                                                val controllerComponents: MessagesControllerComponents,
-                                                view: IpRightsAddNiceClassView
-                                              )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IpRightsAddNiceClassController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  validateIprIndex: IpRightsIndexActionFilterProvider,
+  validateNiceClassIndex: NiceClassIndexActionFilterProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IpRightsAddNiceClassView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   def onPageLoad(mode: Mode, ipRightsIndex: Int, afaId: AfaId): Action[AnyContent] =
-    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIprIndex(ipRightsIndex)) {
-      implicit request =>
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIprIndex(
+      ipRightsIndex
+    )) { implicit request =>
+      val cyaHelper = new ReviewHelper(request.userAnswers)
 
-        val cyaHelper = new ReviewHelper(request.userAnswers)
+      val reviewRows: Seq[ReviewRow] = cyaHelper.niceClassReviewRow(mode, ipRightsIndex).getOrElse(Seq.empty)
+      val addNiceClassCall           = navigator.nextPage(IpRightsAddNiceClassPage(ipRightsIndex), mode, request.userAnswers)
 
-        val reviewRows: Seq[ReviewRow] = cyaHelper.niceClassReviewRow(mode, ipRightsIndex).getOrElse(Seq.empty)
-        val addNiceClassCall = navigator.nextPage(IpRightsAddNiceClassPage(ipRightsIndex), mode, request.userAnswers)
-
-        Ok(view(mode, ipRightsIndex, afaId, reviewRows, addNiceClassCall.url))
+      Ok(view(mode, ipRightsIndex, afaId, reviewRows, addNiceClassCall.url))
     }
-
 
   private def validateIndices(iprIndex: Int, niceClassIndex: Int): ActionFunction[DataRequest, DataRequest] =
     validateIprIndex(iprIndex) andThen validateNiceClassIndex(iprIndex, niceClassIndex)
 
-  def onDelete(mode: Mode, ipRightsIndex: Int, niceClassIndex: Int, afaId: AfaId): Action[AnyContent] = {
-    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndices(ipRightsIndex, niceClassIndex)).async {
-      implicit request =>
-        for {
-          removedGoodsAnswers <- Future.fromTry(request.userAnswers.remove(RemoveNiceClassQuery(ipRightsIndex, niceClassIndex)))
-          _ <- afaService.set(removedGoodsAnswers)
-        } yield {
-          Redirect(navigator.nextPage(IpRightsRemoveNiceClassPage(ipRightsIndex), mode, removedGoodsAnswers))
-        }
+  def onDelete(mode: Mode, ipRightsIndex: Int, niceClassIndex: Int, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndices(
+      ipRightsIndex,
+      niceClassIndex
+    )).async { implicit request =>
+      for {
+        removedGoodsAnswers <-
+          Future.fromTry(request.userAnswers.remove(RemoveNiceClassQuery(ipRightsIndex, niceClassIndex)))
+        _                   <- afaService.set(removedGoodsAnswers)
+      } yield Redirect(navigator.nextPage(IpRightsRemoveNiceClassPage(ipRightsIndex), mode, removedGoodsAnswers))
     }
-  }
 }

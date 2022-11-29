@@ -25,10 +25,10 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads, HttpResponse}
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class LockConnector @Inject()(
-                              config: Configuration,
-                              httpClient: HttpClient
-                            )(implicit ec: ExecutionContext) {
+class LockConnector @Inject() (
+  config: Configuration,
+  httpClient: HttpClient
+)(implicit ec: ExecutionContext) {
 
   private val baseUrl = config.get[Service]("microservice.services.intellectual-property")
 
@@ -44,13 +44,14 @@ class LockConnector @Inject()(
     }
 
   def lock(afaId: AfaId)(implicit hc: HeaderCarrier): Future[Boolean] = {
-    val url = s"$baseUrl/intellectual-property/draft-locks/${afaId}/lock"
-    httpClient.POSTEmpty[HttpResponse](url)(lockable, implicitly, implicitly)
+    val url = s"$baseUrl/intellectual-property/draft-locks/$afaId/lock"
+    httpClient
+      .POSTEmpty[HttpResponse](url)(lockable, implicitly, implicitly)
       .map(_ => true)
   }
 
   def getExistingLock(afaId: AfaId)(implicit hc: HeaderCarrier): Future[Option[Lock]] = {
-    val url = s"$baseUrl/intellectual-property/draft-locks/${afaId}/lock"
+    val url = s"$baseUrl/intellectual-property/draft-locks/$afaId/lock"
     httpClient.GET[Option[Lock]](url)(lockable, implicitly, implicitly)
   }
 
@@ -60,12 +61,12 @@ class LockConnector @Inject()(
   }
 
   def removeLock(afaId: AfaId)(implicit hc: HeaderCarrier): Future[Unit] = {
-    val url = s"$baseUrl/intellectual-property/draft-locks/${afaId}"
+    val url = s"$baseUrl/intellectual-property/draft-locks/$afaId"
     httpClient.DELETE[Unit](url)(lockable, implicitly, implicitly)
   }
 
   def replaceLock(afaId: AfaId)(implicit hc: HeaderCarrier): Future[Boolean] = {
-    val url = s"$baseUrl/intellectual-property/draft-locks/${afaId}/replace"
+    val url = s"$baseUrl/intellectual-property/draft-locks/$afaId/replace"
     httpClient.POST[AfaId, Boolean](url, afaId)(implicitly, lockable, implicitly, implicitly)
   }
 }

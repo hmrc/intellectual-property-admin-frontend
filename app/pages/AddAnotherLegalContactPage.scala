@@ -27,18 +27,18 @@ case object AddAnotherLegalContactPage extends QuestionPage[Boolean] {
 
   override def toString: String = "addAnotherLegalContact"
 
-    override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
-      value match {
-        case Some(false) =>
-          for {
-            first  <- userAnswers.remove(WhoIsSecondaryLegalContactPage)
-            second  <- first.remove(IsApplicantSecondaryLegalContactUkBasedPage)
-            third <- second.remove(ApplicantSecondaryLegalContactUkAddressPage)
-            fourth  <- third.remove(ApplicantSecondaryLegalContactInternationalAddressPage)
-          } yield fourth
+  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
+    value match {
+      case Some(false) =>
+        for {
+          first  <- userAnswers.remove(WhoIsSecondaryLegalContactPage)
+          second <- first.remove(IsApplicantSecondaryLegalContactUkBasedPage)
+          third  <- second.remove(ApplicantSecondaryLegalContactUkAddressPage)
+          fourth <- third.remove(ApplicantSecondaryLegalContactInternationalAddressPage)
+        } yield fourth
 
-        case _ =>
-          super.cleanup(value, userAnswers)
-      }
+      case _ =>
+        super.cleanup(value, userAnswers)
+    }
 
 }

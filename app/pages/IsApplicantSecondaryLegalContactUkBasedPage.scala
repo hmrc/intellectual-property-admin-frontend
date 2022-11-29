@@ -27,11 +27,10 @@ case object IsApplicantSecondaryLegalContactUkBasedPage extends QuestionPage[Boo
 
   override def toString: String = "isApplicantSecondaryLegalContactUkBased"
 
-  override def isRequired(answers: UserAnswers): Option[Boolean] = {
+  override def isRequired(answers: UserAnswers): Option[Boolean] =
     answers
       .get(AddAnotherLegalContactPage)
       .map(answer => answer)
-  }
 
   override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
@@ -39,7 +38,7 @@ case object IsApplicantSecondaryLegalContactUkBasedPage extends QuestionPage[Boo
         userAnswers.remove(ApplicantSecondaryLegalContactInternationalAddressPage)
       case Some(false) =>
         userAnswers.remove(ApplicantSecondaryLegalContactUkAddressPage)
-      case _ =>
+      case _           =>
         super.cleanup(value, userAnswers)
     }
 }

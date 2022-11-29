@@ -29,15 +29,20 @@ object Copyright {
 
     import play.api.libs.functional.syntax._
 
-    (__ \ "rightsType").read[String].flatMap[String] {
-      t =>
+    (__ \ "rightsType")
+      .read[String]
+      .flatMap[String] { t =>
         if (t == "copyright") {
           Reads(_ => JsSuccess(t))
         } else {
           Reads(_ => JsError("rightsType must be `copyright`"))
         }
-    }.andKeep((__ \ "description").read[String]
-      .map(Copyright(_)))
+      }
+      .andKeep(
+        (__ \ "description")
+          .read[String]
+          .map(Copyright(_))
+      )
   }
 
   implicit lazy val writes: Writes[Copyright] = {
@@ -46,7 +51,7 @@ object Copyright {
 
     (
       (__ \ "rightsType").write[String] and
-      (__ \ "description").write[String]
+        (__ \ "description").write[String]
     )(a => (a.rightsType, a.description))
   }
 }

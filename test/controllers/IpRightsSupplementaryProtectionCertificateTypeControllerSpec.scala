@@ -33,7 +33,10 @@ import views.html.IpRightsSupplementaryProtectionCertificateTypeView
 
 import scala.concurrent.Future
 
-class IpRightsSupplementaryProtectionCertificateTypeControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks {
+class IpRightsSupplementaryProtectionCertificateTypeControllerSpec
+    extends SpecBase
+    with MockitoSugar
+    with LockAfaChecks {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
@@ -78,7 +81,12 @@ class IpRightsSupplementaryProtectionCertificateTypeControllerSpec extends SpecB
 
       val userAnswers =
         UserAnswers(userAnswersId)
-          .set(IpRightsSupplementaryProtectionCertificateTypePage(index), IpRightsSupplementaryProtectionCertificateType.values.head).success.value
+          .set(
+            IpRightsSupplementaryProtectionCertificateTypePage(index),
+            IpRightsSupplementaryProtectionCertificateType.values.head
+          )
+          .success
+          .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -89,7 +97,10 @@ class IpRightsSupplementaryProtectionCertificateTypeControllerSpec extends SpecB
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(IpRightsSupplementaryProtectionCertificateType.values.head), NormalMode, index, afaId)(getRequest, messages).toString
+        view(form.fill(IpRightsSupplementaryProtectionCertificateType.values.head), NormalMode, index, afaId)(
+          getRequest,
+          messages
+        ).toString
 
       application.stop()
     }

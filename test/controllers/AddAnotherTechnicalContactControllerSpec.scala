@@ -39,12 +39,14 @@ class AddAnotherTechnicalContactControllerSpec extends SpecBase with MockitoSuga
 
   val afaId: AfaId = userAnswersId
 
-  val formProvider = new AddAnotherTechnicalContactFormProvider()
+  val formProvider                = new AddAnotherTechnicalContactFormProvider()
   private def form: Form[Boolean] = formProvider()
 
-  lazy val addAnotherTechnicalContactRoute: String = routes.AddAnotherTechnicalContactController.onPageLoad(NormalMode, afaId).url
-  lazy val addAnotherTechnicalContactRoutePost: String = routes.AddAnotherTechnicalContactController.onSubmit(NormalMode, afaId).url
-  override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
+  lazy val addAnotherTechnicalContactRoute: String     =
+    routes.AddAnotherTechnicalContactController.onPageLoad(NormalMode, afaId).url
+  lazy val addAnotherTechnicalContactRoutePost: String =
+    routes.AddAnotherTechnicalContactController.onSubmit(NormalMode, afaId).url
+  override val emptyUserAnswers: UserAnswers           = UserAnswers(afaId)
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, addAnotherTechnicalContactRoute)

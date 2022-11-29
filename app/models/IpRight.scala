@@ -36,12 +36,12 @@ object IpRight {
       a.map(identity)
 
     Trademark.reads or
-    Copyright.reads or
-    Design.reads or
-    Patent.reads or
-    PlantVariety.reads or
-    GeographicalIndication.reads or
-    SupplementaryProtectionCertificate.reads or
-    SemiconductorTopography.reads
+      Copyright.reads or
+      Design.reads or
+      Patent.reads or
+      PlantVariety.reads or
+      GeographicalIndication.reads or
+      SupplementaryProtectionCertificate.reads or
+      SemiconductorTopography.reads
   }
 }

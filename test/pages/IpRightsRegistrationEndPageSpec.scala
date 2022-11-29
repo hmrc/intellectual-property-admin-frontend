@@ -43,12 +43,10 @@ class IpRightsRegistrationEndPageSpec extends PageBehaviours {
 
       val rightsTypeGen = Gen.oneOf(Trademark, Design, Patent, SupplementaryProtectionCertificate)
 
-      forAll(arbitrary[UserAnswers], rightsTypeGen) {
-        (userAnswers, rightsType) =>
+      forAll(arbitrary[UserAnswers], rightsTypeGen) { (userAnswers, rightsType) =>
+        val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-          val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
-
-          IpRightsRegistrationEndPage(0).isRequired(answers).value mustEqual true
+        IpRightsRegistrationEndPage(0).isRequired(answers).value mustEqual true
       }
     }
 
@@ -58,23 +56,19 @@ class IpRightsRegistrationEndPageSpec extends PageBehaviours {
 
       val rightsTypeGen = Gen.oneOf(PlantVariety, GeographicalIndication, Copyright, SemiconductorTopography)
 
-      forAll(arbitrary[UserAnswers], rightsTypeGen) {
-        (userAnswers, rightsType) =>
+      forAll(arbitrary[UserAnswers], rightsTypeGen) { (userAnswers, rightsType) =>
+        val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-          val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
-
-          IpRightsRegistrationEndPage(0).isRequired(answers).value mustEqual false
+        IpRightsRegistrationEndPage(0).isRequired(answers).value mustEqual false
       }
     }
 
     "not know whether it's required if we do not know what type of right it is" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.remove(IpRightsTypePage(0)).success.value
 
-          val answers = userAnswers.remove(IpRightsTypePage(0)).success.value
-
-          IpRightsRegistrationEndPage(0).isRequired(answers) must not be defined
+        IpRightsRegistrationEndPage(0).isRequired(answers) must not be defined
       }
     }
   }

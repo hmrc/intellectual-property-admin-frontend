@@ -33,62 +33,60 @@ import views.html.ApplicantLegalContactInternationalAddressView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ApplicantLegalContactInternationalAddressController @Inject()(
-                                                                     override val messagesApi: MessagesApi,
-                                                                     afaService: AfaService,
-                                                                     navigator: Navigator,
-                                                                     identify: IdentifierAction,
-                                                                     getLock: LockAfaActionProvider,
-                                                                     getData: AfaDraftDataRetrievalAction,
-                                                                     requireData: DataRequiredAction,
-                                                                     formProvider: ApplicantLegalContactInternationalAddressFormProvider,
-                                                                     val controllerComponents: MessagesControllerComponents,
-                                                                     view: ApplicantLegalContactInternationalAddressView
-                                                                   )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class ApplicantLegalContactInternationalAddressController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: ApplicantLegalContactInternationalAddressFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: ApplicantLegalContactInternationalAddressView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def form: Form[InternationalAddress] = formProvider()
 
-  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getApplicantLegalContactName {
-        contactName =>
+  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getApplicantLegalContactName { contactName =>
+        val preparedForm = request.userAnswers.get(ApplicantLegalContactInternationalAddressPage) match {
+          case None        => form
+          case Some(value) => form.fill(value)
+        }
 
-          val preparedForm = request.userAnswers.get(ApplicantLegalContactInternationalAddressPage) match {
-            case None => form
-            case Some(value) => form.fill(value)
-          }
-
-          Future.successful(Ok(view(preparedForm, mode, contactName, afaId)))
+        Future.successful(Ok(view(preparedForm, mode, contactName, afaId)))
       }
-  }
+    }
 
-  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getApplicantLegalContactName {
-        contactName =>
-
-          form.bindFromRequest().fold(
-            (formWithErrors: Form[_]) =>
-              Future.successful(BadRequest(view(formWithErrors, mode, contactName, afaId))),
-
-            value => {
+  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getApplicantLegalContactName { contactName =>
+        form
+          .bindFromRequest()
+          .fold(
+            (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, mode, contactName, afaId))),
+            value =>
               for {
-                updatedAnswers <- Future.fromTry(request.userAnswers.set(ApplicantLegalContactInternationalAddressPage, value))
-                _ <- afaService.set(updatedAnswers)
+                updatedAnswers <-
+                  Future.fromTry(request.userAnswers.set(ApplicantLegalContactInternationalAddressPage, value))
+                _              <- afaService.set(updatedAnswers)
               } yield Redirect(navigator.nextPage(ApplicantLegalContactInternationalAddressPage, mode, updatedAnswers))
-            }
           )
       }
-  }
+    }
 
-  private def getApplicantLegalContactName(block: String => Future[Result])
-                                          (implicit request: DataRequest[AnyContent]): Future[Result] = {
-
-    request.userAnswers.get(ApplicantLegalContactNameQuery).map {
-      applicantLegalContactName =>
-
+  private def getApplicantLegalContactName(
+    block: String => Future[Result]
+  )(implicit request: DataRequest[AnyContent]): Future[Result] =
+    request.userAnswers
+      .get(ApplicantLegalContactNameQuery)
+      .map { applicantLegalContactName =>
         block(applicantLegalContactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
+      }
+      .getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 
-  }
 }

@@ -45,7 +45,8 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
 
   val baseAnswers: UserAnswers = UserAnswers(afaId).set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
 
-  def addIpRightsUrl(nextIpRightIndex: Int): String = routes.IpRightsTypeController.onPageLoad(NormalMode, nextIpRightIndex, afaId).url
+  def addIpRightsUrl(nextIpRightIndex: Int): String =
+    routes.IpRightsTypeController.onPageLoad(NormalMode, nextIpRightIndex, afaId).url
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, addIpRightRoute)
@@ -81,10 +82,17 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
     "display the correct number of IP rights on the page" in {
 
       val application = applicationBuilder(
-        Some(baseAnswers
-          .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-          .set(IpRightsTypePage(1), IpRightsType.Trademark).success.value
-          .set(IpRightsTypePage(2), IpRightsType.Trademark).success.value
+        Some(
+          baseAnswers
+            .set(IpRightsTypePage(0), IpRightsType.Trademark)
+            .success
+            .value
+            .set(IpRightsTypePage(1), IpRightsType.Trademark)
+            .success
+            .value
+            .set(IpRightsTypePage(2), IpRightsType.Trademark)
+            .success
+            .value
         )
       ).build()
 
@@ -93,9 +101,15 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
       val view = application.injector.instanceOf[AddIpRightView]
 
       val expectUA = UserAnswers(afaId)
-        .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-        .set(IpRightsTypePage(1), IpRightsType.Trademark).success.value
-        .set(IpRightsTypePage(2), IpRightsType.Trademark).success.value
+        .set(IpRightsTypePage(0), IpRightsType.Trademark)
+        .success
+        .value
+        .set(IpRightsTypePage(1), IpRightsType.Trademark)
+        .success
+        .value
+        .set(IpRightsTypePage(2), IpRightsType.Trademark)
+        .success
+        .value
 
       val expectedSections = new ReviewHelper(expectUA).iprReviewRow(NormalMode)
 
@@ -104,8 +118,9 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(NormalMode, afaId, expectedSections, addIpRightsUrl(3),
-          expectedSections.toOption.get.size, nextPage)(messages).toString
+        view(NormalMode, afaId, expectedSections, addIpRightsUrl(3), expectedSections.toOption.get.size, nextPage)(
+          messages
+        ).toString
 
       application.stop()
     }
@@ -127,7 +142,9 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
 
       val userAnswers =
         UserAnswers(afaId)
-          .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
+          .set(IpRightsTypePage(0), IpRightsType.Trademark)
+          .success
+          .value
 
       val mockAfaService = mock[AfaService]
 
@@ -154,8 +171,9 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
 
       val userAnswers =
         UserAnswers(afaId)
-          .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-
+          .set(IpRightsTypePage(0), IpRightsType.Trademark)
+          .success
+          .value
 
       val mockAfaService = mock[AfaService]
 

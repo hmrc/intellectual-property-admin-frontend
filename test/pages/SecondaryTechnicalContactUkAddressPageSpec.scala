@@ -30,43 +30,42 @@ class SecondaryTechnicalContactUkAddressPageSpec extends PageBehaviours {
 
     beRemovable[UkAddress](SecondaryTechnicalContactUkAddressPage)
 
-
     "be required if the secondary technical contact is based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IsSecondaryTechnicalContactUkBasedPage, true)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IsSecondaryTechnicalContactUkBasedPage, true).success.value
-
-          SecondaryTechnicalContactUkAddressPage.isRequired(answers).value mustEqual true
+        SecondaryTechnicalContactUkAddressPage.isRequired(answers).value mustEqual true
       }
     }
 
     "not be required if the secondary technical contact is not based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IsSecondaryTechnicalContactUkBasedPage, false)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IsSecondaryTechnicalContactUkBasedPage, false).success.value
-
-          SecondaryTechnicalContactUkAddressPage.isRequired(answers).value mustEqual false
+        SecondaryTechnicalContactUkAddressPage.isRequired(answers).value mustEqual false
       }
     }
 
     "not know whether it's required if we don't know if they are UK based" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .remove(IsSecondaryTechnicalContactUkBasedPage)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .remove(IsSecondaryTechnicalContactUkBasedPage).success.value
-
-          SecondaryTechnicalContactUkAddressPage.isRequired(answers) must not be defined
+        SecondaryTechnicalContactUkAddressPage.isRequired(answers) must not be defined
       }
     }
   }

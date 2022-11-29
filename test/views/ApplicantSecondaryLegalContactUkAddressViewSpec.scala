@@ -54,7 +54,9 @@ class ApplicantSecondaryLegalContactUkAddressViewSpec extends TextInputViewBehav
       applyView,
       messageKeyPrefix,
       routes.ApplicantSecondaryLegalContactUkAddressController.onSubmit(NormalMode, afaId).url,
-      Seq("line1", "line2", "town", "county", "postCode"), titleArgs = Seq(secondaryLegalContactName), argsUsedInBrowserTitle = true
+      Seq("line1", "line2", "town", "county", "postCode"),
+      titleArgs = Seq(secondaryLegalContactName),
+      argsUsedInBrowserTitle = true
     )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))

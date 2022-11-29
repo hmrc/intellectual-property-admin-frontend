@@ -25,23 +25,21 @@ import models.ApplicantLegalContact
 class ApplicantLegalContactFormProvider @Inject() extends Mappings {
 
   val nameEmailLimit: Int = 200
-  val phonesLimit: Int = 100
+  val phonesLimit: Int    = 100
 
-   def apply(): Form[ApplicantLegalContact] = Form(
-     mapping(
-       "companyName" -> text("applicantLegalContact.error.companyName.required")
-         .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.companyName.length")),
-
-       "name" -> text("applicantLegalContact.error.name.required")
+  def apply(): Form[ApplicantLegalContact] = Form(
+    mapping(
+      "companyName"    -> text("applicantLegalContact.error.companyName.required")
+        .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.companyName.length")),
+      "name"           -> text("applicantLegalContact.error.name.required")
         .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.name.length")),
-
-      "telephone" -> text("applicantLegalContact.error.telephone.required")
+      "telephone"      -> text("applicantLegalContact.error.telephone.required")
         .verifying(maxLength(phonesLimit, "applicantLegalContact.error.telephone.length")),
-
-       "otherTelephone" -> optional(Forms.text
-         .verifying(maxLength(phonesLimit, "applicantLegalContact.error.otherTelephone.length"))),
-
-      "email" -> email.verifying(validateEmail)
+      "otherTelephone" -> optional(
+        Forms.text
+          .verifying(maxLength(phonesLimit, "applicantLegalContact.error.otherTelephone.length"))
+      ),
+      "email"          -> email.verifying(validateEmail)
     )(ApplicantLegalContact.apply)(ApplicantLegalContact.unapply)
-   )
- }
+  )
+}

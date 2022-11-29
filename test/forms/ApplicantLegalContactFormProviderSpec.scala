@@ -24,13 +24,13 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
   val form = new ApplicantLegalContactFormProvider()()
 
   val nameEmailLimit: Int = 200
-  val phonesLimit: Int = 100
+  val phonesLimit: Int    = 100
 
   "companyName" must {
 
-    val fieldName = "companyName"
+    val fieldName   = "companyName"
     val requiredKey = "applicantLegalContact.error.companyName.required"
-    val lengthKey = "applicantLegalContact.error.companyName.length"
+    val lengthKey   = "applicantLegalContact.error.companyName.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -54,9 +54,9 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
 
   "name" must {
 
-    val fieldName = "name"
+    val fieldName   = "name"
     val requiredKey = "applicantLegalContact.error.name.required"
-    val lengthKey = "applicantLegalContact.error.name.length"
+    val lengthKey   = "applicantLegalContact.error.name.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -80,10 +80,9 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
 
   "telephone" must {
 
-    val fieldName = "telephone"
+    val fieldName   = "telephone"
     val requiredKey = "applicantLegalContact.error.telephone.required"
-    val lengthKey = "applicantLegalContact.error.telephone.length"
-
+    val lengthKey   = "applicantLegalContact.error.telephone.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -126,9 +125,9 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
 
   "email" must {
 
-    val fieldName = "email"
+    val fieldName   = "email"
     val requiredKey = "email.required"
-    val lengthKey = "email.length"
+    val lengthKey   = "email.length"
 
     val emailLength = 256
 

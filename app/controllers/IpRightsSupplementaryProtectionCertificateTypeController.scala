@@ -32,28 +32,30 @@ import views.html.IpRightsSupplementaryProtectionCertificateTypeView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IpRightsSupplementaryProtectionCertificateTypeController @Inject()(
-                                                                          override val messagesApi: MessagesApi,
-                                                                          afaService: AfaService,
-                                                                          navigator: Navigator,
-                                                                          identify: IdentifierAction,
-                                                                          getLock: LockAfaActionProvider,
-                                                                          getData: AfaDraftDataRetrievalAction,
-                                                                          requireData: DataRequiredAction,
-                                                                          validateIndex: IpRightsIndexActionFilterProvider,
-                                                                          formProvider: IpRightsSupplementaryProtectionCertificateTypeFormProvider,
-                                                                          val controllerComponents: MessagesControllerComponents,
-                                                                          view: IpRightsSupplementaryProtectionCertificateTypeView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Enumerable.Implicits {
+class IpRightsSupplementaryProtectionCertificateTypeController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  validateIndex: IpRightsIndexActionFilterProvider,
+  formProvider: IpRightsSupplementaryProtectionCertificateTypeFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IpRightsSupplementaryProtectionCertificateTypeView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport
+    with Enumerable.Implicits {
 
   private def form = formProvider()
 
   def onPageLoad(mode: Mode, index: Int, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndex(index)) {
       implicit request =>
-
         val preparedForm = request.userAnswers.get(IpRightsSupplementaryProtectionCertificateTypePage(index)) match {
-          case None => form
+          case None        => form
           case Some(value) => form.fill(value)
         }
 
@@ -63,17 +65,19 @@ class IpRightsSupplementaryProtectionCertificateTypeController @Inject()(
   def onSubmit(mode: Mode, index: Int, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndex(index)).async {
       implicit request =>
-
-        form.bindFromRequest().fold(
-          (formWithErrors: Form[_]) =>
-            Future.successful(BadRequest(view(formWithErrors, mode, index, afaId))),
-
-          value => {
-            for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.set(IpRightsSupplementaryProtectionCertificateTypePage(index), value))
-              _              <- afaService.set(updatedAnswers)
-            } yield Redirect(navigator.nextPage(IpRightsSupplementaryProtectionCertificateTypePage(index), mode, updatedAnswers))
-          }
-        )
+        form
+          .bindFromRequest()
+          .fold(
+            (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, mode, index, afaId))),
+            value =>
+              for {
+                updatedAnswers <-
+                  Future
+                    .fromTry(request.userAnswers.set(IpRightsSupplementaryProtectionCertificateTypePage(index), value))
+                _              <- afaService.set(updatedAnswers)
+              } yield Redirect(
+                navigator.nextPage(IpRightsSupplementaryProtectionCertificateTypePage(index), mode, updatedAnswers)
+              )
+          )
     }
 }

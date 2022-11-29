@@ -35,93 +35,113 @@ class TrademarkSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
 
     "must deserialise" in {
 
-      forAll(arbitrary[String], arbitraryDates, arbitrary[Option[String]], arbitrary[String], arbitrary[Seq[NiceClassId]]) {
-        (registrationNumber, registrationEnd, brand, description, niceClasses) =>
-
-          val json = brand.map {
-            b =>
-              Json.obj(
-                "rightsType" -> "trademark",
-                "registrationNumber" -> registrationNumber,
-                "registrationEnd" -> registrationEnd,
-                "brand" -> b,
-                "description" -> description,
-                "niceClasses" -> niceClasses
-              )
-          }.getOrElse(
+      forAll(
+        arbitrary[String],
+        arbitraryDates,
+        arbitrary[Option[String]],
+        arbitrary[String],
+        arbitrary[Seq[NiceClassId]]
+      ) { (registrationNumber, registrationEnd, brand, description, niceClasses) =>
+        val json = brand
+          .map { b =>
             Json.obj(
-              "rightsType" -> "trademark",
+              "rightsType"         -> "trademark",
               "registrationNumber" -> registrationNumber,
-              "registrationEnd" -> registrationEnd,
-              "description" -> description,
-              "niceClasses" -> niceClasses
+              "registrationEnd"    -> registrationEnd,
+              "brand"              -> b,
+              "description"        -> description,
+              "niceClasses"        -> niceClasses
+            )
+          }
+          .getOrElse(
+            Json.obj(
+              "rightsType"         -> "trademark",
+              "registrationNumber" -> registrationNumber,
+              "registrationEnd"    -> registrationEnd,
+              "description"        -> description,
+              "niceClasses"        -> niceClasses
             )
           )
 
-          json.validate[Trademark] mustEqual JsSuccess(Trademark(registrationNumber, registrationEnd, brand, description, niceClasses))
+        json.validate[Trademark] mustEqual JsSuccess(
+          Trademark(registrationNumber, registrationEnd, brand, description, niceClasses)
+        )
       }
     }
 
     "must fail to deserialise for a rightsType other than trademark" in {
 
-      forAll(arbitrary[String], Gen.alphaStr, arbitraryDates, arbitrary[Option[String]], arbitrary[String], arbitrary[Seq[NiceClassId]]) {
-        (registrationNumber, rightsType, registrationEnd, brand, description, niceClasses) =>
+      forAll(
+        arbitrary[String],
+        Gen.alphaStr,
+        arbitraryDates,
+        arbitrary[Option[String]],
+        arbitrary[String],
+        arbitrary[Seq[NiceClassId]]
+      ) { (registrationNumber, rightsType, registrationEnd, brand, description, niceClasses) =>
+        whenever(rightsType != "trademark") {
 
-          whenever(rightsType != "trademark") {
-
-            val json = brand.map {
-              b =>
-                Json.obj(
-                  "rightsType" -> rightsType,
-                  "registrationNumber" -> registrationNumber,
-                  "registrationEnd" -> registrationEnd,
-                  "brand" -> b,
-                  "description" -> description,
-                  "niceClasses" -> niceClasses
-                )
-            }.getOrElse(
+          val json = brand
+            .map { b =>
               Json.obj(
-                "rightsType" -> rightsType,
+                "rightsType"         -> rightsType,
                 "registrationNumber" -> registrationNumber,
-                "registrationEnd" -> registrationEnd,
-                "description" -> description,
-                "niceClasses" -> niceClasses
+                "registrationEnd"    -> registrationEnd,
+                "brand"              -> b,
+                "description"        -> description,
+                "niceClasses"        -> niceClasses
+              )
+            }
+            .getOrElse(
+              Json.obj(
+                "rightsType"         -> rightsType,
+                "registrationNumber" -> registrationNumber,
+                "registrationEnd"    -> registrationEnd,
+                "description"        -> description,
+                "niceClasses"        -> niceClasses
               )
             )
 
-            json.validate[Trademark] mustEqual JsError(
-              "rightsType must be `trademark`"
-            )
-          }
+          json.validate[Trademark] mustEqual JsError(
+            "rightsType must be `trademark`"
+          )
+        }
       }
     }
 
     "must serialise" in {
 
-      forAll(arbitrary[String], arbitraryDates, arbitrary[Option[String]], arbitrary[String], arbitrary[Seq[NiceClassId]]) {
-        (registrationNumber, registrationEnd, brand, description, niceClasses) =>
-
-          val json = brand.map {
-            b =>
-              Json.obj(
-                "rightsType" -> "trademark",
-                "registrationNumber" -> registrationNumber,
-                "registrationEnd" -> registrationEnd,
-                "brand" -> b,
-                "description" -> description,
-                "niceClasses" -> niceClasses
-              )
-          }.getOrElse {
+      forAll(
+        arbitrary[String],
+        arbitraryDates,
+        arbitrary[Option[String]],
+        arbitrary[String],
+        arbitrary[Seq[NiceClassId]]
+      ) { (registrationNumber, registrationEnd, brand, description, niceClasses) =>
+        val json = brand
+          .map { b =>
             Json.obj(
-              "rightsType" -> "trademark",
+              "rightsType"         -> "trademark",
               "registrationNumber" -> registrationNumber,
-              "registrationEnd" -> registrationEnd,
-              "description" -> description,
-              "niceClasses" -> niceClasses
+              "registrationEnd"    -> registrationEnd,
+              "brand"              -> b,
+              "description"        -> description,
+              "niceClasses"        -> niceClasses
+            )
+          }
+          .getOrElse {
+            Json.obj(
+              "rightsType"         -> "trademark",
+              "registrationNumber" -> registrationNumber,
+              "registrationEnd"    -> registrationEnd,
+              "description"        -> description,
+              "niceClasses"        -> niceClasses
             )
           }
 
-          Json.toJson(Trademark(registrationNumber, registrationEnd, brand, description, niceClasses))(Trademark.writes) mustEqual json
+        Json.toJson(Trademark(registrationNumber, registrationEnd, brand, description, niceClasses))(
+          Trademark.writes
+        ) mustEqual json
       }
     }
   }

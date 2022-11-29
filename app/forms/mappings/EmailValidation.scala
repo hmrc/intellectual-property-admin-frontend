@@ -47,9 +47,9 @@ trait EmailValidation {
 
   val validateEmail: Constraint[String] =
     Constraint {
-      case email if email.isEmpty => Invalid("email.required")
-      case email if email.length > 256 => Invalid("email.length")
+      case email if email.isEmpty            => Invalid("email.required")
+      case email if email.length > 256       => Invalid("email.length")
       case email if !checkEmailFormat(email) => Invalid("email.format")
-      case _ => Valid
+      case _                                 => Valid
     }
 }

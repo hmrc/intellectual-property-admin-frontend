@@ -32,28 +32,26 @@ class IpRightsDescriptionWithBrandPageSpec extends PageBehaviours {
 
     "be required if this right is a Trademark" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IpRightsTypePage(0), IpRightsType.Trademark)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-
-          IpRightsDescriptionWithBrandPage(0).isRequired(answers).value mustEqual true
+        IpRightsDescriptionWithBrandPage(0).isRequired(answers).value mustEqual true
       }
     }
 
     "not be required if this right is not a Trademark" in {
 
-      forAll(arbitrary[UserAnswers], arbitrary[IpRightsType]) {
-        (userAnswers, rightsType) =>
+      forAll(arbitrary[UserAnswers], arbitrary[IpRightsType]) { (userAnswers, rightsType) =>
+        whenever(rightsType != IpRightsType.Trademark) {
 
-          whenever(rightsType != IpRightsType.Trademark) {
+          val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-            val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
-
-            IpRightsDescriptionWithBrandPage(0).isRequired(answers).value mustEqual false
-          }
+          IpRightsDescriptionWithBrandPage(0).isRequired(answers).value mustEqual false
+        }
       }
     }
   }

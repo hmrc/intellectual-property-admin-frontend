@@ -40,10 +40,11 @@ class AddAnotherLegalContactControllerSpec extends SpecBase with MockitoSugar wi
 
   val afaId: AfaId = userAnswersId
 
-  val formProvider = new AddAnotherLegalContactFormProvider()
+  val formProvider                = new AddAnotherLegalContactFormProvider()
   private def form: Form[Boolean] = formProvider()
 
-  lazy val addAnotherLegalContactRoute: String = routes.AddAnotherLegalContactController.onPageLoad(NormalMode, afaId).url
+  lazy val addAnotherLegalContactRoute: String =
+    routes.AddAnotherLegalContactController.onPageLoad(NormalMode, afaId).url
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 

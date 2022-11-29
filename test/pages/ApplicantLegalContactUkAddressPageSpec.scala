@@ -32,40 +32,40 @@ class ApplicantLegalContactUkAddressPageSpec extends PageBehaviours {
 
     "be required if the legal contact is based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IsApplicantLegalContactUkBasedPage, true)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IsApplicantLegalContactUkBasedPage, true).success.value
-
-          ApplicantLegalContactUkAddressPage.isRequired(answers).value mustEqual true
+        ApplicantLegalContactUkAddressPage.isRequired(answers).value mustEqual true
       }
     }
 
     "not be required if the legal contact is not based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IsApplicantLegalContactUkBasedPage, false)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IsApplicantLegalContactUkBasedPage, false).success.value
-
-          ApplicantLegalContactUkAddressPage.isRequired(answers).value mustEqual false
+        ApplicantLegalContactUkAddressPage.isRequired(answers).value mustEqual false
       }
     }
 
     "not know whether it is required if we do not know whether the legal contact is based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .remove(IsApplicantLegalContactUkBasedPage)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .remove(IsApplicantLegalContactUkBasedPage).success.value
-
-          ApplicantLegalContactUkAddressPage.isRequired(answers) must not be defined
+        ApplicantLegalContactUkAddressPage.isRequired(answers) must not be defined
       }
     }
   }

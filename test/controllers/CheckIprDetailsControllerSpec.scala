@@ -46,10 +46,18 @@ class CheckIprDetailsControllerSpec extends SpecBase with IprIndexValidation wit
 
       val userAnswers =
         UserAnswers(afaId)
-          .set(IpRightsTypePage(index), IpRightsType.Design).success.value
-          .set(IpRightsRegistrationNumberPage(index), "1234567890").success.value
-          .set(IpRightsRegistrationEndPage(index), LocalDate.now).success.value
-          .set(IpRightsDescriptionPage(index), "description").success.value
+          .set(IpRightsTypePage(index), IpRightsType.Design)
+          .success
+          .value
+          .set(IpRightsRegistrationNumberPage(index), "1234567890")
+          .success
+          .value
+          .set(IpRightsRegistrationEndPage(index), LocalDate.now)
+          .success
+          .value
+          .set(IpRightsDescriptionPage(index), "description")
+          .success
+          .value
 
       val cyaHelper = new CheckYourAnswersHelper(userAnswers)
 

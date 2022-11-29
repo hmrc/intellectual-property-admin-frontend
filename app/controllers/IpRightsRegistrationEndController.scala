@@ -33,35 +33,35 @@ import views.html.IpRightsRegistrationEndView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IpRightsRegistrationEndController @Inject()(
-                                                   override val messagesApi: MessagesApi,
-                                                   afaService: AfaService,
-                                                   navigator: Navigator,
-                                                   identify: IdentifierAction,
-                                                   getLock: LockAfaActionProvider,
-                                                   getData: AfaDraftDataRetrievalAction,
-                                                   requireData: DataRequiredAction,
-                                                   validateIndex: IpRightsIndexActionFilterProvider,
-                                                   formProvider: IpRightsRegistrationEndFormProvider,
-                                                   val controllerComponents: MessagesControllerComponents,
-                                                   view: IpRightsRegistrationEndView
-                                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IpRightsRegistrationEndController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  validateIndex: IpRightsIndexActionFilterProvider,
+  formProvider: IpRightsRegistrationEndFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IpRightsRegistrationEndView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   def onPageLoad(mode: Mode, index: Int, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndex(index)).async {
 
       implicit request =>
-        getIpRightType(index) {
-          ipRightsType =>
+        getIpRightType(index) { ipRightsType =>
+          val form = formProvider(args = Seq(ipRightsType))
 
-            val form = formProvider(args = Seq(ipRightsType))
+          val preparedForm = request.userAnswers.get(IpRightsRegistrationEndPage(index)) match {
+            case None        => form
+            case Some(value) => form.fill(value)
+          }
 
-            val preparedForm = request.userAnswers.get(IpRightsRegistrationEndPage(index)) match {
-              case None => form
-              case Some(value) => form.fill(value)
-            }
-
-            Future.successful(Ok(view(preparedForm, mode, index, afaId, ipRightsType)))
+          Future.successful(Ok(view(preparedForm, mode, index, afaId, ipRightsType)))
         }
     }
 
@@ -69,32 +69,30 @@ class IpRightsRegistrationEndController @Inject()(
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndex(index)).async {
 
       implicit request =>
-        getIpRightType(index) {
-          ipRightsType =>
+        getIpRightType(index) { ipRightsType =>
+          val form = formProvider(args = Seq(ipRightsType))
 
-            val form = formProvider(args = Seq(ipRightsType))
-
-            form.bindFromRequest().fold(
+          form
+            .bindFromRequest()
+            .fold(
               (formWithErrors: Form[_]) =>
                 Future.successful(BadRequest(view(formWithErrors, mode, index, afaId, ipRightsType))),
-
-              value => {
+              value =>
                 for {
                   updatedAnswers <- Future.fromTry(request.userAnswers.set(IpRightsRegistrationEndPage(index), value))
-                  _ <- afaService.set(updatedAnswers)
+                  _              <- afaService.set(updatedAnswers)
                 } yield Redirect(navigator.nextPage(IpRightsRegistrationEndPage(index), mode, updatedAnswers))
-              }
             )
         }
     }
 
-  private def getIpRightType(index: Int)(block: String => Future[Result])
-                            (implicit request: DataRequest[AnyContent], messages: Messages): Future[Result] = {
-
-    request.userAnswers.get(IpRightsTypePage(index)).map {
-      rightsType: IpRightsType =>
-
+  private def getIpRightType(
+    index: Int
+  )(block: String => Future[Result])(implicit request: DataRequest[AnyContent], messages: Messages): Future[Result] =
+    request.userAnswers
+      .get(IpRightsTypePage(index))
+      .map { rightsType: IpRightsType =>
         block(messages(s"ipRightsType.${rightsType.toString}").toLowerCase)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
-  }
+      }
+      .getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 }

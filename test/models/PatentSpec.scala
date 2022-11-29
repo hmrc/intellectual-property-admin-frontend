@@ -36,12 +36,11 @@ class PatentSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks
 
       forAll(arbitrary[String], arbitraryDates, arbitrary[String]) {
         (registrationNumber, registrationEnd, description) =>
-
           val json = Json.obj(
-            "rightsType" -> "patent",
+            "rightsType"         -> "patent",
             "registrationNumber" -> registrationNumber,
-            "registrationEnd" -> registrationEnd,
-            "description" -> description
+            "registrationEnd"    -> registrationEnd,
+            "description"        -> description
           )
 
           json.validate[Patent] mustEqual JsSuccess(Patent(registrationNumber, registrationEnd, description))
@@ -52,14 +51,13 @@ class PatentSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks
 
       forAll(arbitrary[String], Gen.alphaStr, arbitraryDates, arbitrary[String]) {
         (registrationNumber, rightsType, registrationEnd, description) =>
-
           whenever(rightsType != "patent") {
 
             val json = Json.obj(
-              "rightsType" -> rightsType,
+              "rightsType"         -> rightsType,
               "registrationNumber" -> registrationNumber,
-              "registrationEnd" -> registrationEnd,
-              "description" -> description
+              "registrationEnd"    -> registrationEnd,
+              "description"        -> description
             )
 
             json.validate[Patent] mustEqual JsError(

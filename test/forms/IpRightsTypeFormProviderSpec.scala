@@ -26,13 +26,13 @@ class IpRightsTypeFormProviderSpec extends OptionFieldBehaviours {
 
   ".value" must {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "ipRightsType.error.required"
 
     behave like optionsField[IpRightsType](
       form,
       fieldName,
-      validValues  = IpRightsType.values.toSet,
+      validValues = IpRightsType.values.toSet,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

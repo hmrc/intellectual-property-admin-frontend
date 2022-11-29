@@ -38,12 +38,24 @@ class DeleteDraftViewSpec extends YesNoViewBehaviours {
 
     def applyView(form: Form[_]): HtmlFormat.Appendable = view.apply(form, afaId, rightsHolder)(fakeRequest, messages)
 
-    behave like normalPageUsingDesignSystem(frontendAppConfig, applyView(form), messageKeyPrefix, Seq(rightsHolder), argsUsedInBrowserTitle = true)
+    behave like normalPageUsingDesignSystem(
+      frontendAppConfig,
+      applyView(form),
+      messageKeyPrefix,
+      Seq(rightsHolder),
+      argsUsedInBrowserTitle = true
+    )
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPageUsingDesignSystem(form, applyView, messageKeyPrefix,
-      routes.DeleteDraftController.onSubmit(afaId).url, args = Seq(rightsHolder), argsUsedInBrowserTitle = true)
+    behave like yesNoPageUsingDesignSystem(
+      form,
+      applyView,
+      messageKeyPrefix,
+      routes.DeleteDraftController.onSubmit(afaId).url,
+      args = Seq(rightsHolder),
+      argsUsedInBrowserTitle = true
+    )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
   }

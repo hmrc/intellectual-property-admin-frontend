@@ -23,7 +23,7 @@ import play.api.data.Form
 
 class IpRightsDescriptionFormProvider @Inject() extends Mappings {
 
-  val maxLength:Int = 1000
+  val maxLength: Int = 1000
 
   def apply(): Form[String] =
     Form(

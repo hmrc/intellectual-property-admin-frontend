@@ -27,7 +27,7 @@ import java.time.LocalDate
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class WorkingDaysService @Inject()(config: Configuration, httpClient: HttpClient) extends HttpErrorFunctions {
+class WorkingDaysService @Inject() (config: Configuration, httpClient: HttpClient) extends HttpErrorFunctions {
 
   private val baseUrl = config.get[Service]("microservice.services.intellectual-property")
 
@@ -39,17 +39,21 @@ class WorkingDaysService @Inject()(config: Configuration, httpClient: HttpClient
 
       override def read(method: String, url: String, response: HttpResponse): LocalDate =
         if (response.status == Status.OK) {
-          response.json.validate[LocalDate](jsonReads).fold(
-            errors => throw new JsValidationException(method, url, classOf[LocalDate], errors.toString()),
-            valid => valid
-          )
+          response.json
+            .validate[LocalDate](jsonReads)
+            .fold(
+              errors => throw new JsValidationException(method, url, classOf[LocalDate], errors.toString()),
+              valid => valid
+            )
         } else {
           throw new Exception(s"HTTP call failed with return code ${response.status}")
         }
     }
 
-  def workingDays(region: Region, from: LocalDate, numberOfDays: Int)
-                 (implicit ec: ExecutionContext, hc: HeaderCarrier): Future[LocalDate] = {
+  def workingDays(region: Region, from: LocalDate, numberOfDays: Int)(implicit
+    ec: ExecutionContext,
+    hc: HeaderCarrier
+  ): Future[LocalDate] = {
 
     val url = s"$baseUrl/intellectual-property/working-days/$region/$from/$numberOfDays"
     httpClient.GET[LocalDate](url)(asDate, implicitly, implicitly)

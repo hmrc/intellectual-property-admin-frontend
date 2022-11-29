@@ -33,17 +33,23 @@ import utils.WireMockHelper
 
 import java.time.LocalDateTime
 
-class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuite
-  with WireMockHelper with ScalaCheckPropertyChecks with ScalaFutures with IntegrationPatience {
+class LockConnectorSpec
+    extends AnyFreeSpec
+    with Matchers
+    with GuiceOneAppPerSuite
+    with WireMockHelper
+    with ScalaCheckPropertyChecks
+    with ScalaFutures
+    with IntegrationPatience {
 
   implicit lazy val arbitraryHC: Arbitrary[HeaderCarrier] =
     Arbitrary(Gen.const(HeaderCarrier()))
 
-  val afaId: AfaId = AfaId.fromString("UK20190123").get
-  val afaId2: AfaId = AfaId.fromString("UK20190125").get
-  val jsonObj: JsObject = Json.obj("value" -> afaId)
-  val lastUpdated: LocalDateTime = LocalDateTime.now()
-  lazy val userAnswers: UserAnswers = UserAnswers(afaId, jsonObj, lastUpdated)
+  val afaId: AfaId                   = AfaId.fromString("UK20190123").get
+  val afaId2: AfaId                  = AfaId.fromString("UK20190125").get
+  val jsonObj: JsObject              = Json.obj("value" -> afaId)
+  val lastUpdated: LocalDateTime     = LocalDateTime.now()
+  lazy val userAnswers: UserAnswers  = UserAnswers(afaId, jsonObj, lastUpdated)
   lazy val userAnswers2: UserAnswers = UserAnswers(afaId2, jsonObj, lastUpdated)
 
   implicit lazy val hc: HeaderCarrier = HeaderCarrier()
@@ -64,15 +70,14 @@ class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSui
       "must return true" in {
 
         server.stubFor(
-          post(urlEqualTo(s"/intellectual-property/draft-locks/${afaId}/lock"))
+          post(urlEqualTo(s"/intellectual-property/draft-locks/$afaId/lock"))
             willReturn (
-            aResponse().withStatus(NO_CONTENT)
+              aResponse().withStatus(NO_CONTENT)
             )
         )
 
-        whenReady(connector.lock(afaId)(hc)) {
-          result =>
-            result mustBe true
+        whenReady(connector.lock(afaId)(hc)) { result =>
+          result mustBe true
         }
 
       }
@@ -83,7 +88,7 @@ class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSui
       "must return a failed future with a LockedException" in {
 
         server.stubFor(
-          post(urlEqualTo(s"/intellectual-property/draft-locks/${afaId}/lock"))
+          post(urlEqualTo(s"/intellectual-property/draft-locks/$afaId/lock"))
             .willReturn(
               aResponse()
                 .withStatus(LOCKED)
@@ -91,17 +96,15 @@ class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSui
             )
         )
 
-        whenReady(connector.lock(afaId)(hc).failed) {
-          case e: LockedException =>
-            e.userId mustEqual "id"
-            e.name mustEqual "name"
+        whenReady(connector.lock(afaId)(hc).failed) { case e: LockedException =>
+          e.userId mustEqual "id"
+          e.name mustEqual "name"
         }
 
       }
 
     }
   }
-
 
   "replaceLock" - {
 
@@ -110,7 +113,7 @@ class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSui
       "must return true" in {
 
         server.stubFor(
-          post(urlEqualTo(s"/intellectual-property/draft-locks/${afaId}/replace"))
+          post(urlEqualTo(s"/intellectual-property/draft-locks/$afaId/replace"))
             .willReturn(
               ok("true")
             )
@@ -126,7 +129,7 @@ class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSui
       "must throw an exception" in {
 
         server.stubFor(
-          post(urlEqualTo(s"/intellectual-property/draft-locks/${afaId}/replace"))
+          post(urlEqualTo(s"/intellectual-property/draft-locks/$afaId/replace"))
             .willReturn(
               aResponse().withStatus(INTERNAL_SERVER_ERROR)
             )
@@ -135,7 +138,6 @@ class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSui
         whenReady(connector.replaceLock(afaId)(hc).failed) {
           _ mustBe an[Exception]
         }
-
 
       }
     }
@@ -148,15 +150,14 @@ class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSui
       "must return true" in {
 
         server.stubFor(
-          delete(urlEqualTo(s"/intellectual-property/draft-locks/${afaId}"))
+          delete(urlEqualTo(s"/intellectual-property/draft-locks/$afaId"))
             willReturn (
-            aResponse().withStatus(NO_CONTENT)
+              aResponse().withStatus(NO_CONTENT)
             )
         )
 
-        whenReady(connector.removeLock(afaId)(hc)) {
-          result =>
-            result mustBe {}
+        whenReady(connector.removeLock(afaId)(hc)) { result =>
+          result mustBe {}
         }
       }
 
@@ -170,19 +171,17 @@ class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSui
 
     "when the server returns a lock" - {
 
-
       "must return the lock" in {
 
         server.stubFor(
-          get(urlEqualTo(s"/intellectual-property/draft-locks/${afaId}/lock"))
+          get(urlEqualTo(s"/intellectual-property/draft-locks/$afaId/lock"))
             .willReturn(
               ok(Json.toJson(lock).toString)
             )
         )
 
-        whenReady(connector.getExistingLock(lock._id)(hc)) {
-          result =>
-            result.get mustEqual lock
+        whenReady(connector.getExistingLock(lock._id)(hc)) { result =>
+          result.get mustEqual lock
         }
 
       }
@@ -192,18 +191,15 @@ class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSui
 
       "must return None" in {
 
-
         server.stubFor(
-          get(urlEqualTo(s"/intellectual-property/draft-locks/${afaId}/lock"))
+          get(urlEqualTo(s"/intellectual-property/draft-locks/$afaId/lock"))
             .willReturn(
               aResponse().withStatus(NOT_FOUND)
             )
         )
 
-        whenReady(connector.getExistingLock(lock._id)(hc)) {
-          result =>
-
-            result must not be defined
+        whenReady(connector.getExistingLock(lock._id)(hc)) { result =>
+          result must not be defined
         }
 
       }
@@ -225,9 +221,8 @@ class LockConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSui
             )
         )
 
-        whenReady(connector.lockList(hc)) {
-          result =>
-            result mustEqual lockList
+        whenReady(connector.lockList(hc)) { result =>
+          result mustEqual lockList
         }
 
       }

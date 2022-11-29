@@ -32,10 +32,15 @@ import uk.gov.hmrc.auth.core.retrieve.{Credentials, Name, ~}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class StrideApiIdentifierActionSpec extends SpecBase with Matchers with GuiceOneAppPerSuite with Injecting with MockitoSugar {
+class StrideApiIdentifierActionSpec
+    extends SpecBase
+    with Matchers
+    with GuiceOneAppPerSuite
+    with Injecting
+    with MockitoSugar {
 
   class Harness(authAction: ApiIdentifierAction) {
-    def onPageLoad(): Action[AnyContent] = authAction { _ => Results.Ok }
+    def onPageLoad(): Action[AnyContent] = authAction(_ => Results.Ok)
   }
 
   "Stride API Identifier Action" when {
@@ -47,18 +52,18 @@ class StrideApiIdentifierActionSpec extends SpecBase with Matchers with GuiceOne
         val authConnector = mock[AuthConnector]
 
         val credentials = Credentials("id", "type")
-        val name = Name(Some("name"), None)
-        val retrieval = new ~(Some(credentials), Some(name))
+        val name        = Name(Some("name"), None)
+        val retrieval   = new ~(Some(credentials), Some(name))
 
         when(authConnector.authorise[Option[Credentials] ~ Option[Name]](any(), any())(any(), any()))
           .thenReturn(Future.successful(retrieval))
 
-        val config = inject[Configuration]
+        val config      = inject[Configuration]
         val bodyParsers = inject[BodyParsers.Default]
 
         val authAction = new StrideApiIdentifierAction(authConnector, config, bodyParsers)
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(FakeRequest())
+        val result     = controller.onPageLoad()(FakeRequest())
 
         status(result) mustBe OK
       }
@@ -71,18 +76,18 @@ class StrideApiIdentifierActionSpec extends SpecBase with Matchers with GuiceOne
         val authConnector = mock[AuthConnector]
 
         val credentials = Credentials("id", "type")
-        val name = Name(None, None)
-        val retrieval = new ~(Some(credentials), Some(name))
+        val name        = Name(None, None)
+        val retrieval   = new ~(Some(credentials), Some(name))
 
         when(authConnector.authorise[Option[Credentials] ~ Option[Name]](any(), any())(any(), any()))
           .thenReturn(Future.successful(retrieval))
 
-        val config = inject[Configuration]
+        val config      = inject[Configuration]
         val bodyParsers = inject[BodyParsers.Default]
 
         val authAction = new StrideApiIdentifierAction(authConnector, config, bodyParsers)
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(FakeRequest())
+        val result     = controller.onPageLoad()(FakeRequest())
 
         status(result) mustBe UNAUTHORIZED
       }
@@ -92,12 +97,13 @@ class StrideApiIdentifierActionSpec extends SpecBase with Matchers with GuiceOne
 
       "return Unauthorised" in {
 
-        val config = inject[Configuration]
+        val config      = inject[Configuration]
         val bodyParsers = inject[BodyParsers.Default]
 
-        val authAction = new StrideApiIdentifierAction(new FakeFailingAuthConnector(new MissingBearerToken), config, bodyParsers)
+        val authAction =
+          new StrideApiIdentifierAction(new FakeFailingAuthConnector(new MissingBearerToken), config, bodyParsers)
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(FakeRequest())
+        val result     = controller.onPageLoad()(FakeRequest())
 
         status(result) mustBe UNAUTHORIZED
       }
@@ -107,12 +113,13 @@ class StrideApiIdentifierActionSpec extends SpecBase with Matchers with GuiceOne
 
       "return Unauthorised" in {
 
-        val config = inject[Configuration]
+        val config      = inject[Configuration]
         val bodyParsers = inject[BodyParsers.Default]
 
-        val authAction = new StrideApiIdentifierAction(new FakeFailingAuthConnector(new BearerTokenExpired), config, bodyParsers)
+        val authAction =
+          new StrideApiIdentifierAction(new FakeFailingAuthConnector(new BearerTokenExpired), config, bodyParsers)
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(FakeRequest())
+        val result     = controller.onPageLoad()(FakeRequest())
 
         status(result) mustBe UNAUTHORIZED
       }
@@ -122,12 +129,13 @@ class StrideApiIdentifierActionSpec extends SpecBase with Matchers with GuiceOne
 
       "return Unauthorised" in {
 
-        val config = inject[Configuration]
+        val config      = inject[Configuration]
         val bodyParsers = inject[BodyParsers.Default]
 
-        val authAction = new StrideApiIdentifierAction(new FakeFailingAuthConnector(new UnsupportedAuthProvider), config, bodyParsers)
+        val authAction =
+          new StrideApiIdentifierAction(new FakeFailingAuthConnector(new UnsupportedAuthProvider), config, bodyParsers)
         val controller = new Harness(authAction)
-        val result = controller.onPageLoad()(FakeRequest())
+        val result     = controller.onPageLoad()(FakeRequest())
 
         status(result) mustBe UNAUTHORIZED
       }

@@ -27,9 +27,9 @@ class CompanyApplyingFormProviderSpec extends StringFieldBehaviours {
 
   ".companyName" must {
 
-    val fieldName = "companyName"
+    val fieldName   = "companyName"
     val requiredKey = "companyApplying.error.companyName.required"
-    val lengthKey = "companyApplying.error.companyName.length"
+    val lengthKey   = "companyApplying.error.companyName.length"
 
     behave like fieldThatBindsValidData(
       form,

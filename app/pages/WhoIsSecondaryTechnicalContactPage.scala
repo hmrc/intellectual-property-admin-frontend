@@ -16,7 +16,7 @@
 
 package pages
 
-import models.{UserAnswers, TechnicalContact}
+import models.{TechnicalContact, UserAnswers}
 import play.api.libs.json.JsPath
 
 case object WhoIsSecondaryTechnicalContactPage extends QuestionPage[TechnicalContact] {

@@ -40,12 +40,14 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
 
   val afaId: AfaId = userAnswersId
 
-  val applicantLegalContact: ApplicantLegalContact = ApplicantLegalContact("name", "companyName", "telephone", None, "email")
+  val applicantLegalContact: ApplicantLegalContact =
+    ApplicantLegalContact("name", "companyName", "telephone", None, "email")
 
-  val formProvider = new ApplicantLegalContactUkAddressFormProvider()
+  val formProvider                  = new ApplicantLegalContactUkAddressFormProvider()
   private def form: Form[UkAddress] = formProvider()
 
-  lazy private val applicantLegalContactUkAddressRoute = routes.ApplicantLegalContactUkAddressController.onPageLoad(NormalMode, afaId).url
+  lazy private val applicantLegalContactUkAddressRoute =
+    routes.ApplicantLegalContactUkAddressController.onPageLoad(NormalMode, afaId).url
 
   private val baseUserAnswers = UserAnswers(afaId).set(ApplicantLegalContactPage, applicantLegalContact).success.value
 

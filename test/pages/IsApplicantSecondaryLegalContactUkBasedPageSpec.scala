@@ -32,75 +32,72 @@ class IsApplicantSecondaryLegalContactUkBasedPageSpec extends PageBehaviours {
 
     "be required if the add another legal contact is set to true" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(AddAnotherLegalContactPage, true)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(AddAnotherLegalContactPage, true).success.value
-
-          IsApplicantSecondaryLegalContactUkBasedPage.isRequired(answers).value mustEqual true
+        IsApplicantSecondaryLegalContactUkBasedPage.isRequired(answers).value mustEqual true
       }
     }
 
     "NOT be required if the add another legal contact is set to false" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(AddAnotherLegalContactPage, false)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(AddAnotherLegalContactPage, false).success.value
-
-          IsApplicantSecondaryLegalContactUkBasedPage.isRequired(answers).value mustEqual false
+        IsApplicantSecondaryLegalContactUkBasedPage.isRequired(answers).value mustEqual false
       }
     }
 
     "remove ApplicantSecondaryLegalContactUkAddress when IsApplicantSecondaryLegalContactUkBasedPage is set to false" in {
 
-      forAll(arbitrary[UserAnswers], arbitrary[Option[UkAddress]]) {
-        (initial, answer) =>
+      forAll(arbitrary[UserAnswers], arbitrary[Option[UkAddress]]) { (initial, answer) =>
+        val answers = answer
+          .map { address =>
+            initial.set(ApplicantSecondaryLegalContactUkAddressPage, address).success.value
+          }
+          .getOrElse(initial)
 
-          val answers = answer.map {
-            address =>
-              initial.set(ApplicantSecondaryLegalContactUkAddressPage, address).success.value
-          }.getOrElse(initial)
+        val result = answers.set(IsApplicantSecondaryLegalContactUkBasedPage, false).success.value
 
-          val result = answers.set(IsApplicantSecondaryLegalContactUkBasedPage, false).success.value
-
-          result.get(ApplicantSecondaryLegalContactUkAddressPage) mustNot be (defined)
+        result.get(ApplicantSecondaryLegalContactUkAddressPage) mustNot be(defined)
       }
     }
 
     "remove ApplicantSecondaryLegalContactInternationalAddress when IsApplicantSecondaryLegalContactUkBasedPage is set to true" in {
 
-      forAll(arbitrary[UserAnswers], arbitrary[Option[InternationalAddress]]) {
-        (initial, answer) =>
+      forAll(arbitrary[UserAnswers], arbitrary[Option[InternationalAddress]]) { (initial, answer) =>
+        val answers = answer
+          .map { address =>
+            initial.set(ApplicantSecondaryLegalContactInternationalAddressPage, address).success.value
+          }
+          .getOrElse(initial)
 
-          val answers = answer.map {
-            address =>
-              initial.set(ApplicantSecondaryLegalContactInternationalAddressPage, address).success.value
-          }.getOrElse(initial)
+        val result = answers.set(IsApplicantSecondaryLegalContactUkBasedPage, true).success.value
 
-          val result = answers.set(IsApplicantSecondaryLegalContactUkBasedPage, true).success.value
-
-          result.get(ApplicantSecondaryLegalContactInternationalAddressPage) mustNot be (defined)
+        result.get(ApplicantSecondaryLegalContactInternationalAddressPage) mustNot be(defined)
       }
     }
 
     "remove ApplicantSecondaryLegalContactUkAddressPage when IsApplicantSecondaryLegalContactUkBased is set to false" in {
 
-      forAll(arbitrary[UserAnswers], arbitrary[Option[UkAddress]]) {
-        (initial, answer) =>
+      forAll(arbitrary[UserAnswers], arbitrary[Option[UkAddress]]) { (initial, answer) =>
+        val answers = answer
+          .map { address =>
+            initial.set(ApplicantSecondaryLegalContactUkAddressPage, address).success.value
+          }
+          .getOrElse(initial)
 
-          val answers = answer.map {
-            address =>
-              initial.set(ApplicantSecondaryLegalContactUkAddressPage, address).success.value
-          }.getOrElse(initial)
+        val result = answers.set(IsApplicantSecondaryLegalContactUkBasedPage, false).success.value
 
-          val result = answers.set(IsApplicantSecondaryLegalContactUkBasedPage, false).success.value
-
-          result.get(ApplicantSecondaryLegalContactUkAddressPage) mustNot be (defined)
+        result.get(ApplicantSecondaryLegalContactUkAddressPage) mustNot be(defined)
       }
     }
 

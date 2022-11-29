@@ -20,7 +20,7 @@ import org.jsoup.nodes.Document
 import views.behaviours.ViewBehaviours
 import views.html.ConfirmedRemovedContactView
 
-class ConfirmedRemovedContactViewSpec extends ViewBehaviours{
+class ConfirmedRemovedContactViewSpec extends ViewBehaviours {
 
   "ConfirmedRemovedContactView" must {
     "when passed technical return the confirmed removed technical contact page" must {
@@ -60,10 +60,19 @@ class ConfirmedRemovedContactViewSpec extends ViewBehaviours{
       val applyView = view.apply(afaId, "legal")(messages)
 
       behave like normalPageUsingDesignSystem(
-        frontendAppConfig, applyView, "confirmedRemovedContact", args = Seq("Legal", afaId), argsUsedInBrowserTitle = true, afaIdInHeader = false)
+        frontendAppConfig,
+        applyView,
+        "confirmedRemovedContact",
+        args = Seq("Legal", afaId),
+        argsUsedInBrowserTitle = true,
+        afaIdInHeader = false
+      )
 
       behave like pageWithButtonLinkUsingDesignSystem(
-        applyView, "confirmedRemovedContact.returnToCheck", controllers.routes.CheckYourAnswersController.onPageLoad(afaId).url)
+        applyView,
+        "confirmedRemovedContact.returnToCheck",
+        controllers.routes.CheckYourAnswersController.onPageLoad(afaId).url
+      )
 
       "Confirmation panel" must {
         implicit val doc: Document = asDocument(applyView)

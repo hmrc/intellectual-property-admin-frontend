@@ -37,20 +37,26 @@ import views.html.SelectTechnicalContactView
 
 import scala.concurrent.Future
 
-class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks with BeforeAndAfterEach {
+class SelectTechnicalContactControllerSpec
+    extends SpecBase
+    with MockitoSugar
+    with LockAfaChecks
+    with BeforeAndAfterEach {
 
-  def onwardRoute: Call = Call("GET", "/foo")
-  private val contactsService = mock[ContactsService]
+  def onwardRoute: Call                  = Call("GET", "/foo")
+  private val contactsService            = mock[ContactsService]
   private def form: Form[ContactOptions] = formProvider()
 
-  val afaId: AfaId = userAnswersId
-  val formProvider = new SelectTechnicalContactFormProvider()
-  val invalidValue = "invalid value"
+  val afaId: AfaId             = userAnswersId
+  val formProvider             = new SelectTechnicalContactFormProvider()
+  val invalidValue             = "invalid value"
   val userAnswers: UserAnswers = emptyUserAnswers
-    .set(CompanyApplyingPage, CompanyApplying(companyApplyingName, None)).success.value
+    .set(CompanyApplyingPage, CompanyApplying(companyApplyingName, None))
+    .success
+    .value
 
-
-  lazy val selectTechnicalContactRoute: String = routes.SelectTechnicalContactController.onPageLoad(NormalMode, afaId).url
+  lazy val selectTechnicalContactRoute: String =
+    routes.SelectTechnicalContactController.onPageLoad(NormalMode, afaId).url
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, selectTechnicalContactRoute)
@@ -63,9 +69,8 @@ class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar wi
     FakeRequest(POST, selectTechnicalContactRoute)
       .withFormUrlEncodedBody(("value", "invalidValue"))
 
-  override def beforeEach(): Unit = {
+  override def beforeEach(): Unit =
     Mockito.reset(contactsService)
-  }
 
   "SelectTechnicalContactController" must {
     "return OK and the correct view for a GET" in {
@@ -87,8 +92,12 @@ class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar wi
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = emptyUserAnswers
-        .set(CompanyApplyingPage, CompanyApplying(companyApplyingName, None)).success.value
-        .set(SelectTechnicalContactPage, ContactOptions.RepresentativeContact).success.value
+        .set(CompanyApplyingPage, CompanyApplying(companyApplyingName, None))
+        .success
+        .value
+        .set(SelectTechnicalContactPage, ContactOptions.RepresentativeContact)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -99,7 +108,10 @@ class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar wi
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(ContactOptions.RepresentativeContact), NormalMode, afaId, companyApplyingName, Seq.empty)(getRequest(), messages).toString
+        view(form.fill(ContactOptions.RepresentativeContact), NormalMode, afaId, companyApplyingName, Seq.empty)(
+          getRequest(),
+          messages
+        ).toString
 
       application.stop()
     }
@@ -142,7 +154,6 @@ class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar wi
         when(contactsService.getContactIsUKBased(any())(any())).thenReturn(Some(false))
         when(contactsService.getContactUKAddress(any())(any())).thenReturn(None)
         when(contactsService.getContactInternationalAddress(any())(any())).thenReturn(Some(internationalAddress))
-
 
         val application =
           applicationBuilder(userAnswers = Some(userAnswers))
@@ -214,49 +225,49 @@ class SelectTechnicalContactControllerSpec extends SpecBase with MockitoSugar wi
       "redirect to session expired controller when there is true for contactUKAddress and uk address" +
         "is none" in {
 
-        when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
-        when(contactsService.getContact(any())(any())).thenReturn(technicalContactDetails)
-        when(contactsService.getContactIsUKBased(any())(any())).thenReturn(Some(true))
-        when(contactsService.getContactUKAddress(any())(any())).thenReturn(None)
-        when(contactsService.getContactInternationalAddress(any())(any())).thenReturn(None)
+          when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
+          when(contactsService.getContact(any())(any())).thenReturn(technicalContactDetails)
+          when(contactsService.getContactIsUKBased(any())(any())).thenReturn(Some(true))
+          when(contactsService.getContactUKAddress(any())(any())).thenReturn(None)
+          when(contactsService.getContactInternationalAddress(any())(any())).thenReturn(None)
 
-        val application =
-          applicationBuilder(userAnswers = Some(userAnswers))
-            .overrides(
-              bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-              bind[ContactsService].toInstance(contactsService)
-            )
-            .build()
+          val application =
+            applicationBuilder(userAnswers = Some(userAnswers))
+              .overrides(
+                bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+                bind[ContactsService].toInstance(contactsService)
+              )
+              .build()
 
-        val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
+          val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
-        application.stop()
-      }
+          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
+          application.stop()
+        }
       "redirect to session expired controller when there is false for contactUKAddress and internation address" +
         "is none" in {
 
-        when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
-        when(contactsService.getContact(any())(any())).thenReturn(technicalContactDetails)
-        when(contactsService.getContactIsUKBased(any())(any())).thenReturn(Some(false))
-        when(contactsService.getContactUKAddress(any())(any())).thenReturn(None)
-        when(contactsService.getContactInternationalAddress(any())(any())).thenReturn(None)
+          when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
+          when(contactsService.getContact(any())(any())).thenReturn(technicalContactDetails)
+          when(contactsService.getContactIsUKBased(any())(any())).thenReturn(Some(false))
+          when(contactsService.getContactUKAddress(any())(any())).thenReturn(None)
+          when(contactsService.getContactInternationalAddress(any())(any())).thenReturn(None)
 
-        val application =
-          applicationBuilder(userAnswers = Some(userAnswers))
-            .overrides(
-              bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-              bind[ContactsService].toInstance(contactsService)
-            )
-            .build()
+          val application =
+            applicationBuilder(userAnswers = Some(userAnswers))
+              .overrides(
+                bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+                bind[ContactsService].toInstance(contactsService)
+              )
+              .build()
 
-        val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
+          val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
-        application.stop()
-      }
+          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
+          application.stop()
+        }
     }
 
     "return a Bad Request and errors when invalid data is submitted" in {

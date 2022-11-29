@@ -26,16 +26,19 @@ import views.html.SelectOtherTechnicalContactView
 
 class SelectOtherTechnicalContactViewSpec extends ViewBehaviours {
 
-  val messageKeyPrefix = "selectOtherTechnicalContact"
-  val companyName = "companyName"
-  val radioOptionsMin = Seq((ContactOptions.RepresentativeContact, "repContact"), (ContactOptions.LegalContact, "legalContact"))
-  val radioOptionsMax = Seq((ContactOptions.RepresentativeContact, "repContact"), (ContactOptions.LegalContact, "legalContact"),
-    (ContactOptions.SecondaryLegalContact, "otherLegalContact"))
+  val messageKeyPrefix    = "selectOtherTechnicalContact"
+  val companyName         = "companyName"
+  val radioOptionsMin     =
+    Seq((ContactOptions.RepresentativeContact, "repContact"), (ContactOptions.LegalContact, "legalContact"))
+  val radioOptionsMax     = Seq(
+    (ContactOptions.RepresentativeContact, "repContact"),
+    (ContactOptions.LegalContact, "legalContact"),
+    (ContactOptions.SecondaryLegalContact, "otherLegalContact")
+  )
   val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > ul > li > a"
-  val radioErrorMessage = "#value-error"
+  val radioErrorMessage   = "#value-error"
 
-
-  val form: Form[ContactOptions] = new SelectOtherTechnicalContactFormProvider()()
+  val form: Form[ContactOptions]            = new SelectOtherTechnicalContactFormProvider()()
   val view: SelectOtherTechnicalContactView = injectInstanceOf[SelectOtherTechnicalContactView]()
 
   "SelectOtherTechnicalContactView" must {
@@ -52,7 +55,8 @@ class SelectOtherTechnicalContactViewSpec extends ViewBehaviours {
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
 
     "For only a representative and legal contact" should {
-      implicit val doc: Document = asDocument(view(form, NormalMode, afaId, companyName, radioOptionsMin)(fakeRequest, messages))
+      implicit val doc: Document =
+        asDocument(view(form, NormalMode, afaId, companyName, radioOptionsMin)(fakeRequest, messages))
 
       "display the correct number of radio options" in {
         assertRenderedById(doc, "value-representativeContact")
@@ -64,13 +68,17 @@ class SelectOtherTechnicalContactViewSpec extends ViewBehaviours {
         element("#value-representativeContact").attr("value") mustBe "representativeContact"
       }
       "have the correct label for the first radio button" in {
-        element("div.govuk-form-group > fieldset > div > div:nth-child(1) > label").attr("for") mustBe "value-representativeContact"
+        element("div.govuk-form-group > fieldset > div > div:nth-child(1) > label").attr(
+          "for"
+        ) mustBe "value-representativeContact"
       }
       "have the correct value for the second radio button" in {
         element("#value-legalContact").attr("value") mustBe "legalContact"
       }
       "have the correct label for the second radio button" in {
-        element("div.govuk-form-group > fieldset > div > div:nth-child(2) > label").attr("for") mustBe "value-legalContact"
+        element("div.govuk-form-group > fieldset > div > div:nth-child(2) > label").attr(
+          "for"
+        ) mustBe "value-legalContact"
       }
       "have the 'or' text before the final radio button" in {
         elementText("div.govuk-radios__divider") mustEqual "or"
@@ -84,7 +92,8 @@ class SelectOtherTechnicalContactViewSpec extends ViewBehaviours {
     }
 
     "For a representative, legal and otherLegal contact" should {
-      implicit val doc: Document = asDocument(view(form, NormalMode, afaId, companyName, radioOptionsMax)(fakeRequest, messages))
+      implicit val doc: Document =
+        asDocument(view(form, NormalMode, afaId, companyName, radioOptionsMax)(fakeRequest, messages))
 
       "display the correct number of radio options" in {
         assertRenderedById(doc, "value-representativeContact")
@@ -97,19 +106,25 @@ class SelectOtherTechnicalContactViewSpec extends ViewBehaviours {
         element("#value-representativeContact").attr("value") mustBe "representativeContact"
       }
       "have the correct label for the first radio button" in {
-        element("div.govuk-form-group > fieldset > div > div:nth-child(1) > label").attr("for") mustBe "value-representativeContact"
+        element("div.govuk-form-group > fieldset > div > div:nth-child(1) > label").attr(
+          "for"
+        ) mustBe "value-representativeContact"
       }
       "have the correct value for the second radio button" in {
         element("#value-legalContact").attr("value") mustBe "legalContact"
       }
       "have the correct label for the second radio button" in {
-        element("div.govuk-form-group > fieldset > div > div:nth-child(2) > label").attr("for") mustBe "value-legalContact"
+        element("div.govuk-form-group > fieldset > div > div:nth-child(2) > label").attr(
+          "for"
+        ) mustBe "value-legalContact"
       }
       "have the correct value for the third radio button" in {
         element("#value-secondaryLegalContact").attr("value") mustBe "secondaryLegalContact"
       }
       "have the correct label for the third radio button" in {
-        element("div.govuk-form-group > fieldset > div > div:nth-child(3) > label").attr("for") mustBe "value-secondaryLegalContact"
+        element("div.govuk-form-group > fieldset > div > div:nth-child(3) > label").attr(
+          "for"
+        ) mustBe "value-secondaryLegalContact"
       }
       "have the 'or' text before the final radio button" in {
         elementText("div.govuk-radios__divider") mustEqual "or"
@@ -123,8 +138,9 @@ class SelectOtherTechnicalContactViewSpec extends ViewBehaviours {
     }
 
     "when no options are selected" should {
-      lazy implicit val document: Document = asDocument(view(form.bind(
-        Map("value" -> "")),NormalMode, afaId, companyName, radioOptionsMax)(fakeRequest, messages))
+      lazy implicit val document: Document = asDocument(
+        view(form.bind(Map("value" -> "")), NormalMode, afaId, companyName, radioOptionsMax)(fakeRequest, messages)
+      )
 
       "display the correct document title" in {
         document.title mustBe "Error: Select the other technical contact - Protect intellectual property rights"

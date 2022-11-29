@@ -32,76 +32,70 @@ import views.html.UnlockAfaView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class UnlockAfaController @Inject()(
-                                     override val messagesApi: MessagesApi,
-                                     lockService: LockService,
-                                     navigator: Navigator,
-                                     identify: IdentifierAction,
-                                     getData: AfaDraftDataRetrievalAction,
-                                     formProvider: UnlockAfaFormProvider,
-                                     val controllerComponents: MessagesControllerComponents,
-                                     view: UnlockAfaView
-                                   )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class UnlockAfaController @Inject() (
+  override val messagesApi: MessagesApi,
+  lockService: LockService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getData: AfaDraftDataRetrievalAction,
+  formProvider: UnlockAfaFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: UnlockAfaView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form: Form[Boolean] = formProvider()
 
-  def onPageLoad(afaId: AfaId): Action[AnyContent] = (identify andThen getData(afaId)).async {
-    implicit request =>
-      getCompanyApplyingName {
-        companyApplyingName =>
-
-          lockService.getExistingLock(afaId).map {
-            existingLock =>
-
-              existingLock.map {
-                lock =>
-                  Ok(view(form, afaId, lock.name, companyApplyingName))
-              }.getOrElse(throw new Exception("Expected AFA to be locked but it isn't"))
+  def onPageLoad(afaId: AfaId): Action[AnyContent] = (identify andThen getData(afaId)).async { implicit request =>
+    getCompanyApplyingName { companyApplyingName =>
+      lockService.getExistingLock(afaId).map { existingLock =>
+        existingLock
+          .map { lock =>
+            Ok(view(form, afaId, lock.name, companyApplyingName))
           }
+          .getOrElse(throw new Exception("Expected AFA to be locked but it isn't"))
       }
+    }
   }
 
-  def onSubmit(afaId: AfaId): Action[AnyContent] = (identify andThen getData(afaId)).async {
-    implicit request =>
-      getCompanyApplyingName {
-        companyApplyingName =>
-
-          form.bindFromRequest().fold(
-            formWithErrors =>
-
-              lockService.getExistingLock(afaId).map {
-                existingLock =>
-
-                  existingLock.map {
-                    lock =>
-                      BadRequest(view(formWithErrors, afaId, lock.name, companyApplyingName))
-                  }.getOrElse(throw new Exception("Expected AFA to be locked but it isn't"))
-              },
-
-            unlock => {
-
-              val userAnswers = request.userAnswers.getOrElse(UserAnswers(afaId))
-
-              for {
-                updatedAnswers <- Future.fromTry(userAnswers.set(UnlockAfaPage, unlock))
-                _ <- if (unlock) {
-                  lockService.replaceLock(afaId)
-                } else {
-                  Future.successful(())
+  def onSubmit(afaId: AfaId): Action[AnyContent] = (identify andThen getData(afaId)).async { implicit request =>
+    getCompanyApplyingName { companyApplyingName =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors =>
+            lockService.getExistingLock(afaId).map { existingLock =>
+              existingLock
+                .map { lock =>
+                  BadRequest(view(formWithErrors, afaId, lock.name, companyApplyingName))
                 }
-              } yield Redirect(navigator.nextPage(UnlockAfaPage, NormalMode, updatedAnswers))
-            }
-          )
-      }
+                .getOrElse(throw new Exception("Expected AFA to be locked but it isn't"))
+            },
+          unlock => {
+
+            val userAnswers = request.userAnswers.getOrElse(UserAnswers(afaId))
+
+            for {
+              updatedAnswers <- Future.fromTry(userAnswers.set(UnlockAfaPage, unlock))
+              _              <- if (unlock) {
+                                  lockService.replaceLock(afaId)
+                                } else {
+                                  Future.successful(())
+                                }
+            } yield Redirect(navigator.nextPage(UnlockAfaPage, NormalMode, updatedAnswers))
+          }
+        )
+    }
   }
 
-  private def getCompanyApplyingName(block: Option[String] => Future[Result])
-                                    (implicit request: OptionalDataRequest[AnyContent]): Future[Result] = {
-
-    request.userAnswers.flatMap(_.get(CompanyApplyingPage)).map {
-      company =>
-
+  private def getCompanyApplyingName(
+    block: Option[String] => Future[Result]
+  )(implicit request: OptionalDataRequest[AnyContent]): Future[Result] =
+    request.userAnswers
+      .flatMap(_.get(CompanyApplyingPage))
+      .map { company =>
         block(Some(company.acronym.getOrElse(company.name)))
-    }.getOrElse(block(None))
-  }
+      }
+      .getOrElse(block(None))
 }

@@ -40,17 +40,16 @@ class AdditionalInfoProvidedControllerSpec extends SpecBase with MockitoSugar wi
 
   val afaId: AfaId = userAnswersId
 
-  val formProvider = new AdditionalInfoProvidedFormProvider()
+  val formProvider                = new AdditionalInfoProvidedFormProvider()
   private def form: Form[Boolean] = formProvider()
 
-  lazy val additionalInfoProvidedRoute: String = routes.AdditionalInfoProvidedController.onPageLoad(NormalMode, afaId).url
+  lazy val additionalInfoProvidedRoute: String =
+    routes.AdditionalInfoProvidedController.onPageLoad(NormalMode, afaId).url
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
-
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, additionalInfoProvidedRoute)
-
 
   def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, additionalInfoProvidedRoute)
@@ -60,10 +59,8 @@ class AdditionalInfoProvidedControllerSpec extends SpecBase with MockitoSugar wi
 
     "return OK and the correct view for a GET" in {
       val mockAfaService: AfaService = mock[AfaService]
-      val application = applicationBuilder(
-        userAnswers = Some(emptyUserAnswers))
-        .overrides(
-          bind[AfaService].toInstance(mockAfaService))
+      val application                = applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        .overrides(bind[AfaService].toInstance(mockAfaService))
         .build()
 
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)

@@ -34,19 +34,15 @@ class AfaIdSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks 
 
     "must bind from a url" in {
 
-      forAll(arbitrary[String], arbitrary[AfaId]) {
-        (key, afaId) =>
-
-          pathBindable.bind(key, afaId.toString) mustBe Right(afaId)
+      forAll(arbitrary[String], arbitrary[AfaId]) { (key, afaId) =>
+        pathBindable.bind(key, afaId.toString) mustBe Right(afaId)
       }
     }
 
     "must unbind to a url" in {
 
-      forAll(arbitrary[String], arbitrary[AfaId]) {
-        (key, value) =>
-
-          pathBindable.unbind(key, value) mustEqual value.toString
+      forAll(arbitrary[String], arbitrary[AfaId]) { (key, value) =>
+        pathBindable.unbind(key, value) mustEqual value.toString
       }
     }
 

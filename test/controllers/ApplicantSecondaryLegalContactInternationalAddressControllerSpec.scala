@@ -35,21 +35,26 @@ import views.html.ApplicantSecondaryLegalContactInternationalAddressView
 
 import scala.concurrent.Future
 
-class ApplicantSecondaryLegalContactInternationalAddressControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks {
+class ApplicantSecondaryLegalContactInternationalAddressControllerSpec
+    extends SpecBase
+    with MockitoSugar
+    with LockAfaChecks {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
   val afaId: AfaId = userAnswersId
-  
-  val secondaryLegalContact: WhoIsSecondaryLegalContact = WhoIsSecondaryLegalContact("name", "companyName", "telephone", "email")
 
-  val formProvider = new ApplicantSecondaryLegalContactInternationalAddressFormProvider()
+  val secondaryLegalContact: WhoIsSecondaryLegalContact =
+    WhoIsSecondaryLegalContact("name", "companyName", "telephone", "email")
+
+  val formProvider                             = new ApplicantSecondaryLegalContactInternationalAddressFormProvider()
   private def form: Form[InternationalAddress] = formProvider()
 
   lazy val applicantSecondaryLegalContactInternationalAddressRoute: String =
     routes.ApplicantSecondaryLegalContactInternationalAddressController.onPageLoad(NormalMode, afaId).url
 
-  private val baseUserAnswers = UserAnswers(afaId).set(WhoIsSecondaryLegalContactPage, secondaryLegalContact).success.value
+  private val baseUserAnswers =
+    UserAnswers(afaId).set(WhoIsSecondaryLegalContactPage, secondaryLegalContact).success.value
 
   val validAnswer: InternationalAddress = InternationalAddress("line 1", None, "town", "country", None)
 
@@ -81,18 +86,23 @@ class ApplicantSecondaryLegalContactInternationalAddressControllerSpec extends S
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers: UserAnswers = baseUserAnswers.set(ApplicantSecondaryLegalContactInternationalAddressPage, validAnswer).success.value
+      val userAnswers: UserAnswers =
+        baseUserAnswers.set(ApplicantSecondaryLegalContactInternationalAddressPage, validAnswer).success.value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val view: ApplicantSecondaryLegalContactInternationalAddressView = application.injector.instanceOf[ApplicantSecondaryLegalContactInternationalAddressView]
+      val view: ApplicantSecondaryLegalContactInternationalAddressView =
+        application.injector.instanceOf[ApplicantSecondaryLegalContactInternationalAddressView]
 
       val result: Future[Result] = route(application, getRequest()).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, secondaryLegalContact.contactName, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, secondaryLegalContact.contactName, afaId)(
+          getRequest(),
+          messages
+        ).toString
 
       application.stop()
     }
@@ -125,7 +135,7 @@ class ApplicantSecondaryLegalContactInternationalAddressControllerSpec extends S
 
       val request =
         FakeRequest(POST, applicantSecondaryLegalContactInternationalAddressRoute)
-      .withFormUrlEncodedBody(("value", "invalid value"))
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm: Form[InternationalAddress] = form.bind(Map("value" -> "invalid value"))
 

@@ -40,9 +40,10 @@ class RepresentativeContactInternationalAddressControllerSpec extends SpecBase w
 
   val afaId: AfaId = userAnswersId
 
-  val representativeContact: RepresentativeDetails = RepresentativeDetails("name", "companyName", "phone", "email", Some("role"))
-  val formProvider = new RepresentativeContactInternationalAddressFormProvider()
-  private def form: Form[InternationalAddress] = formProvider()
+  val representativeContact: RepresentativeDetails =
+    RepresentativeDetails("name", "companyName", "phone", "email", Some("role"))
+  val formProvider                                 = new RepresentativeContactInternationalAddressFormProvider()
+  private def form: Form[InternationalAddress]     = formProvider()
 
   lazy val representativeContactInternationalAddressRoute: String =
     routes.RepresentativeContactInternationalAddressController.onPageLoad(NormalMode, afaId).url
@@ -89,7 +90,10 @@ class RepresentativeContactInternationalAddressControllerSpec extends SpecBase w
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, representativeContact.contactName, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, representativeContact.contactName, afaId)(
+          getRequest(),
+          messages
+        ).toString
 
       application.stop()
     }

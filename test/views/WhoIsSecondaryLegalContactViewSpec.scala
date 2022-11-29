@@ -40,7 +40,8 @@ class WhoIsSecondaryLegalContactViewSpec extends TextInputViewBehaviours[WhoIsSe
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, NormalMode, afaId, "applicantName")(fakeRequest, messages)
 
-    val renderedView: HtmlFormat.Appendable = view.apply(form, NormalMode, afaId, "applicantName")(fakeRequest, messages)
+    val renderedView: HtmlFormat.Appendable =
+      view.apply(form, NormalMode, afaId, "applicantName")(fakeRequest, messages)
 
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView(form), messageKeyPrefix, Seq("applicantName"))
 

@@ -32,8 +32,15 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class LockServiceSpec extends AnyFreeSpec with Matchers with TryValues with MockitoSugar with BeforeAndAfterEach
-  with ScalaFutures with OptionValues with AfaGenerators {
+class LockServiceSpec
+    extends AnyFreeSpec
+    with Matchers
+    with TryValues
+    with MockitoSugar
+    with BeforeAndAfterEach
+    with ScalaFutures
+    with OptionValues
+    with AfaGenerators {
 
   private val lockConnector = mock[LockConnector]
 
@@ -53,16 +60,15 @@ class LockServiceSpec extends AnyFreeSpec with Matchers with TryValues with Mock
       "must get the draft AFA existing lock" in {
 
         val service = new DefaultLockService(lockConnector)
-        val lock = Lock(afaId, "foo", "bar")
+        val lock    = Lock(afaId, "foo", "bar")
 
         when(lockConnector.getExistingLock(afaId)) thenReturn
           Future.successful(Some(lock))
 
         val result = service.getExistingLock(afaId)
         result.futureValue.value mustBe lock
-        whenReady(result) {
-          _ =>
-            verify(lockConnector, times(1)).getExistingLock(eqTo(afaId))(any())
+        whenReady(result) { _ =>
+          verify(lockConnector, times(1)).getExistingLock(eqTo(afaId))(any())
         }
       }
     }
@@ -73,14 +79,13 @@ class LockServiceSpec extends AnyFreeSpec with Matchers with TryValues with Mock
 
         val service = new DefaultLockService(lockConnector)
 
-        when(lockConnector.removeLock(afaId) )thenReturn Future.successful((): Unit)
+        when(lockConnector.removeLock(afaId)) thenReturn Future.successful((): Unit)
 
         val result = service.removeLock(afaId)
         result.futureValue mustBe {}
 
-        whenReady(result) {
-          _ =>
-            verify(lockConnector, times(1)).removeLock(eqTo(afaId))(any())
+        whenReady(result) { _ =>
+          verify(lockConnector, times(1)).removeLock(eqTo(afaId))(any())
         }
       }
     }
@@ -99,9 +104,8 @@ class LockServiceSpec extends AnyFreeSpec with Matchers with TryValues with Mock
         val result = service.lockList
         result.futureValue mustBe lockList
 
-        whenReady(result) {
-          _ =>
-            verify(lockConnector, times(1)).lockList(any())
+        whenReady(result) { _ =>
+          verify(lockConnector, times(1)).lockList(any())
         }
       }
     }
@@ -117,9 +121,8 @@ class LockServiceSpec extends AnyFreeSpec with Matchers with TryValues with Mock
 
         val result = service.replaceLock(afaId)
         result.futureValue mustBe true
-        whenReady(result) {
-          _ =>
-            verify(lockConnector, times(1)).replaceLock(eqTo(afaId))(any())
+        whenReady(result) { _ =>
+          verify(lockConnector, times(1)).replaceLock(eqTo(afaId))(any())
         }
       }
     }
@@ -135,9 +138,8 @@ class LockServiceSpec extends AnyFreeSpec with Matchers with TryValues with Mock
 
         val result = service.lock(afaId)
         result.futureValue mustBe true
-        whenReady(result) {
-          _ =>
-            verify(lockConnector, times(1)).lock(eqTo(afaId))(any())
+        whenReady(result) { _ =>
+          verify(lockConnector, times(1)).lock(eqTo(afaId))(any())
         }
 
       }

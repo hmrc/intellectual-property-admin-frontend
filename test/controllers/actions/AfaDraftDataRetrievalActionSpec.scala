@@ -37,12 +37,14 @@ import services.AfaService
 
 import scala.concurrent.Future
 
-class AfaDraftDataRetrievalActionSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuite with ScalaFutures
-  with MockitoSugar with ModelGenerators with OptionValues {
-
-  val mockAfaService: AfaService = mock[AfaService]
-
-  val userAnswersId: AfaId = arbitrary[AfaId].sample.value
+class AfaDraftDataRetrievalActionSpec
+    extends AnyFreeSpec
+    with Matchers
+    with GuiceOneAppPerSuite
+    with ScalaFutures
+    with MockitoSugar
+    with ModelGenerators
+    with OptionValues {
 
   override lazy val app: Application = {
 
@@ -51,18 +53,25 @@ class AfaDraftDataRetrievalActionSpec extends AnyFreeSpec with Matchers with Gui
     new GuiceApplicationBuilder()
       .overrides(
         bind[AfaService].toInstance(mockAfaService)
-      ).build()
+      )
+      .build()
   }
+  val mockAfaService: AfaService = mock[AfaService]
+  val userAnswersId: AfaId       = arbitrary[AfaId].sample.value
 
   def harness(afaId: AfaId, f: OptionalDataRequest[AnyContent] => Unit): Unit = {
 
     lazy val actionProvider = app.injector.instanceOf[AfaDraftDataRetrievalActionProviderImpl]
 
-    actionProvider(afaId).invokeBlock(IdentifierRequest(FakeRequest(GET, "/"), "", ""), {
-      request: OptionalDataRequest[AnyContent] =>
-        f(request)
-        Future.successful(Results.Ok)
-    }).futureValue
+    actionProvider(afaId)
+      .invokeBlock(
+        IdentifierRequest(FakeRequest(GET, "/"), "", ""),
+        { request: OptionalDataRequest[AnyContent] =>
+          f(request)
+          Future.successful(Results.Ok)
+        }
+      )
+      .futureValue
   }
 
   "an afa data retrieval action" - {
@@ -73,11 +82,10 @@ class AfaDraftDataRetrievalActionSpec extends AnyFreeSpec with Matchers with Gui
 
         when(mockAfaService.getDraft(any())(any())) thenReturn Future.successful(None)
 
-        harness(userAnswersId, {
-          request =>
-
-            request.userAnswers mustNot be (defined)
-        })
+        harness(
+          userAnswersId,
+          request => request.userAnswers mustNot be(defined)
+        )
       }
     }
 
@@ -87,11 +95,10 @@ class AfaDraftDataRetrievalActionSpec extends AnyFreeSpec with Matchers with Gui
 
         when(mockAfaService.getDraft(any())(any())) thenReturn Future.successful(Some(UserAnswers(userAnswersId)))
 
-        harness(userAnswersId, {
-          request =>
-
-            request.userAnswers mustBe defined
-        })
+        harness(
+          userAnswersId,
+          request => request.userAnswers mustBe defined
+        )
       }
     }
   }

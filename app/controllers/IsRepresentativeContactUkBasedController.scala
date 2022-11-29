@@ -33,62 +33,61 @@ import views.html.IsRepresentativeContactUkBasedView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IsRepresentativeContactUkBasedController @Inject()(
-                                                          override val messagesApi: MessagesApi,
-                                                          afaService: AfaService,
-                                                          navigator: Navigator,
-                                                          identify: IdentifierAction,
-                                                          getLock: LockAfaActionProvider,
-                                                          getData: AfaDraftDataRetrievalAction,
-                                                          requireData: DataRequiredAction,
-                                                          formProvider: IsRepresentativeContactUkBasedFormProvider,
-                                                          val controllerComponents: MessagesControllerComponents,
-                                                          view: IsRepresentativeContactUkBasedView
-                                                        )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IsRepresentativeContactUkBasedController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: IsRepresentativeContactUkBasedFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IsRepresentativeContactUkBasedView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getRepresentativeContactName {
-        representativeContactName =>
+  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getRepresentativeContactName { representativeContactName =>
+        val form = formProvider(representativeContactName)
 
-          val form = formProvider(representativeContactName)
+        val preparedForm = request.userAnswers.get(IsRepresentativeContactUkBasedPage) match {
+          case None        => form
+          case Some(value) => form.fill(value)
+        }
 
-          val preparedForm = request.userAnswers.get(IsRepresentativeContactUkBasedPage) match {
-            case None => form
-            case Some(value) => form.fill(value)
-          }
-
-          Future.successful(Ok(view(preparedForm, mode, representativeContactName, afaId)))
+        Future.successful(Ok(view(preparedForm, mode, representativeContactName, afaId)))
       }
-  }
+    }
 
-  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getRepresentativeContactName {
-        representativeContactName =>
+  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getRepresentativeContactName { representativeContactName =>
+        val form = formProvider(representativeContactName)
 
-          val form = formProvider(representativeContactName)
-
-          form.bindFromRequest().fold(
+        form
+          .bindFromRequest()
+          .fold(
             (formWithErrors: Form[_]) =>
               Future.successful(BadRequest(view(formWithErrors, mode, representativeContactName, afaId))),
-
-            value => {
+            value =>
               for {
                 updatedAnswers <- Future.fromTry(request.userAnswers.set(IsRepresentativeContactUkBasedPage, value))
-                _ <- afaService.set(updatedAnswers)
+                _              <- afaService.set(updatedAnswers)
               } yield Redirect(navigator.nextPage(IsRepresentativeContactUkBasedPage, mode, updatedAnswers))
-            }
           )
       }
-  }
+    }
 
-  private def getRepresentativeContactName(block: String => Future[Result])
-                                          (implicit request: DataRequest[AnyContent]): Future[Result] = {
-
-    request.userAnswers.get(RepresentativeDetailsPage).map {
-      representativeContact =>
+  private def getRepresentativeContactName(
+    block: String => Future[Result]
+  )(implicit request: DataRequest[AnyContent]): Future[Result] =
+    request.userAnswers
+      .get(RepresentativeDetailsPage)
+      .map { representativeContact =>
         block(representativeContact.contactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
-  }
+      }
+      .getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 }

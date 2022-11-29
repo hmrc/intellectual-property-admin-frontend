@@ -24,10 +24,10 @@ import queries.{Gettable, Settable}
 import scala.util.{Failure, Success, Try}
 
 final case class UserAnswers(
-                              id: AfaId,
-                              data: JsObject = Json.obj(),
-                              lastUpdated: LocalDateTime = LocalDateTime.now.truncatedTo(java.time.temporal.ChronoUnit.MILLIS)
-                            ) {
+  id: AfaId,
+  data: JsObject = Json.obj(),
+  lastUpdated: LocalDateTime = LocalDateTime.now.truncatedTo(java.time.temporal.ChronoUnit.MILLIS)
+) {
 
   def get[A](query: Gettable[A])(implicit rds: Reads[A]): Option[A] =
     Reads.optionNoError(Reads.at(query.path)).reads(data).getOrElse(None)
@@ -36,14 +36,13 @@ final case class UserAnswers(
     val updatedData = data.setObject(query.path, Json.toJson(value)) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
-      case JsError(errors) =>
+      case JsError(errors)       =>
         Failure(JsResultException(errors))
     }
 
-    updatedData.flatMap {
-      d =>
-        val updatedAnswers = copy (data = d)
-        query.cleanup(Some(value), updatedAnswers)
+    updatedData.flatMap { d =>
+      val updatedAnswers = copy(data = d)
+      query.cleanup(Some(value), updatedAnswers)
     }
   }
 
@@ -52,14 +51,13 @@ final case class UserAnswers(
     val updatedData = data.removeObject(query.path) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
-      case JsError(_) =>
+      case JsError(_)            =>
         Success(data)
     }
 
-    updatedData.flatMap {
-      d =>
-        val updatedAnswers = copy (data = d)
-        query.cleanup(None, updatedAnswers)
+    updatedData.flatMap { d =>
+      val updatedAnswers = copy(data = d)
+      query.cleanup(None, updatedAnswers)
     }
   }
 }
@@ -72,9 +70,9 @@ object UserAnswers {
 
     (
       (__ \ "_id").read[AfaId] and
-      (__ \ "data").read[JsObject] and
-      (__ \ "lastUpdated").read(MongoDateTimeFormats.localDateTimeRead)
-    ) (UserAnswers.apply _)
+        (__ \ "data").read[JsObject] and
+        (__ \ "lastUpdated").read(MongoDateTimeFormats.localDateTimeRead)
+    )(UserAnswers.apply _)
   }
 
   implicit lazy val writes: OWrites[UserAnswers] = {
@@ -83,8 +81,8 @@ object UserAnswers {
 
     (
       (__ \ "_id").write[AfaId] and
-      (__ \ "data").write[JsObject] and
-      (__ \ "lastUpdated").write(MongoDateTimeFormats.localDateTimeWrite)
-    ) (unlift(UserAnswers.unapply))
+        (__ \ "data").write[JsObject] and
+        (__ \ "lastUpdated").write(MongoDateTimeFormats.localDateTimeWrite)
+    )(unlift(UserAnswers.unapply))
   }
 }

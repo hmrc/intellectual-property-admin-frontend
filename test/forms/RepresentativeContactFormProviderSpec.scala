@@ -21,16 +21,16 @@ import play.api.data.FormError
 
 class RepresentativeContactFormProviderSpec extends StringFieldBehaviours {
 
-  val nameLimit: Int = 200
+  val nameLimit: Int      = 200
   val phoneRoleLimit: Int = 100
 
   val form = new RepresentativeContactFormProvider()()
 
   "companyName" must {
 
-    val fieldName = "companyName"
+    val fieldName   = "companyName"
     val requiredKey = "representativeContact.error.companyName.required"
-    val lengthKey = "representativeContact.error.companyName.length"
+    val lengthKey   = "representativeContact.error.companyName.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -54,9 +54,9 @@ class RepresentativeContactFormProviderSpec extends StringFieldBehaviours {
 
   "name" must {
 
-    val fieldName = "name"
+    val fieldName   = "name"
     val requiredKey = "representativeContact.error.name.required"
-    val lengthKey = "representativeContact.error.name.length"
+    val lengthKey   = "representativeContact.error.name.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -118,9 +118,9 @@ class RepresentativeContactFormProviderSpec extends StringFieldBehaviours {
 
   "email" must {
 
-    val fieldName = "email"
+    val fieldName   = "email"
     val requiredKey = "email.required"
-    val lengthKey = "email.length"
+    val lengthKey   = "email.length"
 
     val emailLimit = 256
 

@@ -40,7 +40,8 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
 
   val afaId: AfaId = userAnswersId
 
-  lazy val companyApplyingIsRightsHolderRoute: String = routes.CompanyApplyingIsRightsHolderController.onPageLoad(NormalMode, afaId).url
+  lazy val companyApplyingIsRightsHolderRoute: String =
+    routes.CompanyApplyingIsRightsHolderController.onPageLoad(NormalMode, afaId).url
 
   val companyName: String = arbitrary[String].sample.value
 
@@ -60,7 +61,8 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
 
     "return OK and the correct view for a GET" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(CompanyApplyingPage, CompanyApplying(companyName, None)).success.value
+      val userAnswers =
+        UserAnswers(userAnswersId).set(CompanyApplyingPage, CompanyApplying(companyName, None)).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -79,8 +81,12 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = UserAnswers(userAnswersId)
-        .set(CompanyApplyingPage, CompanyApplying(companyName, None)).success.value
-        .set(CompanyApplyingIsRightsHolderPage, CompanyApplyingIsRightsHolder.values.head).success.value
+        .set(CompanyApplyingPage, CompanyApplying(companyName, None))
+        .success
+        .value
+        .set(CompanyApplyingIsRightsHolderPage, CompanyApplyingIsRightsHolder.values.head)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -91,7 +97,10 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(CompanyApplyingIsRightsHolder.values.head), NormalMode, afaId, companyName)(getRequest, messages).toString
+        view(form.fill(CompanyApplyingIsRightsHolder.values.head), NormalMode, afaId, companyName)(
+          getRequest,
+          messages
+        ).toString
 
       application.stop()
     }
@@ -103,7 +112,9 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
       val userAnswers = UserAnswers(userAnswersId)
-        .set(CompanyApplyingPage, CompanyApplying(companyName, None)).success.value
+        .set(CompanyApplyingPage, CompanyApplying(companyName, None))
+        .success
+        .value
 
       val application =
         applicationBuilder(userAnswers = Some(userAnswers))
@@ -124,7 +135,8 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
 
     "return a Bad Request and errors when invalid data is submitted" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(CompanyApplyingPage, CompanyApplying(companyName, None)).success.value
+      val userAnswers =
+        UserAnswers(userAnswersId).set(CompanyApplyingPage, CompanyApplying(companyName, None)).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

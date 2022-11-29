@@ -24,7 +24,11 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsString, Json}
 
-class CompanyApplyingIsRightsHolderSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks with OptionValues {
+class CompanyApplyingIsRightsHolderSpec
+    extends AnyWordSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with OptionValues {
 
   "CompanyApplyingIsRightsHolder" must {
 
@@ -32,10 +36,11 @@ class CompanyApplyingIsRightsHolderSpec extends AnyWordSpec with Matchers with S
 
       val gen = Gen.oneOf(CompanyApplyingIsRightsHolder.values.toSeq)
 
-      forAll(gen) {
-        companyApplyingIsRightsHolder =>
-
-          JsString(companyApplyingIsRightsHolder.toString).validate[CompanyApplyingIsRightsHolder].asOpt.value mustEqual companyApplyingIsRightsHolder
+      forAll(gen) { companyApplyingIsRightsHolder =>
+        JsString(companyApplyingIsRightsHolder.toString)
+          .validate[CompanyApplyingIsRightsHolder]
+          .asOpt
+          .value mustEqual companyApplyingIsRightsHolder
       }
     }
 
@@ -43,10 +48,8 @@ class CompanyApplyingIsRightsHolderSpec extends AnyWordSpec with Matchers with S
 
       val gen = arbitrary[String] suchThat (!CompanyApplyingIsRightsHolder.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[CompanyApplyingIsRightsHolder] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[CompanyApplyingIsRightsHolder] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +57,8 @@ class CompanyApplyingIsRightsHolderSpec extends AnyWordSpec with Matchers with S
 
       val gen = Gen.oneOf(CompanyApplyingIsRightsHolder.values.toSeq)
 
-      forAll(gen) {
-        companyApplyingIsRightsHolder =>
-
-          Json.toJson(companyApplyingIsRightsHolder) mustEqual JsString(companyApplyingIsRightsHolder.toString)
+      forAll(gen) { companyApplyingIsRightsHolder =>
+        Json.toJson(companyApplyingIsRightsHolder) mustEqual JsString(companyApplyingIsRightsHolder.toString)
       }
     }
   }

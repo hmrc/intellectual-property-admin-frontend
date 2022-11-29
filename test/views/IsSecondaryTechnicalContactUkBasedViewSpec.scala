@@ -50,7 +50,8 @@ class IsSecondaryTechnicalContactUkBasedViewSpec extends YesNoViewBehaviours {
     behave like pageWithBackLink(applyView(form))
 
     behave like yesNoPageUsingDesignSystem(
-      form, applyView,
+      form,
+      applyView,
       messageKeyPrefix,
       routes.IsSecondaryTechnicalContactUkBasedController.onSubmit(NormalMode, afaId).url,
       args = Seq(secondaryTechnicalContactName),

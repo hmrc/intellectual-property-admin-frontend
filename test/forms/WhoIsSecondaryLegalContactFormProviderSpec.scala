@@ -22,16 +22,16 @@ import play.api.data.FormError
 class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
 
   val errorKey = "whoIsSecondaryLegalContact.error.required"
-  val form = new WhoIsSecondaryLegalContactFormProvider()()
+  val form     = new WhoIsSecondaryLegalContactFormProvider()()
 
-  val nameLimit: Int = 200
+  val nameLimit: Int   = 200
   val phonesLimit: Int = 100
 
   "companyName" must {
 
-    val fieldName = "companyName"
+    val fieldName   = "companyName"
     val requiredKey = "whoIsSecondaryLegalContact.error.companyName.required"
-    val lengthKey = "whoIsSecondaryLegalContact.error.companyName.length"
+    val lengthKey   = "whoIsSecondaryLegalContact.error.companyName.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -55,9 +55,9 @@ class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
 
   "name" must {
 
-    val fieldName = "name"
+    val fieldName   = "name"
     val requiredKey = "whoIsSecondaryLegalContact.error.name.required"
-    val lengthKey = "whoIsSecondaryLegalContact.error.name.length"
+    val lengthKey   = "whoIsSecondaryLegalContact.error.name.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -81,10 +81,9 @@ class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
 
   "telephone" must {
 
-    val fieldName = "telephone"
+    val fieldName   = "telephone"
     val requiredKey = "whoIsSecondaryLegalContact.error.telephone.required"
-    val lengthKey = "whoIsSecondaryLegalContact.error.telephone.length"
-
+    val lengthKey   = "whoIsSecondaryLegalContact.error.telephone.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -108,9 +107,9 @@ class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
 
   "email" must {
 
-    val fieldName = "email"
+    val fieldName   = "email"
     val requiredKey = "email.required"
-    val lengthKey = "email.length"
+    val lengthKey   = "email.length"
 
     val emailLength = 256
 

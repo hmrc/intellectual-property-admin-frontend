@@ -36,17 +36,24 @@ import utils.WireMockHelper
 import java.time.LocalDateTime
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuite
-  with WireMockHelper with ScalaCheckPropertyChecks with ScalaFutures with IntegrationPatience with AfaGenerators {
+class AfaConnectorSpec
+    extends AnyFreeSpec
+    with Matchers
+    with GuiceOneAppPerSuite
+    with WireMockHelper
+    with ScalaCheckPropertyChecks
+    with ScalaFutures
+    with IntegrationPatience
+    with AfaGenerators {
 
   implicit lazy val arbitraryHC: Arbitrary[HeaderCarrier] =
     Arbitrary(Gen.const(HeaderCarrier()))
 
-  val afaId: AfaId = AfaId.fromString("UK20190123").get
-  val afaId2: AfaId = AfaId.fromString("UK20190125").get
-  val jsonObj: JsObject = Json.obj("value" -> afaId)
-  val lastUpdated: LocalDateTime = LocalDateTime.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS)
-  lazy val userAnswers: UserAnswers = UserAnswers(afaId, jsonObj, lastUpdated)
+  val afaId: AfaId                   = AfaId.fromString("UK20190123").get
+  val afaId2: AfaId                  = AfaId.fromString("UK20190125").get
+  val jsonObj: JsObject              = Json.obj("value" -> afaId)
+  val lastUpdated: LocalDateTime     = LocalDateTime.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS)
+  lazy val userAnswers: UserAnswers  = UserAnswers(afaId, jsonObj, lastUpdated)
   lazy val userAnswers2: UserAnswers = UserAnswers(afaId2, jsonObj, lastUpdated)
 
   implicit lazy val hc: HeaderCarrier = HeaderCarrier()
@@ -68,7 +75,6 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
 
         forAll(arbitrary[InitialAfa], arbitrary[PublishedAfa], arbitrary[HeaderCarrier]) {
           (initialAfa, publishedAfa, hc) =>
-
             server.stubFor(
               put(urlEqualTo(s"/intellectual-property/afa/${initialAfa.id.toString}"))
                 .willReturn(
@@ -76,9 +82,8 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
                 )
             )
 
-            whenReady(connector.submit(initialAfa)(implicitly, hc)) {
-              result =>
-                result mustEqual publishedAfa
+            whenReady(connector.submit(initialAfa)(implicitly, hc)) { result =>
+              result mustEqual publishedAfa
             }
         }
       }
@@ -93,7 +98,6 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
 
         forAll(arbitrary[InitialAfa], arbitrary[PublishedAfa], arbitrary[HeaderCarrier], statuses) {
           (initialAfa, publishedAfa, hc, returnStatus) =>
-
             server.stubFor(
               put(urlEqualTo(s"/intellectual-property/afa/${initialAfa.id.toString}"))
                 .willReturn(
@@ -115,20 +119,17 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
 
       "when the server returns 200" in {
 
-        forAll(Gen.nonEmptyListOf(arbitrary[PublishedAfa]), arbitrary[HeaderCarrier]) {
-          (afas, hc) =>
+        forAll(Gen.nonEmptyListOf(arbitrary[PublishedAfa]), arbitrary[HeaderCarrier]) { (afas, hc) =>
+          server.stubFor(
+            post(urlEqualTo(s"/intellectual-property/afa/test-only/bulk-upsert"))
+              .willReturn(
+                ok(Json.toJson(afas.size).toString)
+              )
+          )
 
-            server.stubFor(
-              post(urlEqualTo(s"/intellectual-property/afa/test-only/bulk-upsert"))
-                .willReturn(
-                  ok(Json.toJson(afas.size).toString)
-                )
-            )
-
-            whenReady(connector.bulkInsert(afas)(implicitly, hc)) {
-              result =>
-                result mustEqual afas.size
-            }
+          whenReady(connector.bulkInsert(afas)(implicitly, hc)) { result =>
+            result mustEqual afas.size
+          }
         }
       }
     }
@@ -142,7 +143,6 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
 
         forAll(Gen.nonEmptyListOf(arbitrary[PublishedAfa]), arbitrary[HeaderCarrier], statuses) {
           (afas, hc, returnStatus) =>
-
             server.stubFor(
               post(urlEqualTo(s"/intellectual-property/afa/test-only/bulk-upsert"))
                 .willReturn(
@@ -164,20 +164,17 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
 
       "when successful" in {
 
-        forAll(arbitrary[HeaderCarrier], arbitrary[AfaId]) {
-          (hc, afaId) =>
+        forAll(arbitrary[HeaderCarrier], arbitrary[AfaId]) { (hc, afaId) =>
+          server.stubFor(
+            get(urlEqualTo(s"/intellectual-property/afaId"))
+              .willReturn(
+                ok(Json.obj("value" -> afaId).toString())
+              )
+          )
 
-            server.stubFor(
-              get(urlEqualTo(s"/intellectual-property/afaId"))
-                .willReturn(
-                  ok(Json.obj("value" -> afaId).toString())
-                )
-            )
-
-            whenReady(connector.getNextAfaId()(implicitly, hc)) {
-              result =>
-                result mustEqual afaId
-            }
+          whenReady(connector.getNextAfaId()(implicitly, hc)) { result =>
+            result mustEqual afaId
+          }
         }
       }
     }
@@ -189,19 +186,17 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
         val statuses: Gen[Int] =
           Gen.chooseNum(201, 599, 400, 499, 500)
 
-        forAll(arbitrary[HeaderCarrier], statuses) {
-          (hc, returnStatus) =>
+        forAll(arbitrary[HeaderCarrier], statuses) { (hc, returnStatus) =>
+          server.stubFor(
+            get(urlEqualTo(s"/intellectual-property/afaId"))
+              .willReturn(
+                status(returnStatus)
+              )
+          )
 
-            server.stubFor(
-              get(urlEqualTo(s"/intellectual-property/afaId"))
-                .willReturn(
-                  status(returnStatus)
-                )
-            )
-
-            whenReady(connector.getNextAfaId()(implicitly, hc).failed) {
-              _ mustBe an[Exception]
-            }
+          whenReady(connector.getNextAfaId()(implicitly, hc).failed) {
+            _ mustBe an[Exception]
+          }
         }
       }
     }
@@ -214,15 +209,14 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
       "when successful" in {
 
         server.stubFor(
-          get(urlEqualTo(s"/intellectual-property/draft-afa/${afaId}"))
+          get(urlEqualTo(s"/intellectual-property/draft-afa/$afaId"))
             .willReturn(
               ok(jsonObj.toString())
             )
         )
 
-        whenReady(connector.getDraft(afaId)(hc)) {
-          result =>
-            result.get mustBe jsonObj
+        whenReady(connector.getDraft(afaId)(hc)) { result =>
+          result.get mustBe jsonObj
         }
 
       }
@@ -235,19 +229,17 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
         val statuses: Gen[Int] =
           Gen.chooseNum(201, 599, 400, 499, 500)
 
-        forAll(arbitrary[HeaderCarrier], statuses) {
-          (hc, returnStatus) =>
+        forAll(arbitrary[HeaderCarrier], statuses) { (hc, returnStatus) =>
+          server.stubFor(
+            get(urlEqualTo(s"/intellectual-property/draft-afa/$afaId"))
+              .willReturn(
+                status(returnStatus)
+              )
+          )
 
-            server.stubFor(
-              get(urlEqualTo(s"/intellectual-property/draft-afa/${afaId}"))
-                .willReturn(
-                  status(returnStatus)
-                )
-            )
-
-            whenReady(connector.getDraft(afaId)(hc).failed) {
-              _ mustBe an[Exception]
-            }
+          whenReady(connector.getDraft(afaId)(hc).failed) {
+            _ mustBe an[Exception]
+          }
         }
       }
     }
@@ -260,15 +252,14 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
       "when successful" in {
 
         server.stubFor(
-          delete(urlEqualTo(s"/intellectual-property/draft-afa/${afaId}"))
+          delete(urlEqualTo(s"/intellectual-property/draft-afa/$afaId"))
             .willReturn(
               ok(Json.toJson(userAnswers).toString())
             )
         )
 
-        whenReady(connector.removeDraft(afaId)(hc)) {
-          result =>
-            result.get mustBe userAnswers
+        whenReady(connector.removeDraft(afaId)(hc)) { result =>
+          result.get mustBe userAnswers
         }
 
       }
@@ -281,19 +272,17 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
         val statuses: Gen[Int] =
           Gen.chooseNum(201, 599, 400, 499, 500)
 
-        forAll(arbitrary[HeaderCarrier], statuses) {
-          (hc, returnStatus) =>
+        forAll(arbitrary[HeaderCarrier], statuses) { (hc, returnStatus) =>
+          server.stubFor(
+            delete(urlEqualTo(s"/intellectual-property/draft-afa/$afaId"))
+              .willReturn(
+                status(returnStatus)
+              )
+          )
 
-            server.stubFor(
-              delete(urlEqualTo(s"/intellectual-property/draft-afa/${afaId}"))
-                .willReturn(
-                  status(returnStatus)
-                )
-            )
-
-            whenReady(connector.removeDraft(afaId)(hc).failed) {
-              _ mustBe an[Exception]
-            }
+          whenReady(connector.removeDraft(afaId)(hc).failed) {
+            _ mustBe an[Exception]
+          }
         }
       }
     }
@@ -306,15 +295,14 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
       "when successful" in {
 
         server.stubFor(
-          put(urlEqualTo(s"/intellectual-property/draft-afa/${afaId}"))
+          put(urlEqualTo(s"/intellectual-property/draft-afa/$afaId"))
             .willReturn(
               ok("true")
             )
         )
 
-        whenReady(connector.set(afaId, userAnswers)(hc)) {
-          result =>
-            result mustBe true
+        whenReady(connector.set(afaId, userAnswers)(hc)) { result =>
+          result mustBe true
         }
 
       }
@@ -327,19 +315,17 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
         val statuses: Gen[Int] =
           Gen.chooseNum(201, 599, 400, 499, 500)
 
-        forAll(arbitrary[HeaderCarrier], statuses) {
-          (hc, returnStatus) =>
+        forAll(arbitrary[HeaderCarrier], statuses) { (hc, returnStatus) =>
+          server.stubFor(
+            put(urlEqualTo(s"/intellectual-property/draft-afa/$afaId"))
+              .willReturn(
+                status(returnStatus)
+              )
+          )
 
-            server.stubFor(
-              put(urlEqualTo(s"/intellectual-property/draft-afa/${afaId}"))
-                .willReturn(
-                  status(returnStatus)
-                )
-            )
-
-            whenReady(connector.set(afaId, userAnswers)(hc).failed) {
-              _ mustBe an[Exception]
-            }
+          whenReady(connector.set(afaId, userAnswers)(hc).failed) {
+            _ mustBe an[Exception]
+          }
         }
       }
     }
@@ -360,9 +346,8 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
             )
         )
 
-        whenReady(connector.draftList(hc)) {
-          result =>
-            result mustBe draftList
+        whenReady(connector.draftList(hc)) { result =>
+          result mustBe draftList
         }
 
       }
@@ -375,22 +360,19 @@ class AfaConnectorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuit
         val statuses: Gen[Int] =
           Gen.chooseNum(201, 599, 400, 499, 500)
 
-        forAll(arbitrary[HeaderCarrier], statuses) {
-          (hc, returnStatus) =>
+        forAll(arbitrary[HeaderCarrier], statuses) { (hc, returnStatus) =>
+          server.stubFor(
+            get(urlEqualTo("/intellectual-property/draft-afas/list"))
+              .willReturn(
+                status(returnStatus)
+              )
+          )
 
-            server.stubFor(
-              get(urlEqualTo("/intellectual-property/draft-afas/list"))
-                .willReturn(
-                  status(returnStatus)
-                )
-            )
-
-            whenReady(connector.draftList(hc).failed) {
-              _ mustBe an[Exception]
-            }
+          whenReady(connector.draftList(hc).failed) {
+            _ mustBe an[Exception]
+          }
         }
       }
     }
   }
 }
-

@@ -49,7 +49,7 @@ object NiceClassId {
       val rawValue = json match {
         case JsNumber(number) if number.isValidInt => number.toIntExact.toString
         case JsString(value)                       => value
-        case obj                                   => (obj \ "niceClass" ).as[JsString].value
+        case obj                                   => (obj \ "niceClass").as[JsString].value
       }
 
       fromString(rawValue) match {
@@ -59,7 +59,7 @@ object NiceClassId {
     }
   }
 
-  implicit lazy val writes: Writes[NiceClassId] = Writes {
-    niceClassId => JsNumber(niceClassId.value)
+  implicit lazy val writes: Writes[NiceClassId] = Writes { niceClassId =>
+    JsNumber(niceClassId.value)
   }
 }

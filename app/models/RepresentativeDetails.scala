@@ -19,15 +19,14 @@ package models
 import play.api.libs.json.{Json, OFormat}
 
 final case class RepresentativeDetails(
-                                        contactName: String,
-                                        companyName: String,
-                                        phone: String,
-                                        email: String,
-                                        roleOrPosition: Option[String]
-                                      ) {
-  def getAsLegal: ApplicantLegalContact = {
+  contactName: String,
+  companyName: String,
+  phone: String,
+  email: String,
+  roleOrPosition: Option[String]
+) {
+  def getAsLegal: ApplicantLegalContact =
     ApplicantLegalContact(companyName, contactName, phone, None, email)
-  }
 }
 
 object RepresentativeDetails {

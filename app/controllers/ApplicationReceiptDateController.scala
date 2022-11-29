@@ -35,25 +35,26 @@ import java.time.LocalDate
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class ApplicationReceiptDateController @Inject()(
-                                                  override val messagesApi: MessagesApi,
-                                                  afaService: AfaService,
-                                                  navigator: Navigator,
-                                                  identify: IdentifierAction,
-                                                  getLock: LockAfaActionProvider,
-                                                  getData: AfaDraftDataRetrievalAction,
-                                                  formProvider: ApplicationReceiptDateFormProvider,
-                                                  auditConnector: AuditConnector,
-                                                  workingDaysService: WorkingDaysService,
-                                                  val controllerComponents: MessagesControllerComponents,
-                                                  view: ApplicationReceiptDateView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class ApplicationReceiptDateController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  formProvider: ApplicationReceiptDateFormProvider,
+  auditConnector: AuditConnector,
+  workingDaysService: WorkingDaysService,
+  val controllerComponents: MessagesControllerComponents,
+  view: ApplicationReceiptDateView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def form: Form[LocalDate] = formProvider()
 
-  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId)) {
-    implicit request =>
-
+  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId)) { implicit request =>
       val value = request.userAnswers.flatMap(_.get(ApplicationReceiptDatePage))
 
       val preparedForm = value match {
@@ -62,24 +63,21 @@ class ApplicationReceiptDateController @Inject()(
       }
 
       Ok(view(preparedForm, mode, afaId))
-  }
+    }
 
-  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId)).async {
-    implicit request =>
-
+  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId)).async { implicit request =>
       val userAnswers = request.userAnswers.getOrElse(UserAnswers(afaId))
 
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, mode, afaId))),
+      form
+        .bindFromRequest()
+        .fold(
+          (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, mode, afaId))),
+          value => {
 
-        value => {
+            val daysAllowed = 30
 
-          val daysAllowed = 30
-
-          workingDaysService.workingDays(Region.EnglandAndWales, value, daysAllowed).flatMap {
-            publicationDeadline =>
-
+            workingDaysService.workingDays(Region.EnglandAndWales, value, daysAllowed).flatMap { publicationDeadline =>
               val answers = userAnswers.set(ApplicationReceiptDatePage, value).flatMap {
                 _.set(PublicationDeadlineQuery, publicationDeadline)
               }
@@ -89,16 +87,19 @@ class ApplicationReceiptDateController @Inject()(
                 _              <- afaService.set(updatedAnswers)
               } yield {
 
-                auditConnector.sendExplicitAudit("startedApplicationForAction", DraftStarted(
-                  id       = afaId,
-                  userName = request.name,
-                  PID   = request.internalId
-                ))
+                auditConnector.sendExplicitAudit(
+                  "startedApplicationForAction",
+                  DraftStarted(
+                    id = afaId,
+                    userName = request.name,
+                    PID = request.internalId
+                  )
+                )
 
                 Redirect(navigator.nextPage(ApplicationReceiptDatePage, mode, updatedAnswers))
               }
+            }
           }
-        }
-      )
-  }
+        )
+    }
 }

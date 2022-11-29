@@ -20,11 +20,11 @@ import java.time.LocalDate
 
 import models.{AfaId, CompanyApplyingIsRightsHolder}
 import models.afa.{Company, ExOfficio, PublishedAfa, SemiconductorTopography}
-import constants.ContactsConstants.{applicantLegalContact, technicalContactAsContact, ukAddress, representativeContact}
+import constants.ContactsConstants.{applicantLegalContact, representativeContact, technicalContactAsContact, ukAddress}
 
 object PublishedAfaConstants {
 
-  val localDatePast: LocalDate = LocalDate.now.minusYears(1)
+  val localDatePast: LocalDate   = LocalDate.now.minusYears(1)
   val localDateFuture: LocalDate = LocalDate.now.plusYears(1)
 
   val publishedAfa: PublishedAfa =
@@ -51,8 +51,6 @@ object PublishedAfaConstants {
       expirationDate = localDateFuture,
       representativeContact = representativeContact,
       isRestrictedHandling = Some(true)
-
-
     )
 
 }

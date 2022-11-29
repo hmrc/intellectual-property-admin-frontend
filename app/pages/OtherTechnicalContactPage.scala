@@ -25,6 +25,4 @@ case object OtherTechnicalContactPage extends QuestionPage[Contact] {
 
   override def toString: String = "otherTechnicalContact"
 
-
-
 }

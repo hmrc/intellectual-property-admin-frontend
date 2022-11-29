@@ -37,7 +37,6 @@ class CompanyApplyingViewSpec extends TextInputViewBehaviours[CompanyApplying] {
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, NormalMode, afaId)(fakeRequest, messages)
 
-
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView(form), messageKeyPrefix)
 
     behave like pageWithBackLink(applyView(form))

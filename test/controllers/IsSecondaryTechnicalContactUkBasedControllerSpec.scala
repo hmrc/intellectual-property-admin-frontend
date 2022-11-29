@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.IsSecondaryTechnicalContactUkBasedFormProvider
-import models.{AfaId, NormalMode, UserAnswers, TechnicalContact}
+import models.{AfaId, NormalMode, TechnicalContact, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
@@ -43,10 +43,11 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
 
   val SecondaryTechnicalContact: TechnicalContact = TechnicalContact("companyName", "name", "telephone", "email")
 
-  val formProvider = new IsSecondaryTechnicalContactUkBasedFormProvider()
+  val formProvider        = new IsSecondaryTechnicalContactUkBasedFormProvider()
   val form: Form[Boolean] = formProvider(SecondaryTechnicalContact.contactName)
 
-  private val baseUserAnswers = UserAnswers(afaId).set(WhoIsSecondaryTechnicalContactPage, SecondaryTechnicalContact).success.value
+  private val baseUserAnswers =
+    UserAnswers(afaId).set(WhoIsSecondaryTechnicalContactPage, SecondaryTechnicalContact).success.value
 
   lazy private val isSecondaryTechnicalContactUkBasedRoute =
     routes.IsSecondaryTechnicalContactUkBasedController.onPageLoad(NormalMode, afaId).url
@@ -82,7 +83,8 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val view: IsSecondaryTechnicalContactUkBasedView = application.injector.instanceOf[IsSecondaryTechnicalContactUkBasedView]
+      val view: IsSecondaryTechnicalContactUkBasedView =
+        application.injector.instanceOf[IsSecondaryTechnicalContactUkBasedView]
 
       val result = route(application, getRequest()).value
 

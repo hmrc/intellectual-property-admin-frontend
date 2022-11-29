@@ -25,11 +25,10 @@ import play.api.test.Helpers._
 trait LockAfaChecks extends SpecBase {
 
   def redirectIfLocked[A](
-                           afaId: AfaId,
-                           request: () => Request[A],
-                           userAnswers: UserAnswers = emptyUserAnswers
-                         )(implicit writeable: Writeable[A]): Unit = {
-
+    afaId: AfaId,
+    request: () => Request[A],
+    userAnswers: UserAnswers = emptyUserAnswers
+  )(implicit writeable: Writeable[A]): Unit =
     s"redirect to Afa Locked when a lock cannot be acquired for this Afa" in {
 
       val application =
@@ -46,5 +45,4 @@ trait LockAfaChecks extends SpecBase {
 
       application.stop()
     }
-  }
 }

@@ -23,9 +23,9 @@ import play.api.data.FormError
 
 class ApplicationReceiptDateFormProviderSpec extends DateBehaviours {
 
-  val form = new ApplicationReceiptDateFormProvider()()
-  val year: Int = 2018
-  val month: Int = 1
+  val form            = new ApplicationReceiptDateFormProvider()()
+  val year: Int       = 2018
+  val month: Int      = 1
   val dayOfMonth: Int = 1
 
   ".value" should {
@@ -39,11 +39,17 @@ class ApplicationReceiptDateFormProviderSpec extends DateBehaviours {
 
     behave like mandatoryDateField(form, "value", "applicationReceiptDate.error.required.all")
 
-    behave like dateFieldWithMax(form, "value",
+    behave like dateFieldWithMax(
+      form,
+      "value",
       max = LocalDate.now,
       FormError("value", "applicationReceiptDate.error.future", List("day", "month", "year"))
     )
 
-    behave like minDateOf(form, LocalDate.of(2018, 1, 1), "applicationReceiptDate.error.minDate") //scalastyle:off magic.number
+    behave like minDateOf(
+      form,
+      LocalDate.of(2018, 1, 1),
+      "applicationReceiptDate.error.minDate"
+    ) // scalastyle:off magic.number
   }
 }

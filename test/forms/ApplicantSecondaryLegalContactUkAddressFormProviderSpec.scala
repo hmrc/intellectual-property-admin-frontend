@@ -21,17 +21,16 @@ import play.api.data.FormError
 
 class ApplicantSecondaryLegalContactUkAddressFormProviderSpec extends StringFieldBehaviours {
 
-  val linesMaxLength: Int = 100
+  val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
 
   val form = new ApplicantSecondaryLegalContactUkAddressFormProvider()()
 
   ".line1" must {
 
-    val fieldName = "line1"
+    val fieldName   = "line1"
     val requiredKey = "applicantSecondaryLegalContactUkAddress.error.line1.required"
-    val lengthKey = "applicantSecondaryLegalContactUkAddress.error.line1.length"
-
+    val lengthKey   = "applicantSecondaryLegalContactUkAddress.error.line1.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -79,9 +78,9 @@ class ApplicantSecondaryLegalContactUkAddressFormProviderSpec extends StringFiel
 
   ".town" must {
 
-    val fieldName = "town"
+    val fieldName   = "town"
     val requiredKey = "applicantSecondaryLegalContactUkAddress.error.town.required"
-    val lengthKey = "applicantSecondaryLegalContactUkAddress.error.town.length"
+    val lengthKey   = "applicantSecondaryLegalContactUkAddress.error.town.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -129,9 +128,9 @@ class ApplicantSecondaryLegalContactUkAddressFormProviderSpec extends StringFiel
 
   ".postCode" must {
 
-    val fieldName = "postCode"
+    val fieldName   = "postCode"
     val requiredKey = "applicantSecondaryLegalContactUkAddress.error.postCode.required"
-    val lengthKey = "applicantSecondaryLegalContactUkAddress.error.postCode.length"
+    val lengthKey   = "applicantSecondaryLegalContactUkAddress.error.postCode.length"
 
     behave like fieldThatBindsValidData(
       form,
