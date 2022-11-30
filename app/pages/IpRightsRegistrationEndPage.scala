@@ -31,11 +31,9 @@ final case class IpRightsRegistrationEndPage(index: Int) extends QuestionPage[Lo
 
     import models.IpRightsType._
 
-    answers.get(IpRightsTypePage(index)).map {
-      rightsType =>
-
-        val relevantRightsTypes = Seq(Trademark, Design, Patent, SupplementaryProtectionCertificate)
-        relevantRightsTypes.contains(rightsType)
+    answers.get(IpRightsTypePage(index)).map { rightsType =>
+      val relevantRightsTypes = Seq(Trademark, Design, Patent, SupplementaryProtectionCertificate)
+      relevantRightsTypes.contains(rightsType)
     }
   }
 }

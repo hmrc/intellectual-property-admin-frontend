@@ -23,9 +23,7 @@ import javax.inject.Inject
 import models.requests.DataRequest
 import models.{AfaId, ContactOptions, InternationalAddress, Mode, TechnicalContact, UkAddress, UserAnswers}
 import navigation.Navigator
-import pages.{IsSecondaryTechnicalContactUkBasedPage,SecondaryTechnicalContactInternationalAddressPage,
-  SecondaryTechnicalContactUkAddressPage, SelectOtherTechnicalContactPage, SelectTechnicalContactPage,
-  WhoIsSecondaryTechnicalContactPage}
+import pages.{IsSecondaryTechnicalContactUkBasedPage, SecondaryTechnicalContactInternationalAddressPage, SecondaryTechnicalContactUkAddressPage, SelectOtherTechnicalContactPage, SelectTechnicalContactPage, WhoIsSecondaryTechnicalContactPage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
@@ -37,117 +35,139 @@ import views.html.SelectOtherTechnicalContactView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SelectOtherTechnicalContactController @Inject()(
-                                                       override val messagesApi: MessagesApi,
-                                                       afaService: AfaService,
-                                                       navigator: Navigator,
-                                                       identify: IdentifierAction,
-                                                       getLock: LockAfaActionProvider,
-                                                       contactsService: ContactsService,
-                                                       getData: AfaDraftDataRetrievalAction,
-                                                       requireData: DataRequiredAction,
-                                                       formProvider: SelectOtherTechnicalContactFormProvider,
-                                                       val controllerComponents: MessagesControllerComponents,
-                                                       view: SelectOtherTechnicalContactView
-                                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
-
+class SelectOtherTechnicalContactController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  contactsService: ContactsService,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: SelectOtherTechnicalContactFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: SelectOtherTechnicalContactView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def form: Form[ContactOptions] = formProvider()
 
+  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      CommonHelpers.getApplicantName { companyName =>
+        val preparedForm = request.userAnswers.get(SelectOtherTechnicalContactPage) match {
+          case None        => form
+          case Some(value) => form.fill(value)
+        }
 
-  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      CommonHelpers.getApplicantName {
-        companyName =>
+        val contacts = contactsService
+          .contactsToRadioOptions(request.userAnswers.get(SelectTechnicalContactPage))(request.userAnswers)
 
-          val preparedForm = request.userAnswers.get(SelectOtherTechnicalContactPage) match {
-            case None => form
-            case Some(value) => form.fill(value)
-          }
-
-          val contacts = contactsService
-            .contactsToRadioOptions(request.userAnswers.get(SelectTechnicalContactPage))(request.userAnswers)
-
-          Future.successful(Ok(view(preparedForm, mode, afaId, companyName, contacts)))
+        Future.successful(Ok(view(preparedForm, mode, afaId, companyName, contacts)))
       }
-  }
+    }
 
-  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      implicit val answers: UserAnswers = request.userAnswers
-      val contacts: Seq[(ContactOptions, String)] = contactsService.contactsToRadioOptions(answers.get(SelectTechnicalContactPage))
-      CommonHelpers.getApplicantName {
-        companyName =>
-          form.bindFromRequest().fold(
+  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      implicit val answers: UserAnswers           = request.userAnswers
+      val contacts: Seq[(ContactOptions, String)] =
+        contactsService.contactsToRadioOptions(answers.get(SelectTechnicalContactPage))
+      CommonHelpers.getApplicantName { companyName =>
+        form
+          .bindFromRequest()
+          .fold(
             (formWithErrors: Form[_]) =>
               Future.successful(BadRequest(view(formWithErrors, mode, afaId, companyName, contacts))),
             {
-              case ContactOptions.SomeoneElse =>
+              case ContactOptions.SomeoneElse                     =>
                 processManualContact(mode, request)
-              case value if (ContactOptions.values.contains(value)) =>
+              case value if ContactOptions.values.contains(value) =>
                 processContactCopy(mode, request, value)
-              case _ => throw new IllegalArgumentException("SelectOtherTechnicalContactController.onSubmit(). unrecognised contact option ")
+              case _                                              =>
+                throw new IllegalArgumentException(
+                  "SelectOtherTechnicalContactController.onSubmit(). unrecognised contact option "
+                )
             }
           )
       }
-  }
+    }
 
-  private def processContactCopy(mode: Mode, request: DataRequest[AnyContent], value: ContactOptions) (implicit hc: HeaderCarrier): Future[Result] = {
-    implicit val answers: UserAnswers = request.userAnswers
-    val contact: TechnicalContact = contactsService.getContact(value)
-    val contactIsUKBased: Option[Boolean] = contactsService.getContactIsUKBased(value)
-    val contactUKAddress: Option[UkAddress] = contactsService.getContactUKAddress(value)
-    val contactInternationalAddress: Option[InternationalAddress] = contactsService.getContactInternationalAddress(value)
+  private def processContactCopy(mode: Mode, request: DataRequest[AnyContent], value: ContactOptions)(implicit
+    hc: HeaderCarrier
+  ): Future[Result] = {
+    implicit val answers: UserAnswers                             = request.userAnswers
+    val contact: TechnicalContact                                 = contactsService.getContact(value)
+    val contactIsUKBased: Option[Boolean]                         = contactsService.getContactIsUKBased(value)
+    val contactUKAddress: Option[UkAddress]                       = contactsService.getContactUKAddress(value)
+    val contactInternationalAddress: Option[InternationalAddress] =
+      contactsService.getContactInternationalAddress(value)
 
-    //scalastyle:off simplify.boolean.expression
+    // scalastyle:off simplify.boolean.expression
     contactIsUKBased match {
-      case isUKBased if (isUKBased.contains(true) && contactUKAddress.isDefined) =>
+      case isUKBased if isUKBased.contains(true) && contactUKAddress.isDefined             =>
         updateUserAnswersUkAddress(mode, request, value, contact, contactIsUKBased, contactUKAddress)
-      case isUKBased if (isUKBased.contains(false) && contactInternationalAddress.isDefined) =>
-        updateUserAnswersInternationalAddress(mode, request, value, contact, contactIsUKBased, contactInternationalAddress)
-      case _ =>
+      case isUKBased if isUKBased.contains(false) && contactInternationalAddress.isDefined =>
+        updateUserAnswersInternationalAddress(
+          mode,
+          request,
+          value,
+          contact,
+          contactIsUKBased,
+          contactInternationalAddress
+        )
+      case _                                                                               =>
         Future.successful(Redirect(routes.SessionExpiredController.onPageLoad))
     }
-    //scalastyle:on simplify.boolean.expression
+    // scalastyle:on simplify.boolean.expression
   }
 
-  private def processManualContact(mode: Mode, request: DataRequest[AnyContent]) (implicit hc: HeaderCarrier): Future[Result] = {
+  private def processManualContact(mode: Mode, request: DataRequest[AnyContent])(implicit
+    hc: HeaderCarrier
+  ): Future[Result] =
     for {
-      updatedAnswers <- Future.fromTry(request.userAnswers.set(SelectOtherTechnicalContactPage, ContactOptions.SomeoneElse))
-      _ <- afaService.set(updatedAnswers)
+      updatedAnswers <-
+        Future.fromTry(request.userAnswers.set(SelectOtherTechnicalContactPage, ContactOptions.SomeoneElse))
+      _              <- afaService.set(updatedAnswers)
     } yield Redirect(navigator.nextPage(SelectOtherTechnicalContactPage, mode, updatedAnswers))
-  }
 
   private def updateUserAnswersUkAddress(
-                                          mode: Mode,
-                                          request: DataRequest[AnyContent],
-                                          value: ContactOptions,
-                                          contact: TechnicalContact,
-                                          contactIsUKBased: Option[Boolean],
-                                          contactUKAddress: Option[UkAddress]) (implicit hc: HeaderCarrier): Future[Result] = {
+    mode: Mode,
+    request: DataRequest[AnyContent],
+    value: ContactOptions,
+    contact: TechnicalContact,
+    contactIsUKBased: Option[Boolean],
+    contactUKAddress: Option[UkAddress]
+  )(implicit hc: HeaderCarrier): Future[Result] =
     for {
-      updatedAnswers <- Future.fromTry(request.userAnswers.set(SelectOtherTechnicalContactPage, value))
+      updatedAnswers                <- Future.fromTry(request.userAnswers.set(SelectOtherTechnicalContactPage, value))
       updatedAnswersWithTechDetails <- Future.fromTry(updatedAnswers.set(WhoIsSecondaryTechnicalContactPage, contact))
-      updatedAnswersWithTechUkBased <- Future.fromTry(updatedAnswersWithTechDetails.set(IsSecondaryTechnicalContactUkBasedPage, contactIsUKBased.get))
-      updatedAnswersWithUKAddress <- Future.fromTry(updatedAnswersWithTechUkBased.set(SecondaryTechnicalContactUkAddressPage, contactUKAddress.get))
-      _ <- afaService.set(updatedAnswersWithUKAddress)
+      updatedAnswersWithTechUkBased <-
+        Future.fromTry(updatedAnswersWithTechDetails.set(IsSecondaryTechnicalContactUkBasedPage, contactIsUKBased.get))
+      updatedAnswersWithUKAddress   <-
+        Future.fromTry(updatedAnswersWithTechUkBased.set(SecondaryTechnicalContactUkAddressPage, contactUKAddress.get))
+      _                             <- afaService.set(updatedAnswersWithUKAddress)
     } yield Redirect(navigator.nextPage(SelectOtherTechnicalContactPage, mode, updatedAnswers))
-  }
 
   private def updateUserAnswersInternationalAddress(
-                                                     mode: Mode,
-                                                     request: DataRequest[AnyContent],
-                                                     value: ContactOptions,
-                                                     contact: TechnicalContact,
-                                                     contactIsUKBased: Option[Boolean],
-                                                     contactInternationalAddress: Option[InternationalAddress])(implicit hc: HeaderCarrier): Future[Result] = {
+    mode: Mode,
+    request: DataRequest[AnyContent],
+    value: ContactOptions,
+    contact: TechnicalContact,
+    contactIsUKBased: Option[Boolean],
+    contactInternationalAddress: Option[InternationalAddress]
+  )(implicit hc: HeaderCarrier): Future[Result] =
     for {
-      updatedAnswers <- Future.fromTry(request.userAnswers.set(SelectOtherTechnicalContactPage, value))
-      updatedAnswersWithTechDetails <- Future.fromTry(updatedAnswers.set(WhoIsSecondaryTechnicalContactPage, contact))
-      updatedAnswersWithTechUkBased <- Future.fromTry(updatedAnswersWithTechDetails.set(IsSecondaryTechnicalContactUkBasedPage, contactIsUKBased.get))
-      updatedAnswersWithInternationalAddress <- Future.fromTry(updatedAnswersWithTechUkBased.set(
-        SecondaryTechnicalContactInternationalAddressPage, contactInternationalAddress.get))
-      _ <- afaService.set(updatedAnswersWithInternationalAddress)
+      updatedAnswers                         <- Future.fromTry(request.userAnswers.set(SelectOtherTechnicalContactPage, value))
+      updatedAnswersWithTechDetails          <- Future.fromTry(updatedAnswers.set(WhoIsSecondaryTechnicalContactPage, contact))
+      updatedAnswersWithTechUkBased          <-
+        Future.fromTry(updatedAnswersWithTechDetails.set(IsSecondaryTechnicalContactUkBasedPage, contactIsUKBased.get))
+      updatedAnswersWithInternationalAddress <- Future.fromTry(
+                                                  updatedAnswersWithTechUkBased.set(
+                                                    SecondaryTechnicalContactInternationalAddressPage,
+                                                    contactInternationalAddress.get
+                                                  )
+                                                )
+      _                                      <- afaService.set(updatedAnswersWithInternationalAddress)
     } yield Redirect(navigator.nextPage(SelectOtherTechnicalContactPage, mode, updatedAnswers))
-  }
 }

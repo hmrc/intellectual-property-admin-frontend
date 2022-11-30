@@ -37,22 +37,28 @@ import views.html.SelectOtherTechnicalContactView
 
 import scala.concurrent.Future
 
-class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks with BeforeAndAfterEach {
+class SelectOtherTechnicalContactControllerSpec
+    extends SpecBase
+    with MockitoSugar
+    with LockAfaChecks
+    with BeforeAndAfterEach {
 
-  def onwardRoute: Call = Call("GET", "/foo")
-  private val contactsService = mock[ContactsService]
+  def onwardRoute: Call                  = Call("GET", "/foo")
+  private val contactsService            = mock[ContactsService]
   private def form: Form[ContactOptions] = formProvider()
 
   val mockAfaService: AfaService = mock[AfaService]
 
-  val afaId: AfaId = userAnswersId
-  val formProvider = new SelectOtherTechnicalContactFormProvider()
-  val invalidValue = "invalid  value"
+  val afaId: AfaId             = userAnswersId
+  val formProvider             = new SelectOtherTechnicalContactFormProvider()
+  val invalidValue             = "invalid  value"
   val userAnswers: UserAnswers = emptyUserAnswers
-    .set(CompanyApplyingPage, CompanyApplying(companyApplyingName, None)).success.value
+    .set(CompanyApplyingPage, CompanyApplying(companyApplyingName, None))
+    .success
+    .value
 
-
-  lazy val selectOtherTechnicalContactRoute: String = routes.SelectOtherTechnicalContactController.onPageLoad(NormalMode, afaId).url
+  lazy val selectOtherTechnicalContactRoute: String =
+    routes.SelectOtherTechnicalContactController.onPageLoad(NormalMode, afaId).url
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, selectOtherTechnicalContactRoute)
@@ -65,9 +71,8 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
     FakeRequest(POST, selectOtherTechnicalContactRoute)
       .withFormUrlEncodedBody(("value", "invalidValue"))
 
-  override def beforeEach(): Unit = {
+  override def beforeEach(): Unit =
     Mockito.reset(contactsService)
-  }
 
   "SelectOtherTechnicalContactController" must {
     "return OK and the correct view for a GET" in {
@@ -89,8 +94,12 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = emptyUserAnswers
-        .set(CompanyApplyingPage, CompanyApplying(companyApplyingName, None)).success.value
-        .set(SelectOtherTechnicalContactPage, ContactOptions.RepresentativeContact).success.value
+        .set(CompanyApplyingPage, CompanyApplying(companyApplyingName, None))
+        .success
+        .value
+        .set(SelectOtherTechnicalContactPage, ContactOptions.RepresentativeContact)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -101,7 +110,10 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(ContactOptions.RepresentativeContact), NormalMode, afaId, companyApplyingName, Seq.empty)(getRequest(), messages).toString
+        view(form.fill(ContactOptions.RepresentativeContact), NormalMode, afaId, companyApplyingName, Seq.empty)(
+          getRequest(),
+          messages
+        ).toString
 
       application.stop()
     }
@@ -110,7 +122,7 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
 
       "redirect the next page when isContactBasedInUk is true and address exists" in {
 
-        //val mockAfaService = mock[AfaService]
+        // val mockAfaService = mock[AfaService]
         when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
         when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
@@ -136,7 +148,7 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
       }
       "redirect to the next page when isContactBasedInUk is false and international address exists" in {
 
-        //val mockAfaService = mock[AfaService]
+        // val mockAfaService = mock[AfaService]
         when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
         when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
@@ -162,7 +174,7 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
       }
       "redirect to the next page when someone else radio button was selected" in {
 
-        //val mockAfaService = mock[AfaService]
+        // val mockAfaService = mock[AfaService]
         when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
         when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
@@ -191,7 +203,7 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
     "go to session expired when invalid contact data" must {
       "redirect to session expired controller when there is None for isContactBasedInUk" in {
 
-        //val mockAfaService = mock[AfaService]
+        // val mockAfaService = mock[AfaService]
         when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
         when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
@@ -219,53 +231,53 @@ class SelectOtherTechnicalContactControllerSpec extends SpecBase with MockitoSug
       "redirect to session expired controller when there is true for contactUKAddress and uk address" +
         "is none" in {
 
-        when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
-        when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
-        when(contactsService.getContact(any())(any())).thenReturn(technicalContactDetails)
-        when(contactsService.getContactIsUKBased(any())(any())).thenReturn(Some(true))
-        when(contactsService.getContactUKAddress(any())(any())).thenReturn(None)
-        when(contactsService.getContactInternationalAddress(any())(any())).thenReturn(None)
+          when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
+          when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
+          when(contactsService.getContact(any())(any())).thenReturn(technicalContactDetails)
+          when(contactsService.getContactIsUKBased(any())(any())).thenReturn(Some(true))
+          when(contactsService.getContactUKAddress(any())(any())).thenReturn(None)
+          when(contactsService.getContactInternationalAddress(any())(any())).thenReturn(None)
 
-        val application =
-          applicationBuilder(userAnswers = Some(userAnswers))
-            .overrides(
-              bind[AfaService].toInstance(mockAfaService),
-              bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-              bind[ContactsService].toInstance(contactsService)
-            )
-            .build()
+          val application =
+            applicationBuilder(userAnswers = Some(userAnswers))
+              .overrides(
+                bind[AfaService].toInstance(mockAfaService),
+                bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+                bind[ContactsService].toInstance(contactsService)
+              )
+              .build()
 
-        val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
+          val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
-        application.stop()
-      }
+          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
+          application.stop()
+        }
 
       "redirect to session expired controller when there is false for contactUKAddress and international address" +
         "is none" in {
 
-        when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
-        when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
-        when(contactsService.getContact(any())(any())).thenReturn(technicalContactDetails)
-        when(contactsService.getContactIsUKBased(any())(any())).thenReturn(Some(false))
-        when(contactsService.getContactUKAddress(any())(any())).thenReturn(None)
-        when(contactsService.getContactInternationalAddress(any())(any())).thenReturn(None)
+          when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
+          when(contactsService.contactsToRadioOptions(any())(any())).thenReturn(Seq.empty)
+          when(contactsService.getContact(any())(any())).thenReturn(technicalContactDetails)
+          when(contactsService.getContactIsUKBased(any())(any())).thenReturn(Some(false))
+          when(contactsService.getContactUKAddress(any())(any())).thenReturn(None)
+          when(contactsService.getContactInternationalAddress(any())(any())).thenReturn(None)
 
-        val application =
-          applicationBuilder(userAnswers = Some(userAnswers))
-            .overrides(
-              bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
-              bind[ContactsService].toInstance(contactsService)
-            )
-            .build()
+          val application =
+            applicationBuilder(userAnswers = Some(userAnswers))
+              .overrides(
+                bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+                bind[ContactsService].toInstance(contactsService)
+              )
+              .build()
 
-        val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
+          val result = route(application, postRequest(ContactOptions.RepresentativeContact)).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
-        application.stop()
-      }
+          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
+          application.stop()
+        }
     }
 
     "return a Bad Request and errors when invalid data is submitted" in {

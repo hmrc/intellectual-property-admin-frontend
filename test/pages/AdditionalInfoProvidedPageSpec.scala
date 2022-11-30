@@ -34,17 +34,16 @@ class AdditionalInfoProvidedPageSpec extends PageBehaviours {
 
     "remove RestrictedHandlingPage when AdditionalInfoProvided is set to false" in {
 
-      forAll(arbitrary[UserAnswers], arbitrary[Option[Boolean]]) {
-        (initial, answer) =>
+      forAll(arbitrary[UserAnswers], arbitrary[Option[Boolean]]) { (initial, answer) =>
+        val answers = answer
+          .map { bool =>
+            initial.set(RestrictedHandlingPage, bool).success.value
+          }
+          .getOrElse(initial)
 
-          val answers = answer.map {
-            bool =>
-              initial.set(RestrictedHandlingPage, bool).success.value
-          }.getOrElse(initial)
+        val result = answers.set(AdditionalInfoProvidedPage, false).success.value
 
-          val result = answers.set(AdditionalInfoProvidedPage, false).success.value
-
-          result.get(RestrictedHandlingPage) mustNot be (defined)
+        result.get(RestrictedHandlingPage) mustNot be(defined)
       }
     }
   }

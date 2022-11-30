@@ -37,11 +37,11 @@ object SessionIdFilterSpec {
 
   val sessionId = "28836767-a008-46be-ac18-695ab140e705"
 
-  class TestSessionIdFilter @Inject()(
-                                       override val mat: Materializer,
-                                       sessionCookieBaker: SessionCookieBaker,
-                                       ec: ExecutionContext
-                                     ) extends SessionIdFilter(mat, UUID.fromString(sessionId), sessionCookieBaker, ec)
+  class TestSessionIdFilter @Inject() (
+    override val mat: Materializer,
+    sessionCookieBaker: SessionCookieBaker,
+    ec: ExecutionContext
+  ) extends SessionIdFilter(mat, UUID.fromString(sessionId), sessionCookieBaker, ec)
 
 }
 
@@ -55,19 +55,18 @@ class SessionIdFilterSpec extends AnyWordSpec with Matchers with OneAppPerSuiteW
     import play.api.routing.Router
     import play.api.routing.sird._
 
-    lazy val router: Router = Router.from {
-      case GET(p"/test") => defaultActionBuilder.apply {
-        request =>
-          val fromHeader = request.headers.get(HeaderNames.xSessionId).getOrElse("")
-          val fromSession = request.session.get(SessionKeys.sessionId).getOrElse("")
-          val allSession = request.session.data
-          Results.Ok(
-            Json.obj(
-              "fromHeader" -> fromHeader,
-              "fromSession" -> fromSession,
-              "allSession" -> allSession
-            )
+    lazy val router: Router = Router.from { case GET(p"/test") =>
+      defaultActionBuilder.apply { request =>
+        val fromHeader  = request.headers.get(HeaderNames.xSessionId).getOrElse("")
+        val fromSession = request.session.get(SessionKeys.sessionId).getOrElse("")
+        val allSession  = request.session.data
+        Results.Ok(
+          Json.obj(
+            "fromHeader"  -> fromHeader,
+            "fromSession" -> fromSession,
+            "allSession"  -> allSession
           )
+        )
       }
     }
   }

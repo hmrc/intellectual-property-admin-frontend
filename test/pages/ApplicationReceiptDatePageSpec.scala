@@ -39,23 +39,19 @@ class ApplicationReceiptDatePageSpec extends PageBehaviours {
 
     "be required if this application is not migrated" in {
 
-      forAll(arbitrary[UserAnswers], arbitraryUkAfaId(None)) {
-        (userAnswers, afaId) =>
+      forAll(arbitrary[UserAnswers], arbitraryUkAfaId(None)) { (userAnswers, afaId) =>
+        val answers = userAnswers.copy(id = afaId)
 
-          val answers = userAnswers.copy(id = afaId)
-
-          ApplicationReceiptDatePage.isRequired(answers).value mustEqual true
+        ApplicationReceiptDatePage.isRequired(answers).value mustEqual true
       }
     }
 
     "not be required if this application is migrated" in {
 
-      forAll(arbitrary[UserAnswers], arbitraryGbAfaId(None)) {
-        (userAnswers, afaId) =>
+      forAll(arbitrary[UserAnswers], arbitraryGbAfaId(None)) { (userAnswers, afaId) =>
+        val answers = userAnswers.copy(id = afaId)
 
-          val answers = userAnswers.copy(id = afaId)
-
-          ApplicationReceiptDatePage.isRequired(answers).value mustEqual false
+        ApplicationReceiptDatePage.isRequired(answers).value mustEqual false
       }
     }
   }

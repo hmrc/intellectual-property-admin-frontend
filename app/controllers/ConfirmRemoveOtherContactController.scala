@@ -25,17 +25,19 @@ import views.html.ConfirmRemoveOtherContactView
 
 import javax.inject.Inject
 
-class ConfirmRemoveOtherContactController @Inject()(
-                                                     override val messagesApi: MessagesApi,
-                                                     identify: IdentifierAction,
-                                                     getLock: LockAfaActionProvider,
-                                                     getData: AfaDraftDataRetrievalAction,
-                                                     requireData: DataRequiredAction,
-                                                     val controllerComponents: MessagesControllerComponents,
-                                                     view: ConfirmRemoveOtherContactView) extends FrontendBaseController with I18nSupport {
+class ConfirmRemoveOtherContactController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: ConfirmRemoveOtherContactView
+) extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(afaId: AfaId, contactToDelete: String): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData) {
-    implicit request =>
+  def onPageLoad(afaId: AfaId, contactToDelete: String): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData) { implicit request =>
       Ok(view(afaId, contactToDelete))
-  }
+    }
 }

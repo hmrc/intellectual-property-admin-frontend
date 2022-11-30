@@ -34,7 +34,7 @@ class EvidenceOfPowerToActViewSpec extends YesNoViewBehaviours {
 
   "EvidenceOfPowerToAct view" must {
 
-    val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+    val application                    = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
     val view: EvidenceOfPowerToActView = application.injector.instanceOf[EvidenceOfPowerToActView]
 
     def applyView(form: Form[_]): HtmlFormat.Appendable =
@@ -50,8 +50,11 @@ class EvidenceOfPowerToActViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like pageWithGuidance(applyView(form), messageKeyPrefix,
-      Seq("guidance", "guidance.bulletOne", "guidance.bulletTwo", "guidance.check"))
+    behave like pageWithGuidance(
+      applyView(form),
+      messageKeyPrefix,
+      Seq("guidance", "guidance.bulletOne", "guidance.bulletTwo", "guidance.check")
+    )
 
     behave like yesNoPageUsingDesignSystem(
       form,
@@ -59,7 +62,8 @@ class EvidenceOfPowerToActViewSpec extends YesNoViewBehaviours {
       messageKeyPrefix,
       routes.EvidenceOfPowerToActController.onSubmit(NormalMode, afaId).url,
       args = Seq(rightsHolderContactName),
-      argsUsedInBrowserTitle = true)
+      argsUsedInBrowserTitle = true
+    )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
   }

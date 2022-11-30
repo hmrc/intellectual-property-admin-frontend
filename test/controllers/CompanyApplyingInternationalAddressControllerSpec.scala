@@ -42,7 +42,7 @@ class CompanyApplyingInternationalAddressControllerSpec extends SpecBase with Mo
 
   val companyApplying: CompanyApplying = CompanyApplying("name", None)
 
-  val formProvider = new CompanyApplyingInternationalAddressFormProvider()
+  val formProvider                             = new CompanyApplyingInternationalAddressFormProvider()
   private def form: Form[InternationalAddress] = formProvider()
 
   lazy val companyApplyingInternationalAddressRoute: String =

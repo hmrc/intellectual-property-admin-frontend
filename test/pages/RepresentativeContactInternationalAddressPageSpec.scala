@@ -32,34 +32,28 @@ class RepresentativeContactInternationalAddressPageSpec extends PageBehaviours {
 
     "be required if the Representative contact is not based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.set(IsRepresentativeContactUkBasedPage, false).success.value
 
-          val answers = userAnswers.set(IsRepresentativeContactUkBasedPage, false).success.value
-
-          RepresentativeContactInternationalAddressPage.isRequired(answers).value mustEqual true
+        RepresentativeContactInternationalAddressPage.isRequired(answers).value mustEqual true
       }
     }
 
     "not be required if the Representative contact is based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.set(IsRepresentativeContactUkBasedPage, true).success.value
 
-          val answers = userAnswers.set(IsRepresentativeContactUkBasedPage, true).success.value
-
-          RepresentativeContactInternationalAddressPage.isRequired(answers).value mustEqual false
+        RepresentativeContactInternationalAddressPage.isRequired(answers).value mustEqual false
       }
     }
 
     "not know whether it's required if we do not know whether the Representative contact is based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.remove(IsRepresentativeContactUkBasedPage).success.value
 
-          val answers = userAnswers.remove(IsRepresentativeContactUkBasedPage).success.value
-
-          RepresentativeContactInternationalAddressPage.isRequired(answers) must not be defined
+        RepresentativeContactInternationalAddressPage.isRequired(answers) must not be defined
       }
     }
   }

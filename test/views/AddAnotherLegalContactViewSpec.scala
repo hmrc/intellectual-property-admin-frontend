@@ -41,7 +41,12 @@ class AddAnotherLegalContactViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPageUsingDesignSystem(form, applyView, messageKeyPrefix, routes.AddAnotherLegalContactController.onSubmit(NormalMode, afaId).url)
+    behave like yesNoPageUsingDesignSystem(
+      form,
+      applyView,
+      messageKeyPrefix,
+      routes.AddAnotherLegalContactController.onSubmit(NormalMode, afaId).url
+    )
 
     behave like pageWithGuidance(applyView(form), messageKeyPrefix, Seq("guidance"))
 

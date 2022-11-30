@@ -32,24 +32,30 @@ case object IsRepresentativeContactLegalContactPage extends QuestionPage[Boolean
       case Some(true) =>
         if (userAnswers.get(IsRepresentativeContactUkBasedPage).contains(true)) {
           for {
-            first <- userAnswers.set(ApplicantLegalContactPage, userAnswers.get(RepresentativeDetailsPage).get.getAsLegal)
-            second <- first.set(IsApplicantLegalContactUkBasedPage, userAnswers.get(IsRepresentativeContactUkBasedPage).get)
-            third <- second.set(ApplicantLegalContactUkAddressPage, userAnswers.get(RepresentativeContactUkAddressPage).get)
+            first  <-
+              userAnswers.set(ApplicantLegalContactPage, userAnswers.get(RepresentativeDetailsPage).get.getAsLegal)
+            second <-
+              first.set(IsApplicantLegalContactUkBasedPage, userAnswers.get(IsRepresentativeContactUkBasedPage).get)
+            third  <-
+              second.set(ApplicantLegalContactUkAddressPage, userAnswers.get(RepresentativeContactUkAddressPage).get)
             fourth <- third.remove(ApplicantLegalContactInternationalAddressPage)
           } yield fourth
 
         } else {
           for {
-            first <- userAnswers.set(ApplicantLegalContactPage, userAnswers.get(RepresentativeDetailsPage).get.getAsLegal)
-            second <- first.set(IsApplicantLegalContactUkBasedPage, userAnswers.get(IsRepresentativeContactUkBasedPage).get)
-            third <- second.remove(ApplicantLegalContactUkAddressPage)
-            fourth <- third.set(ApplicantLegalContactInternationalAddressPage, userAnswers.get(RepresentativeContactInternationalAddressPage).get)
+            first  <-
+              userAnswers.set(ApplicantLegalContactPage, userAnswers.get(RepresentativeDetailsPage).get.getAsLegal)
+            second <-
+              first.set(IsApplicantLegalContactUkBasedPage, userAnswers.get(IsRepresentativeContactUkBasedPage).get)
+            third  <- second.remove(ApplicantLegalContactUkAddressPage)
+            fourth <- third.set(
+                        ApplicantLegalContactInternationalAddressPage,
+                        userAnswers.get(RepresentativeContactInternationalAddressPage).get
+                      )
           } yield fourth
         }
-
 
       case _ =>
         super.cleanup(value, userAnswers)
     }
 }
-

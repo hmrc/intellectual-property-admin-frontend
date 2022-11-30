@@ -21,7 +21,8 @@ import pages._
 
 trait PageGenerators {
 
-  implicit lazy val arbitraryIpRightsSupplementaryProtectionCertificateTypePage: Arbitrary[IpRightsSupplementaryProtectionCertificateTypePage] =
+  implicit lazy val arbitraryIpRightsSupplementaryProtectionCertificateTypePage
+    : Arbitrary[IpRightsSupplementaryProtectionCertificateTypePage] =
     Arbitrary(IpRightsSupplementaryProtectionCertificateTypePage(0))
 
   implicit lazy val arbitraryIpRightsNiceClassPage: Arbitrary[IpRightsNiceClassPage] =
@@ -39,7 +40,8 @@ trait PageGenerators {
   implicit lazy val arbitraryWhoIsSecondaryTechnicalContactPage: Arbitrary[WhoIsSecondaryTechnicalContactPage.type] =
     Arbitrary(WhoIsSecondaryTechnicalContactPage)
 
-  implicit lazy val arbitraryIsRepresentativeContactLegalContactPage: Arbitrary[IsRepresentativeContactLegalContactPage.type] =
+  implicit lazy val arbitraryIsRepresentativeContactLegalContactPage
+    : Arbitrary[IsRepresentativeContactLegalContactPage.type] =
     Arbitrary(IsRepresentativeContactLegalContactPage)
 
   implicit lazy val arbitraryRepresentativeContactPage: Arbitrary[RepresentativeDetailsPage.type] =
@@ -72,7 +74,8 @@ trait PageGenerators {
   implicit lazy val arbitraryIpRightsRegistrationNumberPage: Arbitrary[IpRightsRegistrationNumberPage] =
     Arbitrary(IpRightsRegistrationNumberPage(0))
 
-  implicit lazy val arbitraryPermissionToDestroySmallConsignmentsPage: Arbitrary[PermissionToDestroySmallConsignmentsPage.type] =
+  implicit lazy val arbitraryPermissionToDestroySmallConsignmentsPage
+    : Arbitrary[PermissionToDestroySmallConsignmentsPage.type] =
     Arbitrary(PermissionToDestroySmallConsignmentsPage)
 
   implicit lazy val arbitraryWantsOneYearRightsProtectionPage: Arbitrary[WantsOneYearRightsProtectionPage.type] =
@@ -87,10 +90,12 @@ trait PageGenerators {
   implicit lazy val arbitraryEvidenceOfPowerToActPage: Arbitrary[EvidenceOfPowerToActPage.type] =
     Arbitrary(EvidenceOfPowerToActPage)
 
-  implicit lazy val arbitraryTechnicalContactInternationalAddressPage: Arbitrary[TechnicalContactInternationalAddressPage.type] =
+  implicit lazy val arbitraryTechnicalContactInternationalAddressPage
+    : Arbitrary[TechnicalContactInternationalAddressPage.type] =
     Arbitrary(TechnicalContactInternationalAddressPage)
 
-  implicit lazy val arbitraryRightsHolderContactInternationalAddressPage: Arbitrary[ApplicantLegalContactInternationalAddressPage.type] =
+  implicit lazy val arbitraryRightsHolderContactInternationalAddressPage
+    : Arbitrary[ApplicantLegalContactInternationalAddressPage.type] =
     Arbitrary(ApplicantLegalContactInternationalAddressPage)
 
   implicit lazy val arbitraryTechnicalContactUkAddressPage: Arbitrary[TechnicalContactUkAddressPage.type] =

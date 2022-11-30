@@ -22,8 +22,8 @@ import play.api.data.FormError
 class IpRightsDescriptionFormProviderSpec extends StringFieldBehaviours {
 
   val requiredKey = "ipRightsDescription.error.required"
-  val lengthKey = "ipRightsDescription.error.length"
-  val maxLength = 1000
+  val lengthKey   = "ipRightsDescription.error.length"
+  val maxLength   = 1000
 
   val form = new IpRightsDescriptionFormProvider()()
 

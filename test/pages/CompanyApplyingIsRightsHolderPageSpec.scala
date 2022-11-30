@@ -16,7 +16,7 @@
 
 package pages
 
-import models.{CompanyApplyingIsRightsHolder}
+import models.CompanyApplyingIsRightsHolder
 import pages.behaviours.PageBehaviours
 
 class CompanyApplyingIsRightsHolderPageSpec extends PageBehaviours {

@@ -27,9 +27,9 @@ final case class AfaId private (year: Year, id: Int, prefix: AfaId.Prefix) {
 
   require {
     prefix match {
-      case AfaId.UK =>
+      case AfaId.UK        =>
         id >= 0 && id <= 9999
-      case AfaId.GB(true) =>
+      case AfaId.GB(true)  =>
         id >= 0 && id <= 999
       case AfaId.GB(false) =>
         id >= 0 && id <= 99
@@ -37,9 +37,9 @@ final case class AfaId private (year: Year, id: Int, prefix: AfaId.Prefix) {
   }
 
   override def toString: String = prefix match {
-    case AfaId.UK =>
+    case AfaId.UK        =>
       f"UK$year$id%04d"
-    case AfaId.GB(true) =>
+    case AfaId.GB(true)  =>
       f"GB$year$id%03d"
     case AfaId.GB(false) =>
       f"GB$year$id%02d"
@@ -53,7 +53,7 @@ object AfaId {
 
   sealed trait Prefix
   case object UK extends Prefix
-  case class GB (threeDigitId: Boolean = true) extends Prefix
+  case class GB(threeDigitId: Boolean = true) extends Prefix
   object GB extends GB(true)
 
   def apply(yearString: String, idString: String, prefix: Prefix): Try[AfaId] = for {
@@ -64,18 +64,18 @@ object AfaId {
 
   def fromString(string: String): Option[AfaId] = {
 
-    val UkIdPattern = "^UK(\\d{4})(\\d{4})$".r
-    val GbIdPattern = "^GB(\\d{4})(\\d{3})$".r
+    val UkIdPattern           = "^UK(\\d{4})(\\d{4})$".r
+    val GbIdPattern           = "^GB(\\d{4})(\\d{3})$".r
     val GbIdPatternThreeDigit = "^GB(\\d{4})(\\d{2})$".r
 
     string match {
-      case UkIdPattern(yearString, idString) =>
+      case UkIdPattern(yearString, idString)           =>
         AfaId(yearString, idString, AfaId.UK).toOption
-      case GbIdPattern(yearString, idString) =>
+      case GbIdPattern(yearString, idString)           =>
         AfaId(yearString, idString, AfaId.GB(true)).toOption
       case GbIdPatternThreeDigit(yearString, idString) =>
         AfaId(yearString, idString, AfaId.GB(false)).toOption
-      case _ =>
+      case _                                           =>
         None
     }
   }
@@ -92,23 +92,23 @@ object AfaId {
       afaId.toString
   }
 
-    implicit lazy val reads: Reads[AfaId] = new Reads[AfaId] {
+  implicit lazy val reads: Reads[AfaId] = new Reads[AfaId] {
 
-      override def reads(json: JsValue): JsResult[AfaId] = {
+    override def reads(json: JsValue): JsResult[AfaId] = {
 
-        val rawAfaId = json match {
-          case string: JsString => string.value
-          case obj => (obj \ "value" ).as[JsString].value
-        }
+      val rawAfaId = json match {
+        case string: JsString => string.value
+        case obj              => (obj \ "value").as[JsString].value
+      }
 
-        fromString(string = rawAfaId) match {
-          case Some(afaId)  => JsSuccess(afaId)
-          case None         => JsError("Afa Id not in format UKYYYYXXXX or GBYYYYXXX or GBYYYYXX")
-        }
+      fromString(string = rawAfaId) match {
+        case Some(afaId) => JsSuccess(afaId)
+        case None        => JsError("Afa Id not in format UKYYYYXXXX or GBYYYYXXX or GBYYYYXX")
       }
     }
+  }
 
-  implicit lazy val writes: Writes[AfaId] = Writes {
-    afaId => JsString(afaId.toString)
+  implicit lazy val writes: Writes[AfaId] = Writes { afaId =>
+    JsString(afaId.toString)
   }
 }

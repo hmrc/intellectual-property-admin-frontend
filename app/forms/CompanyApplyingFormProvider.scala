@@ -26,12 +26,14 @@ class CompanyApplyingFormProvider @Inject() extends Mappings {
 
   val maxLength: Int = 200
 
-   def apply(): Form[CompanyApplying] = Form(
-     mapping(
-      "companyName" -> text("companyApplying.error.companyName.required")
+  def apply(): Form[CompanyApplying] = Form(
+    mapping(
+      "companyName"    -> text("companyApplying.error.companyName.required")
         .verifying(maxLength(maxLength, "companyApplying.error.companyName.length")),
-      "companyAcronym" -> optional(Forms.text
-        .verifying(maxLength(maxLength, "companyApplying.error.companyAcronym.length")))
+      "companyAcronym" -> optional(
+        Forms.text
+          .verifying(maxLength(maxLength, "companyApplying.error.companyAcronym.length"))
+      )
     )(CompanyApplying.apply)(CompanyApplying.unapply)
-   )
- }
+  )
+}

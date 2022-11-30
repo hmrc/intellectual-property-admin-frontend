@@ -21,12 +21,12 @@ import play.api.libs.json.{Json, OFormat, Reads, Writes}
 import scala.language.implicitConversions
 
 final case class UkAddress(
-                            line1: String,
-                            line2: Option[String],
-                            town: String,
-                            county: Option[String],
-                            postCode: String
-                          ) extends Address
+  line1: String,
+  line2: Option[String],
+  town: String,
+  county: Option[String],
+  postCode: String
+) extends Address
 
 object UkAddress {
 
@@ -34,12 +34,12 @@ object UkAddress {
 }
 
 final case class InternationalAddress(
-                                       line1: String,
-                                       line2: Option[String],
-                                       town: String,
-                                       country: String,
-                                       postCode: Option[String]
-                                     ) extends Address
+  line1: String,
+  line2: Option[String],
+  town: String,
+  country: String,
+  postCode: Option[String]
+) extends Address
 
 object InternationalAddress {
 
@@ -54,9 +54,8 @@ object Address {
 
     implicit class ReadsWithContravariantOr[A](a: Reads[A]) {
 
-      def or[B >: A](b: Reads[B]): Reads[B] = {
+      def or[B >: A](b: Reads[B]): Reads[B] =
         a.map[B](identity).orElse(b)
-      }
     }
 
     implicit def convertToSupertype[A, B >: A](a: Reads[A]): Reads[B] =

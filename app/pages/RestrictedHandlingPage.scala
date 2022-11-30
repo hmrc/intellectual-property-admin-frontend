@@ -25,11 +25,9 @@ case object RestrictedHandlingPage extends QuestionPage[Boolean] {
 
   override def toString: String = "isRestrictedHandling"
 
-  override def isRequired(answers: UserAnswers): Option[Boolean] = {
-
+  override def isRequired(answers: UserAnswers): Option[Boolean] =
     answers
       .get(AdditionalInfoProvidedPage)
       .map(answer => answer)
 
-  }
 }

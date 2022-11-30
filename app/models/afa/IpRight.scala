@@ -36,23 +36,23 @@ object IpRight {
       a.map(identity)
 
     Trademark.reads or
-    Copyright.reads or
-    Design.reads or
-    Patent.reads or
-    PlantVariety.reads or
-    SupplementaryProtectionCertificate.reads or
-    SemiconductorTopography.reads or
-    GeographicalIndication.reads
+      Copyright.reads or
+      Design.reads or
+      Patent.reads or
+      PlantVariety.reads or
+      SupplementaryProtectionCertificate.reads or
+      SemiconductorTopography.reads or
+      GeographicalIndication.reads
   }
 
   implicit lazy val writes: Writes[IpRight] = Writes {
-    case r: Trademark                           => Json.toJson(r)(Trademark.writes)
-    case r: Copyright                           => Json.toJson(r)(Copyright.writes)
-    case r: Design                              => Json.toJson(r)(Design.writes)
-    case r: Patent                              => Json.toJson(r)(Patent.writes)
-    case r: PlantVariety                        => Json.toJson(r)(PlantVariety.writes)
-    case r: SupplementaryProtectionCertificate  => Json.toJson(r)(SupplementaryProtectionCertificate.writes)
-    case r: SemiconductorTopography             => Json.toJson(r)(SemiconductorTopography.writes)
-    case r: GeographicalIndication              => Json.toJson(r)(GeographicalIndication.writes)
+    case r: Trademark                          => Json.toJson(r)(Trademark.writes)
+    case r: Copyright                          => Json.toJson(r)(Copyright.writes)
+    case r: Design                             => Json.toJson(r)(Design.writes)
+    case r: Patent                             => Json.toJson(r)(Patent.writes)
+    case r: PlantVariety                       => Json.toJson(r)(PlantVariety.writes)
+    case r: SupplementaryProtectionCertificate => Json.toJson(r)(SupplementaryProtectionCertificate.writes)
+    case r: SemiconductorTopography            => Json.toJson(r)(SemiconductorTopography.writes)
+    case r: GeographicalIndication             => Json.toJson(r)(GeographicalIndication.writes)
   }
 }

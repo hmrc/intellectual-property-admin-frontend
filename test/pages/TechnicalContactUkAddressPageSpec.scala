@@ -32,40 +32,40 @@ class TechnicalContactUkAddressPageSpec extends PageBehaviours {
 
     "be required if the technical contact is UK based" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IsTechnicalContactUkBasedPage, true)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IsTechnicalContactUkBasedPage, true).success.value
-
-          TechnicalContactUkAddressPage.isRequired(answers).value mustEqual true
+        TechnicalContactUkAddressPage.isRequired(answers).value mustEqual true
       }
     }
 
     "not be required if the technical contact is not UK based" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IsTechnicalContactUkBasedPage, false)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IsTechnicalContactUkBasedPage, false).success.value
-
-          TechnicalContactUkAddressPage.isRequired(answers).value mustEqual false
+        TechnicalContactUkAddressPage.isRequired(answers).value mustEqual false
       }
     }
 
     "not know whether it's required if the legal contact is not the technical contact and we don't know if they are UK based" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .remove(IsTechnicalContactUkBasedPage)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .remove(IsTechnicalContactUkBasedPage).success.value
-
-          TechnicalContactUkAddressPage.isRequired(answers) must not be defined
+        TechnicalContactUkAddressPage.isRequired(answers) must not be defined
       }
     }
   }

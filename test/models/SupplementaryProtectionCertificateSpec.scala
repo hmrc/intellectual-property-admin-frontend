@@ -26,7 +26,11 @@ import play.api.libs.json.{JsError, JsSuccess, Json}
 
 import java.time.LocalDate
 
-class SupplementaryProtectionCertificateSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with Generators {
+class SupplementaryProtectionCertificateSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with Generators {
 
   "SupplementaryProtectionCertificate" - {
 
@@ -36,7 +40,6 @@ class SupplementaryProtectionCertificateSpec extends AnyFreeSpec with Matchers w
 
       forAll(arbitrary[String], arbitraryDates, arbitrary[String], arbitrary[String]) {
         (registrationNumber, registrationEnd, description, certificateType) =>
-
           val json = Json.obj(
             "rightsType"         -> "supplementaryProtectionCertificate",
             "registrationNumber" -> registrationNumber,
@@ -45,8 +48,13 @@ class SupplementaryProtectionCertificateSpec extends AnyFreeSpec with Matchers w
             "description"        -> description
           )
 
-          json.validate[SupplementaryProtectionCertificate]
-            .mustEqual(JsSuccess(SupplementaryProtectionCertificate(certificateType, registrationNumber, registrationEnd, description)))
+          json
+            .validate[SupplementaryProtectionCertificate]
+            .mustEqual(
+              JsSuccess(
+                SupplementaryProtectionCertificate(certificateType, registrationNumber, registrationEnd, description)
+              )
+            )
       }
     }
 
@@ -54,11 +62,10 @@ class SupplementaryProtectionCertificateSpec extends AnyFreeSpec with Matchers w
 
       forAll(arbitrary[String], arbitraryDates, arbitrary[String], arbitrary[String], Gen.alphaStr) {
         (registrationNumber, registrationEnd, description, certificateType, rightsType) =>
-
           whenever(rightsType != "supplementaryProtectionCertificate") {
 
             val json = Json.obj(
-              "rightsType" -> rightsType,
+              "rightsType"         -> rightsType,
               "registrationNumber" -> registrationNumber,
               "registrationEnd"    -> registrationEnd,
               "certificateType"    -> certificateType,

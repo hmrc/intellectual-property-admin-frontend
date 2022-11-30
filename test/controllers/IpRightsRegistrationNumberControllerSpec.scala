@@ -35,7 +35,11 @@ import views.html.IpRightsRegistrationNumberView
 
 import scala.concurrent.Future
 
-class IpRightsRegistrationNumberControllerSpec extends SpecBase with IprIndexValidation with MockitoSugar with LockAfaChecks {
+class IpRightsRegistrationNumberControllerSpec
+    extends SpecBase
+    with IprIndexValidation
+    with MockitoSugar
+    with LockAfaChecks {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
@@ -44,12 +48,13 @@ class IpRightsRegistrationNumberControllerSpec extends SpecBase with IprIndexVal
   val index = 0
 
   val ipRightsType: IpRightsType = IpRightsType.Copyright
-  val ipRightsMessageName = "registration"
+  val ipRightsMessageName        = "registration"
 
   val formProvider = new IpRightsRegistrationNumberFormProvider()
   private def form = formProvider(ipRightsMessageName, Seq("firstRegistrationNumber"))
 
-  lazy val ipRightsRegistrationNumberRoute: String = routes.IpRightsRegistrationNumberController.onPageLoad(NormalMode, index, afaId).url
+  lazy val ipRightsRegistrationNumberRoute: String =
+    routes.IpRightsRegistrationNumberController.onPageLoad(NormalMode, index, afaId).url
 
   private val baseAnswers = UserAnswers(afaId).set(IpRightsTypePage(index), ipRightsType).success.value
 
@@ -172,16 +177,36 @@ class IpRightsRegistrationNumberControllerSpec extends SpecBase with IprIndexVal
 
       val answers =
         emptyUserAnswers
-          .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-          .set(IpRightsRegistrationNumberPage(0), "firstRegNum").success.value
-          .set(IpRightsRegistrationEndPage(0), LocalDate.now()).success.value
-          .set(IpRightsDescriptionPage(0), "desc").success.value
-          .set(IpRightsNiceClassPage(0,0), NiceClassId.fromInt(12).value).success.value
-          .set(IpRightsTypePage(1), IpRightsType.Trademark).success.value
-          .set(IpRightsRegistrationNumberPage(1), "existingRegNum").success.value
-          .set(IpRightsRegistrationEndPage(1), LocalDate.now()).success.value
-          .set(IpRightsDescriptionPage(1), "desc").success.value
-          .set(IpRightsNiceClassPage(1,0), NiceClassId.fromInt(12).value).success.value
+          .set(IpRightsTypePage(0), IpRightsType.Trademark)
+          .success
+          .value
+          .set(IpRightsRegistrationNumberPage(0), "firstRegNum")
+          .success
+          .value
+          .set(IpRightsRegistrationEndPage(0), LocalDate.now())
+          .success
+          .value
+          .set(IpRightsDescriptionPage(0), "desc")
+          .success
+          .value
+          .set(IpRightsNiceClassPage(0, 0), NiceClassId.fromInt(12).value)
+          .success
+          .value
+          .set(IpRightsTypePage(1), IpRightsType.Trademark)
+          .success
+          .value
+          .set(IpRightsRegistrationNumberPage(1), "existingRegNum")
+          .success
+          .value
+          .set(IpRightsRegistrationEndPage(1), LocalDate.now())
+          .success
+          .value
+          .set(IpRightsDescriptionPage(1), "desc")
+          .success
+          .value
+          .set(IpRightsNiceClassPage(1, 0), NiceClassId.fromInt(12).value)
+          .success
+          .value
 
       val mockAfaService = mock[AfaService]
 

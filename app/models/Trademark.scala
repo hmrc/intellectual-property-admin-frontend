@@ -21,37 +21,39 @@ import java.time.LocalDate
 import play.api.libs.json._
 
 final case class Trademark(
-                            registrationNumber: String,
-                            registrationEnd: LocalDate,
-                            brand: Option[String],
-      description: String,
-      niceClasses: Seq[NiceClassId]
-    ) extends IpRight {
+  registrationNumber: String,
+  registrationEnd: LocalDate,
+  brand: Option[String],
+  description: String,
+  niceClasses: Seq[NiceClassId]
+) extends IpRight {
 
-      def rightType: String = "trademark"
-    }
+  def rightType: String = "trademark"
+}
 
-    object Trademark {
+object Trademark {
 
-      implicit lazy val reads: Reads[Trademark] = {
+  implicit lazy val reads: Reads[Trademark] = {
 
-        import play.api.libs.functional.syntax._
+    import play.api.libs.functional.syntax._
 
     val readsWithDescriptionAndBrand: Reads[Trademark] = (
       (__ \ "registrationNumber").read[String] and
-      (__ \ "registrationEnd").read[LocalDate] and
-      (__ \ "descriptionWithBrand" \ "brand").read[String] and
-      (__ \ "descriptionWithBrand" \ "description").read[String] and
-      (__ \ "niceClasses").read[Seq[NiceClassId]]
+        (__ \ "registrationEnd").read[LocalDate] and
+        (__ \ "descriptionWithBrand" \ "brand").read[String] and
+        (__ \ "descriptionWithBrand" \ "description").read[String] and
+        (__ \ "niceClasses").read[Seq[NiceClassId]]
     )((regNum, regEnd, brand, desc, niceClasses) => Trademark(regNum, regEnd, Some(brand), desc, niceClasses))
 
-    (__ \ "rightsType").read[String].flatMap[String] {
-      t =>
+    (__ \ "rightsType")
+      .read[String]
+      .flatMap[String] { t =>
         if (t == "trademark") {
           Reads(_ => JsSuccess(t))
         } else {
           Reads(_ => JsError("rightsType must be `trademark`"))
         }
-    }.andKeep(readsWithDescriptionAndBrand)
+      }
+      .andKeep(readsWithDescriptionAndBrand)
   }
 }

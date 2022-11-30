@@ -30,43 +30,42 @@ class SelectOtherTechnicalContactPageSpec extends PageBehaviours {
 
     beRemovable[ContactOptions](SelectOtherTechnicalContactPage)
 
-
     "be required if add another technical contact is true" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(AddAnotherTechnicalContactPage, true)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(AddAnotherTechnicalContactPage, true).success.value
-
-          SelectOtherTechnicalContactPage.isRequired(answers).value mustEqual true
+        SelectOtherTechnicalContactPage.isRequired(answers).value mustEqual true
       }
     }
 
     "not be required if add another technical contact is false" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(AddAnotherTechnicalContactPage, false)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(AddAnotherTechnicalContactPage, false).success.value
-
-          SelectOtherTechnicalContactPage.isRequired(answers).value mustEqual false
+        SelectOtherTechnicalContactPage.isRequired(answers).value mustEqual false
       }
     }
 
     "not know whether it's required if we don't know whether to add another technical contact" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .remove(AddAnotherTechnicalContactPage)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .remove(AddAnotherTechnicalContactPage).success.value
-
-          SelectOtherTechnicalContactPage.isRequired(answers) must not be defined
+        SelectOtherTechnicalContactPage.isRequired(answers) must not be defined
       }
     }
 

@@ -21,15 +21,15 @@ import play.api.data.FormError
 
 class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours {
 
-  val form = new WhoIsTechnicalContactFormProvider()()
-  val nameLimit: Int = 200
+  val form             = new WhoIsTechnicalContactFormProvider()()
+  val nameLimit: Int   = 200
   val phonesLimit: Int = 100
 
   ".companyName" must {
 
-    val fieldName = "companyName"
+    val fieldName   = "companyName"
     val requiredKey = "whoIsTechnicalContact.error.companyName.required"
-    val lengthKey = "whoIsTechnicalContact.error.companyName.length"
+    val lengthKey   = "whoIsTechnicalContact.error.companyName.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -53,9 +53,9 @@ class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours {
 
   ".contactName" must {
 
-    val fieldName = "contactName"
+    val fieldName   = "contactName"
     val requiredKey = "whoIsTechnicalContact.error.contactName.required"
-    val lengthKey = "whoIsTechnicalContact.error.contactName.length"
+    val lengthKey   = "whoIsTechnicalContact.error.contactName.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -79,9 +79,9 @@ class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours {
 
   ".contactTelephone" must {
 
-    val fieldName = "contactTelephone"
+    val fieldName   = "contactTelephone"
     val requiredKey = "whoIsTechnicalContact.error.contactTelephone.required"
-    val lengthKey = "whoIsTechnicalContact.error.contactTelephone.length"
+    val lengthKey   = "whoIsTechnicalContact.error.contactTelephone.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -105,9 +105,9 @@ class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours {
 
   ".contactEmail" must {
 
-    val fieldName = "contactEmail"
+    val fieldName   = "contactEmail"
     val requiredKey = "email.required"
-    val lengthKey = "email.length"
+    val lengthKey   = "email.length"
 
     val emailLength = 256
 

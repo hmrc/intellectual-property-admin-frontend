@@ -30,20 +30,19 @@ trait AfaGenerators extends ModelGenerators {
     def toMillis(date: LocalDate): Long =
       date.atStartOfDay.atZone(ZoneOffset.UTC).toInstant.toEpochMilli
 
-    Gen.choose(toMillis(min), toMillis(max)).map {
-      millis =>
-        Instant.ofEpochMilli(millis).atOffset(ZoneOffset.UTC).toLocalDate
+    Gen.choose(toMillis(min), toMillis(max)).map { millis =>
+      Instant.ofEpochMilli(millis).atOffset(ZoneOffset.UTC).toLocalDate
     }
   }
 
   implicit lazy val genCompanyUk: Gen[Company] =
-      for {
-        name           <- Gen.resize(200, Gen.alphaStr)
-        acronym        <- Gen.option(Gen.resize(200, Gen.alphaStr))
-        ukBased        <- arbitrary[Boolean]
-        address        <- arbitrary[UkAddress]
-        applicantType  <- arbitrary[CompanyApplyingIsRightsHolder]
-      } yield Company(name, acronym, ukBased, address, applicantType)
+    for {
+      name          <- Gen.resize(200, Gen.alphaStr)
+      acronym       <- Gen.option(Gen.resize(200, Gen.alphaStr))
+      ukBased       <- arbitrary[Boolean]
+      address       <- arbitrary[UkAddress]
+      applicantType <- arbitrary[CompanyApplyingIsRightsHolder]
+    } yield Company(name, acronym, ukBased, address, applicantType)
 
   val genContactUk: Gen[Contact] =
     for {
@@ -55,23 +54,22 @@ trait AfaGenerators extends ModelGenerators {
       address    <- arbitrary[UkAddress]
     } yield Contact(company, name, phone, otherPhone, email, address)
 
-
   val genSecondaryTechnicalContactUk: Gen[Contact] =
     for {
-      company    <- Gen.resize(200, Gen.alphaStr)
-      name       <- Gen.resize(200, Gen.alphaStr)
-      phone      <- Gen.resize(200, Gen.alphaStr)
-      email      <- Gen.resize(200, Gen.alphaStr)
-      address    <- arbitrary[UkAddress]
+      company <- Gen.resize(200, Gen.alphaStr)
+      name    <- Gen.resize(200, Gen.alphaStr)
+      phone   <- Gen.resize(200, Gen.alphaStr)
+      email   <- Gen.resize(200, Gen.alphaStr)
+      address <- arbitrary[UkAddress]
     } yield Contact(company, name, phone, None, email, address)
 
   val genSecondaryTechnicalContactInternational: Gen[Contact] =
     for {
-      company    <- Gen.resize(200, Gen.alphaStr)
-      name       <- Gen.resize(200, Gen.alphaStr)
-      phone      <- Gen.resize(200, Gen.alphaStr)
-      email      <- Gen.resize(200, Gen.alphaStr)
-      address    <- arbitrary[InternationalAddress]
+      company <- Gen.resize(200, Gen.alphaStr)
+      name    <- Gen.resize(200, Gen.alphaStr)
+      phone   <- Gen.resize(200, Gen.alphaStr)
+      email   <- Gen.resize(200, Gen.alphaStr)
+      address <- arbitrary[InternationalAddress]
     } yield Contact(company, name, phone, None, email, address)
 
   val genLegalContactUk: Gen[Contact] =
@@ -96,45 +94,52 @@ trait AfaGenerators extends ModelGenerators {
 
   val genSecondaryLegalContactUk: Gen[Contact] =
     for {
-      company    <- Gen.resize(200, Gen.alphaStr)
-      name       <- Gen.resize(200, Gen.alphaStr)
-      phone      <- Gen.resize(200, Gen.alphaStr)
-      email      <- Gen.resize(200, Gen.alphaStr)
-      address    <- arbitrary[UkAddress]
+      company <- Gen.resize(200, Gen.alphaStr)
+      name    <- Gen.resize(200, Gen.alphaStr)
+      phone   <- Gen.resize(200, Gen.alphaStr)
+      email   <- Gen.resize(200, Gen.alphaStr)
+      address <- arbitrary[UkAddress]
     } yield Contact(company, name, phone, None, email, address)
 
   val genSecondaryLegalContactInternational: Gen[Contact] =
     for {
-      company    <- Gen.resize(200, Gen.alphaStr)
-      name       <- Gen.resize(200, Gen.alphaStr)
-      phone      <- Gen.resize(200, Gen.alphaStr)
-      email      <- Gen.resize(200, Gen.alphaStr)
-      address    <- arbitrary[InternationalAddress]
+      company <- Gen.resize(200, Gen.alphaStr)
+      name    <- Gen.resize(200, Gen.alphaStr)
+      phone   <- Gen.resize(200, Gen.alphaStr)
+      email   <- Gen.resize(200, Gen.alphaStr)
+      address <- arbitrary[InternationalAddress]
     } yield Contact(company, name, phone, None, email, address)
 
   val genRepresentativeContact: Gen[RepresentativeContact] =
     for {
-      contactName           <- Gen.resize(200, Gen.alphaStr)
-      company               <- Gen.resize(200, Gen.alphaStr)
-      phone                 <- Gen.resize(200, Gen.alphaStr)
-      email                 <- Gen.resize(200, Gen.alphaStr)
-      roleOrPosition        <- Gen.option(Gen.resize(200, Gen.alphaStr))
-      address               <- arbitrary[UkAddress]
+      contactName    <- Gen.resize(200, Gen.alphaStr)
+      company        <- Gen.resize(200, Gen.alphaStr)
+      phone          <- Gen.resize(200, Gen.alphaStr)
+      email          <- Gen.resize(200, Gen.alphaStr)
+      roleOrPosition <- Gen.option(Gen.resize(200, Gen.alphaStr))
+      address        <- arbitrary[UkAddress]
     } yield RepresentativeContact(contactName, company, phone, email, roleOrPosition, address, Some(true))
 
   implicit lazy val arbitraryRepresentativeContact: Arbitrary[RepresentativeContact] =
     Arbitrary {
       for {
-        contactName           <- arbitrary[String]
-        company               <- Gen.resize(200, Gen.alphaStr)
-        phone                 <- arbitrary[String]
-        email                 <- arbitrary[String]
-        roleOrPosition        <- Gen.option(arbitrary[String])
-        address               <- Gen.oneOf(arbitrary[UkAddress], arbitrary[InternationalAddress])
-        evidenceOfPowerToAct  <- arbitrary[Boolean]
-      } yield RepresentativeContact(contactName, company, phone, email, roleOrPosition, address, Some(evidenceOfPowerToAct))
+        contactName          <- arbitrary[String]
+        company              <- Gen.resize(200, Gen.alphaStr)
+        phone                <- arbitrary[String]
+        email                <- arbitrary[String]
+        roleOrPosition       <- Gen.option(arbitrary[String])
+        address              <- Gen.oneOf(arbitrary[UkAddress], arbitrary[InternationalAddress])
+        evidenceOfPowerToAct <- arbitrary[Boolean]
+      } yield RepresentativeContact(
+        contactName,
+        company,
+        phone,
+        email,
+        roleOrPosition,
+        address,
+        Some(evidenceOfPowerToAct)
+      )
     }
-
 
   implicit lazy val arbitraryContact: Arbitrary[Contact] =
     Arbitrary {
@@ -158,11 +163,11 @@ trait AfaGenerators extends ModelGenerators {
   implicit lazy val arbitraryCompany: Arbitrary[Company] =
     Arbitrary {
       for {
-        name           <- Gen.resize(200, Gen.alphaStr)
-        acronym        <- Gen.option(Gen.resize(200, Gen.alphaStr))
-        ukBased        <- arbitrary[Boolean]
-        address        <- Gen.oneOf(arbitrary[UkAddress], arbitrary[InternationalAddress])
-        applicantType  <- arbitrary[CompanyApplyingIsRightsHolder]
+        name          <- Gen.resize(200, Gen.alphaStr)
+        acronym       <- Gen.option(Gen.resize(200, Gen.alphaStr))
+        ukBased       <- arbitrary[Boolean]
+        address       <- Gen.oneOf(arbitrary[UkAddress], arbitrary[InternationalAddress])
+        applicantType <- arbitrary[CompanyApplyingIsRightsHolder]
       } yield Company(name, acronym, ukBased, address, applicantType)
     }
 
@@ -171,7 +176,7 @@ trait AfaGenerators extends ModelGenerators {
       for {
         id                          <- arbitraryUkAfaId()
         receiptDate                 <- Gen.option(datesBetween(LocalDate.now.minusYears(100), LocalDate.now.plusYears(100)))
-        additionalInfoProvided     <- arbitrary[Boolean]
+        additionalInfoProvided      <- arbitrary[Boolean]
         shareWithEuropeanCommission <- arbitrary[Option[Boolean]]
         permission                  <- arbitrary[Boolean]
         exOfficio                   <- arbitrary[Option[ExOfficio]]
@@ -183,11 +188,23 @@ trait AfaGenerators extends ModelGenerators {
         ipRights                    <- Gen.resize(10, Gen.nonEmptyListOf(arbitrary[IpRight]))
         restrictedHandling          <- arbitrary[Option[Boolean]]
         secondaryLegalContact       <- arbitrary[Option[Contact]]
-        secondaryTechnicalContact    <- arbitrary[Option[Contact]]
+        secondaryTechnicalContact   <- arbitrary[Option[Contact]]
       } yield InitialAfa(
-        id, receiptDate, additionalInfoProvided,  shareWithEuropeanCommission, permission,
-        exOfficio, applicant, legalContact, secondaryLegalContact, technicalContact, secondaryTechnicalContact,
-        endDate, ipRights, representativeContact, restrictedHandling
+        id,
+        receiptDate,
+        additionalInfoProvided,
+        shareWithEuropeanCommission,
+        permission,
+        exOfficio,
+        applicant,
+        legalContact,
+        secondaryLegalContact,
+        technicalContact,
+        secondaryTechnicalContact,
+        endDate,
+        ipRights,
+        representativeContact,
+        restrictedHandling
       )
     }
 
@@ -268,7 +285,7 @@ trait AfaGenerators extends ModelGenerators {
   implicit lazy val arbitraryGeographicalIndication: Arbitrary[GeographicalIndication] =
     Arbitrary {
       for {
-        description    <- arbitrary[String]
+        description <- arbitrary[String]
       } yield GeographicalIndication(description)
     }
 
@@ -289,12 +306,25 @@ trait AfaGenerators extends ModelGenerators {
         endDate                     <- datesBetween(LocalDate.now(), LocalDate.now.plusYears(100))
         expirationDate              <- datesBetween(LocalDate.now(), LocalDate.now.plusYears(100))
         restrictedHandling          <- arbitrary[Option[Boolean]]
-        secondaryLegalContact    <- arbitrary[Option[Contact]]
-        secondaryTechnicalContact    <- arbitrary[Option[Contact]]
+        secondaryLegalContact       <- arbitrary[Option[Contact]]
+        secondaryTechnicalContact   <- arbitrary[Option[Contact]]
       } yield PublishedAfa(
-        id, receiptDate, additionalInfoProvided, shareWithEuropeanCommission, permission, exOfficio, applicant,
-        legalContact, secondaryLegalContact, technicalContact, secondaryTechnicalContact, ipRights, endDate,
-        expirationDate, representativeContact, restrictedHandling
+        id,
+        receiptDate,
+        additionalInfoProvided,
+        shareWithEuropeanCommission,
+        permission,
+        exOfficio,
+        applicant,
+        legalContact,
+        secondaryLegalContact,
+        technicalContact,
+        secondaryTechnicalContact,
+        ipRights,
+        endDate,
+        expirationDate,
+        representativeContact,
+        restrictedHandling
       )
     }
 }

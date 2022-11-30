@@ -55,7 +55,8 @@ class IsRepresentativeContactUkBasedViewSpec extends YesNoViewBehaviours {
       messageKeyPrefix,
       routes.IsRepresentativeContactUkBasedController.onSubmit(NormalMode, afaId).url,
       args = Seq(rightsHolderContactName),
-      argsUsedInBrowserTitle = true)
+      argsUsedInBrowserTitle = true
+    )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
 

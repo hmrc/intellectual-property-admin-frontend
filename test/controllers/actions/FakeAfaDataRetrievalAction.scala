@@ -29,8 +29,8 @@ class FakeAfaDraftDataRetrievalActionProvider(dataToReturn: Option[UserAnswers])
 }
 
 class FakeAfaDraftDataRetrievalAction(
-                                          dataToReturn: Either[Result, Option[UserAnswers]]
-                                        ) extends ActionRefiner[IdentifierRequest, OptionalDataRequest] {
+  dataToReturn: Either[Result, Option[UserAnswers]]
+) extends ActionRefiner[IdentifierRequest, OptionalDataRequest] {
 
   def this(dataToReturn: Option[UserAnswers]) =
     this(Right(dataToReturn))
@@ -40,9 +40,8 @@ class FakeAfaDraftDataRetrievalAction(
 
   override protected def refine[A](request: IdentifierRequest[A]): Future[Either[Result, OptionalDataRequest[A]]] =
     Future.successful {
-      dataToReturn.map {
-        data =>
-          OptionalDataRequest(request.request, request.identifier, request.name, data)
+      dataToReturn.map { data =>
+        OptionalDataRequest(request.request, request.identifier, request.name, data)
       }
     }
 }

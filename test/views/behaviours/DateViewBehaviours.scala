@@ -25,37 +25,40 @@ import matchers.should.Matchers._
 
 import java.time.LocalDate
 
-trait DateViewBehaviours extends ViewBehaviours with BeforeAndAfterEach{
+trait DateViewBehaviours extends ViewBehaviours with BeforeAndAfterEach {
 
   object Selectors {
-    val hintText = "#value-hint"
-    val firstLabel = "#value > div:nth-of-type(1) .govuk-label"
-    val secondLabel = "#value > div:nth-of-type(2) .govuk-label"
-    val thirdLabel = "#value > div:nth-of-type(3) .govuk-label"
-    val button = ".govuk-button"
-    val errorSummary = ".govuk-error-summary"
+    val hintText         = "#value-hint"
+    val firstLabel       = "#value > div:nth-of-type(1) .govuk-label"
+    val secondLabel      = "#value > div:nth-of-type(2) .govuk-label"
+    val thirdLabel       = "#value > div:nth-of-type(3) .govuk-label"
+    val button           = ".govuk-button"
+    val errorSummary     = ".govuk-error-summary"
     val errorSummaryLink = ".govuk-error-summary__body > ul > li > a"
-    val href = "href"
-    val errorMessage = ".govuk-error-message"
+    val href             = "href"
+    val errorMessage     = ".govuk-error-message"
 
   }
   val errorText = "date error"
-  //scalastyle:off method.length
-  def datePage(form: Form[LocalDate],
-               applyView: Form[LocalDate] => HtmlFormat.Appendable,
-               messageKeyPrefix: String,
-               hintArgs: Seq[String] = Seq.empty,
-               hintText:Option[String] =None):Unit = {
+  // scalastyle:off method.length
+  def datePage(
+    form: Form[LocalDate],
+    applyView: Form[LocalDate] => HtmlFormat.Appendable,
+    messageKeyPrefix: String,
+    hintArgs: Seq[String] = Seq.empty,
+    hintText: Option[String] = None
+  ): Unit = {
 
-    "behave like a date page" must {
+    "behave like a date page"               must {
       lazy implicit val document: Document = asDocument(applyView(form))
       "no errors" in {
         elementNotExist(Selectors.errorSummary)
       }
 
-      if(hintText.isDefined) {
+      if (hintText.isDefined) {
         "have the correct hint text" in {
-          elementText(Selectors.hintText) shouldBe messages(messageKeyPrefix + ".hint", hintArgs)}
+          elementText(Selectors.hintText) shouldBe messages(messageKeyPrefix + ".hint", hintArgs)
+        }
       }
 
       "have the correct field labels day" in {
@@ -72,18 +75,20 @@ trait DateViewBehaviours extends ViewBehaviours with BeforeAndAfterEach{
       }
     }
     "behave like a date page with an error" must {
-      lazy implicit val documentWithError: Document = asDocument(applyView(form.withError(FormError("value", errorText))))
+      lazy implicit val documentWithError: Document =
+        asDocument(applyView(form.withError(FormError("value", errorText))))
       "no errors" in {
         element(Selectors.errorSummary)
       }
-      if(hintText.isDefined) {
+      if (hintText.isDefined) {
         "have the correct hint text" in {
-          elementText(Selectors.hintText) shouldBe messages(messageKeyPrefix + ".hint", hintArgs)}
+          elementText(Selectors.hintText) shouldBe messages(messageKeyPrefix + ".hint", hintArgs)
+        }
       }
       "have link to error field" in {
         val link = element(Selectors.errorSummaryLink)
         link.attr(Selectors.href) shouldBe "#value.day"
-        link.text() shouldBe errorText
+        link.text()               shouldBe errorText
       }
       "have error on the field" in {
         val error = element(Selectors.errorMessage)
@@ -103,5 +108,5 @@ trait DateViewBehaviours extends ViewBehaviours with BeforeAndAfterEach{
       }
     }
   }
-  //scalastyle:on method.length
+  // scalastyle:on method.length
 }

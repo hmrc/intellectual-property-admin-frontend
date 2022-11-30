@@ -37,7 +37,7 @@ class ViewDraftsViewSpec extends ViewBehaviours {
     val newCompany = "New Company"
     val oldCompany = "Old Business"
 
-    val draft = new DraftRow(Some(newCompany), afaId, Some(LocalDate.of(2020, 1, 1)), isLocked = false)
+    val draft  = new DraftRow(Some(newCompany), afaId, Some(LocalDate.of(2020, 1, 1)), isLocked = false)
     val draft2 = new DraftRow(Some(oldCompany), afaId, None, isLocked = true)
 
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView, "viewDrafts", afaIdInHeader = false)
@@ -46,13 +46,12 @@ class ViewDraftsViewSpec extends ViewBehaviours {
 
     behave like pageWithGoHomeLink(applyView)
 
-    def linkSelector(rowIndex: Int, columnIndex: Int, isLink: Boolean = false): String = {
+    def linkSelector(rowIndex: Int, columnIndex: Int, isLink: Boolean = false): String =
       if (!isLink) {
         s"#main-content > div > div > table > tbody > tr:nth-child($rowIndex) > td:nth-child($columnIndex)"
       } else {
         s"#main-content > div > div > table > tbody > tr:nth-child($rowIndex) > td:nth-child($columnIndex) > a"
       }
-    }
 
     "must show that there are no drafts when passed an empty list of drafts" in {
 
@@ -108,7 +107,9 @@ class ViewDraftsViewSpec extends ViewBehaviours {
       }
 
       "have correct publishBy date for unlock draft" in {
-        elementText(linkSelector(1, 3)) mustBe draft.publishBy.map(_.format(DateTimeFormatter.ofPattern("d MMMM yyyy"))).get
+        elementText(linkSelector(1, 3)) mustBe draft.publishBy
+          .map(_.format(DateTimeFormatter.ofPattern("d MMMM yyyy")))
+          .get
       }
 
       "have correct publishBy date for locked draft" in {
@@ -134,7 +135,8 @@ class ViewDraftsViewSpec extends ViewBehaviours {
       }
 
       "have the correct delete link" in {
-        element(linkSelector(1, 5, true)).attr("href") mustBe controllers.routes.DeleteDraftController.onPageLoad(afaId).url
+        element(linkSelector(1, 5, true))
+          .attr("href") mustBe controllers.routes.DeleteDraftController.onPageLoad(afaId).url
       }
 
       "have the correct delete link text" in {

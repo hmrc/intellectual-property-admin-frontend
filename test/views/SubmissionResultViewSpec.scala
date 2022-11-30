@@ -29,7 +29,7 @@ class SubmissionResultViewSpec extends ViewBehaviours {
     val afaId = userAnswersId
 
     val applicantCompanyName = "company"
-    val expirationDate = "1 January 2019"
+    val expirationDate       = "1 January 2019"
 
     val view = injectInstanceOf[SubmissionResultView](Some(UserAnswers(afaId)))
 

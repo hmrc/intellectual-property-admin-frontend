@@ -29,48 +29,42 @@ class CopyrightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
 
     "must deserialise" in {
 
-      forAll(arbitrary[String]) {
-        description =>
+      forAll(arbitrary[String]) { description =>
+        val json = Json.obj(
+          "rightsType"  -> "copyright",
+          "description" -> description
+        )
 
-          val json = Json.obj(
-            "rightsType" -> "copyright",
-            "description" -> description
-          )
-
-          json.validate[Copyright] mustEqual JsSuccess(Copyright(description))
+        json.validate[Copyright] mustEqual JsSuccess(Copyright(description))
       }
     }
 
     "must fail to deserialise for a rightsType other than copyright" in {
 
-      forAll(arbitrary[String], Gen.alphaStr) {
-        (description, rightsType) =>
+      forAll(arbitrary[String], Gen.alphaStr) { (description, rightsType) =>
+        whenever(rightsType != "copyright") {
 
-          whenever (rightsType != "copyright") {
+          val json = Json.obj(
+            "rightsType"  -> rightsType,
+            "description" -> description
+          )
 
-            val json = Json.obj(
-              "rightsType" -> rightsType,
-              "description" -> description
-            )
-
-            json.validate[Copyright] mustEqual JsError(
-              "rightsType must be `copyright`"
-            )
-          }
+          json.validate[Copyright] mustEqual JsError(
+            "rightsType must be `copyright`"
+          )
+        }
       }
     }
 
     "must serialise" in {
 
-      forAll(arbitrary[String]) {
-        description =>
+      forAll(arbitrary[String]) { description =>
+        val json = Json.obj(
+          "rightsType"  -> "copyright",
+          "description" -> description
+        )
 
-          val json = Json.obj(
-            "rightsType" -> "copyright",
-            "description" -> description
-          )
-
-          Json.toJson(Copyright(description))(Copyright.writes) mustEqual json
+        Json.toJson(Copyright(description))(Copyright.writes) mustEqual json
       }
     }
   }

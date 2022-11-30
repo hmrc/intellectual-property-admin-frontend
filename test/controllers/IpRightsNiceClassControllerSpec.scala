@@ -42,13 +42,14 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
   val afaId: AfaId = userAnswersId
 
   val iprIndex = 0
-  
+
   val niceClassIndex = 0
 
   val formProvider = new IpRightsNiceClassFormProvider()
   private def form = formProvider(Seq.empty)
 
-  lazy val ipRightsNiceClassRoute: String = routes.IpRightsNiceClassController.onPageLoad(NormalMode, iprIndex, niceClassIndex, afaId).url
+  lazy val ipRightsNiceClassRoute: String =
+    routes.IpRightsNiceClassController.onPageLoad(NormalMode, iprIndex, niceClassIndex, afaId).url
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
@@ -81,7 +82,8 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(IpRightsNiceClassPage(iprIndex, niceClassIndex), niceClassId).success.value
+      val userAnswers =
+        UserAnswers(userAnswersId).set(IpRightsNiceClassPage(iprIndex, niceClassIndex), niceClassId).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -145,8 +147,12 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
 
       val answers =
         emptyUserAnswers
-          .set(IpRightsNiceClassPage(0, 0), NiceClassId.fromInt(1).value).success.value
-          .set(IpRightsNiceClassPage(0, 1), NiceClassId.fromInt(2).value).success.value
+          .set(IpRightsNiceClassPage(0, 0), NiceClassId.fromInt(1).value)
+          .success
+          .value
+          .set(IpRightsNiceClassPage(0, 1), NiceClassId.fromInt(2).value)
+          .success
+          .value
 
       val mockAfaService = mock[AfaService]
 
@@ -175,8 +181,12 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
 
       val answers =
         emptyUserAnswers
-          .set(IpRightsNiceClassPage(0, 0), NiceClassId.fromInt(1).value).success.value
-          .set(IpRightsNiceClassPage(0, 1), NiceClassId.fromInt(existingNiceClass).value).success.value
+          .set(IpRightsNiceClassPage(0, 0), NiceClassId.fromInt(1).value)
+          .success
+          .value
+          .set(IpRightsNiceClassPage(0, 1), NiceClassId.fromInt(existingNiceClass).value)
+          .success
+          .value
 
       val mockAfaService = mock[AfaService]
 
@@ -204,8 +214,12 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
 
       val answers =
         emptyUserAnswers
-          .set(IpRightsNiceClassPage(0, 0), NiceClassId.fromInt(1).value).success.value
-          .set(IpRightsNiceClassPage(0, 1), NiceClassId.fromInt(2).value).success.value
+          .set(IpRightsNiceClassPage(0, 0), NiceClassId.fromInt(1).value)
+          .success
+          .value
+          .set(IpRightsNiceClassPage(0, 1), NiceClassId.fromInt(2).value)
+          .success
+          .value
 
       val mockAfaService = mock[AfaService]
 
@@ -273,10 +287,10 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
 
         val gen = for {
           answers <- Gen.listOf(arbitrary[NiceClassId]).map(_.zipWithIndex)
-          index <- Gen.oneOf(
-            Gen.chooseNum(answers.size + 1, answers.size + 100),
-            Gen.chooseNum(-100, -1)
-          )
+          index   <- Gen.oneOf(
+                       Gen.chooseNum(answers.size + 1, answers.size + 100),
+                       Gen.chooseNum(-100, -1)
+                     )
         } yield (answers, index)
 
         def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
@@ -285,28 +299,25 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
           FakeRequest(GET, route)
         }
 
-        forAll(gen, arbitrary[AfaId]) {
-          case ((answers, index), afaId) =>
+        forAll(gen, arbitrary[AfaId]) { case ((answers, index), afaId) =>
+          val userAnswers = answers.foldLeft(UserAnswers(afaId)) { case (userAnswers, (answer, index)) =>
+            userAnswers.set(IpRightsNiceClassPage(0, index), answer).success.value
+          }
 
-            val userAnswers = answers.foldLeft(UserAnswers(afaId)) {
-              case (userAnswers, (answer, index)) =>
-                userAnswers.set(IpRightsNiceClassPage(0, index), answer).success.value
-            }
+          val mockAfaService = mock[AfaService]
 
-            val mockAfaService = mock[AfaService]
+          when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
-            when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
+          val application =
+            applicationBuilder(Some(userAnswers))
+              .overrides(bind[AfaService].toInstance(mockAfaService))
+              .build()
 
-            val application =
-              applicationBuilder(Some(userAnswers))
-                .overrides(bind[AfaService].toInstance(mockAfaService))
-                .build()
+          val result = route(application, getForIndex(index)).value
 
-            val result = route(application, getForIndex(index)).value
+          status(result) mustEqual NOT_FOUND
 
-            status(result) mustEqual NOT_FOUND
-
-            application.stop()
+          application.stop()
         }
       }
 
@@ -334,10 +345,10 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
 
         val gen = for {
           answers <- Gen.listOf(arbitrary[NiceClassId]).map(_.zipWithIndex)
-          index <- Gen.oneOf(
-            Gen.chooseNum(answers.size + 1, answers.size + 100),
-            Gen.chooseNum(-100, -1)
-          )
+          index   <- Gen.oneOf(
+                       Gen.chooseNum(answers.size + 1, answers.size + 100),
+                       Gen.chooseNum(-100, -1)
+                     )
         } yield (answers, index)
 
         def postForIndex(index: Int): FakeRequest[AnyContentAsFormUrlEncoded] = {
@@ -349,28 +360,25 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
             .withFormUrlEncodedBody(("value", "answer"))
         }
 
-        forAll(gen, arbitrary[AfaId]) {
-          case ((answers, index), afaId) =>
+        forAll(gen, arbitrary[AfaId]) { case ((answers, index), afaId) =>
+          val userAnswers = answers.foldLeft(UserAnswers(afaId)) { case (userAnswers, (answer, index)) =>
+            userAnswers.set(IpRightsNiceClassPage(0, index), answer).success.value
+          }
 
-            val userAnswers = answers.foldLeft(UserAnswers(afaId)) {
-              case (userAnswers, (answer, index)) =>
-                userAnswers.set(IpRightsNiceClassPage(0, index), answer).success.value
-            }
+          val mockAfaService = mock[AfaService]
 
-            val mockAfaService = mock[AfaService]
+          when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
-            when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
+          val application =
+            applicationBuilder(Some(userAnswers))
+              .overrides(bind[AfaService].toInstance(mockAfaService))
+              .build()
 
-            val application =
-              applicationBuilder(Some(userAnswers))
-                .overrides(bind[AfaService].toInstance(mockAfaService))
-                .build()
+          val result = route(application, postForIndex(index)).value
 
-            val result = route(application, postForIndex(index)).value
+          status(result) mustEqual NOT_FOUND
 
-            status(result) mustEqual NOT_FOUND
-
-            application.stop()
+          application.stop()
         }
       }
 

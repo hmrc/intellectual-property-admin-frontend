@@ -33,52 +33,50 @@ import views.html.WhoIsSecondaryTechnicalContactView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhoIsSecondaryTechnicalContactController @Inject()(
-                                                          override val messagesApi: MessagesApi,
-                                                          afaService: AfaService,
-                                                          navigator: Navigator,
-                                                          identify: IdentifierAction,
-                                                          getLock: LockAfaActionProvider,
-                                                          getData: AfaDraftDataRetrievalAction,
-                                                          requireData: DataRequiredAction,
-                                                          formProvider: WhoIsSecondaryTechnicalContactFormProvider,
-                                                          val controllerComponents: MessagesControllerComponents,
-                                                          view: WhoIsSecondaryTechnicalContactView
-                                                        )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class WhoIsSecondaryTechnicalContactController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: WhoIsSecondaryTechnicalContactFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: WhoIsSecondaryTechnicalContactView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def form: Form[TechnicalContact] = formProvider()
 
-  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData) {
-    implicit request =>
-
+  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData) { implicit request =>
       val preparedForm = request.userAnswers.get(WhoIsSecondaryTechnicalContactPage) match {
-        case None => form
+        case None        => form
         case Some(value) => form.fill(value)
       }
 
-      CommonHelpers.getApplicantName {
-        name =>
-          Ok(view(preparedForm, mode, afaId, name))
+      CommonHelpers.getApplicantName { name =>
+        Ok(view(preparedForm, mode, afaId, name))
       }
-  }
+    }
 
-  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      CommonHelpers.getApplicantName {
-        name =>
-          form.bindFromRequest().fold(
-            (formWithErrors: Form[_]) =>
-              Future.successful(BadRequest(view(formWithErrors, mode, afaId, name))),
-
-            value => {
-                for {
-                  updatedAnswers <- Future.fromTry(request.userAnswers.set(WhoIsSecondaryTechnicalContactPage, value))
-                  _ <- afaService.set(updatedAnswers)
-                } yield Redirect(navigator.nextPage(WhoIsSecondaryTechnicalContactPage, mode, updatedAnswers))
-            }
+  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      CommonHelpers.getApplicantName { name =>
+        form
+          .bindFromRequest()
+          .fold(
+            (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, mode, afaId, name))),
+            value =>
+              for {
+                updatedAnswers <- Future.fromTry(request.userAnswers.set(WhoIsSecondaryTechnicalContactPage, value))
+                _              <- afaService.set(updatedAnswers)
+              } yield Redirect(navigator.nextPage(WhoIsSecondaryTechnicalContactPage, mode, updatedAnswers))
           )
 
       }
 
-  }
+    }
 }

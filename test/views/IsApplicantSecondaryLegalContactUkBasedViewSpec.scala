@@ -49,9 +49,14 @@ class IsApplicantSecondaryLegalContactUkBasedViewSpec extends YesNoViewBehaviour
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPageUsingDesignSystem(form, applyView, messageKeyPrefix,
+    behave like yesNoPageUsingDesignSystem(
+      form,
+      applyView,
+      messageKeyPrefix,
       routes.IsApplicantSecondaryLegalContactUkBasedController.onSubmit(NormalMode, afaId).url,
-      args = Seq(secondaryLegalContactName), argsUsedInBrowserTitle = true)
+      args = Seq(secondaryLegalContactName),
+      argsUsedInBrowserTitle = true
+    )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
 

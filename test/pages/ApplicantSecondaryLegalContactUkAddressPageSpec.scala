@@ -30,43 +30,42 @@ class ApplicantSecondaryLegalContactUkAddressPageSpec extends PageBehaviours {
 
     beRemovable[UkAddress](ApplicantSecondaryLegalContactUkAddressPage)
 
-
     "be required if the secondary legal contact is based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IsApplicantSecondaryLegalContactUkBasedPage, true)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IsApplicantSecondaryLegalContactUkBasedPage, true).success.value
-
-          ApplicantSecondaryLegalContactUkAddressPage.isRequired(answers).value mustEqual true
+        ApplicantSecondaryLegalContactUkAddressPage.isRequired(answers).value mustEqual true
       }
     }
 
     "not be required if the secondary legal contact is not based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IsApplicantSecondaryLegalContactUkBasedPage, false)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IsApplicantSecondaryLegalContactUkBasedPage, false).success.value
-
-          ApplicantSecondaryLegalContactUkAddressPage.isRequired(answers).value mustEqual false
+        ApplicantSecondaryLegalContactUkAddressPage.isRequired(answers).value mustEqual false
       }
     }
 
     "not know whether it's required if we don't know if they are UK based" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .remove(IsApplicantSecondaryLegalContactUkBasedPage)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .remove(IsApplicantSecondaryLegalContactUkBasedPage).success.value
-
-          ApplicantSecondaryLegalContactUkAddressPage.isRequired(answers) must not be defined
+        ApplicantSecondaryLegalContactUkAddressPage.isRequired(answers) must not be defined
       }
     }
   }

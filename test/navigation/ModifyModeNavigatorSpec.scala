@@ -31,8 +31,14 @@ import queries.{IprDetailsQuery, RemoveIprQuery}
 
 import java.time.LocalDate
 
-class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuite
-  with TryValues with ScalaCheckPropertyChecks with Generators with OptionValues {
+class ModifyModeNavigatorSpec
+    extends AnyFreeSpec
+    with Matchers
+    with GuiceOneAppPerSuite
+    with TryValues
+    with ScalaCheckPropertyChecks
+    with Generators
+    with OptionValues {
 
   val navigator = new Navigator
 
@@ -46,10 +52,10 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
       case object UnknownPage extends Page
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-
-          navigator.nextPage(UnknownPage, ModifyMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad(userAnswers.id)
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator.nextPage(UnknownPage, ModifyMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad(
+          userAnswers.id
+        )
       }
     }
 
@@ -60,22 +66,25 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
         "when the type is Copyright, Plant variety, Geographical Indication or Semiconductor topology and " +
           "IP Rights Description has been answered" in {
 
-          import models.IpRightsType._
+            import models.IpRightsType._
 
-          val rightsTypeGen = Gen.oneOf(Copyright, PlantVariety, GeographicalIndication, SemiconductorTopography)
+            val rightsTypeGen = Gen.oneOf(Copyright, PlantVariety, GeographicalIndication, SemiconductorTopography)
 
-          forAll(arbitrary[UserAnswers], rightsTypeGen, arbitrary[String]) {
-            (userAnswers, rightType, description) =>
-
+            forAll(arbitrary[UserAnswers], rightsTypeGen, arbitrary[String]) { (userAnswers, rightType, description) =>
               val answers =
                 userAnswers
-                  .set(IpRightsTypePage(0), rightType).success.value
-                  .set(IpRightsDescriptionPage(0), description).success.value
+                  .set(IpRightsTypePage(0), rightType)
+                  .success
+                  .value
+                  .set(IpRightsDescriptionPage(0), description)
+                  .success
+                  .value
 
-              navigator.nextPage(IpRightsTypePage(0), ModifyMode, answers)
+              navigator
+                .nextPage(IpRightsTypePage(0), ModifyMode, answers)
                 .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+            }
           }
-        }
 
         "when the type is Design or Patent and IP Right Registration Number and Description has been answered" in {
 
@@ -83,32 +92,51 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
           forAll(arbitrary[UserAnswers], Gen.oneOf(Design, Patent), arbitrary[String], arbitrary[String]) {
             (userAnswers, rightType, registrationNumber, description) =>
-
               val answers =
                 userAnswers
-                  .set(IpRightsTypePage(0), rightType).success.value
-                  .set(IpRightsRegistrationNumberPage(0), registrationNumber).success.value
-                  .set(IpRightsDescriptionPage(0), description).success.value
+                  .set(IpRightsTypePage(0), rightType)
+                  .success
+                  .value
+                  .set(IpRightsRegistrationNumberPage(0), registrationNumber)
+                  .success
+                  .value
+                  .set(IpRightsDescriptionPage(0), description)
+                  .success
+                  .value
 
-              navigator.nextPage(IpRightsTypePage(0), ModifyMode, answers)
+              navigator
+                .nextPage(IpRightsTypePage(0), ModifyMode, answers)
                 .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
 
         "when the type is Trademark and Registration Number, Description With Brand and NICE classes have been answered" in {
 
-          forAll(arbitrary[UserAnswers], arbitrary[String], arbitrary[String], arbitrary[String], arbitrary[NiceClassId]) {
-            (userAnswers, registrationNumber, brand, description, niceClass) =>
+          forAll(
+            arbitrary[UserAnswers],
+            arbitrary[String],
+            arbitrary[String],
+            arbitrary[String],
+            arbitrary[NiceClassId]
+          ) { (userAnswers, registrationNumber, brand, description, niceClass) =>
+            val answers =
+              userAnswers
+                .set(IpRightsTypePage(0), IpRightsType.Trademark)
+                .success
+                .value
+                .set(IpRightsRegistrationNumberPage(0), registrationNumber)
+                .success
+                .value
+                .set(IpRightsDescriptionWithBrandPage(0), IpRightsDescriptionWithBrand(brand, description))
+                .success
+                .value
+                .set(IpRightsNiceClassPage(0, 0), niceClass)
+                .success
+                .value
 
-              val answers =
-                userAnswers
-                  .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-                  .set(IpRightsRegistrationNumberPage(0), registrationNumber).success.value
-                  .set(IpRightsDescriptionWithBrandPage(0), IpRightsDescriptionWithBrand(brand, description)).success.value
-                  .set(IpRightsNiceClassPage(0, 0), niceClass).success.value
-
-              navigator.nextPage(IpRightsTypePage(0), ModifyMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+            navigator
+              .nextPage(IpRightsTypePage(0), ModifyMode, answers)
+              .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
 
@@ -116,13 +144,17 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
           forAll(arbitrary[UserAnswers], arbitrary[IpRightsSupplementaryProtectionCertificateType]) {
             (userAnswers, certificateType) =>
-
               val answers =
                 userAnswers
-                  .set(IpRightsSupplementaryProtectionCertificateTypePage(0), certificateType).success.value
-                  .set(IpRightsTypePage(0), IpRightsType.SupplementaryProtectionCertificate).success.value
+                  .set(IpRightsSupplementaryProtectionCertificateTypePage(0), certificateType)
+                  .success
+                  .value
+                  .set(IpRightsTypePage(0), IpRightsType.SupplementaryProtectionCertificate)
+                  .success
+                  .value
 
-              navigator.nextPage(IpRightsTypePage(0), ModifyMode, answers)
+              navigator
+                .nextPage(IpRightsTypePage(0), ModifyMode, answers)
                 .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
@@ -133,22 +165,25 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
         "when the type is Copyright, Plant variety or Semiconductor topology and " +
           "IP Rights Description has not been answered" in {
 
-          import models.IpRightsType._
+            import models.IpRightsType._
 
-          val rightsTypeGen = Gen.oneOf(Copyright, PlantVariety, SemiconductorTopography)
+            val rightsTypeGen = Gen.oneOf(Copyright, PlantVariety, SemiconductorTopography)
 
-          forAll(arbitrary[UserAnswers], rightsTypeGen) {
-            (userAnswers, rightType) =>
-
+            forAll(arbitrary[UserAnswers], rightsTypeGen) { (userAnswers, rightType) =>
               val answers =
                 userAnswers
-                  .set(IpRightsTypePage(0), rightType).success.value
-                  .remove(IpRightsDescriptionPage(0)).success.value
+                  .set(IpRightsTypePage(0), rightType)
+                  .success
+                  .value
+                  .remove(IpRightsDescriptionPage(0))
+                  .success
+                  .value
 
-              navigator.nextPage(IpRightsTypePage(0), ModifyMode, answers)
+              navigator
+                .nextPage(IpRightsTypePage(0), ModifyMode, answers)
                 .mustBe(routes.IpRightsDescriptionController.onPageLoad(ModifyMode, 0, answers.id))
+            }
           }
-        }
 
         "when the type is Design or Patent, Registration Number has been answered and Description has not been answered" in {
 
@@ -156,14 +191,20 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
           forAll(arbitrary[UserAnswers], rightsTypeGen, arbitrary[String]) {
             (userAnswers, rightsType, registrationNumber) =>
-
               val answers =
                 userAnswers
-                  .set(IpRightsTypePage(0), rightsType).success.value
-                  .set(IpRightsRegistrationNumberPage(0), registrationNumber).success.value
-                  .remove(IpRightsDescriptionPage(0)).success.value
+                  .set(IpRightsTypePage(0), rightsType)
+                  .success
+                  .value
+                  .set(IpRightsRegistrationNumberPage(0), registrationNumber)
+                  .success
+                  .value
+                  .remove(IpRightsDescriptionPage(0))
+                  .success
+                  .value
 
-              navigator.nextPage(IpRightsTypePage(0), ModifyMode, answers)
+              navigator
+                .nextPage(IpRightsTypePage(0), ModifyMode, answers)
                 .mustBe(routes.IpRightsDescriptionController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
@@ -175,16 +216,26 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
           forAll(arbitrary[UserAnswers], arbitrary[String], arbitrary[String], arbitrary[NiceClassId]) {
             (userAnswers, registrationNumber, description, niceClass) =>
-
               val answers =
                 userAnswers
-                  .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-                  .set(IpRightsRegistrationNumberPage(0), registrationNumber).success.value
-                  .set(IpRightsDescriptionPage(0), description).success.value
-                  .remove(IpRightsDescriptionWithBrandPage(0)).success.value
-                  .set(IpRightsNiceClassPage(0, 0), niceClass).success.value
+                  .set(IpRightsTypePage(0), IpRightsType.Trademark)
+                  .success
+                  .value
+                  .set(IpRightsRegistrationNumberPage(0), registrationNumber)
+                  .success
+                  .value
+                  .set(IpRightsDescriptionPage(0), description)
+                  .success
+                  .value
+                  .remove(IpRightsDescriptionWithBrandPage(0))
+                  .success
+                  .value
+                  .set(IpRightsNiceClassPage(0, 0), niceClass)
+                  .success
+                  .value
 
-              navigator.nextPage(IpRightsTypePage(0), ModifyMode, answers)
+              navigator
+                .nextPage(IpRightsTypePage(0), ModifyMode, answers)
                 .mustBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
@@ -195,16 +246,19 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
           import models.IpRightsType._
 
-          forAll(arbitrary[UserAnswers], Gen.oneOf(Trademark, Design, Patent)) {
-            (userAnswers, rightType) =>
+          forAll(arbitrary[UserAnswers], Gen.oneOf(Trademark, Design, Patent)) { (userAnswers, rightType) =>
+            val answers =
+              userAnswers
+                .set(IpRightsTypePage(0), rightType)
+                .success
+                .value
+                .remove(IpRightsRegistrationNumberPage(0))
+                .success
+                .value
 
-              val answers =
-                userAnswers
-                  .set(IpRightsTypePage(0), rightType).success.value
-                  .remove(IpRightsRegistrationNumberPage(0)).success.value
-
-              navigator.nextPage(IpRightsTypePage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsRegistrationNumberController.onPageLoad(ModifyMode, 0, answers.id))
+            navigator
+              .nextPage(IpRightsTypePage(0), ModifyMode, answers)
+              .mustBe(routes.IpRightsRegistrationNumberController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }
@@ -213,16 +267,21 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
         "when the type is Supplementary Protection Certificate and Supplementary Protection Certificate Type has not been answered" in {
 
-          forAll(arbitrary[UserAnswers]) {
-            userAnswers =>
+          forAll(arbitrary[UserAnswers]) { userAnswers =>
+            val answers =
+              userAnswers
+                .set(IpRightsTypePage(0), IpRightsType.SupplementaryProtectionCertificate)
+                .success
+                .value
+                .remove(IpRightsSupplementaryProtectionCertificateTypePage(0))
+                .success
+                .value
 
-              val answers =
-                userAnswers
-                  .set(IpRightsTypePage(0), IpRightsType.SupplementaryProtectionCertificate).success.value
-                  .remove(IpRightsSupplementaryProtectionCertificateTypePage(0)).success.value
-
-              navigator.nextPage(IpRightsTypePage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsSupplementaryProtectionCertificateTypeController.onPageLoad(ModifyMode, 0, answers.id))
+            navigator
+              .nextPage(IpRightsTypePage(0), ModifyMode, answers)
+              .mustBe(
+                routes.IpRightsSupplementaryProtectionCertificateTypeController.onPageLoad(ModifyMode, 0, answers.id)
+              )
           }
         }
       }
@@ -234,15 +293,16 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
         "when IP Rights Registration Number has been answered" in {
 
-          forAll(arbitrary[UserAnswers], arbitrary[String]) {
-            (userAnswers, registrationNumber) =>
+          forAll(arbitrary[UserAnswers], arbitrary[String]) { (userAnswers, registrationNumber) =>
+            val answers =
+              userAnswers
+                .set(IpRightsRegistrationNumberPage(0), registrationNumber)
+                .success
+                .value
 
-              val answers =
-                userAnswers
-                  .set(IpRightsRegistrationNumberPage(0), registrationNumber).success.value
-
-              navigator.nextPage(IpRightsSupplementaryProtectionCertificateTypePage(0), ModifyMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+            navigator
+              .nextPage(IpRightsSupplementaryProtectionCertificateTypePage(0), ModifyMode, answers)
+              .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
       }
@@ -251,13 +311,12 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
         "when IP Rights Registration Number has not been answered" in {
 
-          forAll(arbitrary[UserAnswers]) {
-            userAnswers =>
+          forAll(arbitrary[UserAnswers]) { userAnswers =>
+            val answers = userAnswers.remove(IpRightsRegistrationNumberPage(0)).success.value
 
-              val answers = userAnswers.remove(IpRightsRegistrationNumberPage(0)).success.value
-
-              navigator.nextPage(IpRightsSupplementaryProtectionCertificateTypePage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsRegistrationNumberController.onPageLoad(ModifyMode, 0, answers.id))
+            navigator
+              .nextPage(IpRightsSupplementaryProtectionCertificateTypePage(0), ModifyMode, answers)
+              .mustBe(routes.IpRightsRegistrationNumberController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }
@@ -271,13 +330,12 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
           val dateGen = datesBetween(LocalDate.now, LocalDate.now.plusYears(100))
 
-          forAll(arbitrary[UserAnswers], dateGen) {
-            (userAnswers, date) =>
+          forAll(arbitrary[UserAnswers], dateGen) { (userAnswers, date) =>
+            val answers = userAnswers.set(IpRightsRegistrationEndPage(0), date).success.value
 
-              val answers = userAnswers.set(IpRightsRegistrationEndPage(0), date).success.value
-
-              navigator.nextPage(IpRightsRegistrationNumberPage(0), ModifyMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+            navigator
+              .nextPage(IpRightsRegistrationNumberPage(0), ModifyMode, answers)
+              .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
       }
@@ -286,13 +344,12 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
         "when IP Right Registration End has not been answered" in {
 
-          forAll(arbitrary[UserAnswers]) {
-            userAnswers =>
+          forAll(arbitrary[UserAnswers]) { userAnswers =>
+            val answers = userAnswers.remove(IpRightsRegistrationEndPage(0)).success.value
 
-              val answers = userAnswers.remove(IpRightsRegistrationEndPage(0)).success.value
-
-              navigator.nextPage(IpRightsRegistrationNumberPage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsRegistrationEndController.onPageLoad(ModifyMode, 0, answers.id))
+            navigator
+              .nextPage(IpRightsRegistrationNumberPage(0), ModifyMode, answers)
+              .mustBe(routes.IpRightsRegistrationEndController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }
@@ -306,13 +363,17 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
           forAll(arbitrary[UserAnswers], arbitrary[IpRightsDescriptionWithBrand]) {
             (userAnswers, descriptionWithBrand) =>
-
               val answers =
                 userAnswers
-                  .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-                  .set(IpRightsDescriptionWithBrandPage(0),descriptionWithBrand).success.value
+                  .set(IpRightsTypePage(0), IpRightsType.Trademark)
+                  .success
+                  .value
+                  .set(IpRightsDescriptionWithBrandPage(0), descriptionWithBrand)
+                  .success
+                  .value
 
-              navigator.nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
+              navigator
+                .nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
                 .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, userAnswers.id))
           }
         }
@@ -321,15 +382,19 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
           forAll(arbitrary[UserAnswers], arbitrary[IpRightsType], arbitrary[String]) {
             (userAnswers, rightType, description) =>
-
               whenever(rightType != IpRightsType.Trademark) {
 
                 val answers =
                   userAnswers
-                    .set(IpRightsTypePage(0), rightType).success.value
-                    .set(IpRightsDescriptionPage(0), description).success.value
+                    .set(IpRightsTypePage(0), rightType)
+                    .success
+                    .value
+                    .set(IpRightsDescriptionPage(0), description)
+                    .success
+                    .value
 
-                navigator.nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
+                navigator
+                  .nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
                   .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
               }
           }
@@ -340,16 +405,19 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
         "when the right is a Trademark and Brand With Description has not been answered" in {
 
-          forAll(arbitrary[UserAnswers]) {
-            (userAnswers) =>
+          forAll(arbitrary[UserAnswers]) { userAnswers =>
+            val answers =
+              userAnswers
+                .set(IpRightsTypePage(0), IpRightsType.Trademark)
+                .success
+                .value
+                .remove(IpRightsDescriptionWithBrandPage(0))
+                .success
+                .value
 
-              val answers =
-                userAnswers
-                  .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-                  .remove(IpRightsDescriptionWithBrandPage(0)).success.value
-
-              navigator.nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(ModifyMode, 0, answers.id))
+            navigator
+              .nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
+              .mustBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }
@@ -358,19 +426,22 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
         "when the right is not a Trademark and IP Rights Description has not been answered" in {
 
-          forAll(arbitrary[UserAnswers], arbitrary[IpRightsType]) {
-            (userAnswers, rightType) =>
+          forAll(arbitrary[UserAnswers], arbitrary[IpRightsType]) { (userAnswers, rightType) =>
+            whenever(rightType != IpRightsType.Trademark) {
 
-              whenever(rightType != IpRightsType.Trademark) {
+              val answers =
+                userAnswers
+                  .set(IpRightsTypePage(0), rightType)
+                  .success
+                  .value
+                  .remove(IpRightsDescriptionPage(0))
+                  .success
+                  .value
 
-                val answers =
-                  userAnswers
-                    .set(IpRightsTypePage(0), rightType).success.value
-                    .remove(IpRightsDescriptionPage(0)).success.value
-
-                navigator.nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
-                  .mustBe(routes.IpRightsDescriptionController.onPageLoad(ModifyMode, 0, answers.id))
-              }
+              navigator
+                .nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
+                .mustBe(routes.IpRightsDescriptionController.onPageLoad(ModifyMode, 0, answers.id))
+            }
           }
         }
       }
@@ -382,31 +453,33 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
         "when the right is not a trademark" in {
 
-          forAll(arbitrary[UserAnswers], arbitrary[IpRightsType]) {
-            (userAnswers, rightsType) =>
+          forAll(arbitrary[UserAnswers], arbitrary[IpRightsType]) { (userAnswers, rightsType) =>
+            whenever(rightsType != IpRightsType.Trademark) {
 
-              whenever(rightsType != IpRightsType.Trademark) {
+              val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-                val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
-
-                navigator.nextPage(IpRightsDescriptionPage(0), ModifyMode, answers)
-                  .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
-              }
+              navigator
+                .nextPage(IpRightsDescriptionPage(0), ModifyMode, answers)
+                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+            }
           }
         }
 
         "when the right is a trademark and NICE classes have been added" in {
 
-          forAll(arbitrary[UserAnswers], arbitrary[NiceClassId]) {
-            (userAnswers, niceClass) =>
+          forAll(arbitrary[UserAnswers], arbitrary[NiceClassId]) { (userAnswers, niceClass) =>
+            val answers =
+              userAnswers
+                .set(IpRightsTypePage(0), IpRightsType.Trademark)
+                .success
+                .value
+                .set(IpRightsNiceClassPage(0, 0), niceClass)
+                .success
+                .value
 
-              val answers =
-                userAnswers
-                  .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-                  .set(IpRightsNiceClassPage(0, 0), niceClass).success.value
-
-              navigator.nextPage(IpRightsDescriptionPage(0), ModifyMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+            navigator
+              .nextPage(IpRightsDescriptionPage(0), ModifyMode, answers)
+              .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
       }
@@ -415,16 +488,19 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
         "when the right is a Trademark and NICE classes have not been added" in {
 
-          forAll(arbitrary[UserAnswers]) {
-            userAnswers =>
+          forAll(arbitrary[UserAnswers]) { userAnswers =>
+            val answers =
+              userAnswers
+                .set(IpRightsTypePage(0), IpRightsType.Trademark)
+                .success
+                .value
+                .remove(IpRightsNiceClassPage(0, 0))
+                .success
+                .value
 
-              val answers =
-                userAnswers
-                  .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-                  .remove(IpRightsNiceClassPage(0, 0)).success.value
-
-              navigator.nextPage(IpRightsDescriptionPage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 0, answers.id))
+            navigator
+              .nextPage(IpRightsDescriptionPage(0), ModifyMode, answers)
+              .mustBe(routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 0, answers.id))
           }
         }
       }
@@ -436,13 +512,12 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
         "when NICE classes have been added" in {
 
-          forAll(arbitrary[UserAnswers], arbitrary[NiceClassId]) {
-            (userAnswers, niceClass) =>
+          forAll(arbitrary[UserAnswers], arbitrary[NiceClassId]) { (userAnswers, niceClass) =>
+            val answers = userAnswers.set(IpRightsNiceClassPage(0, 0), niceClass).success.value
 
-              val answers = userAnswers.set(IpRightsNiceClassPage(0, 0), niceClass).success.value
-
-              navigator.nextPage(IpRightsDescriptionWithBrandPage(0), ModifyMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+            navigator
+              .nextPage(IpRightsDescriptionWithBrandPage(0), ModifyMode, answers)
+              .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
       }
@@ -451,16 +526,19 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
         "when the right is a Trademark and NICE classes have not been added" in {
 
-          forAll(arbitrary[UserAnswers]) {
-            userAnswers =>
+          forAll(arbitrary[UserAnswers]) { userAnswers =>
+            val answers =
+              userAnswers
+                .set(IpRightsTypePage(0), IpRightsType.Trademark)
+                .success
+                .value
+                .remove(IpRightsNiceClassPage(0, 0))
+                .success
+                .value
 
-              val answers =
-                userAnswers
-                  .set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
-                  .remove(IpRightsNiceClassPage(0, 0)).success.value
-
-              navigator.nextPage(IpRightsDescriptionWithBrandPage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 0, answers.id))
+            navigator
+              .nextPage(IpRightsDescriptionWithBrandPage(0), ModifyMode, answers)
+              .mustBe(routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 0, answers.id))
           }
         }
       }
@@ -470,15 +548,14 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
 
       forAll(arbitrary[UserAnswers], Gen.listOf(arbitrary[IpRightsType]).map(_.zipWithIndex)) {
         (userAnswers, ipRightsTypes) =>
-
-          val answersWithIpRights = ipRightsTypes.foldLeft(userAnswers) {
-            case (answers, (ipRightType, index)) =>
-              answers.set(IpRightsTypePage(index), ipRightType).success.value
+          val answersWithIpRights = ipRightsTypes.foldLeft(userAnswers) { case (answers, (ipRightType, index)) =>
+            answers.set(IpRightsTypePage(index), ipRightType).success.value
           }
 
           val nextIpRightsIndex = answersWithIpRights.get(IprDetailsQuery).map(_.size).getOrElse(0)
 
-          navigator.nextPage(AddIpRightPage, ModifyMode, answersWithIpRights)
+          navigator
+            .nextPage(AddIpRightPage, ModifyMode, answersWithIpRights)
             .mustBe(routes.IpRightsTypeController.onPageLoad(ModifyMode, nextIpRightsIndex, answersWithIpRights.id))
       }
     }
@@ -487,13 +564,12 @@ class ModifyModeNavigatorSpec extends AnyFreeSpec with Matchers with GuiceOneApp
       "to add IP Right Type for index 0" - {
         "when no IPRs remain" in {
 
-          forAll(arbitrary[UserAnswers]) {
-            userAnswers =>
+          forAll(arbitrary[UserAnswers]) { userAnswers =>
+            val answers = userAnswers.remove(RemoveIprQuery(0)).success.value
 
-              val answers = userAnswers.remove(RemoveIprQuery(0)).success.value
-
-              navigator.nextPage(pages.RemoveIprPage, ModifyMode, answers)
-                .mustBe(routes.IpRightsTypeController.onPageLoad(ModifyMode, 0, answers.id))
+            navigator
+              .nextPage(pages.RemoveIprPage, ModifyMode, answers)
+              .mustBe(routes.IpRightsTypeController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }

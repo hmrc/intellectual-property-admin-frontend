@@ -20,11 +20,11 @@ import models.IpRightsType
 import play.api.libs.json.{Format, Json}
 
 final case class IpRights(
-                           rightsType: IpRightsType,
-                           registrationNumber: String,
-                           description: String,
-                           niceClasses: Seq[String]
-                         )
+  rightsType: IpRightsType,
+  registrationNumber: String,
+  description: String,
+  niceClasses: Seq[String]
+)
 
 object IpRights {
 

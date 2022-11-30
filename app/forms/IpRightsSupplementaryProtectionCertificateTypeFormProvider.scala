@@ -26,6 +26,8 @@ class IpRightsSupplementaryProtectionCertificateTypeFormProvider @Inject() exten
 
   def apply(): Form[IpRightsSupplementaryProtectionCertificateType] =
     Form(
-      "value" -> enumerable[IpRightsSupplementaryProtectionCertificateType]("ipRightsSupplementaryProtectionCertificateType.error.required")
+      "value" -> enumerable[IpRightsSupplementaryProtectionCertificateType](
+        "ipRightsSupplementaryProtectionCertificateType.error.required"
+      )
     )
 }

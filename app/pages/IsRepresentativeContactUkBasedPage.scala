@@ -33,7 +33,7 @@ case object IsRepresentativeContactUkBasedPage extends QuestionPage[Boolean] {
         userAnswers.remove(RepresentativeContactInternationalAddressPage)
       case Some(false) =>
         userAnswers.remove(RepresentativeContactUkAddressPage)
-      case _ =>
+      case _           =>
         super.cleanup(value, userAnswers)
     }
 }

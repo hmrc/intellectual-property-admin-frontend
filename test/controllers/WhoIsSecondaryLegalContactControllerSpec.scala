@@ -40,15 +40,19 @@ class WhoIsSecondaryLegalContactControllerSpec extends SpecBase with MockitoSuga
 
   val afaId: AfaId = userAnswersId
 
-  val formProvider = new WhoIsSecondaryLegalContactFormProvider()
+  val formProvider                                   = new WhoIsSecondaryLegalContactFormProvider()
   private def form: Form[WhoIsSecondaryLegalContact] = formProvider()
 
-  lazy val whoIsSecondaryLegalContactRoute: String = routes.WhoIsSecondaryLegalContactController.onPageLoad(NormalMode, afaId).url
-  lazy val whoIsSecondaryLegalContactRoutePost: String = routes.WhoIsSecondaryLegalContactController.onSubmit(NormalMode, afaId).url
+  lazy val whoIsSecondaryLegalContactRoute: String     =
+    routes.WhoIsSecondaryLegalContactController.onPageLoad(NormalMode, afaId).url
+  lazy val whoIsSecondaryLegalContactRoutePost: String =
+    routes.WhoIsSecondaryLegalContactController.onSubmit(NormalMode, afaId).url
 
-  val validAnswer: WhoIsSecondaryLegalContact = WhoIsSecondaryLegalContact("name", "companyName", "123123123", "email@example.com")
+  val validAnswer: WhoIsSecondaryLegalContact =
+    WhoIsSecondaryLegalContact("name", "companyName", "123123123", "email@example.com")
 
-  override val emptyUserAnswers: UserAnswers = UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.contactName, None)).success.value
+  override val emptyUserAnswers: UserAnswers =
+    UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.contactName, None)).success.value
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, whoIsSecondaryLegalContactRoute)

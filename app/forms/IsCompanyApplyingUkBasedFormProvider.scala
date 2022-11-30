@@ -26,6 +26,10 @@ class IsCompanyApplyingUkBasedFormProvider @Inject() extends Mappings {
   def apply(CompanyApplyingName: String): Form[Boolean] =
     Form(
       "value" ->
-        boolean("isCompanyApplyingUkBased.error.required", "isCompanyApplyingUkBased.error.required", CompanyApplyingName)
+        boolean(
+          "isCompanyApplyingUkBased.error.required",
+          "isCompanyApplyingUkBased.error.required",
+          CompanyApplyingName
+        )
     )
 }

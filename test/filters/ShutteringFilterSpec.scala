@@ -30,7 +30,7 @@ class ShutteringFilterSpec extends AnyFreeSpec with Matchers with GuiceOneAppPer
 
   override lazy val app: Application = new GuiceApplicationBuilder()
     .configure(
-      "shuttered" -> true,
+      "shuttered"             -> true,
       "shutter.urls.excluded" -> "/ping/ping"
     )
     .build()

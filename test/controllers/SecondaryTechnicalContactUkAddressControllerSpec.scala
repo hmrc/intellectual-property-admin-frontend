@@ -43,12 +43,14 @@ class SecondaryTechnicalContactUkAddressControllerSpec extends SpecBase with Moc
 
   val secondaryTechnicalContact: TechnicalContact = TechnicalContact("company Name", "name", "telephone", "email")
 
-  val formProvider = new SecondaryTechnicalContactUkAddressFormProvider()
+  val formProvider                  = new SecondaryTechnicalContactUkAddressFormProvider()
   private def form: Form[UkAddress] = formProvider()
 
-  lazy private val secondaryTechnicalContactUkAddressRoute = routes.SecondaryTechnicalContactUkAddressController.onPageLoad(NormalMode, afaId).url
+  lazy private val secondaryTechnicalContactUkAddressRoute =
+    routes.SecondaryTechnicalContactUkAddressController.onPageLoad(NormalMode, afaId).url
 
-  private val baseUserAnswers = UserAnswers(afaId).set(WhoIsSecondaryTechnicalContactPage, secondaryTechnicalContact).success.value
+  private val baseUserAnswers =
+    UserAnswers(afaId).set(WhoIsSecondaryTechnicalContactPage, secondaryTechnicalContact).success.value
 
   val validAnswer: UkAddress = UkAddress("line 1", None, "town", None, "postcode")
 
@@ -65,7 +67,8 @@ class SecondaryTechnicalContactUkAddressControllerSpec extends SpecBase with Moc
 
       val application: Application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
 
-      val view: SecondaryTechnicalContactUkAddressView = application.injector.instanceOf[SecondaryTechnicalContactUkAddressView]
+      val view: SecondaryTechnicalContactUkAddressView =
+        application.injector.instanceOf[SecondaryTechnicalContactUkAddressView]
 
       val result: Future[Result] = route(application, getRequest()).value
 
@@ -79,18 +82,23 @@ class SecondaryTechnicalContactUkAddressControllerSpec extends SpecBase with Moc
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers: UserAnswers = baseUserAnswers.set(SecondaryTechnicalContactUkAddressPage, validAnswer).success.value
+      val userAnswers: UserAnswers =
+        baseUserAnswers.set(SecondaryTechnicalContactUkAddressPage, validAnswer).success.value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val view: SecondaryTechnicalContactUkAddressView = application.injector.instanceOf[SecondaryTechnicalContactUkAddressView]
+      val view: SecondaryTechnicalContactUkAddressView =
+        application.injector.instanceOf[SecondaryTechnicalContactUkAddressView]
 
       val result = route(application, getRequest()).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, secondaryTechnicalContact.contactName, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, secondaryTechnicalContact.contactName, afaId)(
+          getRequest(),
+          messages
+        ).toString
 
       application.stop()
     }
@@ -128,7 +136,8 @@ class SecondaryTechnicalContactUkAddressControllerSpec extends SpecBase with Moc
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
 
-      val view: SecondaryTechnicalContactUkAddressView = application.injector.instanceOf[SecondaryTechnicalContactUkAddressView]
+      val view: SecondaryTechnicalContactUkAddressView =
+        application.injector.instanceOf[SecondaryTechnicalContactUkAddressView]
 
       val result: Future[Result] = route(application, request).value
 

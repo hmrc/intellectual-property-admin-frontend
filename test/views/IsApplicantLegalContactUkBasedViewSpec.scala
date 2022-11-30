@@ -55,7 +55,8 @@ class IsApplicantLegalContactUkBasedViewSpec extends YesNoViewBehaviours {
       messageKeyPrefix,
       routes.IsApplicantLegalContactUkBasedController.onSubmit(NormalMode, afaId).url,
       args = Seq(rightsHolderContactName),
-      argsUsedInBrowserTitle = true)
+      argsUsedInBrowserTitle = true
+    )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
 

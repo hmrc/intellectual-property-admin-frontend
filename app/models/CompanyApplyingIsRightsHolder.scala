@@ -30,17 +30,18 @@ object CompanyApplyingIsRightsHolder extends Enumerable.Implicits {
   case object Authorised extends WithName("authorisedApplicant") with CompanyApplyingIsRightsHolder
 
   val values: Seq[CompanyApplyingIsRightsHolder] = Seq(
-    RightsHolder, CollectiveBody, Authorised
+    RightsHolder,
+    CollectiveBody,
+    Authorised
   )
 
-  def radioItems(form: Form[_])(implicit messages: Messages): Seq[RadioItem] = values.map {
-    value =>
-      RadioItem(
-        content = Text(messages(s"companyApplyingIsRightsHolder.${value.toString}")),
-        id = Some(s"companyApplyingIsRightsHolder.${value.toString}"),
-        value = Some(value.toString),
-        checked = form("value").value.contains(value.toString)
-      )
+  def radioItems(form: Form[_])(implicit messages: Messages): Seq[RadioItem] = values.map { value =>
+    RadioItem(
+      content = Text(messages(s"companyApplyingIsRightsHolder.${value.toString}")),
+      id = Some(s"companyApplyingIsRightsHolder.${value.toString}"),
+      value = Some(value.toString),
+      checked = form("value").value.contains(value.toString)
+    )
   }
 
   implicit val enumerable: Enumerable[CompanyApplyingIsRightsHolder] =

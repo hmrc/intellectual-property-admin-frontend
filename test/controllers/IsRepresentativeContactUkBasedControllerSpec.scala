@@ -40,14 +40,16 @@ class IsRepresentativeContactUkBasedControllerSpec extends SpecBase with Mockito
 
   val afaId: AfaId = userAnswersId
 
-  val rightsHolderContact: RepresentativeDetails = RepresentativeDetails("name", "companyName", "phone", "email", Some("role"))
+  val rightsHolderContact: RepresentativeDetails =
+    RepresentativeDetails("name", "companyName", "phone", "email", Some("role"))
 
-  val formProvider = new IsRepresentativeContactUkBasedFormProvider()
+  val formProvider        = new IsRepresentativeContactUkBasedFormProvider()
   val form: Form[Boolean] = formProvider(rightsHolderContact.contactName)
 
   private val baseUserAnswers = UserAnswers(afaId).set(RepresentativeDetailsPage, rightsHolderContact).success.value
 
-  lazy private val isRepresentativeContactUkBasedRoute = routes.IsRepresentativeContactUkBasedController.onPageLoad(NormalMode, afaId).url
+  lazy private val isRepresentativeContactUkBasedRoute =
+    routes.IsRepresentativeContactUkBasedController.onPageLoad(NormalMode, afaId).url
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isRepresentativeContactUkBasedRoute)

@@ -44,7 +44,11 @@ import views.html.ApplicationReceiptDateView
 import java.time.{LocalDate, ZoneOffset}
 import scala.concurrent.Future
 
-class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks with BeforeAndAfterEach {
+class ApplicationReceiptDateControllerSpec
+    extends SpecBase
+    with MockitoSugar
+    with LockAfaChecks
+    with BeforeAndAfterEach {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
@@ -54,7 +58,8 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
 
   private def form = formProvider()
 
-  lazy val applicationReceiptDateRoute: String = routes.ApplicationReceiptDateController.onPageLoad(NormalMode, afaId).url
+  lazy val applicationReceiptDateRoute: String =
+    routes.ApplicationReceiptDateController.onPageLoad(NormalMode, afaId).url
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
@@ -62,17 +67,15 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
 
   val auditConnector: AuditConnector = mock[AuditConnector]
 
-
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, applicationReceiptDateRoute)
-
 
   def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, applicationReceiptDateRoute)
       .withFormUrlEncodedBody(
-        "value.day" -> validAnswer.getDayOfMonth.toString,
+        "value.day"   -> validAnswer.getDayOfMonth.toString,
         "value.month" -> validAnswer.getMonthValue.toString,
-        "value.year" -> validAnswer.getYear.toString
+        "value.year"  -> validAnswer.getYear.toString
       )
 
   override def beforeEach(): Unit =
@@ -82,10 +85,8 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
 
     "return OK and the correct view for a GET" in {
       val mockAfaService: AfaService = mock[AfaService]
-      val application = applicationBuilder(
-        userAnswers = Some(emptyUserAnswers))
-        .overrides(
-          bind[AfaService].toInstance(mockAfaService))
+      val application                = applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        .overrides(bind[AfaService].toInstance(mockAfaService))
         .build()
 
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
@@ -107,10 +108,8 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
 
       val mockAfaService: AfaService = mock[AfaService]
 
-      val application = applicationBuilder(
-        userAnswers = Some(userAnswers))
-        .overrides(
-          bind[AfaService].toInstance(mockAfaService))
+      val application = applicationBuilder(userAnswers = Some(userAnswers))
+        .overrides(bind[AfaService].toInstance(mockAfaService))
         .build()
 
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
@@ -129,12 +128,12 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
 
     "redirect to the next page when valid data is submitted" in {
       val mockAfaService: AfaService = mock[AfaService]
-      val mockWorkingDaysService = mock[WorkingDaysService]
-      val arbitraryFutureDate = LocalDate.now.plusDays(30)
+      val mockWorkingDaysService     = mock[WorkingDaysService]
+      val arbitraryFutureDate        = LocalDate.now.plusDays(30)
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
-      when(mockWorkingDaysService.workingDays
-      (eqTo(Region.EnglandAndWales), any(), any())(any(), any())) thenReturn Future.successful(arbitraryFutureDate)
-
+      when(
+        mockWorkingDaysService.workingDays(eqTo(Region.EnglandAndWales), any(), any())(any(), any())
+      ) thenReturn Future.successful(arbitraryFutureDate)
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
@@ -153,11 +152,15 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
       redirectLocation(result).value mustEqual onwardRoute.url
 
       verify(auditConnector, times(1)).sendExplicitAudit[DraftStarted](
-        eqTo("startedApplicationForAction"), eqTo(DraftStarted(
-          id = afaId,
-          PID = "id",
-          userName = "name"
-        )))(any(), any(), any())
+        eqTo("startedApplicationForAction"),
+        eqTo(
+          DraftStarted(
+            id = afaId,
+            PID = "id",
+            userName = "name"
+          )
+        )
+      )(any(), any(), any())
 
       application.stop()
     }
@@ -189,10 +192,11 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
       val mockAfaService: AfaService = mock[AfaService]
 
       val mockWorkingDaysService = mock[WorkingDaysService]
-      val arbitraryFutureDate = LocalDate.now.plusDays(30)
+      val arbitraryFutureDate    = LocalDate.now.plusDays(30)
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
-      when(mockWorkingDaysService.workingDays
-      (eqTo(Region.EnglandAndWales), any(), any())(any(), any())) thenReturn Future.successful(arbitraryFutureDate)
+      when(
+        mockWorkingDaysService.workingDays(eqTo(Region.EnglandAndWales), any(), any())(any(), any())
+      ) thenReturn Future.successful(arbitraryFutureDate)
 
       val application = applicationBuilder(userAnswers = None)
         .overrides(
@@ -218,10 +222,11 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
       val mockAfaService: AfaService = mock[AfaService]
 
       val mockWorkingDaysService = mock[WorkingDaysService]
-      val arbitraryFutureDate = LocalDate.now.plusDays(30)
+      val arbitraryFutureDate    = LocalDate.now.plusDays(30)
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
-      when(mockWorkingDaysService.workingDays
-      (eqTo(Region.EnglandAndWales), any(), any())(any(), any())) thenReturn Future.successful(arbitraryFutureDate)
+      when(
+        mockWorkingDaysService.workingDays(eqTo(Region.EnglandAndWales), any(), any())(any(), any())
+      ) thenReturn Future.successful(arbitraryFutureDate)
 
       val application = applicationBuilder(userAnswers = Some(UserAnswers(afaId)))
         .overrides(
@@ -237,19 +242,27 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
       verify(mockAfaService).set(captor.capture())(any())
 
       val expected = UserAnswers(afaId)
-        .set(ApplicationReceiptDatePage, validAnswer).success.value
-        .set(PublicationDeadlineQuery, arbitraryFutureDate).success.value
+        .set(ApplicationReceiptDatePage, validAnswer)
+        .success
+        .value
+        .set(PublicationDeadlineQuery, arbitraryFutureDate)
+        .success
+        .value
 
       val value = captor.getValue
       value.id mustEqual expected.id
       value.data mustEqual expected.data
 
       verify(auditConnector, times(1)).sendExplicitAudit[DraftStarted](
-        eqTo("startedApplicationForAction"), eqTo(DraftStarted(
-          id = afaId,
-          PID = "id",
-          userName = "name"
-        )))(any(), any(), any())
+        eqTo("startedApplicationForAction"),
+        eqTo(
+          DraftStarted(
+            id = afaId,
+            PID = "id",
+            userName = "name"
+          )
+        )
+      )(any(), any(), any())
 
       application.stop()
     }
@@ -259,10 +272,11 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
       val mockAfaService: AfaService = mock[AfaService]
 
       val mockWorkingDaysService = mock[WorkingDaysService]
-      val arbitraryFutureDate = LocalDate.now.plusDays(30)
+      val arbitraryFutureDate    = LocalDate.now.plusDays(30)
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
-      when(mockWorkingDaysService.workingDays
-      (eqTo(Region.EnglandAndWales), any(), any())(any(), any())) thenReturn Future.successful(arbitraryFutureDate)
+      when(
+        mockWorkingDaysService.workingDays(eqTo(Region.EnglandAndWales), any(), any())(any(), any())
+      ) thenReturn Future.successful(arbitraryFutureDate)
 
       val application = applicationBuilder(userAnswers = None)
         .overrides(
@@ -278,24 +292,30 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
       verify(mockAfaService).set(captor.capture())(any())
 
       val expected = UserAnswers(afaId)
-        .set(ApplicationReceiptDatePage, validAnswer).success.value
-        .set(PublicationDeadlineQuery, arbitraryFutureDate).success.value
+        .set(ApplicationReceiptDatePage, validAnswer)
+        .success
+        .value
+        .set(PublicationDeadlineQuery, arbitraryFutureDate)
+        .success
+        .value
 
       val value = captor.getValue
       value.id mustEqual expected.id
       value.data mustEqual expected.data
 
-
       verify(auditConnector, times(1)).sendExplicitAudit[DraftStarted](
-        eqTo("startedApplicationForAction"), eqTo(DraftStarted(
-          id = afaId,
-          PID = "id",
-          userName = "name"
-        )))(any(), any(), any())
+        eqTo("startedApplicationForAction"),
+        eqTo(
+          DraftStarted(
+            id = afaId,
+            PID = "id",
+            userName = "name"
+          )
+        )
+      )(any(), any(), any())
 
       application.stop()
     }
-
 
     "for a GET" must {
 
@@ -309,4 +329,3 @@ class ApplicationReceiptDateControllerSpec extends SpecBase with MockitoSugar wi
 
   }
 }
-

@@ -29,34 +29,30 @@ class SemiconductorTopographySpec extends AnyFreeSpec with Matchers with ScalaCh
 
     "must deserialise" in {
 
-      forAll(arbitrary[String]) {
-        description =>
+      forAll(arbitrary[String]) { description =>
+        val json = Json.obj(
+          "rightsType"  -> "semiconductorTopography",
+          "description" -> description
+        )
 
-          val json = Json.obj(
-            "rightsType" -> "semiconductorTopography",
-            "description" -> description
-          )
-
-          json.validate[SemiconductorTopography] mustEqual JsSuccess(SemiconductorTopography(description))
+        json.validate[SemiconductorTopography] mustEqual JsSuccess(SemiconductorTopography(description))
       }
     }
 
     "must fail to deserialise for a rightsType other than semiconductorTopography" in {
 
-      forAll(arbitrary[String], Gen.alphaStr) {
-        (description, rightsType) =>
+      forAll(arbitrary[String], Gen.alphaStr) { (description, rightsType) =>
+        whenever(rightsType != "semiconductorTopography") {
 
-          whenever(rightsType != "semiconductorTopography") {
+          val json = Json.obj(
+            "rightsType"  -> rightsType,
+            "description" -> description
+          )
 
-            val json = Json.obj(
-              "rightsType" -> rightsType,
-              "description" -> description
-            )
-
-            json.validate[SemiconductorTopography] mustEqual JsError(
-              "rightsType must be `semiconductorTopography`"
-            )
-          }
+          json.validate[SemiconductorTopography] mustEqual JsError(
+            "rightsType must be `semiconductorTopography`"
+          )
+        }
       }
     }
   }

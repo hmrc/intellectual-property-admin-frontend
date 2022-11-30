@@ -28,21 +28,25 @@ class RepresentativeContactInternationalAddressFormProvider @Inject() extends Ma
 
   def apply(): Form[InternationalAddress] = Form(
     mapping(
-      "line1" ->
+      "line1"    ->
         text("representativeContactInternationalAddress.error.line1.required")
           .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.line1.length")),
-      "line2" ->
-        optional(Forms.text
-          .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.line2.length"))),
-      "town" ->
+      "line2"    ->
+        optional(
+          Forms.text
+            .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.line2.length"))
+        ),
+      "town"     ->
         text("representativeContactInternationalAddress.error.town.required")
           .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.town.length")),
-      "country" ->
+      "country"  ->
         text("representativeContactInternationalAddress.error.country.required")
           .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.country.length")),
       "postCode" ->
-        optional(Forms.text
-          .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.postCode.length")))
+        optional(
+          Forms.text
+            .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.postCode.length"))
+        )
     )(InternationalAddress.apply)(InternationalAddress.unapply)
   )
 }

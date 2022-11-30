@@ -29,17 +29,17 @@ object IpRightsSupplementaryProtectionCertificateType extends Enumerable.Implici
   case object PlantProtection extends WithName("plantProtection") with IpRightsSupplementaryProtectionCertificateType
 
   val values: Seq[IpRightsSupplementaryProtectionCertificateType] = Seq(
-    Medicinal, PlantProtection
+    Medicinal,
+    PlantProtection
   )
 
-  def radioItems(form: Form[_])(implicit messages: Messages): Seq[RadioItem] = values.map {
-    value =>
-      RadioItem(
-        content = Text(messages(s"ipRightsSupplementaryProtectionCertificateType.${value.toString}")),
-        id = Some(s"ipRightsSupplementaryProtectionCertificateType.${value.toString}"),
-        value = Some(value.toString),
-        checked = form("value").value.contains(value.toString)
-      )
+  def radioItems(form: Form[_])(implicit messages: Messages): Seq[RadioItem] = values.map { value =>
+    RadioItem(
+      content = Text(messages(s"ipRightsSupplementaryProtectionCertificateType.${value.toString}")),
+      id = Some(s"ipRightsSupplementaryProtectionCertificateType.${value.toString}"),
+      value = Some(value.toString),
+      checked = form("value").value.contains(value.toString)
+    )
   }
 
   implicit val enumerable: Enumerable[IpRightsSupplementaryProtectionCertificateType] =

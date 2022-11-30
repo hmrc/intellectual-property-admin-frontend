@@ -20,12 +20,12 @@ import models.{Address, CompanyApplyingIsRightsHolder}
 import play.api.libs.json.{Json, OFormat}
 
 final case class Company(
-                          name: String,
-                          acronym: Option[String],
-                          applicantAddressUkBased: Boolean,
-                          applicantContactAddress: Address,
-                          applicantType: CompanyApplyingIsRightsHolder
-                        )
+  name: String,
+  acronym: Option[String],
+  applicantAddressUkBased: Boolean,
+  applicantContactAddress: Address,
+  applicantType: CompanyApplyingIsRightsHolder
+)
 
 object Company {
 

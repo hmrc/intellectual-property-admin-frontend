@@ -24,10 +24,10 @@ import play.api.mvc.{ActionFilter, Result, Results}
 import scala.concurrent.{ExecutionContext, Future}
 
 class NiceClassIndexActionFilter(
-                                  iprIndex: Int,
-                                  niceClassIndex: Int,
-                                  protected val executionContext: ExecutionContext
-                                ) extends ActionFilter[DataRequest] {
+  iprIndex: Int,
+  niceClassIndex: Int,
+  protected val executionContext: ExecutionContext
+) extends ActionFilter[DataRequest] {
 
   override protected def filter[A](request: DataRequest[A]): Future[Option[Result]] = {
 
@@ -41,9 +41,8 @@ class NiceClassIndexActionFilter(
   }
 }
 
-class NiceClassIndexActionFilterProvider @Inject()(executionContext: ExecutionContext) {
+class NiceClassIndexActionFilterProvider @Inject() (executionContext: ExecutionContext) {
 
   def apply(iprIndex: Int, niceClassIndex: Int): NiceClassIndexActionFilter =
     new NiceClassIndexActionFilter(iprIndex, niceClassIndex, executionContext)
 }
-

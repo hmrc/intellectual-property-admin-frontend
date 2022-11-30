@@ -28,7 +28,7 @@ import views.html.WhoIsSecondaryTechnicalContactView
 class WhoIsSecondaryTechnicalContactViewSpec extends TextInputViewBehaviours[TechnicalContact] {
 
   val messageKeyPrefix: String = "whoIsSecondaryTechnicalContact"
-  val applicantName: String = "applicantName"
+  val applicantName: String    = "applicantName"
 
   override val form = new WhoIsSecondaryTechnicalContactFormProvider()()
 
@@ -42,7 +42,6 @@ class WhoIsSecondaryTechnicalContactViewSpec extends TextInputViewBehaviours[Tec
       view.apply(form, NormalMode, afaId, applicantName)(fakeRequest, messages)
 
     val renderedView: HtmlFormat.Appendable = view.apply(form, NormalMode, afaId, applicantName)(fakeRequest, messages)
-
 
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView(form), messageKeyPrefix, Seq(applicantName))
 

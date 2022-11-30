@@ -29,34 +29,30 @@ class PlantVarietySpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
 
     "must deserialise" in {
 
-      forAll(arbitrary[String]) {
-        description =>
+      forAll(arbitrary[String]) { description =>
+        val json = Json.obj(
+          "rightsType"  -> "plantVariety",
+          "description" -> description
+        )
 
-          val json = Json.obj(
-            "rightsType" -> "plantVariety",
-            "description" -> description
-          )
-
-          json.validate[PlantVariety] mustEqual JsSuccess(PlantVariety(description))
+        json.validate[PlantVariety] mustEqual JsSuccess(PlantVariety(description))
       }
     }
 
     "must fail to deserialise for a rightsType other than plantVariety" in {
 
-      forAll(arbitrary[String], Gen.alphaStr) {
-        (description, rightsType) =>
+      forAll(arbitrary[String], Gen.alphaStr) { (description, rightsType) =>
+        whenever(rightsType != "plantVariety") {
 
-          whenever(rightsType != "plantVariety") {
+          val json = Json.obj(
+            "rightsType"  -> rightsType,
+            "description" -> description
+          )
 
-            val json = Json.obj(
-              "rightsType" -> rightsType,
-              "description" -> description
-            )
-
-            json.validate[PlantVariety] mustEqual JsError(
-              "rightsType must be `plantVariety`"
-            )
-          }
+          json.validate[PlantVariety] mustEqual JsError(
+            "rightsType must be `plantVariety`"
+          )
+        }
       }
     }
   }

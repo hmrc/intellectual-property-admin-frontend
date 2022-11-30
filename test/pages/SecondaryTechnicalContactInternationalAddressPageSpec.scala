@@ -30,43 +30,41 @@ class SecondaryTechnicalContactInternationalAddressPageSpec extends PageBehaviou
 
     beRemovable[InternationalAddress](SecondaryTechnicalContactInternationalAddressPage)
 
-
     "not be required if the secondary technical contact is based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IsSecondaryTechnicalContactUkBasedPage, true)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IsSecondaryTechnicalContactUkBasedPage, true).success.value
-
-          SecondaryTechnicalContactInternationalAddressPage.isRequired(answers).value mustEqual false
+        SecondaryTechnicalContactInternationalAddressPage.isRequired(answers).value mustEqual false
       }
     }
 
-
     "be required if the secondary technical contact is not based in the UK" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .set(IsSecondaryTechnicalContactUkBasedPage, false)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .set(IsSecondaryTechnicalContactUkBasedPage, false).success.value
-
-          SecondaryTechnicalContactInternationalAddressPage.isRequired(answers).value mustEqual true
+        SecondaryTechnicalContactInternationalAddressPage.isRequired(answers).value mustEqual true
       }
     }
 
     "not know whether it's required if we don't know if they are UK based" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers =
+          userAnswers
+            .remove(IsSecondaryTechnicalContactUkBasedPage)
+            .success
+            .value
 
-          val answers =
-            userAnswers
-              .remove(IsSecondaryTechnicalContactUkBasedPage).success.value
-
-          SecondaryTechnicalContactInternationalAddressPage.isRequired(answers) must not be defined
+        SecondaryTechnicalContactInternationalAddressPage.isRequired(answers) must not be defined
       }
     }
   }

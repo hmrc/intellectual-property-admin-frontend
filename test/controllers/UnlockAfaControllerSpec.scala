@@ -41,7 +41,7 @@ class UnlockAfaControllerSpec extends SpecBase with MockitoSugar with ScalaFutur
 
   val afaId: AfaId = userAnswersId
 
-  val formProvider = new UnlockAfaFormProvider()
+  val formProvider        = new UnlockAfaFormProvider()
   val form: Form[Boolean] = formProvider()
 
   private lazy val unlockAfaRoute = routes.UnlockAfaController.onPageLoad(afaId).url
@@ -59,7 +59,8 @@ class UnlockAfaControllerSpec extends SpecBase with MockitoSugar with ScalaFutur
 
   val companyApplying: Option[String] = Some("AN")
 
-  private val baseAnswers = UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying("Applicant Name", Some("AN"))).success.value
+  private val baseAnswers =
+    UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying("Applicant Name", Some("AN"))).success.value
 
   "UnlockAfa Controller" must {
 

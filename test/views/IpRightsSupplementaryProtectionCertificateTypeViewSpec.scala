@@ -27,15 +27,16 @@ import views.html.IpRightsSupplementaryProtectionCertificateTypeView
 
 class IpRightsSupplementaryProtectionCertificateTypeViewSpec extends ViewBehaviours {
 
-  val messageKeyPrefix = "ipRightsSupplementaryProtectionCertificateType"
+  val messageKeyPrefix    = "ipRightsSupplementaryProtectionCertificateType"
   val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > ul > li > a"
-  val radioErrorMessage = "#value-error"
+  val radioErrorMessage   = "#value-error"
 
   val form = new IpRightsSupplementaryProtectionCertificateTypeFormProvider()()
 
   val application: Application = applicationBuilder(userAnswers = Some(UserAnswers(userAnswersId))).build()
 
-  val view: IpRightsSupplementaryProtectionCertificateTypeView = application.injector.instanceOf[IpRightsSupplementaryProtectionCertificateTypeView]
+  val view: IpRightsSupplementaryProtectionCertificateTypeView =
+    application.injector.instanceOf[IpRightsSupplementaryProtectionCertificateTypeView]
 
   val index = 0
 
@@ -58,9 +59,8 @@ class IpRightsSupplementaryProtectionCertificateTypeViewSpec extends ViewBehavio
       "contain radio buttons for the value" in {
         val doc: Document = asDocument(applyView(form))
 
-        for (option <- IpRightsSupplementaryProtectionCertificateType.radioItems(form)) {
+        for (option <- IpRightsSupplementaryProtectionCertificateType.radioItems(form))
           assertContainsRadioButton(doc, option.id.get, "value", option.value.get, isChecked = false)
-        }
       }
 
       "contain the correct radio item label" must {
@@ -76,7 +76,7 @@ class IpRightsSupplementaryProtectionCertificateTypeViewSpec extends ViewBehavio
       }
     }
 
-    for (option <- IpRightsSupplementaryProtectionCertificateType.radioItems(form)) {
+    for (option <- IpRightsSupplementaryProtectionCertificateType.radioItems(form))
       s"rendered with a value of '${option.value}'" must {
 
         s"have the '${option.value.get}' radio button selected" in {
@@ -85,15 +85,22 @@ class IpRightsSupplementaryProtectionCertificateTypeViewSpec extends ViewBehavio
 
           assertContainsRadioOption(doc, option.id.get, "value", option.value.get, "radio", isChecked = true)
 
-          for (unselectedOption <- IpRightsSupplementaryProtectionCertificateType.radioItems(form).filterNot(o => o == option)) {
-            assertContainsRadioButton(doc, unselectedOption.id.get, "value", unselectedOption.value.get, isChecked = false)
-          }
+          for (
+            unselectedOption <-
+              IpRightsSupplementaryProtectionCertificateType.radioItems(form).filterNot(o => o == option)
+          )
+            assertContainsRadioButton(
+              doc,
+              unselectedOption.id.get,
+              "value",
+              unselectedOption.value.get,
+              isChecked = false
+            )
         }
       }
-    }
 
-    lazy implicit val document = asDocument(view(form.bind(
-      Map("value" -> "")), NormalMode, 0, afaId)(fakeRequest, messages))
+    lazy implicit val document =
+      asDocument(view(form.bind(Map("value" -> "")), NormalMode, 0, afaId)(fakeRequest, messages))
 
     "display the correct document title" in {
       document.title mustBe "Error: What does this certificate cover? - Protect intellectual property rights"

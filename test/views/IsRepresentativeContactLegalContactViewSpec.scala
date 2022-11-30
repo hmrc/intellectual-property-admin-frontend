@@ -51,12 +51,14 @@ class IsRepresentativeContactLegalContactViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPageUsingDesignSystem(form,
+    behave like yesNoPageUsingDesignSystem(
+      form,
       applyView,
       messageKeyPrefix,
       routes.IsRepresentativeContactLegalContactController.onSubmit(NormalMode, afaId).url,
       Seq(representativecontactName),
-      argsUsedInBrowserTitle = true)
+      argsUsedInBrowserTitle = true
+    )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
 

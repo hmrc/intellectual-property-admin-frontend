@@ -63,7 +63,7 @@ class EmailConstraintSpec extends AnyWordSpec with Matchers with EmailValidation
 
       "email doesn't contain @" in {
 
-        val incorrectEmail = "nameexample.com"
+        val incorrectEmail  = "nameexample.com"
         val incorrectEmail2 = "incorrectEmail"
 
         validateEmail.apply(incorrectEmail) mustEqual Invalid("email.format")

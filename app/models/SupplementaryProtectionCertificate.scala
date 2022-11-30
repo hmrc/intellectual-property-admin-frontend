@@ -21,11 +21,11 @@ import java.time.LocalDate
 import play.api.libs.json._
 
 final case class SupplementaryProtectionCertificate(
-                                                     certificateType: String,
-                                                     registrationNumber: String,
-                                                     registrationEnd: LocalDate,
-                                                     description: String
-                                                    ) extends IpRight {
+  certificateType: String,
+  registrationNumber: String,
+  registrationEnd: LocalDate,
+  description: String
+) extends IpRight {
 
   def rightType: String = "supplementaryProtectionCertificate"
 }
@@ -36,20 +36,22 @@ object SupplementaryProtectionCertificate {
 
     import play.api.libs.functional.syntax._
 
-    (__ \ "rightsType").read[String].flatMap[String] {
-      t =>
+    (__ \ "rightsType")
+      .read[String]
+      .flatMap[String] { t =>
         if (t == "supplementaryProtectionCertificate") {
           Reads(_ => JsSuccess(t))
         } else {
           Reads(_ => JsError("rightsType must be `supplementaryProtectionCertificate`"))
         }
-    }.andKeep(
-      (
-        (__ \ "certificateType").read[String] and
-        (__ \ "registrationNumber").read[String] and
-        (__ \ "registrationEnd").read[LocalDate] and
-        (__ \ "description").read[String]
-      )(models.SupplementaryProtectionCertificate(_, _, _, _))
-    )
+      }
+      .andKeep(
+        (
+          (__ \ "certificateType").read[String] and
+            (__ \ "registrationNumber").read[String] and
+            (__ \ "registrationEnd").read[LocalDate] and
+            (__ \ "description").read[String]
+        )(models.SupplementaryProtectionCertificate(_, _, _, _))
+      )
   }
 }

@@ -30,7 +30,10 @@ class IpRightsRegistrationNumberViewSpec extends TextInputViewBehaviours[String]
 
   val ipRightsTypeName = "registration"
 
-  val form = new IpRightsRegistrationNumberFormProvider()(ipRightsTypeName, Seq("firstRegistrationNumber", "secondRegistrationNumber"))
+  val form = new IpRightsRegistrationNumberFormProvider()(
+    ipRightsTypeName,
+    Seq("firstRegistrationNumber", "secondRegistrationNumber")
+  )
 
   "IpRightsRegistrationNumberView view" must {
 

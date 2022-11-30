@@ -23,12 +23,11 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.ConfirmRemoveOtherContactView
 
-class ConfirmRemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks{
+class ConfirmRemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks {
 
-  val afaId: AfaId = userAnswersId
-  val contactToRemoveLegal = "legal"
+  val afaId: AfaId             = userAnswersId
+  val contactToRemoveLegal     = "legal"
   val contactToRemoveTechnical = "technical"
-
 
   def getRequestLegal(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, ConfirmRemoveSecondaryLegalContactRoute)
@@ -36,9 +35,10 @@ class ConfirmRemoveOtherContactControllerSpec extends SpecBase with LockAfaCheck
   def getRequestTechnical(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, ConfirmRemoveSecondaryTechnicalContactRoute)
 
-  lazy private val ConfirmRemoveSecondaryLegalContactRoute = routes.ConfirmRemoveOtherContactController.onPageLoad(afaId, contactToRemoveLegal).url
-  lazy private val ConfirmRemoveSecondaryTechnicalContactRoute = routes.ConfirmRemoveOtherContactController.onPageLoad(afaId, contactToRemoveTechnical).url
-
+  lazy private val ConfirmRemoveSecondaryLegalContactRoute     =
+    routes.ConfirmRemoveOtherContactController.onPageLoad(afaId, contactToRemoveLegal).url
+  lazy private val ConfirmRemoveSecondaryTechnicalContactRoute =
+    routes.ConfirmRemoveOtherContactController.onPageLoad(afaId, contactToRemoveTechnical).url
 
   "Company Applying UK Address Controller" must {
 

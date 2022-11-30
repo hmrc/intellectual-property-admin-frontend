@@ -40,14 +40,16 @@ class IsApplicantLegalContactUkBasedControllerSpec extends SpecBase with Mockito
 
   val afaId: AfaId = userAnswersId
 
-  val rightsHolderContact: ApplicantLegalContact = ApplicantLegalContact("name", "companyName", "telephone", None, "email")
+  val rightsHolderContact: ApplicantLegalContact =
+    ApplicantLegalContact("name", "companyName", "telephone", None, "email")
 
-  val formProvider = new IsApplicantLegalContactUkBasedFormProvider()
+  val formProvider        = new IsApplicantLegalContactUkBasedFormProvider()
   val form: Form[Boolean] = formProvider(rightsHolderContact.name)
 
   private val baseUserAnswers = UserAnswers(afaId).set(ApplicantLegalContactPage, rightsHolderContact).success.value
 
-  lazy private val isApplicantLegalContactUkBasedRoute = routes.IsApplicantLegalContactUkBasedController.onPageLoad(NormalMode, afaId).url
+  lazy private val isApplicantLegalContactUkBasedRoute =
+    routes.IsApplicantLegalContactUkBasedController.onPageLoad(NormalMode, afaId).url
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isApplicantLegalContactUkBasedRoute)

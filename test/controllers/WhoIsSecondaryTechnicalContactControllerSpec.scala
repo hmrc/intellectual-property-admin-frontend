@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.WhoIsSecondaryTechnicalContactFormProvider
-import models.{AfaId, CompanyApplying, NormalMode, UserAnswers, TechnicalContact}
+import models.{AfaId, CompanyApplying, NormalMode, TechnicalContact, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
@@ -44,12 +44,15 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
 
   private def form: Form[TechnicalContact] = formProvider()
 
-  lazy val whoIsSecondaryTechnicalContactRoute: String = routes.WhoIsSecondaryTechnicalContactController.onPageLoad(NormalMode, afaId).url
-  lazy val whoIsSecondaryTechnicalContactRoutePost: String = routes.WhoIsSecondaryTechnicalContactController.onSubmit(NormalMode, afaId).url
+  lazy val whoIsSecondaryTechnicalContactRoute: String     =
+    routes.WhoIsSecondaryTechnicalContactController.onPageLoad(NormalMode, afaId).url
+  lazy val whoIsSecondaryTechnicalContactRoutePost: String =
+    routes.WhoIsSecondaryTechnicalContactController.onSubmit(NormalMode, afaId).url
 
   val validAnswer: TechnicalContact = TechnicalContact("companyName", "name", "123123123", "email@example.com")
 
-  override val emptyUserAnswers: UserAnswers = UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.contactName, None)).success.value
+  override val emptyUserAnswers: UserAnswers =
+    UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.contactName, None)).success.value
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, whoIsSecondaryTechnicalContactRoute)
@@ -135,12 +138,14 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
             ("email", "contact email")
           )
 
-      val boundForm = form.bind(Map(
-        "companyName" -> "company name",
-        "name" -> "",
-        "telephone" -> "contact Telephone",
-        "email" -> "contact email"
-      ))
+      val boundForm = form.bind(
+        Map(
+          "companyName" -> "company name",
+          "name"        -> "",
+          "telephone"   -> "contact Telephone",
+          "email"       -> "contact email"
+        )
+      )
 
       val view = application.injector.instanceOf[WhoIsSecondaryTechnicalContactView]
 
@@ -167,11 +172,9 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
             ("email", "contact Email")
           )
 
-
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-
 
       application.stop()
     }
@@ -212,4 +215,3 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
     }
   }
 }
-

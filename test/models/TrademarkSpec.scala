@@ -36,50 +36,54 @@ class TrademarkSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
 
       forAll(arbitrary[String], arbitraryDates, arbitrary[String], arbitrary[String], arbitrary[Seq[NiceClassId]]) {
         (registrationNumber, registrationEnd, brand, description, niceClasses) =>
-
           val json = Json.obj(
-                "rightsType" -> "trademark",
-                "registrationNumber" -> registrationNumber,
-                "registrationEnd" -> registrationEnd,
-                "descriptionWithBrand" -> Json.obj(
-                  "brand" -> brand,
-                  "description" -> description
-                ),
-                "niceClasses" -> niceClasses.map {
-                  niceClass =>
-                    niceClass.value
-                }
+            "rightsType"           -> "trademark",
+            "registrationNumber"   -> registrationNumber,
+            "registrationEnd"      -> registrationEnd,
+            "descriptionWithBrand" -> Json.obj(
+              "brand"       -> brand,
+              "description" -> description
+            ),
+            "niceClasses"          -> niceClasses.map { niceClass =>
+              niceClass.value
+            }
           )
 
-          json.validate[Trademark] mustEqual JsSuccess(Trademark(registrationNumber, registrationEnd, Some(brand), description, niceClasses))
+          json.validate[Trademark] mustEqual JsSuccess(
+            Trademark(registrationNumber, registrationEnd, Some(brand), description, niceClasses)
+          )
       }
     }
 
     "must fail to deserialise for a rightsType other than trademark" in {
 
-      forAll(arbitrary[String], Gen.alphaStr, arbitraryDates, arbitrary[String], arbitrary[String], arbitrary[Seq[NiceClassId]]) {
-        (registrationNumber, rightsType, registrationEnd, brand, description, niceClasses) =>
+      forAll(
+        arbitrary[String],
+        Gen.alphaStr,
+        arbitraryDates,
+        arbitrary[String],
+        arbitrary[String],
+        arbitrary[Seq[NiceClassId]]
+      ) { (registrationNumber, rightsType, registrationEnd, brand, description, niceClasses) =>
+        whenever(rightsType != "trademark") {
 
-          whenever(rightsType != "trademark") {
+          val json = Json.obj(
+            "rightsType"           -> rightsType,
+            "registrationNumber"   -> registrationNumber,
+            "registrationEnd"      -> registrationEnd,
+            "descriptionWithBrand" -> Json.obj(
+              "brand"       -> brand,
+              "description" -> description
+            ),
+            "niceClasses"          -> niceClasses.map { niceClass =>
+              niceClass.value
+            }
+          )
 
-            val json = Json.obj(
-                  "rightsType" -> rightsType,
-                  "registrationNumber" -> registrationNumber,
-                  "registrationEnd" -> registrationEnd,
-                  "descriptionWithBrand" -> Json.obj(
-                    "brand" -> brand,
-                    "description" -> description
-                  ),
-                  "niceClasses" -> niceClasses.map {
-                    niceClass =>
-                      niceClass.value
-                  }
-                )
-
-            json.validate[Trademark] mustEqual JsError(
-              "rightsType must be `trademark`"
-            )
-          }
+          json.validate[Trademark] mustEqual JsError(
+            "rightsType must be `trademark`"
+          )
+        }
       }
     }
   }

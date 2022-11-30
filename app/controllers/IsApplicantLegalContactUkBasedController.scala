@@ -33,64 +33,62 @@ import views.html.IsApplicantLegalContactUkBasedView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IsApplicantLegalContactUkBasedController @Inject()(
-                                                          override val messagesApi: MessagesApi,
-                                                          afaService: AfaService,
-                                                          navigator: Navigator,
-                                                          identify: IdentifierAction,
-                                                          getLock: LockAfaActionProvider,
-                                                          getData: AfaDraftDataRetrievalAction,
-                                                          requireData: DataRequiredAction,
-                                                          formProvider: IsApplicantLegalContactUkBasedFormProvider,
-                                                          val controllerComponents: MessagesControllerComponents,
-                                                          view: IsApplicantLegalContactUkBasedView
-                                                        )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IsApplicantLegalContactUkBasedController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: IsApplicantLegalContactUkBasedFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IsApplicantLegalContactUkBasedView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getApplicantLegalContactName {
-        applicantLegalContactName =>
+  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getApplicantLegalContactName { applicantLegalContactName =>
+        val form = formProvider(applicantLegalContactName)
 
-          val form = formProvider(applicantLegalContactName)
+        val preparedForm = request.userAnswers.get(IsApplicantLegalContactUkBasedPage) match {
+          case None        => form
+          case Some(value) => form.fill(value)
+        }
 
-          val preparedForm = request.userAnswers.get(IsApplicantLegalContactUkBasedPage) match {
-            case None => form
-            case Some(value) => form.fill(value)
-          }
-
-          Future.successful(Ok(view(preparedForm, mode, applicantLegalContactName, afaId)))
+        Future.successful(Ok(view(preparedForm, mode, applicantLegalContactName, afaId)))
       }
-  }
+    }
 
-  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getApplicantLegalContactName {
-        applicantLegalContactName =>
+  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getApplicantLegalContactName { applicantLegalContactName =>
+        val form = formProvider(applicantLegalContactName)
 
-          val form = formProvider(applicantLegalContactName)
-
-          form.bindFromRequest().fold(
+        form
+          .bindFromRequest()
+          .fold(
             (formWithErrors: Form[_]) =>
               Future.successful(BadRequest(view(formWithErrors, mode, applicantLegalContactName, afaId))),
-
-            value => {
+            value =>
               for {
                 updatedAnswers <- Future.fromTry(request.userAnswers.set(IsApplicantLegalContactUkBasedPage, value))
-                _ <- afaService.set(updatedAnswers)
+                _              <- afaService.set(updatedAnswers)
               } yield Redirect(navigator.nextPage(IsApplicantLegalContactUkBasedPage, mode, updatedAnswers))
-            }
           )
       }
-  }
+    }
 
-  private def getApplicantLegalContactName(block: String => Future[Result])
-                                          (implicit request: DataRequest[AnyContent]): Future[Result] = {
-
-    request.userAnswers.get(ApplicantLegalContactNameQuery).map {
-      applicantLegalContactName =>
-
+  private def getApplicantLegalContactName(
+    block: String => Future[Result]
+  )(implicit request: DataRequest[AnyContent]): Future[Result] =
+    request.userAnswers
+      .get(ApplicantLegalContactNameQuery)
+      .map { applicantLegalContactName =>
         block(applicantLegalContactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
+      }
+      .getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 
-  }
 }

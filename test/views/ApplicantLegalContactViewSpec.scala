@@ -28,7 +28,7 @@ import views.html.ApplicantLegalContactView
 
 class ApplicantLegalContactViewSpec extends TextInputViewBehaviours[ApplicantLegalContact] with Generators {
 
-  val messageKeyPrefix = "applicantLegalContact"
+  val messageKeyPrefix      = "applicantLegalContact"
   val applicantName: String = nonEmptyString.sample.value
 
   override val form = new ApplicantLegalContactFormProvider()()

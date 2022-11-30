@@ -33,19 +33,20 @@ import scala.concurrent.Future
 
 class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with MockitoSugar {
 
-  val afaId: AfaId = userAnswersId
-  val localTime: LocalDateTime = LocalDateTime.now()
+  val afaId: AfaId                           = userAnswersId
+  val localTime: LocalDateTime               = LocalDateTime.now()
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId, lastUpdated = localTime)
 
-  val addAnotherLegalContact = true
-  val secondaryLegalContactDetails: WhoIsSecondaryLegalContact = WhoIsSecondaryLegalContact("name", "companyName", "phone", "email")
-  val secondaryLegalContactUkBased = true
-  val secondaryLegalContactAddress: UkAddress = UkAddress("street", None, "town", None, "postcode")
+  val addAnotherLegalContact                                   = true
+  val secondaryLegalContactDetails: WhoIsSecondaryLegalContact =
+    WhoIsSecondaryLegalContact("name", "companyName", "phone", "email")
+  val secondaryLegalContactUkBased                             = true
+  val secondaryLegalContactAddress: UkAddress                  = UkAddress("street", None, "town", None, "postcode")
 
-  val addAnotherTechContact = true
+  val addAnotherTechContact                         = true
   val secondaryTechContactDetails: TechnicalContact = TechnicalContact("name", "companyName", "phone", "email")
-  val secondaryTechContactUkBased = true
-  val secondaryTechContactAddress: UkAddress = UkAddress("street", None, "town", None, "postcode")
+  val secondaryTechContactUkBased                   = true
+  val secondaryTechContactAddress: UkAddress        = UkAddress("street", None, "town", None, "postcode")
 
   def getRequestLegal(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, RemoveSecondaryLegalContactRoute)
@@ -53,9 +54,9 @@ class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with 
   def getRequestTechnical(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, RemoveSecondaryTechnicalContactRoute)
 
-  lazy private val RemoveSecondaryLegalContactRoute = routes.RemoveOtherContactController.onDelete(afaId, "legal").url
-  lazy private val RemoveSecondaryTechnicalContactRoute = routes.RemoveOtherContactController.onDelete(afaId, "technical").url
-
+  lazy private val RemoveSecondaryLegalContactRoute     = routes.RemoveOtherContactController.onDelete(afaId, "legal").url
+  lazy private val RemoveSecondaryTechnicalContactRoute =
+    routes.RemoveOtherContactController.onDelete(afaId, "technical").url
 
   "Company Applying UK Address Controller" must {
 
@@ -66,10 +67,18 @@ class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with 
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
       val userAnswers = emptyUserAnswers
-        .set(AddAnotherLegalContactPage, addAnotherLegalContact).success.value
-        .set(WhoIsSecondaryLegalContactPage, secondaryLegalContactDetails).success.value
-        .set(IsApplicantSecondaryLegalContactUkBasedPage, secondaryLegalContactUkBased).success.value
-        .set(ApplicantSecondaryLegalContactUkAddressPage, secondaryLegalContactAddress).success.value
+        .set(AddAnotherLegalContactPage, addAnotherLegalContact)
+        .success
+        .value
+        .set(WhoIsSecondaryLegalContactPage, secondaryLegalContactDetails)
+        .success
+        .value
+        .set(IsApplicantSecondaryLegalContactUkBasedPage, secondaryLegalContactUkBased)
+        .success
+        .value
+        .set(ApplicantSecondaryLegalContactUkAddressPage, secondaryLegalContactAddress)
+        .success
+        .value
 
       val application =
         applicationBuilder(userAnswers = Some(userAnswers))
@@ -82,8 +91,9 @@ class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with 
 
       status(result) mustEqual SEE_OTHER
 
-      verify(mockAfaService, times(1)).set(eqTo(
-        emptyUserAnswers.set(AddAnotherLegalContactPage, value = false).success.value))(any())
+      verify(mockAfaService, times(1)).set(
+        eqTo(emptyUserAnswers.set(AddAnotherLegalContactPage, value = false).success.value)
+      )(any())
     }
 
     "remove the secondary technical contact and load the correct view for a GET" in {
@@ -93,10 +103,18 @@ class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with 
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
 
       val userAnswers = emptyUserAnswers
-        .set(AddAnotherTechnicalContactPage, addAnotherLegalContact).success.value
-        .set(WhoIsSecondaryTechnicalContactPage, secondaryTechContactDetails).success.value
-        .set(IsSecondaryTechnicalContactUkBasedPage, secondaryTechContactUkBased).success.value
-        .set(SecondaryTechnicalContactUkAddressPage, secondaryTechContactAddress).success.value
+        .set(AddAnotherTechnicalContactPage, addAnotherLegalContact)
+        .success
+        .value
+        .set(WhoIsSecondaryTechnicalContactPage, secondaryTechContactDetails)
+        .success
+        .value
+        .set(IsSecondaryTechnicalContactUkBasedPage, secondaryTechContactUkBased)
+        .success
+        .value
+        .set(SecondaryTechnicalContactUkAddressPage, secondaryTechContactAddress)
+        .success
+        .value
 
       val application =
         applicationBuilder(userAnswers = Some(userAnswers))
@@ -109,8 +127,9 @@ class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with 
 
       status(result) mustEqual SEE_OTHER
 
-      verify(mockAfaService, times(1)).set(eqTo(
-        emptyUserAnswers.set(AddAnotherTechnicalContactPage, value = false).success.value))(any())
+      verify(mockAfaService, times(1)).set(
+        eqTo(emptyUserAnswers.set(AddAnotherTechnicalContactPage, value = false).success.value)
+      )(any())
     }
   }
 

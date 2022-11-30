@@ -41,7 +41,7 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
   val afaId: AfaId = userAnswersId
 
-  val formProvider = new DeleteDraftFormProvider()
+  val formProvider                = new DeleteDraftFormProvider()
   private def form: Form[Boolean] = formProvider()
 
   lazy val deleteDraftRoute: String = routes.DeleteDraftController.onPageLoad(afaId).url
@@ -57,7 +57,8 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
   val companyApplying = "AN"
 
-  private val baseAnswers = UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying("Applicant Name", Some("AN"))).success.value
+  private val baseAnswers =
+    UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying("Applicant Name", Some("AN"))).success.value
 
   "DeleteDraft Controller" must {
 
@@ -95,7 +96,7 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
     "delete the draft and lock, and redirect to the next page when the user answers Yes" in {
 
-      val mockAfaService = mock[AfaService]
+      val mockAfaService  = mock[AfaService]
       val mockLockService = mock[LockService]
 
       when(mockAfaService.removeDraft(any())(any())) thenReturn Future.successful(Some(baseAnswers))
@@ -126,7 +127,7 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
     "not delete the draft or lock when the user answers No" in {
 
-      val mockAfaService = mock[AfaService]
+      val mockAfaService  = mock[AfaService]
       val mockLockService = mock[LockService]
 
       when(mockAfaService.removeDraft(any())(any())) thenReturn Future.successful(Some(baseAnswers))

@@ -36,12 +36,11 @@ class DesignSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks
 
       forAll(arbitrary[String], arbitraryDates, arbitrary[String]) {
         (registrationNumber, registrationEnd, description) =>
-
           val json = Json.obj(
-            "rightsType" -> "design",
+            "rightsType"         -> "design",
             "registrationNumber" -> registrationNumber,
-            "registrationEnd" -> registrationEnd,
-            "description" -> description
+            "registrationEnd"    -> registrationEnd,
+            "description"        -> description
           )
 
           json.validate[Design] mustEqual JsSuccess(Design(registrationNumber, registrationEnd, description))
@@ -52,14 +51,13 @@ class DesignSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks
 
       forAll(arbitrary[String], Gen.alphaStr, arbitraryDates, arbitrary[String]) {
         (registrationNumber, rightsType, registrationEnd, description) =>
-
-          whenever (rightsType != "design") {
+          whenever(rightsType != "design") {
 
             val json = Json.obj(
-              "rightsType" -> rightsType,
+              "rightsType"         -> rightsType,
               "registrationNumber" -> registrationNumber,
-              "registrationEnd" -> registrationEnd,
-              "description" -> description
+              "registrationEnd"    -> registrationEnd,
+              "description"        -> description
             )
 
             json.validate[Design] mustEqual JsError(
@@ -73,12 +71,11 @@ class DesignSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks
 
       forAll(arbitrary[String], arbitraryDates, arbitrary[String]) {
         (registrationNumber, registrationEnd, description) =>
-
           val json = Json.obj(
-            "rightsType" -> "design",
+            "rightsType"         -> "design",
             "registrationNumber" -> registrationNumber,
-            "registrationEnd" -> registrationEnd,
-            "description" -> description
+            "registrationEnd"    -> registrationEnd,
+            "description"        -> description
           )
 
           Json.toJson(Design(registrationNumber, registrationEnd, description))(Design.writes) mustEqual json

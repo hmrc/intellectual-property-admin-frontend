@@ -35,7 +35,7 @@ class IsCompanyApplyingUkBasedViewSpec extends YesNoViewBehaviours {
   "isCompanyApplyingUkBased view" must {
 
     val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-    val view = application.injector.instanceOf[IsCompanyApplyingUkBasedView]
+    val view        = application.injector.instanceOf[IsCompanyApplyingUkBasedView]
 
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, NormalMode, rightsHolderContactName, afaId)(fakeRequest, messages)
@@ -56,7 +56,8 @@ class IsCompanyApplyingUkBasedViewSpec extends YesNoViewBehaviours {
       messageKeyPrefix,
       routes.IsCompanyApplyingUkBasedController.onSubmit(NormalMode, afaId).url,
       args = Seq(rightsHolderContactName),
-      argsUsedInBrowserTitle = true)
+      argsUsedInBrowserTitle = true
+    )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
 

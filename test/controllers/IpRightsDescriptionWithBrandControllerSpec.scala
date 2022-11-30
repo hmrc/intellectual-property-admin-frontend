@@ -34,7 +34,11 @@ import views.html.IpRightsDescriptionWithBrandView
 
 import scala.concurrent.Future
 
-class IpRightsDescriptionWithBrandControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks with IprIndexValidation {
+class IpRightsDescriptionWithBrandControllerSpec
+    extends SpecBase
+    with MockitoSugar
+    with LockAfaChecks
+    with IprIndexValidation {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
@@ -45,7 +49,8 @@ class IpRightsDescriptionWithBrandControllerSpec extends SpecBase with MockitoSu
   val formProvider = new IpRightsDescriptionWithBrandFormProvider()
   private def form = formProvider()
 
-  lazy val ipRightsDescriptionWithBrandRoute: String = routes.IpRightsDescriptionWithBrandController.onPageLoad(NormalMode, index, afaId).url
+  lazy val ipRightsDescriptionWithBrandRoute: String =
+    routes.IpRightsDescriptionWithBrandController.onPageLoad(NormalMode, index, afaId).url
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 

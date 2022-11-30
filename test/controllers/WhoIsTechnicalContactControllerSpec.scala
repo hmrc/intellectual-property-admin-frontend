@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.WhoIsTechnicalContactFormProvider
-import models.{AfaId, NormalMode, UserAnswers, TechnicalContact}
+import models.{AfaId, NormalMode, TechnicalContact, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
@@ -48,7 +48,8 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
-  val validAnswer: TechnicalContact = TechnicalContact("company Name", "contact Name", "contact Telephone", "email@example.com")
+  val validAnswer: TechnicalContact =
+    TechnicalContact("company Name", "contact Name", "contact Telephone", "email@example.com")
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, whoIsTechnicalContactRoute)
@@ -134,13 +135,14 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
             ("email", "contact Email")
           )
 
-      val boundForm = form.bind(Map(
-        "companyName" -> "company name",
-        "name" -> "",
-        "telephone" -> "contact Telephone",
-        "email" -> "contact email"
-      ))
-
+      val boundForm = form.bind(
+        Map(
+          "companyName" -> "company name",
+          "name"        -> "",
+          "telephone"   -> "contact Telephone",
+          "email"       -> "contact email"
+        )
+      )
 
       val view = application.injector.instanceOf[WhoIsTechnicalContactView]
 
@@ -167,11 +169,9 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
             ("email", "contact Email")
           )
 
-
       val result = route(application, request).value
 
       status(result) mustEqual BAD_REQUEST
-
 
       application.stop()
     }
@@ -212,5 +212,3 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
     }
   }
 }
-
-

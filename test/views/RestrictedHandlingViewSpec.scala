@@ -43,7 +43,12 @@ class RestrictedHandlingViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPageUsingDesignSystem(form, applyView, messageKeyPrefix, routes.RestrictedHandlingController.onSubmit(NormalMode, afaId).url)
+    behave like yesNoPageUsingDesignSystem(
+      form,
+      applyView,
+      messageKeyPrefix,
+      routes.RestrictedHandlingController.onSubmit(NormalMode, afaId).url
+    )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
   }

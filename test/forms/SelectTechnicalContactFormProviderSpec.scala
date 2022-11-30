@@ -33,7 +33,7 @@ class SelectTechnicalContactFormProviderSpec extends OptionFieldBehaviours {
     behave like optionsField[ContactOptions](
       form,
       fieldName,
-      validValues  = ContactOptions.values.toSet,
+      validValues = ContactOptions.values.toSet,
       invalidError = FormError(fieldName, "error.invalid")
     )
 

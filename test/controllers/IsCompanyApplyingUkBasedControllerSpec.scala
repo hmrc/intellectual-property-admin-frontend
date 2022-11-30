@@ -42,12 +42,13 @@ class IsCompanyApplyingUkBasedControllerSpec extends SpecBase with MockitoSugar 
 
   val rightsHolderContact: CompanyApplying = CompanyApplying("name", None)
 
-  val formProvider = new IsCompanyApplyingUkBasedFormProvider()
+  val formProvider        = new IsCompanyApplyingUkBasedFormProvider()
   val form: Form[Boolean] = formProvider(rightsHolderContact.name)
 
   private val baseUserAnswers = UserAnswers(afaId).set(CompanyApplyingPage, rightsHolderContact).success.value
 
-  lazy private val isCompanyApplyingUkBasedRoute = routes.IsCompanyApplyingUkBasedController.onPageLoad(NormalMode, afaId).url
+  lazy private val isCompanyApplyingUkBasedRoute =
+    routes.IsCompanyApplyingUkBasedController.onPageLoad(NormalMode, afaId).url
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isCompanyApplyingUkBasedRoute)

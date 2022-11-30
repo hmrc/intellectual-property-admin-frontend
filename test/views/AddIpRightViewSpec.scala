@@ -26,7 +26,7 @@ import views.html.AddIpRightView
 
 class AddIpRightViewSpec extends ViewBehaviours {
 
-  val messageKeyPrefix = "addIpRight"
+  val messageKeyPrefix                   = "addIpRight"
   def actionSelector(index: Int): String = s"dl > div > dd:nth-child($index) > a"
 
   "AddIpRight view" must {
@@ -35,18 +35,28 @@ class AddIpRightViewSpec extends ViewBehaviours {
 
     def applyView(numberOfIpRights: Int): HtmlFormat.Appendable = {
       val nextPage = Call("get", "anything")
-      view.apply(NormalMode, afaId, Left(DisplayAnswerRow("", HtmlFormat.escape(""))), "", numberOfIpRights, nextPage)(messages)
+      view.apply(NormalMode, afaId, Left(DisplayAnswerRow("", HtmlFormat.escape(""))), "", numberOfIpRights, nextPage)(
+        messages
+      )
     }
 
     def applyViewLinks(): HtmlFormat.Appendable = {
       val nextPage = Call("get", "anything")
-      view.apply(NormalMode, afaId, Right(Seq(IprReviewRow("Patent","description" ,"/delete", "/change", 0  ))), "/add", 1, nextPage)(messages)
+      view.apply(
+        NormalMode,
+        afaId,
+        Right(Seq(IprReviewRow("Patent", "description", "/delete", "/change", 0))),
+        "/add",
+        1,
+        nextPage
+      )(messages)
     }
 
     behave like normalPageUsingDesignSystem(
       frontendAppConfig,
       applyView(numberOfIpRights = 1),
-      messageKeyPrefix, args = Seq(1),
+      messageKeyPrefix,
+      args = Seq(1),
       argsUsedInBrowserTitle = true
     )
 
@@ -83,7 +93,7 @@ class AddIpRightViewSpec extends ViewBehaviours {
       implicit val doc: Document = asDocument(appliedView)
 
       elementText("dl > div > dt") contains "Patent"
-      
+
       elementText("dl > div > dd:nth-child(2)") contains "description"
     }
 

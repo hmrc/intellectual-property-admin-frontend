@@ -31,7 +31,9 @@ object IpRightsType extends Enumerable.Implicits {
   case object Patent extends WithName("patent") with IpRightsType
   case object PlantVariety extends WithName("plantVariety") with IpRightsType
   case object GeographicalIndication extends WithName("geographicalIndication") with IpRightsType
-  case object SupplementaryProtectionCertificate extends WithName("supplementaryProtectionCertificate") with IpRightsType
+  case object SupplementaryProtectionCertificate
+      extends WithName("supplementaryProtectionCertificate")
+      with IpRightsType
   case object SemiconductorTopography extends WithName("semiconductorTopography") with IpRightsType
 
   val values: Seq[IpRightsType] = Seq(
@@ -45,14 +47,13 @@ object IpRightsType extends Enumerable.Implicits {
     SemiconductorTopography
   )
 
-  def radioItems(form: Form[_])(implicit messages: Messages): Seq[RadioItem] = values.map {
-    value =>
-      RadioItem(
-        content = Text(messages(s"ipRightsType.${value.toString}")),
-        id = Some(s"ipRightsType.${value.toString}"),
-        value = Some(value.toString),
-        checked = form("value").value.contains(value.toString)
-      )
+  def radioItems(form: Form[_])(implicit messages: Messages): Seq[RadioItem] = values.map { value =>
+    RadioItem(
+      content = Text(messages(s"ipRightsType.${value.toString}")),
+      id = Some(s"ipRightsType.${value.toString}"),
+      value = Some(value.toString),
+      checked = form("value").value.contains(value.toString)
+    )
   }
 
   implicit val enumerable: Enumerable[IpRightsType] =

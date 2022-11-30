@@ -29,15 +29,20 @@ object PlantVariety {
 
     import play.api.libs.functional.syntax._
 
-    (__ \ "rightsType").read[String].flatMap[String] {
-      t =>
+    (__ \ "rightsType")
+      .read[String]
+      .flatMap[String] { t =>
         if (t == "plantVariety") {
           Reads(_ => JsSuccess(t))
         } else {
           Reads(_ => JsError("rightsType must be `plantVariety`"))
         }
-    }.andKeep((__ \ "description").read[String]
-      .map(PlantVariety(_)))
+      }
+      .andKeep(
+        (__ \ "description")
+          .read[String]
+          .map(PlantVariety(_))
+      )
   }
 
   implicit lazy val writes: Writes[PlantVariety] = {
@@ -46,7 +51,7 @@ object PlantVariety {
 
     (
       (__ \ "rightsType").write[String] and
-      (__ \ "description").write[String]
+        (__ \ "description").write[String]
     )(a => (a.rightsType, a.description))
   }
 }

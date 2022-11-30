@@ -51,7 +51,7 @@ final case class IpRightsTypePage(index: Int) extends QuestionPage[IpRightsType]
       case Some(GeographicalIndication) =>
         userAnswers
           .remove(IpRightsRegistrationNumberPage(index))
-          .flatMap(_.remove(IpRightsRegistrationEndPage(index )))
+          .flatMap(_.remove(IpRightsRegistrationEndPage(index)))
           .flatMap(_.remove(IpRightsDescriptionWithBrandPage(index)))
           .flatMap(_.remove(NiceClassesQuery(index)))
           .flatMap(_.remove(IpRightsSupplementaryProtectionCertificateTypePage(index)))

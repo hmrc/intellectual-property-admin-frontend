@@ -32,34 +32,28 @@ class WantsOneYearRightsProtectionPageSpec extends PageBehaviours {
 
     "be required if this application is ex-officio" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.set(IsExOfficioPage, true).success.value
 
-          val answers = userAnswers.set(IsExOfficioPage, true).success.value
-
-          WantsOneYearRightsProtectionPage.isRequired(answers).value mustEqual true
+        WantsOneYearRightsProtectionPage.isRequired(answers).value mustEqual true
       }
     }
 
     "not be required if this application is not ex-officio" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.set(IsExOfficioPage, false).success.value
 
-          val answers = userAnswers.set(IsExOfficioPage, false).success.value
-
-          WantsOneYearRightsProtectionPage.isRequired(answers).value mustEqual false
+        WantsOneYearRightsProtectionPage.isRequired(answers).value mustEqual false
       }
     }
 
     "not know whether it is required if we do not know if this application is ex-officio" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.remove(IsExOfficioPage).success.value
 
-          val answers = userAnswers.remove(IsExOfficioPage).success.value
-
-          WantsOneYearRightsProtectionPage.isRequired(answers) must not be defined
+        WantsOneYearRightsProtectionPage.isRequired(answers) must not be defined
       }
     }
   }

@@ -40,15 +40,18 @@ class TechnicalContactUkAddressControllerSpec extends SpecBase with MockitoSugar
 
   val afaId: AfaId = userAnswersId
 
-  val formProvider = new TechnicalContactUkAddressFormProvider()
+  val formProvider                  = new TechnicalContactUkAddressFormProvider()
   private def form: Form[UkAddress] = formProvider()
 
-  lazy private val technicalContactUkAddressRoute = routes.TechnicalContactUkAddressController.onPageLoad(NormalMode, afaId).url
+  lazy private val technicalContactUkAddressRoute =
+    routes.TechnicalContactUkAddressController.onPageLoad(NormalMode, afaId).url
 
   val technicalContact: TechnicalContact = TechnicalContact("companyName", "contactName", "123456", "email")
-  val contactName: String = technicalContact.contactName
-  private val baseUserAnswers = UserAnswers(afaId)
-    .set(WhoIsTechnicalContactPage, technicalContact).success.value
+  val contactName: String                = technicalContact.contactName
+  private val baseUserAnswers            = UserAnswers(afaId)
+    .set(WhoIsTechnicalContactPage, technicalContact)
+    .success
+    .value
 
   val validAnswer: UkAddress = UkAddress("line 1", None, "town", None, "postcode")
 
@@ -124,7 +127,7 @@ class TechnicalContactUkAddressControllerSpec extends SpecBase with MockitoSugar
 
       val request =
         FakeRequest(POST, technicalContactUkAddressRoute)
-      .withFormUrlEncodedBody(("value", "invalid value"))
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
 

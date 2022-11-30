@@ -29,11 +29,11 @@ case object IsTechnicalContactUkBasedPage extends QuestionPage[Boolean] {
 
   override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
-      case Some(true) =>
+      case Some(true)  =>
         userAnswers.remove(TechnicalContactInternationalAddressPage)
       case Some(false) =>
         userAnswers.remove(TechnicalContactUkAddressPage)
-      case _ =>
+      case _           =>
         super.cleanup(value, userAnswers)
     }
 

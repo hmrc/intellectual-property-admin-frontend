@@ -21,10 +21,10 @@ import java.time.LocalDate
 import play.api.libs.json._
 
 final case class Patent(
-                         registrationNumber: String,
-                         registrationEnd: LocalDate,
-                         description: String
-                       ) extends IpRight {
+  registrationNumber: String,
+  registrationEnd: LocalDate,
+  description: String
+) extends IpRight {
 
   def rightsType: String = "patent"
 }
@@ -35,20 +35,22 @@ object Patent {
 
     import play.api.libs.functional.syntax._
 
-    (__ \ "rightsType").read[String].flatMap[String] {
-      t =>
+    (__ \ "rightsType")
+      .read[String]
+      .flatMap[String] { t =>
         if (t == "patent") {
           Reads(_ => JsSuccess(t))
         } else {
           Reads(_ => JsError("rightsType must be `patent`"))
         }
-    }.andKeep(
-      (
-        (__ \ "registrationNumber").read[String] and
-        (__ \ "registrationEnd").read[LocalDate] and
-        (__ \ "description").read[String]
-      )(Patent(_, _, _))
-    )
+      }
+      .andKeep(
+        (
+          (__ \ "registrationNumber").read[String] and
+            (__ \ "registrationEnd").read[LocalDate] and
+            (__ \ "description").read[String]
+        )(Patent(_, _, _))
+      )
   }
 
   implicit lazy val writes: Writes[Patent] = {
@@ -57,9 +59,9 @@ object Patent {
 
     (
       (__ \ "rightsType").write[String] and
-      (__ \ "registrationNumber").write[String] and
-      (__ \ "registrationEnd").write[LocalDate] and
-      (__ \ "description").write[String]
+        (__ \ "registrationNumber").write[String] and
+        (__ \ "registrationEnd").write[LocalDate] and
+        (__ \ "description").write[String]
     )(a => (a.rightsType, a.registrationNumber, a.registrationEnd, a.description))
   }
 }

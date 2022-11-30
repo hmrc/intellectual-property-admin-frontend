@@ -38,15 +38,18 @@ class IsTechnicalContactUkBasedPageControllerSpec extends SpecBase with MockitoS
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val afaId: AfaId = userAnswersId
+  val afaId: AfaId                       = userAnswersId
   val technicalContact: TechnicalContact = TechnicalContact("companyName", "contactName", "123456", "email")
-  val formProvider = new IsTechnicalContactUkBasedFormProvider()
-  val form: Form[Boolean] = formProvider(technicalContact.contactName)
+  val formProvider                       = new IsTechnicalContactUkBasedFormProvider()
+  val form: Form[Boolean]                = formProvider(technicalContact.contactName)
 
   private val baseUserAnswers = UserAnswers(afaId)
-    .set(WhoIsTechnicalContactPage, technicalContact).success.value
+    .set(WhoIsTechnicalContactPage, technicalContact)
+    .success
+    .value
 
-  lazy private val isTechnicalContactUkBasedRoute = routes.IsTechnicalContactUkBasedController.onPageLoad(NormalMode, afaId).url
+  lazy private val isTechnicalContactUkBasedRoute =
+    routes.IsTechnicalContactUkBasedController.onPageLoad(NormalMode, afaId).url
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isTechnicalContactUkBasedRoute)

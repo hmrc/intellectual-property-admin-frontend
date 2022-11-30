@@ -33,41 +33,45 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 
-class CreateAfaIdControllerSpec extends SpecBase with ScalaCheckPropertyChecks with MockitoSugar with TryValues with ModelGenerators {
+class CreateAfaIdControllerSpec
+    extends SpecBase
+    with ScalaCheckPropertyChecks
+    with MockitoSugar
+    with TryValues
+    with ModelGenerators {
 
   implicit lazy val hc: HeaderCarrier = HeaderCarrier()
 
   "CreateAfaId Controller" must {
 
     "redirect to the next page and create an AFA ID for a GET" in {
-      forAll(arbitrary[AfaId]) {
-        afaId =>
+      forAll(arbitrary[AfaId]) { afaId =>
+        val afaConnector = mock[AfaConnector]
 
-          val afaConnector = mock[AfaConnector]
+        when(afaConnector.getNextAfaId()(any(), any())) thenReturn Future.successful(afaId)
 
-          when(afaConnector.getNextAfaId()(any(), any())) thenReturn Future.successful(afaId)
+        val application = {
 
-          val application = {
+          import play.api.inject._
 
-            import play.api.inject._
+          applicationBuilder(userAnswers = None)
+            .overrides(
+              bind[AfaConnector].toInstance(afaConnector)
+            )
+            .build()
+        }
 
-            applicationBuilder(userAnswers = None)
-              .overrides(
-                bind[AfaConnector].toInstance(afaConnector)
-              ).build()
-          }
+        val request = FakeRequest(GET, controllers.routes.CreateAfaIdController.onPageLoad.url)
 
-          val request = FakeRequest(GET, controllers.routes.CreateAfaIdController.onPageLoad.url)
+        val result = route(application, request).value
 
-          val result = route(application, request).value
+        val navigator = application.injector.instanceOf[Navigator]
 
-          val navigator = application.injector.instanceOf[Navigator]
+        status(result) mustEqual SEE_OTHER
 
-          status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual navigator.firstPage(afaId).url
 
-          redirectLocation(result).value mustEqual navigator.firstPage(afaId).url
-
-          application.stop()
+        application.stop()
       }
     }
   }

@@ -29,15 +29,20 @@ object SemiconductorTopography {
 
     import play.api.libs.functional.syntax._
 
-    (__ \ "rightsType").read[String].flatMap[String] {
-      t =>
+    (__ \ "rightsType")
+      .read[String]
+      .flatMap[String] { t =>
         if (t == "semiconductorTopography") {
           Reads(_ => JsSuccess(t))
         } else {
           Reads(_ => JsError("rightsType must be `semiconductorTopography`"))
         }
-    }.andKeep((__ \ "description").read[String]
-      .map(SemiconductorTopography(_)))
+      }
+      .andKeep(
+        (__ \ "description")
+          .read[String]
+          .map(SemiconductorTopography(_))
+      )
   }
 
   implicit lazy val writes: Writes[SemiconductorTopography] = {
@@ -46,7 +51,7 @@ object SemiconductorTopography {
 
     (
       (__ \ "rightsType").write[String] and
-      (__ \ "description").write[String]
+        (__ \ "description").write[String]
     )(a => (a.rightsType, a.description))
   }
 }

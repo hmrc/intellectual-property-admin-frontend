@@ -21,17 +21,22 @@ import models.afa.{Contact, RepresentativeContact}
 
 object ContactsConstants {
 
-  val companyApplyingName = "companyName"
-  val companyApplyingAcronym = "companyAcronym"
-  val ukAddress: UkAddress = UkAddress("street", None, "town", None, "postcode")
-  val internationalAddress: InternationalAddress = InternationalAddress("street", None, "town", "country", None)
-  val representativeDetails: RepresentativeDetails = RepresentativeDetails("repContact", "companyName", "phone", "email", Some("ceo"))
-  val evidenceOfPowerToActTrue = true
-  val evidenceOfPowerToActFalse = false
-  val applicantLegalDetails: ApplicantLegalContact = ApplicantLegalContact("companyName", "legalContact", "phone", Some("otherPhone"), "email")
-  val applicantSecondaryLegalDetails: WhoIsSecondaryLegalContact = WhoIsSecondaryLegalContact("otherLegalCompany", "otherLegalContact", "phone", "email")
-  val technicalContactDetails: TechnicalContact = TechnicalContact("techContactCompany", "techContactName", "phone", "email")
-  val secondaryTechnicalContactDetails: TechnicalContact = TechnicalContact("secondaryTechContactCompany", "secondaryTechContactName", "phone", "email")
+  val companyApplyingName                                        = "companyName"
+  val companyApplyingAcronym                                     = "companyAcronym"
+  val ukAddress: UkAddress                                       = UkAddress("street", None, "town", None, "postcode")
+  val internationalAddress: InternationalAddress                 = InternationalAddress("street", None, "town", "country", None)
+  val representativeDetails: RepresentativeDetails               =
+    RepresentativeDetails("repContact", "companyName", "phone", "email", Some("ceo"))
+  val evidenceOfPowerToActTrue                                   = true
+  val evidenceOfPowerToActFalse                                  = false
+  val applicantLegalDetails: ApplicantLegalContact               =
+    ApplicantLegalContact("companyName", "legalContact", "phone", Some("otherPhone"), "email")
+  val applicantSecondaryLegalDetails: WhoIsSecondaryLegalContact =
+    WhoIsSecondaryLegalContact("otherLegalCompany", "otherLegalContact", "phone", "email")
+  val technicalContactDetails: TechnicalContact                  =
+    TechnicalContact("techContactCompany", "techContactName", "phone", "email")
+  val secondaryTechnicalContactDetails: TechnicalContact         =
+    TechnicalContact("secondaryTechContactCompany", "secondaryTechContactName", "phone", "email")
 
   val representativeContact: RepresentativeContact = RepresentativeContact(
     representativeDetails.contactName,
@@ -88,7 +93,7 @@ object ContactsConstants {
     ukAddress
   )
 
-  val radioOptionsRep: (ContactOptions, String) = (ContactOptions.RepresentativeContact, "repContact")
+  val radioOptionsRep: (ContactOptions, String)   = (ContactOptions.RepresentativeContact, "repContact")
   val radioOptionsLegal: (ContactOptions, String) = (ContactOptions.LegalContact, "legalContact")
 
 }

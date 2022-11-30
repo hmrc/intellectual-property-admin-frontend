@@ -28,17 +28,17 @@ import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext
 
-class BulkInsertAfaController @Inject()(
-                                         identify: IdentifierAction,
-                                         afaConnector: AfaConnector,
-                                         val controllerComponents: MessagesControllerComponents
-                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class BulkInsertAfaController @Inject() (
+  identify: IdentifierAction,
+  afaConnector: AfaConnector,
+  val controllerComponents: MessagesControllerComponents
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def submit(): Action[Seq[PublishedAfa]] = identify.async(parse.json[Seq[PublishedAfa]]) {
-    implicit request =>
+  def submit(): Action[Seq[PublishedAfa]] = identify.async(parse.json[Seq[PublishedAfa]]) { implicit request =>
+    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-      implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
-
-      afaConnector.bulkInsert(request.body).map(_ => Ok)
+    afaConnector.bulkInsert(request.body).map(_ => Ok)
   }
 }

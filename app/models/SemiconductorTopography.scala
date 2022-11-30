@@ -29,14 +29,19 @@ object SemiconductorTopography {
 
     import play.api.libs.functional.syntax._
 
-    (__ \ "rightsType").read[String].flatMap[String] {
-      t =>
+    (__ \ "rightsType")
+      .read[String]
+      .flatMap[String] { t =>
         if (t == "semiconductorTopography") {
           Reads(_ => JsSuccess(t))
         } else {
           Reads(_ => JsError("rightsType must be `semiconductorTopography`"))
         }
-    }.andKeep((__ \ "description").read[String]
-      .map(SemiconductorTopography(_)))
+      }
+      .andKeep(
+        (__ \ "description")
+          .read[String]
+          .map(SemiconductorTopography(_))
+      )
   }
 }

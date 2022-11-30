@@ -79,18 +79,30 @@ class ViewDraftsControllerSpec extends SpecBase with MockitoSugar with ModelGene
 
       val answers1 =
         emptyUserAnswersWithAfaId(11)
-          .set(CompanyApplyingPage, CompanyApplying("ipo 1", Some("AN"))).success.value
-          .set(ApplicationReceiptDatePage, LocalDate.now).success.value
+          .set(CompanyApplyingPage, CompanyApplying("ipo 1", Some("AN")))
+          .success
+          .value
+          .set(ApplicationReceiptDatePage, LocalDate.now)
+          .success
+          .value
 
       val answers2 =
         emptyUserAnswersWithAfaId(22)
-          .set(CompanyApplyingPage, CompanyApplying("ipo 2", Some("AN"))).success.value
-          .set(ApplicationReceiptDatePage, LocalDate.now).success.value
+          .set(CompanyApplyingPage, CompanyApplying("ipo 2", Some("AN")))
+          .success
+          .value
+          .set(ApplicationReceiptDatePage, LocalDate.now)
+          .success
+          .value
 
       val answers3 =
         emptyUserAnswersWithAfaId(33)
-          .set(CompanyApplyingPage, CompanyApplying("ipo 3", Some("AN"))).success.value
-          .set(ApplicationReceiptDatePage, LocalDate.now).success.value
+          .set(CompanyApplyingPage, CompanyApplying("ipo 3", Some("AN")))
+          .success
+          .value
+          .set(ApplicationReceiptDatePage, LocalDate.now)
+          .success
+          .value
 
       val lock1 = Lock(answers1.id, "id", "this user's name")
 

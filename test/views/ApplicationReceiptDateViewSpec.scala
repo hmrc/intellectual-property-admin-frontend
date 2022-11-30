@@ -26,8 +26,8 @@ import views.html.ApplicationReceiptDateView
 class ApplicationReceiptDateViewSpec extends DateViewBehaviours {
 
   val messageKeyPrefix = "applicationReceiptDate"
-  val title: String = "When did HMRC receive the application? - Protect intellectual property rights"
-  val heading: String = "When did HMRC receive the application?"
+  val title: String    = "When did HMRC receive the application? - Protect intellectual property rights"
+  val heading: String  = "When did HMRC receive the application?"
 
   val form = new ApplicationReceiptDateFormProvider()()
 

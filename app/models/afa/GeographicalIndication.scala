@@ -29,16 +29,18 @@ object GeographicalIndication {
 
     import play.api.libs.functional.syntax._
 
-    (__ \ "rightsType").read[String].flatMap[String] {
-      t =>
+    (__ \ "rightsType")
+      .read[String]
+      .flatMap[String] { t =>
         if (t == "geographicalIndication") {
           Reads(_ => JsSuccess(t))
         } else {
           Reads(_ => JsError("rightsType must be `geographicalIndication`"))
         }
-    }.andKeep(
+      }
+      .andKeep(
         (__ \ "description").read[String] map GeographicalIndication.apply
-    )
+      )
   }
 
   implicit lazy val writes: Writes[GeographicalIndication] = {
@@ -47,7 +49,7 @@ object GeographicalIndication {
 
     (
       (__ \ "rightsType").write[String] and
-      (__ \ "description").write[String]
+        (__ \ "description").write[String]
     )(a => (a.rightsType, a.description))
   }
 }

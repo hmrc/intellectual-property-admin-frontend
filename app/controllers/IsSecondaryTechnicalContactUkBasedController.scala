@@ -33,61 +33,61 @@ import views.html.IsSecondaryTechnicalContactUkBasedView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IsSecondaryTechnicalContactUkBasedController @Inject()(
-                                                              override val messagesApi: MessagesApi,
-                                                              afaService: AfaService,
-                                                              navigator: Navigator,
-                                                              identify: IdentifierAction,
-                                                              getLock: LockAfaActionProvider,
-                                                              getData: AfaDraftDataRetrievalAction,
-                                                              requireData: DataRequiredAction,
-                                                              formProvider: IsSecondaryTechnicalContactUkBasedFormProvider,
-                                                              val controllerComponents: MessagesControllerComponents,
-                                                              view: IsSecondaryTechnicalContactUkBasedView
-                                                        )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IsSecondaryTechnicalContactUkBasedController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  formProvider: IsSecondaryTechnicalContactUkBasedFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IsSecondaryTechnicalContactUkBasedView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getSecondaryTechnicalContactName {
-        secondaryTechnicalContactName =>
-          val form: Form[Boolean] = formProvider(secondaryTechnicalContactName)
-          val preparedForm = request.userAnswers.get(IsSecondaryTechnicalContactUkBasedPage) match {
-            case None => form
-            case Some(value) => form.fill(value)
-          }
+  def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getSecondaryTechnicalContactName { secondaryTechnicalContactName =>
+        val form: Form[Boolean] = formProvider(secondaryTechnicalContactName)
+        val preparedForm        = request.userAnswers.get(IsSecondaryTechnicalContactUkBasedPage) match {
+          case None        => form
+          case Some(value) => form.fill(value)
+        }
 
-          Future.successful(Ok(view(preparedForm, mode, secondaryTechnicalContactName, afaId)))
+        Future.successful(Ok(view(preparedForm, mode, secondaryTechnicalContactName, afaId)))
       }
-  }
+    }
 
-  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] = (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async {
-    implicit request =>
-      getSecondaryTechnicalContactName {
-        secondaryTechnicalContactName =>
+  def onSubmit(mode: Mode, afaId: AfaId): Action[AnyContent] =
+    (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
+      getSecondaryTechnicalContactName { secondaryTechnicalContactName =>
+        val form = formProvider(secondaryTechnicalContactName)
 
-          val form = formProvider(secondaryTechnicalContactName)
-
-          form.bindFromRequest().fold(
+        form
+          .bindFromRequest()
+          .fold(
             (formWithErrors: Form[_]) =>
               Future.successful(BadRequest(view(formWithErrors, mode, secondaryTechnicalContactName, afaId))),
-
-            value => {
+            value =>
               for {
                 updatedAnswers <- Future.fromTry(request.userAnswers.set(IsSecondaryTechnicalContactUkBasedPage, value))
-                _ <- afaService.set(updatedAnswers)
+                _              <- afaService.set(updatedAnswers)
               } yield Redirect(navigator.nextPage(IsSecondaryTechnicalContactUkBasedPage, mode, updatedAnswers))
-            }
           )
       }
-  }
+    }
 
-  private def getSecondaryTechnicalContactName(block: String => Future[Result])
-                                          (implicit request: DataRequest[AnyContent]): Future[Result] = {
-
-    request.userAnswers.get(WhoIsSecondaryTechnicalContactPage).map {
-      secondaryTechnicalContactName =>
+  private def getSecondaryTechnicalContactName(
+    block: String => Future[Result]
+  )(implicit request: DataRequest[AnyContent]): Future[Result] =
+    request.userAnswers
+      .get(WhoIsSecondaryTechnicalContactPage)
+      .map { secondaryTechnicalContactName =>
         block(secondaryTechnicalContactName.contactName)
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
+      }
+      .getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 
-  }
 }

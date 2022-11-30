@@ -70,7 +70,11 @@ class ConfirmRemoveOtherContactViewSpec extends ViewBehaviours {
 
       behave like pageWithBackLink(applyView)
 
-      behave like pageWithGuidanceWithParameter(applyView, s"$messageKeyPrefix.guidance", messageParameter = "technical")
+      behave like pageWithGuidanceWithParameter(
+        applyView,
+        s"$messageKeyPrefix.guidance",
+        messageParameter = "technical"
+      )
 
       behave like pageWithButtonLinkUsingDesignSystem(
         applyView,

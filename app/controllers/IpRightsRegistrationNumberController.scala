@@ -34,38 +34,37 @@ import views.html.IpRightsRegistrationNumberView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IpRightsRegistrationNumberController @Inject()(
-                                                      override val messagesApi: MessagesApi,
-                                                      afaService: AfaService,
-                                                      navigator: Navigator,
-                                                      identify: IdentifierAction,
-                                                      getLock: LockAfaActionProvider,
-                                                      getData: AfaDraftDataRetrievalAction,
-                                                      requireData: DataRequiredAction,
-                                                      validateIndex: IpRightsIndexActionFilterProvider,
-                                                      formProvider: IpRightsRegistrationNumberFormProvider,
-                                                      val controllerComponents: MessagesControllerComponents,
-                                                      view: IpRightsRegistrationNumberView
-                                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IpRightsRegistrationNumberController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  validateIndex: IpRightsIndexActionFilterProvider,
+  formProvider: IpRightsRegistrationNumberFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IpRightsRegistrationNumberView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   def onPageLoad(mode: Mode, index: Int, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndex(index)).async {
 
       implicit request =>
-        getIpRightsType(index) {
-          ipRightsType =>
-            getOtherExistingRegistrationNumbers(index) {
-              regNums =>
+        getIpRightsType(index) { ipRightsType =>
+          getOtherExistingRegistrationNumbers(index) { regNums =>
+            val form = formProvider(ipRightsType, regNums)
 
-                val form = formProvider(ipRightsType, regNums)
-
-                val preparedForm = request.userAnswers.get(IpRightsRegistrationNumberPage(index)) match {
-                  case None => form
-                  case Some(value) => form.fill(value)
-                }
-
-                Future.successful(Ok(view(preparedForm, mode, index, afaId, ipRightsType)))
+            val preparedForm = request.userAnswers.get(IpRightsRegistrationNumberPage(index)) match {
+              case None        => form
+              case Some(value) => form.fill(value)
             }
+
+            Future.successful(Ok(view(preparedForm, mode, index, afaId, ipRightsType)))
+          }
         }
     }
 
@@ -73,63 +72,60 @@ class IpRightsRegistrationNumberController @Inject()(
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndex(index)).async {
 
       implicit request =>
-        getIpRightsType(index) {
-          ipRightsType =>
-            getOtherExistingRegistrationNumbers(index) {
-              regNums =>
+        getIpRightsType(index) { ipRightsType =>
+          getOtherExistingRegistrationNumbers(index) { regNums =>
+            val form = formProvider(ipRightsType, regNums)
 
-              val form = formProvider(ipRightsType, regNums)
-
-              form.bindFromRequest().fold(
+            form
+              .bindFromRequest()
+              .fold(
                 (formWithErrors: Form[_]) =>
                   Future.successful(BadRequest(view(formWithErrors, mode, index, afaId, ipRightsType))),
-
-                value => {
+                value =>
                   for {
-                    updatedAnswers <- Future.fromTry(request.userAnswers.set(IpRightsRegistrationNumberPage(index), value))
-                    _ <- afaService.set(updatedAnswers)
+                    updatedAnswers <-
+                      Future.fromTry(request.userAnswers.set(IpRightsRegistrationNumberPage(index), value))
+                    _              <- afaService.set(updatedAnswers)
                   } yield Redirect(navigator.nextPage(IpRightsRegistrationNumberPage(index), mode, updatedAnswers))
-                }
               )
-            }
+          }
         }
-  }
+    }
 
-  private def getIpRightsType(index: Int)(block: String => Future[Result])
-                              (implicit request: DataRequest[AnyContent], messages: Messages): Future[Result] = {
-
-    request.userAnswers.get(IpRightsTypePage(index)).map {
-      ipRightsType =>
-
+  private def getIpRightsType(
+    index: Int
+  )(block: String => Future[Result])(implicit request: DataRequest[AnyContent], messages: Messages): Future[Result] =
+    request.userAnswers
+      .get(IpRightsTypePage(index))
+      .map { ipRightsType =>
         block(messages(s"ipRightsRegistrationNumber.$ipRightsType.name"))
-    }.getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
-  }
+      }
+      .getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))
 
-  private def getOtherExistingRegistrationNumbers(iprIndex: Int)
-                                                 (block: Seq[String] => Future[Result])(implicit request: DataRequest[AnyContent]) = {
-
-    request.userAnswers.get(IprDetailsQuery).map {
-      existingIpRights =>
-
-        val otherIpRightsWithRegNums = existingIpRights.flatMap(
-          ipRight =>
-          if (ipRight.registrationNumber.isDefined) Some(ipRight) else None
-        )
+  private def getOtherExistingRegistrationNumbers(
+    iprIndex: Int
+  )(block: Seq[String] => Future[Result])(implicit request: DataRequest[AnyContent]) =
+    request.userAnswers
+      .get(IprDetailsQuery)
+      .map { existingIpRights =>
+        val otherIpRightsWithRegNums =
+          existingIpRights.flatMap(ipRight => if (ipRight.registrationNumber.isDefined) Some(ipRight) else None)
 
         val otherRegNums = otherIpRightsWithRegNums.flatMap(_.registrationNumber).map(_.toUpperCase)
 
         block(
-          if(request.userAnswers.get(IpRightsRegistrationNumberPage(iprIndex)).isDefined) {
-            request.userAnswers.get(IpRightsRegistrationNumberPage(iprIndex)).map(
-              reg => {
-
+          if (request.userAnswers.get(IpRightsRegistrationNumberPage(iprIndex)).isDefined) {
+            request.userAnswers
+              .get(IpRightsRegistrationNumberPage(iprIndex))
+              .map { reg =>
                 otherRegNums.filter(_ != reg.toUpperCase)
               }
-            ).toSeq.flatten
+              .toSeq
+              .flatten
           } else {
             otherRegNums
           }
         )
-    }.getOrElse(block(Seq.empty))
-  }
+      }
+      .getOrElse(block(Seq.empty))
 }

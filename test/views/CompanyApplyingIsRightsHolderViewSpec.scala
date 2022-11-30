@@ -27,15 +27,14 @@ import org.scalacheck.Arbitrary.arbitrary
 
 class CompanyApplyingIsRightsHolderViewSpec extends QuestionViewBehaviours[CompanyApplyingIsRightsHolder] {
 
-  val messageKeyPrefix = "companyApplyingIsRightsHolder"
+  val messageKeyPrefix    = "companyApplyingIsRightsHolder"
   val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > ul > li > a"
-  val radioErrorMessage = "#value-error"
+  val radioErrorMessage   = "#value-error"
 
-  def radioButtonSelector(radioButtonIndex: Int) : String =
+  def radioButtonSelector(radioButtonIndex: Int): String =
     s"#main-content > div > div > form > div > fieldset > div > div:nth-child($radioButtonIndex) > label"
 
   val form = new CompanyApplyingIsRightsHolderFormProvider()()
-
 
   val view = injectInstanceOf[CompanyApplyingIsRightsHolderView](Some(UserAnswers(afaId)))
 
@@ -59,14 +58,12 @@ class CompanyApplyingIsRightsHolderViewSpec extends QuestionViewBehaviours[Compa
 
         val doc = asDocument(applyView(form))
 
-        for (option <- CompanyApplyingIsRightsHolder.radioItems(form)) {
+        for (option <- CompanyApplyingIsRightsHolder.radioItems(form))
           assertContainsRadioButton(doc, option.id.get, "value", option.value.get, false)
-        }
       }
     }
 
-    for (option <- CompanyApplyingIsRightsHolder.radioItems(form)) {
-
+    for (option <- CompanyApplyingIsRightsHolder.radioItems(form))
       s"rendered with a value of '${option.value.get}'" must {
 
         s"have the '${option.value.get}' radio button selected" in {
@@ -75,12 +72,10 @@ class CompanyApplyingIsRightsHolderViewSpec extends QuestionViewBehaviours[Compa
 
           assertContainsRadioOption(doc, option.id.get, "value", option.value.get, "radio", true)
 
-          for (unselectedOption <- CompanyApplyingIsRightsHolder.radioItems(form).filterNot(o => o == option)) {
+          for (unselectedOption <- CompanyApplyingIsRightsHolder.radioItems(form).filterNot(o => o == option))
             assertContainsRadioButton(doc, unselectedOption.id.get, "value", unselectedOption.value.get, false)
-          }
         }
       }
-    }
   }
 
   behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
@@ -97,13 +92,15 @@ class CompanyApplyingIsRightsHolderViewSpec extends QuestionViewBehaviours[Compa
     }
 
     "radio item must be authorised applicant" in {
-      elementText(radioButtonSelector(3)) mustBe "Person or entity formally authorised to both use and initiate proceedings to protect the rights"
+      elementText(
+        radioButtonSelector(3)
+      ) mustBe "Person or entity formally authorised to both use and initiate proceedings to protect the rights"
     }
   }
 
   "rendered with form error no options selected" must {
-    lazy implicit val document: Document = asDocument(view(form.bind(
-      Map("value" -> "")),NormalMode, afaId, companyName)(fakeRequest, messages))
+    lazy implicit val document: Document =
+      asDocument(view(form.bind(Map("value" -> "")), NormalMode, afaId, companyName)(fakeRequest, messages))
 
     "display the correct document title" in {
       document.title mustBe "Error: What is the status of the applicant? - Protect intellectual property rights"

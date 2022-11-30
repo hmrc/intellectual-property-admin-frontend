@@ -39,7 +39,6 @@ class IpRightsDescriptionWithBrandViewSpec extends TextInputViewBehaviours[IpRig
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, NormalMode, 0, afaId)(fakeRequest, messages)
 
-
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView(form), messageKeyPrefix)
 
     behave like pageWithBackLink(applyView(form))
@@ -61,6 +60,6 @@ class IpRightsDescriptionWithBrandViewSpec extends TextInputViewBehaviours[IpRig
     )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
-    
+
   }
 }

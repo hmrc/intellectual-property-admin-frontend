@@ -32,10 +32,8 @@ class IpRightsTypeSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
 
       val gen = Gen.oneOf(IpRightsType.values.toSeq)
 
-      forAll(gen) {
-        ipRightsType =>
-
-          JsString(ipRightsType.toString).validate[IpRightsType].asOpt.value mustEqual ipRightsType
+      forAll(gen) { ipRightsType =>
+        JsString(ipRightsType.toString).validate[IpRightsType].asOpt.value mustEqual ipRightsType
       }
     }
 
@@ -43,10 +41,8 @@ class IpRightsTypeSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
 
       val gen = arbitrary[String] suchThat (!IpRightsType.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[IpRightsType] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[IpRightsType] mustEqual JsError("error.invalid")
       }
     }
 
@@ -54,10 +50,8 @@ class IpRightsTypeSpec extends AnyWordSpec with Matchers with ScalaCheckProperty
 
       val gen = Gen.oneOf(IpRightsType.values.toSeq)
 
-      forAll(gen) {
-        ipRightsType =>
-
-          Json.toJson(ipRightsType) mustEqual JsString(ipRightsType.toString)
+      forAll(gen) { ipRightsType =>
+        Json.toJson(ipRightsType) mustEqual JsString(ipRightsType.toString)
       }
     }
   }

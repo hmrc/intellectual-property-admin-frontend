@@ -25,6 +25,9 @@ class PermissionToDestroySmallConsignmentsFormProvider @Inject() extends Mapping
 
   def apply(): Form[Boolean] =
     Form(
-      "value" -> boolean("permissionToDestroySmallConsignments.error.required", "permissionToDestroySmallConsignments.error.required")
+      "value" -> boolean(
+        "permissionToDestroySmallConsignments.error.required",
+        "permissionToDestroySmallConsignments.error.required"
+      )
     )
 }

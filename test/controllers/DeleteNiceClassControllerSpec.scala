@@ -38,7 +38,7 @@ class DeleteNiceClassControllerSpec extends SpecBase with MockitoSugar with Lock
 
   def onwardRoute: Call = Call("GET", "/foo")
 
-  val afaId: AfaId= userAnswersId
+  val afaId: AfaId = userAnswersId
 
   val formProvider = new DeleteNiceClassFormProvider()
 

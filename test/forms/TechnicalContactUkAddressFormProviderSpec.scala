@@ -21,16 +21,16 @@ import play.api.data.FormError
 
 class TechnicalContactUkAddressFormProviderSpec extends StringFieldBehaviours {
 
-  val linesMaxLength:Int = 100
-  val postcodeMaxLength:Int = 10
+  val linesMaxLength: Int    = 100
+  val postcodeMaxLength: Int = 10
 
   val form = new TechnicalContactUkAddressFormProvider()()
 
   ".line1" must {
 
-    val fieldName = "line1"
+    val fieldName   = "line1"
     val requiredKey = "technicalContactUkAddress.error.line1.required"
-    val lengthKey = "technicalContactUkAddress.error.line1.length"
+    val lengthKey   = "technicalContactUkAddress.error.line1.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -78,9 +78,9 @@ class TechnicalContactUkAddressFormProviderSpec extends StringFieldBehaviours {
 
   ".town" must {
 
-    val fieldName = "town"
+    val fieldName   = "town"
     val requiredKey = "technicalContactUkAddress.error.town.required"
-    val lengthKey = "technicalContactUkAddress.error.town.length"
+    val lengthKey   = "technicalContactUkAddress.error.town.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -128,10 +128,9 @@ class TechnicalContactUkAddressFormProviderSpec extends StringFieldBehaviours {
 
   ".postCode" must {
 
-    val fieldName = "postCode"
+    val fieldName   = "postCode"
     val requiredKey = "technicalContactUkAddress.error.postCode.required"
-    val lengthKey = "technicalContactUkAddress.error.postCode.length"
-
+    val lengthKey   = "technicalContactUkAddress.error.postCode.length"
 
     behave like fieldThatBindsValidData(
       form,

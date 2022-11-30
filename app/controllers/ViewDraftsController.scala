@@ -28,38 +28,34 @@ import views.html.ViewDraftsView
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext
 
-class ViewDraftsController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       afaService: AfaService,
-                                       lockService: LockService,
-                                       view: ViewDraftsView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class ViewDraftsController @Inject() (
+  override val messagesApi: MessagesApi,
+  identify: IdentifierAction,
+  val controllerComponents: MessagesControllerComponents,
+  afaService: AfaService,
+  lockService: LockService,
+  view: ViewDraftsView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(): Action[AnyContent] = identify.async {
-    implicit request =>
+  def onPageLoad(): Action[AnyContent] = identify.async { implicit request =>
+    def draftLocked(draftId: AfaId)(lock: Lock): Boolean =
+      lock._id == draftId && lock.userId != request.identifier
 
-      def draftLocked(draftId: AfaId)(lock: Lock): Boolean =
-        lock._id == draftId && lock.userId != request.identifier
+    val draftLockPairs = for {
+      drafts <- afaService.draftList
+      locks  <- lockService.lockList
+    } yield drafts.map { userAnswers =>
+      (userAnswers, locks.find(draftLocked(userAnswers.id)))
+    }
 
-      val draftLockPairs = for {
-        drafts <- afaService.draftList
-        locks  <- lockService.lockList
-      } yield drafts.map {
-        userAnswers =>
-          (userAnswers, locks.find(draftLocked(userAnswers.id)))
+    draftLockPairs.map { draftLockPairs =>
+      val rows = draftLockPairs.map { case (userAnswers, lock) =>
+        DraftRow.apply(userAnswers, lock.isDefined)
       }
 
-      draftLockPairs.map {
-        draftLockPairs =>
-
-          val rows = draftLockPairs.map {
-            case (userAnswers, lock) =>
-              DraftRow.apply(userAnswers, lock.isDefined)
-          }
-
-          Ok(view(rows))
-      }
+      Ok(view(rows))
+    }
   }
 }

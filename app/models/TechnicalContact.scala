@@ -19,11 +19,11 @@ package models
 import play.api.libs.json.{Json, OFormat}
 
 final case class TechnicalContact(
-                             companyName: String,
-                             contactName: String,
-                             contactTelephone: String,
-                             contactEmail: String
-                           )
+  companyName: String,
+  contactName: String,
+  contactTelephone: String,
+  contactEmail: String
+)
 
 object TechnicalContact {
   implicit val formats: OFormat[TechnicalContact] = Json.format[TechnicalContact]

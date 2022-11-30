@@ -16,7 +16,6 @@
 
 package pages
 
-
 import models.RepresentativeDetails
 import pages.behaviours.PageBehaviours
 

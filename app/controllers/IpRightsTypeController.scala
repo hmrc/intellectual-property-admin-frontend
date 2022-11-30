@@ -32,19 +32,21 @@ import views.html.IpRightsTypeView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IpRightsTypeController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        afaService: AfaService,
-                                        navigator: Navigator,
-                                        identify: IdentifierAction,
-                                        getLock: LockAfaActionProvider,
-                                        getData: AfaDraftDataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        validateIndex: IpRightsIndexActionFilterProvider,
-                                        formProvider: IpRightsTypeFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: IpRightsTypeView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IpRightsTypeController @Inject() (
+  override val messagesApi: MessagesApi,
+  afaService: AfaService,
+  navigator: Navigator,
+  identify: IdentifierAction,
+  getLock: LockAfaActionProvider,
+  getData: AfaDraftDataRetrievalAction,
+  requireData: DataRequiredAction,
+  validateIndex: IpRightsIndexActionFilterProvider,
+  formProvider: IpRightsTypeFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IpRightsTypeView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def form = formProvider()
 
@@ -52,9 +54,8 @@ class IpRightsTypeController @Inject()(
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndex(index)) {
 
       implicit request =>
-
         val preparedForm = request.userAnswers.get(IpRightsTypePage(index)) match {
-          case None => form
+          case None        => form
           case Some(value) => form.fill(value)
         }
 
@@ -64,17 +65,15 @@ class IpRightsTypeController @Inject()(
   def onSubmit(mode: Mode, index: Int, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndex(index)).async {
       implicit request =>
-
-        form.bindFromRequest().fold(
-          (formWithErrors: Form[_]) =>
-            Future.successful(BadRequest(view(formWithErrors, mode, index, afaId))),
-
-          value => {
-            for {
-              updatedAnswers <- Future.fromTry(request.userAnswers.set(IpRightsTypePage(index), value))
-              _              <- afaService.set(updatedAnswers)
-            } yield Redirect(navigator.nextPage(IpRightsTypePage(index), mode, updatedAnswers))
-          }
-        )
+        form
+          .bindFromRequest()
+          .fold(
+            (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, mode, index, afaId))),
+            value =>
+              for {
+                updatedAnswers <- Future.fromTry(request.userAnswers.set(IpRightsTypePage(index), value))
+                _              <- afaService.set(updatedAnswers)
+              } yield Redirect(navigator.nextPage(IpRightsTypePage(index), mode, updatedAnswers))
+          )
     }
 }

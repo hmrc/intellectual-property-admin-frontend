@@ -18,7 +18,11 @@ package models
 
 import play.api.libs.json.{Json, Reads}
 
-final case class IprDetails(description: Option[String], rightsType: Option[IpRightsType], registrationNumber: Option[String])
+final case class IprDetails(
+  description: Option[String],
+  rightsType: Option[IpRightsType],
+  registrationNumber: Option[String]
+)
 
 object IprDetails {
 

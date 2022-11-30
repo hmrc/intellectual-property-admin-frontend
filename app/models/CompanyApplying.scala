@@ -18,9 +18,7 @@ package models
 
 import play.api.libs.json._
 
-case class CompanyApplying (
-                             name: String,
-                             acronym: Option[String])
+case class CompanyApplying(name: String, acronym: Option[String])
 
 object CompanyApplying {
   val name = "companyName"

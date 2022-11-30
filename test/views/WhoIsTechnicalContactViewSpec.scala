@@ -69,5 +69,3 @@ class WhoIsTechnicalContactViewSpec extends TextInputViewBehaviours[TechnicalCon
     }
   }
 }
-
-

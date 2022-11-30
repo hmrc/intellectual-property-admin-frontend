@@ -33,7 +33,7 @@ case object IsCompanyApplyingUkBasedPage extends QuestionPage[Boolean] {
         userAnswers.remove(CompanyApplyingInternationalAddressPage)
       case Some(false) =>
         userAnswers.remove(CompanyApplyingUkAddressPage)
-      case _ =>
+      case _           =>
         super.cleanup(value, userAnswers)
     }
 }

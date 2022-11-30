@@ -26,11 +26,10 @@ import play.twirl.api.HtmlFormat
 import views.behavioursDesignSystem.TextInputViewBehaviours
 import views.html.RepresentativeContactView
 
-
 class RepresentativeContactViewSpec extends TextInputViewBehaviours[RepresentativeDetails] with Generators {
 
   val messageKeyPrefix = "representativeContact"
-  val applicantName = nonEmptyString.sample.value
+  val applicantName    = nonEmptyString.sample.value
 
   override val form = new RepresentativeContactFormProvider()()
 

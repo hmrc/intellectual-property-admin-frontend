@@ -33,7 +33,7 @@ class CheckYourAnswersViewSpec extends ViewBehaviours {
 
   "When there is no evidence of power to act the green submit button" must {
     "read 'Confirm evidence of power to act'" in {
-      val doc = asDocument(applyView("checkYourAnswers.noEvidence", true))
+      val doc     = asDocument(applyView("checkYourAnswers.noEvidence", true))
       val buttons = doc.getElementsByClass("govuk-button")
 
       buttons.size() mustEqual 1
@@ -43,7 +43,7 @@ class CheckYourAnswersViewSpec extends ViewBehaviours {
 
   "When there is evidence of power to act but the application is incomplete, the green submit button" must {
     "read 'Continue application'" in {
-      val doc = asDocument(applyView("checkYourAnswers.continue", false))
+      val doc     = asDocument(applyView("checkYourAnswers.continue", false))
       val buttons = doc.getElementsByClass("govuk-button")
 
       buttons.size() mustEqual 1

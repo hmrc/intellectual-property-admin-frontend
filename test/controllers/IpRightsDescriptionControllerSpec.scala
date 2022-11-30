@@ -47,7 +47,8 @@ class IpRightsDescriptionControllerSpec extends SpecBase with MockitoSugar with 
   val formProvider = new IpRightsDescriptionFormProvider()
   private def form = formProvider()
 
-  lazy val ipRightsDescriptionRoute: String = routes.IpRightsDescriptionController.onPageLoad(NormalMode, index, afaId).url
+  lazy val ipRightsDescriptionRoute: String =
+    routes.IpRightsDescriptionController.onPageLoad(NormalMode, index, afaId).url
 
   val baseAnswers: UserAnswers = UserAnswers(afaId).set(IpRightsTypePage(index), rightType).success.value
 

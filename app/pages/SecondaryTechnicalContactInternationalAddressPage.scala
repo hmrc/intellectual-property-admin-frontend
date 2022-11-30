@@ -25,11 +25,9 @@ case object SecondaryTechnicalContactInternationalAddressPage extends QuestionPa
 
   override def toString: String = "secondaryTechnicalContactInternationalAddress"
 
-  override def isRequired(answers: UserAnswers): Option[Boolean] = {
+  override def isRequired(answers: UserAnswers): Option[Boolean] =
     answers
       .get(IsSecondaryTechnicalContactUkBasedPage)
       .map(ukBased => !ukBased)
-  }
 
 }
-

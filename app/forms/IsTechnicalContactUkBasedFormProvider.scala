@@ -26,6 +26,10 @@ class IsTechnicalContactUkBasedFormProvider @Inject() extends Mappings {
   def apply(infringementContactName: String): Form[Boolean] =
     Form(
       "value" ->
-        boolean("isTechnicalContactUkBased.error.required", "isTechnicalContactUkBased.error.required", infringementContactName)
+        boolean(
+          "isTechnicalContactUkBased.error.required",
+          "isTechnicalContactUkBased.error.required",
+          infringementContactName
+        )
     )
 }

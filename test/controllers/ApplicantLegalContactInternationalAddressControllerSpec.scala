@@ -40,9 +40,10 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
 
   val afaId: AfaId = userAnswersId
 
-  val applicantLegalContact: ApplicantLegalContact = ApplicantLegalContact("name", "companyName", "telephone", None, "email")
+  val applicantLegalContact: ApplicantLegalContact =
+    ApplicantLegalContact("name", "companyName", "telephone", None, "email")
 
-  val formProvider = new ApplicantLegalContactInternationalAddressFormProvider()
+  val formProvider                             = new ApplicantLegalContactInternationalAddressFormProvider()
   private def form: Form[InternationalAddress] = formProvider()
 
   lazy val applicantLegalContactInternationalAddressRoute: String =
@@ -124,7 +125,7 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
 
       val request =
         FakeRequest(POST, applicantLegalContactInternationalAddressRoute)
-      .withFormUrlEncodedBody(("value", "invalid value"))
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
 

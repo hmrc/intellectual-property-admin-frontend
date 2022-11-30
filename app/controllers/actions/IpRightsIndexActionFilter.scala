@@ -23,7 +23,8 @@ import play.api.mvc.{ActionFilter, Result, Results}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IpRightsIndexActionFilter(index: Int, protected val executionContext: ExecutionContext) extends ActionFilter[DataRequest] {
+class IpRightsIndexActionFilter(index: Int, protected val executionContext: ExecutionContext)
+    extends ActionFilter[DataRequest] {
 
   override protected def filter[A](request: DataRequest[A]): Future[Option[Result]] = {
 
@@ -37,7 +38,7 @@ class IpRightsIndexActionFilter(index: Int, protected val executionContext: Exec
   }
 }
 
-class IpRightsIndexActionFilterProvider @Inject()(executionContext: ExecutionContext) {
+class IpRightsIndexActionFilterProvider @Inject() (executionContext: ExecutionContext) {
 
   def apply(index: Int): IpRightsIndexActionFilter =
     new IpRightsIndexActionFilter(index, executionContext)

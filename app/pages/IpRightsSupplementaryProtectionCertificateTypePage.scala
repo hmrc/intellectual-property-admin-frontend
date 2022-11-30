@@ -19,7 +19,8 @@ package pages
 import models.{IpRightsSupplementaryProtectionCertificateType, IpRightsType, UserAnswers}
 import play.api.libs.json.JsPath
 
-final case class IpRightsSupplementaryProtectionCertificateTypePage(index: Int) extends QuestionPage[IpRightsSupplementaryProtectionCertificateType] {
+final case class IpRightsSupplementaryProtectionCertificateTypePage(index: Int)
+    extends QuestionPage[IpRightsSupplementaryProtectionCertificateType] {
 
   override def path: JsPath = JsPath \ "ipRights" \ index \ toString
 
@@ -28,8 +29,7 @@ final case class IpRightsSupplementaryProtectionCertificateTypePage(index: Int) 
   override def isRequired(answers: UserAnswers): Option[Boolean] =
     answers
       .get(IpRightsTypePage(index))
-      .map {
-        rightsType =>
-          rightsType == IpRightsType.SupplementaryProtectionCertificate
+      .map { rightsType =>
+        rightsType == IpRightsType.SupplementaryProtectionCertificate
       }
 }

@@ -45,17 +45,29 @@ class DraftRowSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChec
       val arbitraryFutureDate = LocalDate.of(2100, 2, 2)
 
       val mockWorkingDaysService = mock[WorkingDaysService]
-      when(mockWorkingDaysService.workingDays(eqTo(Region.EnglandAndWales), any(), any())(any(), any())) thenReturn Future.successful(arbitraryFutureDate)
+      when(
+        mockWorkingDaysService.workingDays(eqTo(Region.EnglandAndWales), any(), any())(any(), any())
+      ) thenReturn Future.successful(arbitraryFutureDate)
 
       forAll(arbitrary[UserAnswers], arbitrary[String], arbitrary[LocalDate], arbitrary[Boolean]) {
         (initialAnswers, companyName, date, isLocked) =>
-
           val answers = initialAnswers
-            .set(CompanyApplyingPage, CompanyApplying(companyName, None)).success.value
-            .set(ApplicationReceiptDatePage, date).success.value
-            .set(PublicationDeadlineQuery, arbitraryFutureDate).success.value
+            .set(CompanyApplyingPage, CompanyApplying(companyName, None))
+            .success
+            .value
+            .set(ApplicationReceiptDatePage, date)
+            .success
+            .value
+            .set(PublicationDeadlineQuery, arbitraryFutureDate)
+            .success
+            .value
 
-          DraftRow(answers, isLocked) mustEqual DraftRow(Some(companyName), answers.id, Some(arbitraryFutureDate), isLocked)
+          DraftRow(answers, isLocked) mustEqual DraftRow(
+            Some(companyName),
+            answers.id,
+            Some(arbitraryFutureDate),
+            isLocked
+          )
       }
     }
   }

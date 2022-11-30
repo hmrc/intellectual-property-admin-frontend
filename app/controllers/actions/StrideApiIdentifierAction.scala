@@ -31,11 +31,13 @@ import uk.gov.hmrc.play.http.HeaderCarrierConverter
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class StrideApiIdentifierAction @Inject()(
-                                           override val authConnector: AuthConnector,
-                                           config: Configuration,
-                                           val parser: BodyParsers.Default
-                                         )(implicit val executionContext: ExecutionContext) extends ApiIdentifierAction with AuthorisedFunctions {
+class StrideApiIdentifierAction @Inject() (
+  override val authConnector: AuthConnector,
+  config: Configuration,
+  val parser: BodyParsers.Default
+)(implicit val executionContext: ExecutionContext)
+    extends ApiIdentifierAction
+    with AuthorisedFunctions {
 
   private val role: String = config.get[String]("login.role")
 
@@ -43,16 +45,19 @@ class StrideApiIdentifierAction @Inject()(
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequest(request)
 
-    authorised(AuthProviders(PrivilegedApplication) and Enrolment(role)).retrieve(Retrievals.credentials and Retrievals.name) {
-      case Some(Credentials(providerId, _)) ~ Some(Name(Some(name), _)) =>
-        Future.successful(Right(IdentifierRequest(request, providerId, name)))
-      case _ =>
-        Future.successful(Left(Unauthorized))
-    }.recover {
-      case _ =>
+    authorised(AuthProviders(PrivilegedApplication) and Enrolment(role))
+      .retrieve(Retrievals.credentials and Retrievals.name) {
+        case Some(Credentials(providerId, _)) ~ Some(Name(Some(name), _)) =>
+          Future.successful(Right(IdentifierRequest(request, providerId, name)))
+        case _                                                            =>
+          Future.successful(Left(Unauthorized))
+      }
+      .recover { case _ =>
         Left(Unauthorized)
-    }
+      }
   }
 }
 
-trait ApiIdentifierAction extends ActionBuilder[IdentifierRequest, AnyContent] with ActionRefiner[Request, IdentifierRequest]
+trait ApiIdentifierAction
+    extends ActionBuilder[IdentifierRequest, AnyContent]
+    with ActionRefiner[Request, IdentifierRequest]

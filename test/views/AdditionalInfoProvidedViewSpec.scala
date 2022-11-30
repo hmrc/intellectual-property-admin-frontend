@@ -41,7 +41,12 @@ class AdditionalInfoProvidedViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPageUsingDesignSystem(form, applyView, messageKeyPrefix, routes.AdditionalInfoProvidedController.onSubmit(NormalMode, afaId).url)
+    behave like yesNoPageUsingDesignSystem(
+      form,
+      applyView,
+      messageKeyPrefix,
+      routes.AdditionalInfoProvidedController.onSubmit(NormalMode, afaId).url
+    )
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView(form))
   }

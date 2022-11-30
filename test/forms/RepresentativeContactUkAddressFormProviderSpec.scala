@@ -23,14 +23,14 @@ class RepresentativeContactUkAddressFormProviderSpec extends StringFieldBehaviou
 
   val form = new RepresentativeContactUkAddressFormProvider()()
 
-  val linesMaxLength: Int = 100
+  val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
 
   ".line1" must {
 
-    val fieldName = "line1"
+    val fieldName   = "line1"
     val requiredKey = "representativeContactUkAddress.error.line1.required"
-    val lengthKey = "representativeContactUkAddress.error.line1.length"
+    val lengthKey   = "representativeContactUkAddress.error.line1.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -78,9 +78,9 @@ class RepresentativeContactUkAddressFormProviderSpec extends StringFieldBehaviou
 
   ".town" must {
 
-    val fieldName = "town"
+    val fieldName   = "town"
     val requiredKey = "representativeContactUkAddress.error.town.required"
-    val lengthKey = "representativeContactUkAddress.error.town.length"
+    val lengthKey   = "representativeContactUkAddress.error.town.length"
 
     behave like fieldThatBindsValidData(
       form,
@@ -128,9 +128,9 @@ class RepresentativeContactUkAddressFormProviderSpec extends StringFieldBehaviou
 
   ".postCode" must {
 
-    val fieldName = "postCode"
+    val fieldName   = "postCode"
     val requiredKey = "representativeContactUkAddress.error.postCode.required"
-    val lengthKey = "representativeContactUkAddress.error.postCode.length"
+    val lengthKey   = "representativeContactUkAddress.error.postCode.length"
 
     behave like fieldThatBindsValidData(
       form,

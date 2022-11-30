@@ -32,27 +32,30 @@ import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class StrideIdentifierAction @Inject()(
-                                        override val authConnector: AuthConnector,
-                                        config: Configuration,
-                                        val parser: BodyParsers.Default,
-                                        appConfig: FrontendAppConfig
-                                      )(implicit val executionContext: ExecutionContext) extends IdentifierAction with AuthorisedFunctions {
+class StrideIdentifierAction @Inject() (
+  override val authConnector: AuthConnector,
+  config: Configuration,
+  val parser: BodyParsers.Default,
+  appConfig: FrontendAppConfig
+)(implicit val executionContext: ExecutionContext)
+    extends IdentifierAction
+    with AuthorisedFunctions {
 
   override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] = {
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     val loginUrl = config.get[String]("login.url")
-    val role = config.get[String]("login.role")
+    val role     = config.get[String]("login.role")
 
-    authorised(AuthProviders(PrivilegedApplication) and Enrolment(role)).retrieve(Retrievals.credentials and Retrievals.name) {
-      case Some(Credentials(providerId, _)) ~ Some(Name(Some(name), _)) =>
-        block(IdentifierRequest(request, providerId, name))
-      case _ =>
-        Future.successful(Redirect(routes.UnauthorisedController.onPageLoad))
-    } recover {
-      case _: NoActiveSession =>
+    authorised(AuthProviders(PrivilegedApplication) and Enrolment(role))
+      .retrieve(Retrievals.credentials and Retrievals.name) {
+        case Some(Credentials(providerId, _)) ~ Some(Name(Some(name), _)) =>
+          block(IdentifierRequest(request, providerId, name))
+        case _                                                            =>
+          Future.successful(Redirect(routes.UnauthorisedController.onPageLoad))
+      } recover {
+      case _: NoActiveSession        =>
         Redirect(loginUrl, Map("successURL" -> Seq(appConfig.manageIprHomeUrl)))
       case _: AuthorisationException =>
         Redirect(routes.UnauthorisedController.onPageLoad)
@@ -60,4 +63,6 @@ class StrideIdentifierAction @Inject()(
   }
 }
 
-trait IdentifierAction extends ActionBuilder[IdentifierRequest, AnyContent] with ActionFunction[Request, IdentifierRequest]
+trait IdentifierAction
+    extends ActionBuilder[IdentifierRequest, AnyContent]
+    with ActionFunction[Request, IdentifierRequest]

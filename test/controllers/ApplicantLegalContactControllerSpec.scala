@@ -40,21 +40,28 @@ class ApplicantLegalContactControllerSpec extends SpecBase with MockitoSugar wit
 
   val afaId: AfaId = userAnswersId
 
-  val formProvider = new ApplicantLegalContactFormProvider()
+  val formProvider                              = new ApplicantLegalContactFormProvider()
   private def form: Form[ApplicantLegalContact] = formProvider()
 
   lazy val applicantLegalContactRoute: String = routes.ApplicantLegalContactController.onPageLoad(NormalMode, afaId).url
 
-  val validAnswer: ApplicantLegalContact = ApplicantLegalContact("name", "companyName", "123123123", None, "email@example.com")
+  val validAnswer: ApplicantLegalContact =
+    ApplicantLegalContact("name", "companyName", "123123123", None, "email@example.com")
 
-  override val emptyUserAnswers: UserAnswers = UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.name,  None)).success.value
+  override val emptyUserAnswers: UserAnswers =
+    UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.name, None)).success.value
 
   def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, applicantLegalContactRoute)
 
   def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, applicantLegalContactRoute)
-      .withFormUrlEncodedBody(("name", "name value"), ("companyName", "companyName value"), ("telephone", "telephone value"), ("email", "email@example.com"))
+      .withFormUrlEncodedBody(
+        ("name", "name value"),
+        ("companyName", "companyName value"),
+        ("telephone", "telephone value"),
+        ("email", "email@example.com")
+      )
 
   "ApplicantLegalContact Controller" must {
 

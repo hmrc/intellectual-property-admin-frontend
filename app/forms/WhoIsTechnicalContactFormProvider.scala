@@ -25,20 +25,17 @@ import play.api.data.Forms._
 class WhoIsTechnicalContactFormProvider @Inject() extends Mappings {
 
   val nameCompanyEmailLimit: Int = 200
-  val phonesLimit: Int = 100
+  val phonesLimit: Int           = 100
 
   def apply(): Form[TechnicalContact] = Form(
     mapping(
-      "contactName" -> text("whoIsTechnicalContact.error.contactName.required")
+      "contactName"      -> text("whoIsTechnicalContact.error.contactName.required")
         .verifying(maxLength(nameCompanyEmailLimit, "whoIsTechnicalContact.error.contactName.length")),
-
-      "companyName" -> text("whoIsTechnicalContact.error.companyName.required")
+      "companyName"      -> text("whoIsTechnicalContact.error.companyName.required")
         .verifying(maxLength(nameCompanyEmailLimit, "whoIsTechnicalContact.error.companyName.length")),
-
       "contactTelephone" -> text("whoIsTechnicalContact.error.contactTelephone.required")
         .verifying(maxLength(phonesLimit, "whoIsTechnicalContact.error.contactTelephone.length")),
-
-      "contactEmail" -> email.verifying(validateEmail)
+      "contactEmail"     -> email.verifying(validateEmail)
     )(TechnicalContact.apply)(TechnicalContact.unapply)
   )
 }

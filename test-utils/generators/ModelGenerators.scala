@@ -24,7 +24,8 @@ import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
 
-  implicit lazy val arbitraryIpRightsSupplementaryProtectionCertificateType: Arbitrary[IpRightsSupplementaryProtectionCertificateType] =
+  implicit lazy val arbitraryIpRightsSupplementaryProtectionCertificateType
+    : Arbitrary[IpRightsSupplementaryProtectionCertificateType] =
     Arbitrary {
       Gen.oneOf(IpRightsSupplementaryProtectionCertificateType.values)
     }
@@ -60,11 +61,11 @@ trait ModelGenerators {
   implicit lazy val arbitraryApplicantLegalContact: Arbitrary[ApplicantLegalContact] =
     Arbitrary {
       for {
-        companyName   <- arbitrary[String]
-        name          <- arbitrary[String]
-        telephone     <- arbitrary[String]
-        otherPhone    <- Gen.option(arbitrary[String])
-        email         <- arbitrary[String]
+        companyName <- arbitrary[String]
+        name        <- arbitrary[String]
+        telephone   <- arbitrary[String]
+        otherPhone  <- Gen.option(arbitrary[String])
+        email       <- arbitrary[String]
       } yield ApplicantLegalContact(companyName, name, telephone, otherPhone, email)
     }
 
@@ -76,11 +77,11 @@ trait ModelGenerators {
   implicit lazy val arbitraryRepresentativeDetails: Arbitrary[RepresentativeDetails] =
     Arbitrary {
       for {
-        contactName       <- arbitrary[String]
-        companyName       <- arbitrary[String]
-        roleOrPosition    <- Gen.option(arbitrary[String])
-        phone             <- arbitrary[String]
-        email             <- arbitrary[String]
+        contactName    <- arbitrary[String]
+        companyName    <- arbitrary[String]
+        roleOrPosition <- Gen.option(arbitrary[String])
+        phone          <- arbitrary[String]
+        email          <- arbitrary[String]
       } yield RepresentativeDetails(contactName, companyName, phone, email, roleOrPosition)
     }
 
@@ -143,7 +144,7 @@ trait ModelGenerators {
 
     for {
       year <- Gen.chooseNum(minYear, maxYear)
-      id <- sequenceNumberGenerator
+      id   <- sequenceNumberGenerator
     } yield AfaId(Year.parse(year.toString), id, prefix = AfaId.UK)
   }
 
@@ -188,13 +189,12 @@ trait ModelGenerators {
     }
 
   implicit lazy val arbitraryRegion: Arbitrary[Region] =
-    Arbitrary{
+    Arbitrary {
       Gen.oneOf(Region.EnglandAndWales, Region.Scotland, Region.NorthernIreland)
     }
 
-  implicit lazy val arbitraryContactOption: Arbitrary[ContactOptions] = {
-    Arbitrary{
+  implicit lazy val arbitraryContactOption: Arbitrary[ContactOptions] =
+    Arbitrary {
       Gen.oneOf(ContactOptions.values)
     }
-  }
 }

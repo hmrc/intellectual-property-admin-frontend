@@ -26,13 +26,12 @@ class IpRightsNiceClassFormProvider @Inject() extends Mappings {
 
   def apply(existingNiceClasses: Seq[NiceClassId]): Form[NiceClassId] = {
 
-    val duplicateNiceClassConstraint: Constraint[NiceClassId] = Constraint {
-      id =>
-        if (existingNiceClasses contains id) {
-          Invalid("ipRightsNiceClass.error.duplicate", id)
-        } else {
-          Valid
-        }
+    val duplicateNiceClassConstraint: Constraint[NiceClassId] = Constraint { id =>
+      if (existingNiceClasses contains id) {
+        Invalid("ipRightsNiceClass.error.duplicate", id)
+      } else {
+        Valid
+      }
     }
 
     Form(

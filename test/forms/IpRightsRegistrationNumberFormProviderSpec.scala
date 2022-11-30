@@ -22,9 +22,9 @@ import play.api.data.FormError
 
 class IpRightsRegistrationNumberFormProviderSpec extends StringFieldBehaviours {
 
-  val requiredKey = "ipRightsRegistrationNumber.error.required"
-  val lengthKey = "ipRightsRegistrationNumber.error.length"
-  val maxLength = 100
+  val requiredKey          = "ipRightsRegistrationNumber.error.required"
+  val lengthKey            = "ipRightsRegistrationNumber.error.length"
+  val maxLength            = 100
   val ipRightsType: String = IpRightsType.Copyright.toString
 
   val form = new IpRightsRegistrationNumberFormProvider()(ipRightsType, Seq("firstRegNum", "secondRegNum"))
