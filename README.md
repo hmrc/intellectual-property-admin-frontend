@@ -3,7 +3,7 @@
 
 ## Product Summary
 
-Intellectual Property Rights Holders submit applications to HMRC to have their rights protected.
+Intellectual Property Rights Holders submit applications to HMRC to have their rights protected
 
 HMRC use this digital service to input these applications to a UK database, and to edit or extend existing applications.
 
