@@ -11,9 +11,13 @@
 
 # Add all the application routes to the prod.routes file
 + nocsrf
-POST       /protect-intellectual-property-drafts/test-only/bulk-insert-afas         controllers.testonly.BulkInsertAfaController.submit()
+POST       /protect-intellectual-property-drafts/test-only/bulk-insert-afas                 controllers.testonly.BulkInsertAfaController.submit()
 
-GET        /protect-intellectual-property-drafts/test-only/insert-single-afa        controllers.testonly.InsertSingleAfaController.onPageLoad()
-POST       /protect-intellectual-property-drafts/test-only/insert-single-afa        controllers.testonly.InsertSingleAfaController.submit()
+GET        /protect-intellectual-property-drafts/test-only/insert-single-afa                controllers.testonly.InsertSingleAfaController.onPageLoad()
+POST       /protect-intellectual-property-drafts/test-only/insert-single-afa                controllers.testonly.InsertSingleAfaController.submit()
+
+
+GET        /protect-intellectual-property-drafts/test-only/insert-single-consignment        controllers.testonly.TestConsignmentController.onPageLoad()
+POST       /protect-intellectual-property-drafts/test-only/insert-single-consignment        controllers.testonly.TestConsignmentController.submit()
 
 ->         /                                   prod.Routes
