@@ -31,13 +31,15 @@ import views.html.testonly.InsertSingleConsignmentView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class TestConsignmentController @Inject()(
-                                           identify: IdentifierAction,
-                                           consignmentConnector: ConsignmentConnector,
-                                           view: InsertSingleConsignmentView,
-                                           formProvider: InsertSingleConsignmentFormProvider,
-                                           val controllerComponents: MessagesControllerComponents
-                                         )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class TestConsignmentController @Inject() (
+  identify: IdentifierAction,
+  consignmentConnector: ConsignmentConnector,
+  view: InsertSingleConsignmentView,
+  formProvider: InsertSingleConsignmentFormProvider,
+  val controllerComponents: MessagesControllerComponents
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def form = formProvider()
 
@@ -53,7 +55,7 @@ class TestConsignmentController @Inject()(
       .fold(
         (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors))),
         value => {
-          val consignment: JsValue = Json.parse(value)
+          val consignment: JsValue  = Json.parse(value)
           val consignmentId: String = (consignment \ "_id").as[String]
           consignmentConnector.submitTestOnlyConsignment(value, consignmentId).map(_ => Ok)
         }
