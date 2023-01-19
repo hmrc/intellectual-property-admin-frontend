@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class SelectOtherTechnicalContactViewSpec extends ViewBehaviours {
     (ContactOptions.LegalContact, "legalContact"),
     (ContactOptions.SecondaryLegalContact, "otherLegalContact")
   )
-  val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > ul > li > a"
+  val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > div > ul > li > a"
   val radioErrorMessage   = "#value-error"
 
   val form: Form[ContactOptions]            = new SelectOtherTechnicalContactFormProvider()()
@@ -147,7 +147,7 @@ class SelectOtherTechnicalContactViewSpec extends ViewBehaviours {
       }
 
       "display there is a problem message" in {
-        element("#main-content > div > div > form > div > h2").text mustBe "There is a problem"
+        element("#main-content > div > div > form > div.govuk-error-summary > div > h2").text mustBe "There is a problem"
       }
 
       "error message must go to radio option" in {

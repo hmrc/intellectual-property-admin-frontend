@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,7 +127,8 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
           assert(!doc.getElementById("value-no").hasAttr("checked"))
         }
         "not render an error summary" in {
-          assertNotRenderedById(doc, "error-summary-title")
+          assertNotRenderedByClass(doc, "govuk-error-summary__title" +
+            "")
         }
         "contain the correct form action" in {
           element("form").attr("action") mustBe expectedFormAction
@@ -143,7 +144,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
       "rendered with an error" must {
         lazy implicit val doc = asDocument(createView(form.withError(error)))
         "show an error summary" in {
-          assertRenderedById(doc, "error-summary-title")
+          assertRenderedByClass(doc, "govuk-error-summary__title")
         }
 
         "show an error in the value field's label" in {
@@ -152,7 +153,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
         }
 
         "error message must go to radio option" in {
-          element("#main-content > div > div > form > div.govuk-error-summary > div > ul > li > a").attr(
+          element("#main-content > div > div > form > div.govuk-error-summary > div > div > ul > li > a").attr(
             "href"
           ) mustBe "#value-yes"
         }
@@ -183,7 +184,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
 
     "not render an error summary" in {
       val doc = asDocument(createView(form.fill(answer)))
-      assertNotRenderedById(doc, "error-summary-title")
+      assertNotRenderedByClass(doc, "govuk-error-summary__title")
     }
   }
 }
