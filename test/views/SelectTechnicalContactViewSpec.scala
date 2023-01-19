@@ -35,7 +35,7 @@ class SelectTechnicalContactViewSpec extends ViewBehaviours {
     (ContactOptions.LegalContact, "legalContact"),
     (ContactOptions.SecondaryLegalContact, "secondaryLegalContact")
   )
-  val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > ul > li > a"
+  val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > div > ul > li > a"
   val radioErrorMessage   = "#value-error"
 
   val form: Form[ContactOptions]       = new SelectTechnicalContactFormProvider()()
