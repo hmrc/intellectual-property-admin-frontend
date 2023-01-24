@@ -28,7 +28,7 @@ import org.scalacheck.Arbitrary.arbitrary
 class CompanyApplyingIsRightsHolderViewSpec extends QuestionViewBehaviours[CompanyApplyingIsRightsHolder] {
 
   val messageKeyPrefix    = "companyApplyingIsRightsHolder"
-  val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > ul > li > a"
+  val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > div > ul > li > a"
   val radioErrorMessage   = "#value-error"
 
   def radioButtonSelector(radioButtonIndex: Int): String =

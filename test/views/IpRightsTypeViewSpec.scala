@@ -27,7 +27,7 @@ import views.html.IpRightsTypeView
 class IpRightsTypeViewSpec extends QuestionViewBehaviours[IpRightsType] {
 
   val messageKeyPrefix    = "ipRightsType"
-  val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > ul > li > a"
+  val headingErrorMessage = "#main-content > div > div > form > div.govuk-error-summary > div > div > ul > li > a"
   val radioErrorMessage   = "#value-error"
 
   val form = new IpRightsTypeFormProvider()()
