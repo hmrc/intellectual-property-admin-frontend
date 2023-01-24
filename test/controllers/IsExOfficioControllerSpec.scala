@@ -46,10 +46,10 @@ class IsExOfficioControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isExOfficioRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, isExOfficioRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -59,14 +59,14 @@ class IsExOfficioControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IsExOfficioView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -79,7 +79,7 @@ class IsExOfficioControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
       val view = application.injector.instanceOf[IsExOfficioView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
@@ -103,7 +103,7 @@ class IsExOfficioControllerSpec extends SpecBase with MockitoSugar with LockAfaC
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -138,7 +138,7 @@ class IsExOfficioControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -151,7 +151,7 @@ class IsExOfficioControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -162,12 +162,12 @@ class IsExOfficioControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

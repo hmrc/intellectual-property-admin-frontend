@@ -54,10 +54,10 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
   override val emptyUserAnswers: UserAnswers =
     UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.contactName, None)).success.value
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, whoIsSecondaryTechnicalContactRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, whoIsSecondaryTechnicalContactRoutePost)
       .withFormUrlEncodedBody(
         ("companyName", "company Name"),
@@ -74,12 +74,12 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
 
       val view = application.injector.instanceOf[WhoIsSecondaryTechnicalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId, validAnswer.contactName)(getRequest(), messages).toString
+        view(form, NormalMode, afaId, validAnswer.contactName)(getRequest, messages).toString
 
       application.stop()
     }
@@ -92,12 +92,12 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
 
       val view = application.injector.instanceOf[WhoIsSecondaryTechnicalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, afaId, validAnswer.contactName)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, afaId, validAnswer.contactName)(getRequest, messages).toString
 
       application.stop()
     }
@@ -116,7 +116,7 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -183,7 +183,7 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -195,7 +195,7 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -206,12 +206,12 @@ class WhoIsSecondaryTechnicalContactControllerSpec extends SpecBase with Mockito
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

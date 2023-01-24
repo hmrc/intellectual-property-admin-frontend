@@ -48,10 +48,10 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, deleteDraftRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, deleteDraftRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -66,14 +66,14 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
       val application = applicationBuilder(userAnswers = Some(baseAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[DeleteDraftView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, afaId, companyApplying)(getRequest(), messages).toString
+        view(form, afaId, companyApplying)(getRequest, messages).toString
 
       application.stop()
     }
@@ -82,14 +82,14 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[DeleteDraftView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, afaId, "Unknown applicant (or company) name")(getRequest(), messages).toString
+        view(form, afaId, "Unknown applicant (or company) name")(getRequest, messages).toString
 
       application.stop()
     }
@@ -111,7 +111,7 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -179,7 +179,7 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -192,7 +192,7 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -203,12 +203,12 @@ class DeleteDraftControllerSpec extends SpecBase with MockitoSugar with LockAfaC
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

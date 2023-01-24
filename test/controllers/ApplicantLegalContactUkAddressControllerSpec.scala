@@ -53,10 +53,10 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
 
   val validAnswer: UkAddress = UkAddress("line 1", None, "town", None, "postcode")
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, applicantLegalContactUkAddressRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, applicantLegalContactUkAddressRoute)
       .withFormUrlEncodedBody(("line1", "line 1"), ("town", "town"), ("postCode", "postcode"))
 
@@ -68,12 +68,12 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
 
       val view = application.injector.instanceOf[ApplicantLegalContactUkAddressView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, applicantLegalContact.name, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, applicantLegalContact.name, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -86,12 +86,12 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
 
       val view = application.injector.instanceOf[ApplicantLegalContactUkAddressView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, applicantLegalContact.name, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, applicantLegalContact.name, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -109,7 +109,7 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -144,7 +144,7 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -156,7 +156,7 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -169,7 +169,7 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -181,7 +181,7 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -192,12 +192,12 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

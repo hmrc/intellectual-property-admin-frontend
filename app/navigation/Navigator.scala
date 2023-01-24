@@ -132,11 +132,13 @@ class Navigator @Inject() () {
     }
 
   private def deleteNiceClassRoute(mode: Mode, iprIndex: Int, niceClassIndex: Int)(answers: UserAnswers): Call = {
-    val Some(niceClasses) = answers.get(NiceClassIdsQuery(iprIndex))
+    val niceClassesIsNotEmpty = answers.get(NiceClassIdsQuery(iprIndex)) map { x =>
+      x.nonEmpty && x.size > 1
+    }
     answers.get(DeleteNiceClassPage(iprIndex, niceClassIndex)) match {
-      case Some(true) if niceClasses.nonEmpty && niceClasses.size > 1 =>
+      case Some(true) if niceClassesIsNotEmpty.getOrElse(false) =>
         routes.IpRightsAddNiceClassController.onDelete(mode, iprIndex, niceClassIndex, answers.id)
-      case _                                                          => routes.IpRightsAddNiceClassController.onPageLoad(mode, iprIndex, answers.id)
+      case _                                                    => routes.IpRightsAddNiceClassController.onPageLoad(mode, iprIndex, answers.id)
     }
   }
 

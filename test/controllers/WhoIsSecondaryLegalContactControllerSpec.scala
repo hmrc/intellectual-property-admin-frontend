@@ -54,10 +54,10 @@ class WhoIsSecondaryLegalContactControllerSpec extends SpecBase with MockitoSuga
   override val emptyUserAnswers: UserAnswers =
     UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.contactName, None)).success.value
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, whoIsSecondaryLegalContactRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, whoIsSecondaryLegalContactRoutePost)
       .withFormUrlEncodedBody(
         ("name", "contact Name"),
@@ -74,12 +74,12 @@ class WhoIsSecondaryLegalContactControllerSpec extends SpecBase with MockitoSuga
 
       val view = application.injector.instanceOf[WhoIsSecondaryLegalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId, validAnswer.contactName)(getRequest(), messages).toString
+        view(form, NormalMode, afaId, validAnswer.contactName)(getRequest, messages).toString
 
       application.stop()
     }
@@ -92,12 +92,12 @@ class WhoIsSecondaryLegalContactControllerSpec extends SpecBase with MockitoSuga
 
       val view = application.injector.instanceOf[WhoIsSecondaryLegalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, afaId, validAnswer.contactName)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, afaId, validAnswer.contactName)(getRequest, messages).toString
 
       application.stop()
     }
@@ -116,7 +116,7 @@ class WhoIsSecondaryLegalContactControllerSpec extends SpecBase with MockitoSuga
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -151,7 +151,7 @@ class WhoIsSecondaryLegalContactControllerSpec extends SpecBase with MockitoSuga
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -163,7 +163,7 @@ class WhoIsSecondaryLegalContactControllerSpec extends SpecBase with MockitoSuga
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -174,12 +174,12 @@ class WhoIsSecondaryLegalContactControllerSpec extends SpecBase with MockitoSuga
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

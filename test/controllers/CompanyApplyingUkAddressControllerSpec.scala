@@ -51,10 +51,10 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
 
   val validAnswer: UkAddress = UkAddress("line 1", None, "town", None, "postcode")
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, companyApplyingUkAddressRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, companyApplyingUkAddressRoute)
       .withFormUrlEncodedBody(("line1", "line 1"), ("town", "town"), ("postCode", "postcode"))
 
@@ -66,12 +66,12 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
 
       val view = application.injector.instanceOf[CompanyApplyingUkAddressView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, companyApplying.name, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, companyApplying.name, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -84,12 +84,12 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
 
       val view = application.injector.instanceOf[CompanyApplyingUkAddressView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, companyApplying.name, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, companyApplying.name, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -108,7 +108,7 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -143,7 +143,7 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -155,7 +155,7 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -168,7 +168,7 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -180,7 +180,7 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -191,12 +191,12 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

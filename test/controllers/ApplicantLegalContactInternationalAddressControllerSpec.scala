@@ -53,10 +53,10 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
 
   val validAnswer: InternationalAddress = InternationalAddress("line 1", None, "town", "country", None)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, applicantLegalContactInternationalAddressRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, applicantLegalContactInternationalAddressRoute)
       .withFormUrlEncodedBody(("line1", "line 1"), ("town", "town"), ("country", "country"))
 
@@ -68,12 +68,12 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
 
       val view = application.injector.instanceOf[ApplicantLegalContactInternationalAddressView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, applicantLegalContact.name, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, applicantLegalContact.name, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -86,12 +86,12 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
 
       val view = application.injector.instanceOf[ApplicantLegalContactInternationalAddressView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, applicantLegalContact.name, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, applicantLegalContact.name, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -110,7 +110,7 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -145,7 +145,7 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -157,7 +157,7 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -170,7 +170,7 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -182,7 +182,7 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -193,12 +193,12 @@ class ApplicantLegalContactInternationalAddressControllerSpec extends SpecBase w
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

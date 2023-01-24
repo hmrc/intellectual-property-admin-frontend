@@ -44,6 +44,7 @@ lazy val root = (project in file("."))
     scalacOptions ++= Seq("-feature"),
     scalacOptions += "-Wconf:src=routes/.*:s",
     scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
+    scalafmtOnCompile := true,
     libraryDependencies ++= AppDependencies(),
     dependencyOverrides ++= AppDependencies.overrides,
     retrieveManaged := true,

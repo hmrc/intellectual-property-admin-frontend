@@ -29,10 +29,10 @@ class ConfirmedRemovedContactControllerSpec extends SpecBase with LockAfaChecks 
   val contactToRemoveLegal     = "legal"
   val contactToRemoveTechnical = "technical"
 
-  def getRequestLegal(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequestLegal: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, removedLegalContactRoute)
 
-  def getRequestTechnical(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequestTechnical: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, removedTechnicalContactRoute)
 
   lazy private val removedLegalContactRoute     =
@@ -48,7 +48,7 @@ class ConfirmedRemovedContactControllerSpec extends SpecBase with LockAfaChecks 
 
       val view = application.injector.instanceOf[ConfirmedRemovedContactView]
 
-      val result = route(application, getRequestLegal()).value
+      val result = route(application, getRequestLegal).value
 
       status(result) mustEqual OK
 
@@ -63,7 +63,7 @@ class ConfirmedRemovedContactControllerSpec extends SpecBase with LockAfaChecks 
 
       val view = application.injector.instanceOf[ConfirmedRemovedContactView]
 
-      val result = route(application, getRequestTechnical()).value
+      val result = route(application, getRequestTechnical).value
 
       status(result) mustEqual OK
 
@@ -77,7 +77,7 @@ class ConfirmedRemovedContactControllerSpec extends SpecBase with LockAfaChecks 
 
     val application = applicationBuilder(userAnswers = None).build()
 
-    val result = route(application, getRequestLegal()).value
+    val result = route(application, getRequestLegal).value
 
     status(result) mustEqual SEE_OTHER
 
@@ -87,6 +87,6 @@ class ConfirmedRemovedContactControllerSpec extends SpecBase with LockAfaChecks 
   }
 
   "for a GET" must {
-    redirectIfLocked(afaId, getRequestLegal)
+    redirectIfLocked(afaId, () => getRequestLegal)
   }
 }

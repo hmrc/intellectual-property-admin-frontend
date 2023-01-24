@@ -55,10 +55,10 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
   val validAnswer: InternationalAddress = InternationalAddress("line 1", None, "town", "country", None)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, technicalContactInternationalAddressRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, technicalContactInternationalAddressRoute)
       .withFormUrlEncodedBody(("line1", "line 1"), ("town", "town"), ("country", "country"))
 
@@ -70,12 +70,12 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
       val view = application.injector.instanceOf[TechnicalContactInternationalAddressView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, contactName, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, contactName, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -88,12 +88,12 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
       val view = application.injector.instanceOf[TechnicalContactInternationalAddressView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, contactName, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, contactName, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -112,7 +112,7 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -147,7 +147,7 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -159,7 +159,7 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -172,7 +172,7 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -184,7 +184,7 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -195,12 +195,12 @@ class TechnicalContactInternationalAddressControllerSpec extends SpecBase with M
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

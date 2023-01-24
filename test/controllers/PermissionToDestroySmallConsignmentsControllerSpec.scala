@@ -47,10 +47,10 @@ class PermissionToDestroySmallConsignmentsControllerSpec extends SpecBase with M
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, permissionToDestroySmallConsignmentsRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, permissionToDestroySmallConsignmentsRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -60,14 +60,14 @@ class PermissionToDestroySmallConsignmentsControllerSpec extends SpecBase with M
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[PermissionToDestroySmallConsignmentsView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -80,7 +80,7 @@ class PermissionToDestroySmallConsignmentsControllerSpec extends SpecBase with M
 
       val view = application.injector.instanceOf[PermissionToDestroySmallConsignmentsView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
@@ -104,7 +104,7 @@ class PermissionToDestroySmallConsignmentsControllerSpec extends SpecBase with M
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -139,7 +139,7 @@ class PermissionToDestroySmallConsignmentsControllerSpec extends SpecBase with M
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -152,7 +152,7 @@ class PermissionToDestroySmallConsignmentsControllerSpec extends SpecBase with M
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -163,12 +163,12 @@ class PermissionToDestroySmallConsignmentsControllerSpec extends SpecBase with M
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

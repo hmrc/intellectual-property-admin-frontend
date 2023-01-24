@@ -58,10 +58,10 @@ class IpRightsRegistrationNumberControllerSpec
 
   private val baseAnswers = UserAnswers(afaId).set(IpRightsTypePage(index), ipRightsType).success.value
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, ipRightsRegistrationNumberRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, ipRightsRegistrationNumberRoute)
       .withFormUrlEncodedBody(("value", "answer"))
 
@@ -71,14 +71,14 @@ class IpRightsRegistrationNumberControllerSpec
 
       val application = applicationBuilder(userAnswers = Some(baseAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IpRightsRegistrationNumberView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, index, afaId, ipRightsMessageName)(getRequest(), messages).toString
+        view(form, NormalMode, index, afaId, ipRightsMessageName)(getRequest, messages).toString
 
       application.stop()
     }
@@ -91,12 +91,12 @@ class IpRightsRegistrationNumberControllerSpec
 
       val view = application.injector.instanceOf[IpRightsRegistrationNumberView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), NormalMode, index, afaId, ipRightsMessageName)(getRequest(), messages).toString
+        view(form.fill("answer"), NormalMode, index, afaId, ipRightsMessageName)(getRequest, messages).toString
 
       application.stop()
     }
@@ -115,7 +115,7 @@ class IpRightsRegistrationNumberControllerSpec
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual onwardRoute.url
@@ -139,11 +139,11 @@ class IpRightsRegistrationNumberControllerSpec
           )
           .build()
 
-      def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+      def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
         FakeRequest(POST, ipRightsRegistrationNumberRoute)
           .withFormUrlEncodedBody(("value", "1"))
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual onwardRoute.url
@@ -220,11 +220,11 @@ class IpRightsRegistrationNumberControllerSpec
           )
           .build()
 
-      def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+      def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
         FakeRequest(POST, ipRightsRegistrationNumberRoute)
           .withFormUrlEncodedBody(("value", "exiStiNgREGNum"))
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual BAD_REQUEST
     }
@@ -233,7 +233,7 @@ class IpRightsRegistrationNumberControllerSpec
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -246,7 +246,7 @@ class IpRightsRegistrationNumberControllerSpec
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -290,12 +290,12 @@ class IpRightsRegistrationNumberControllerSpec
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

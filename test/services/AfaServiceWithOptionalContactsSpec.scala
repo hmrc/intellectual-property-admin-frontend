@@ -35,9 +35,11 @@ import play.api.libs.json.Json
 import uk.gov.hmrc.http.HeaderCarrier
 
 import java.time.LocalDate
+import scala.annotation.nowarn
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+@nowarn("msg=not.*?exhaustive")
 class AfaServiceWithOptionalContactsSpec
     extends AnyFreeSpec
     with Matchers

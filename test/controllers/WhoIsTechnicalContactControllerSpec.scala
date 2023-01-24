@@ -51,10 +51,10 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
   val validAnswer: TechnicalContact =
     TechnicalContact("company Name", "contact Name", "contact Telephone", "email@example.com")
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, whoIsTechnicalContactRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, whoIsTechnicalContactRoute)
       .withFormUrlEncodedBody(
         ("companyName", "company Name"),
@@ -71,12 +71,12 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
 
       val view = application.injector.instanceOf[WhoIsTechnicalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -89,12 +89,12 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
 
       val view = application.injector.instanceOf[WhoIsTechnicalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -113,7 +113,7 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -180,7 +180,7 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -192,7 +192,7 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -203,12 +203,12 @@ class WhoIsTechnicalContactControllerSpec extends SpecBase with MockitoSugar wit
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

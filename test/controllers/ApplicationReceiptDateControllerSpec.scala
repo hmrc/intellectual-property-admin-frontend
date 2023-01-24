@@ -67,10 +67,10 @@ class ApplicationReceiptDateControllerSpec
 
   val auditConnector: AuditConnector = mock[AuditConnector]
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, applicationReceiptDateRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, applicationReceiptDateRoute)
       .withFormUrlEncodedBody(
         "value.day"   -> validAnswer.getDayOfMonth.toString,
@@ -90,14 +90,14 @@ class ApplicationReceiptDateControllerSpec
         .build()
 
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[ApplicationReceiptDateView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -116,12 +116,12 @@ class ApplicationReceiptDateControllerSpec
 
       val view = application.injector.instanceOf[ApplicationReceiptDateView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, afaId)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -145,7 +145,7 @@ class ApplicationReceiptDateControllerSpec
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -205,14 +205,14 @@ class ApplicationReceiptDateControllerSpec
         )
         .build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       val view = application.injector.instanceOf[ApplicationReceiptDateView]
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -237,7 +237,7 @@ class ApplicationReceiptDateControllerSpec
         .build()
 
       val captor = ArgumentCaptor.forClass(classOf[UserAnswers])
-      route(application, postRequest()).value.futureValue
+      route(application, postRequest).value.futureValue
 
       verify(mockAfaService).set(captor.capture())(any())
 
@@ -287,7 +287,7 @@ class ApplicationReceiptDateControllerSpec
         .build()
 
       val captor = ArgumentCaptor.forClass(classOf[UserAnswers])
-      route(application, postRequest()).value.futureValue
+      route(application, postRequest).value.futureValue
 
       verify(mockAfaService).set(captor.capture())(any())
 
@@ -319,12 +319,12 @@ class ApplicationReceiptDateControllerSpec
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
 
   }

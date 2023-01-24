@@ -52,10 +52,10 @@ class IpRightsDescriptionControllerSpec extends SpecBase with MockitoSugar with 
 
   val baseAnswers: UserAnswers = UserAnswers(afaId).set(IpRightsTypePage(index), rightType).success.value
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, ipRightsDescriptionRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, ipRightsDescriptionRoute)
       .withFormUrlEncodedBody(("value", "answer"))
 
@@ -65,14 +65,14 @@ class IpRightsDescriptionControllerSpec extends SpecBase with MockitoSugar with 
 
       val application = applicationBuilder(userAnswers = Some(baseAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IpRightsDescriptionView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, index, afaId, Some(rightType))(getRequest(), messages).toString
+        view(form, NormalMode, index, afaId, Some(rightType))(getRequest, messages).toString
 
       application.stop()
     }
@@ -85,12 +85,12 @@ class IpRightsDescriptionControllerSpec extends SpecBase with MockitoSugar with 
 
       val view = application.injector.instanceOf[IpRightsDescriptionView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), NormalMode, index, afaId, Some(rightType))(getRequest(), messages).toString
+        view(form.fill("answer"), NormalMode, index, afaId, Some(rightType))(getRequest, messages).toString
 
       application.stop()
     }
@@ -109,7 +109,7 @@ class IpRightsDescriptionControllerSpec extends SpecBase with MockitoSugar with 
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual onwardRoute.url
@@ -143,7 +143,7 @@ class IpRightsDescriptionControllerSpec extends SpecBase with MockitoSugar with 
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -156,7 +156,7 @@ class IpRightsDescriptionControllerSpec extends SpecBase with MockitoSugar with 
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -200,12 +200,12 @@ class IpRightsDescriptionControllerSpec extends SpecBase with MockitoSugar with 
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

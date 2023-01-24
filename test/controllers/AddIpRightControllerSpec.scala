@@ -48,10 +48,10 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
   def addIpRightsUrl(nextIpRightIndex: Int): String =
     routes.IpRightsTypeController.onPageLoad(NormalMode, nextIpRightIndex, afaId).url
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, addIpRightRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, addIpRightRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -65,7 +65,7 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
 
       val expectedSections = helper.iprReviewRow(NormalMode)
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[AddIpRightView]
 
@@ -96,7 +96,7 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
         )
       ).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[AddIpRightView]
 
@@ -129,7 +129,7 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -198,7 +198,7 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
   }
 }

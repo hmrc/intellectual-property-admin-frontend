@@ -50,10 +50,10 @@ class EvidenceOfPowerToActControllerSpec extends SpecBase with MockitoSugar with
 
   private val baseUserAnswers = UserAnswers(afaId).set(RepresentativeDetailsPage, rightsHolderContact).success.value
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, evidenceOfPowerToActRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, evidenceOfPowerToActRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -63,14 +63,14 @@ class EvidenceOfPowerToActControllerSpec extends SpecBase with MockitoSugar with
 
       val application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[EvidenceOfPowerToActView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId, rightsHolderContact.contactName)(getRequest(), messages).toString
+        view(form, NormalMode, afaId, rightsHolderContact.contactName)(getRequest, messages).toString
 
       application.stop()
     }
@@ -83,7 +83,7 @@ class EvidenceOfPowerToActControllerSpec extends SpecBase with MockitoSugar with
 
       val view = application.injector.instanceOf[EvidenceOfPowerToActView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
@@ -107,7 +107,7 @@ class EvidenceOfPowerToActControllerSpec extends SpecBase with MockitoSugar with
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -142,7 +142,7 @@ class EvidenceOfPowerToActControllerSpec extends SpecBase with MockitoSugar with
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -155,7 +155,7 @@ class EvidenceOfPowerToActControllerSpec extends SpecBase with MockitoSugar with
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -166,12 +166,12 @@ class EvidenceOfPowerToActControllerSpec extends SpecBase with MockitoSugar with
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }
