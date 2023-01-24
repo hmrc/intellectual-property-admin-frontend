@@ -138,7 +138,7 @@ class Navigator @Inject() () {
     answers.get(DeleteNiceClassPage(iprIndex, niceClassIndex)) match {
       case Some(true) if niceClassesIsNotEmpty.getOrElse(false) =>
         routes.IpRightsAddNiceClassController.onDelete(mode, iprIndex, niceClassIndex, answers.id)
-      case _                                                          => routes.IpRightsAddNiceClassController.onPageLoad(mode, iprIndex, answers.id)
+      case _                                                    => routes.IpRightsAddNiceClassController.onPageLoad(mode, iprIndex, answers.id)
     }
   }
 

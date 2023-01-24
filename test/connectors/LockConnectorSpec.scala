@@ -100,7 +100,7 @@ class LockConnectorSpec
           case e: LockedException =>
             e.userId mustEqual "id"
             e.name mustEqual "name"
-          case e => fail(s"Wanted LockedException, got: $e")
+          case e                  => fail(s"Wanted LockedException, got: $e")
         }
 
       }
