@@ -50,10 +50,10 @@ class IsCompanyApplyingUkBasedControllerSpec extends SpecBase with MockitoSugar 
   lazy private val isCompanyApplyingUkBasedRoute =
     routes.IsCompanyApplyingUkBasedController.onPageLoad(NormalMode, afaId).url
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isCompanyApplyingUkBasedRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, isCompanyApplyingUkBasedRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -63,14 +63,14 @@ class IsCompanyApplyingUkBasedControllerSpec extends SpecBase with MockitoSugar 
 
       val application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IsCompanyApplyingUkBasedView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, rightsHolderContact.name, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, rightsHolderContact.name, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -83,12 +83,12 @@ class IsCompanyApplyingUkBasedControllerSpec extends SpecBase with MockitoSugar 
 
       val view = application.injector.instanceOf[IsCompanyApplyingUkBasedView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), NormalMode, rightsHolderContact.name, afaId)(getRequest(), messages).toString
+        view(form.fill(true), NormalMode, rightsHolderContact.name, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -107,7 +107,7 @@ class IsCompanyApplyingUkBasedControllerSpec extends SpecBase with MockitoSugar 
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -142,7 +142,7 @@ class IsCompanyApplyingUkBasedControllerSpec extends SpecBase with MockitoSugar 
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -155,7 +155,7 @@ class IsCompanyApplyingUkBasedControllerSpec extends SpecBase with MockitoSugar 
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -168,7 +168,7 @@ class IsCompanyApplyingUkBasedControllerSpec extends SpecBase with MockitoSugar 
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -181,7 +181,7 @@ class IsCompanyApplyingUkBasedControllerSpec extends SpecBase with MockitoSugar 
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -192,12 +192,12 @@ class IsCompanyApplyingUkBasedControllerSpec extends SpecBase with MockitoSugar 
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

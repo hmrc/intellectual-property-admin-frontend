@@ -59,10 +59,10 @@ class IsRepresentativeContactLegalContactControllerSpec extends SpecBase with Mo
     .success
     .value
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isRepresentativeContactLegalContactRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, isRepresentativeContactLegalContactRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -72,14 +72,14 @@ class IsRepresentativeContactLegalContactControllerSpec extends SpecBase with Mo
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IsRepresentativeContactLegalContactView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId, representativeContactName)(getRequest(), messages).toString
+        view(form, NormalMode, afaId, representativeContactName)(getRequest, messages).toString
 
       application.stop()
     }
@@ -104,12 +104,12 @@ class IsRepresentativeContactLegalContactControllerSpec extends SpecBase with Mo
 
       val view = application.injector.instanceOf[IsRepresentativeContactLegalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), NormalMode, afaId, representativeContactName)(getRequest(), messages).toString
+        view(form.fill(true), NormalMode, afaId, representativeContactName)(getRequest, messages).toString
 
       application.stop()
     }
@@ -139,7 +139,7 @@ class IsRepresentativeContactLegalContactControllerSpec extends SpecBase with Mo
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -174,7 +174,7 @@ class IsRepresentativeContactLegalContactControllerSpec extends SpecBase with Mo
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -187,7 +187,7 @@ class IsRepresentativeContactLegalContactControllerSpec extends SpecBase with Mo
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -198,12 +198,12 @@ class IsRepresentativeContactLegalContactControllerSpec extends SpecBase with Mo
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

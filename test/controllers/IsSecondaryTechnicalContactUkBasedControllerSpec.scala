@@ -52,10 +52,10 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
   lazy private val isSecondaryTechnicalContactUkBasedRoute =
     routes.IsSecondaryTechnicalContactUkBasedController.onPageLoad(NormalMode, afaId).url
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isSecondaryTechnicalContactUkBasedRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, isSecondaryTechnicalContactUkBasedRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -65,14 +65,14 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
 
       val application: Application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
 
-      val result: Future[Result] = route(application, getRequest()).value
+      val result: Future[Result] = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IsSecondaryTechnicalContactUkBasedView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, SecondaryTechnicalContact.contactName, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, SecondaryTechnicalContact.contactName, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -86,12 +86,12 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
       val view: IsSecondaryTechnicalContactUkBasedView =
         application.injector.instanceOf[IsSecondaryTechnicalContactUkBasedView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), NormalMode, SecondaryTechnicalContact.contactName, afaId)(getRequest(), messages).toString
+        view(form.fill(true), NormalMode, SecondaryTechnicalContact.contactName, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -110,7 +110,7 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
           )
           .build()
 
-      val result: Future[Result] = route(application, postRequest()).value
+      val result: Future[Result] = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -145,7 +145,7 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
 
       val application: Application = applicationBuilder(userAnswers = None).build()
 
-      val result: Future[Result] = route(application, getRequest()).value
+      val result: Future[Result] = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -158,7 +158,7 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
 
       val application: Application = applicationBuilder(userAnswers = None).build()
 
-      val result: Future[Result] = route(application, postRequest()).value
+      val result: Future[Result] = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -171,7 +171,7 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
 
       val application: Application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result: Future[Result] = route(application, getRequest()).value
+      val result: Future[Result] = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -184,7 +184,7 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
 
       val application: Application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result: Future[Result] = route(application, postRequest()).value
+      val result: Future[Result] = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -195,12 +195,12 @@ class IsSecondaryTechnicalContactUkBasedControllerSpec extends SpecBase with Moc
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

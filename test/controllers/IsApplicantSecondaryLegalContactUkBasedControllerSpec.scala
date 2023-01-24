@@ -53,10 +53,10 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
   lazy private val isApplicantSecondaryLegalContactUkBasedRoute =
     routes.IsApplicantSecondaryLegalContactUkBasedController.onPageLoad(NormalMode, afaId).url
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isApplicantSecondaryLegalContactUkBasedRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, isApplicantSecondaryLegalContactUkBasedRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -66,14 +66,14 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
 
       val application: Application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
 
-      val result: Future[Result] = route(application, getRequest()).value
+      val result: Future[Result] = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IsApplicantSecondaryLegalContactUkBasedView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, secondaryLegalContact.contactName, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, secondaryLegalContact.contactName, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -88,12 +88,12 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
       val view: IsApplicantSecondaryLegalContactUkBasedView =
         application.injector.instanceOf[IsApplicantSecondaryLegalContactUkBasedView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), NormalMode, secondaryLegalContact.contactName, afaId)(getRequest(), messages).toString
+        view(form.fill(true), NormalMode, secondaryLegalContact.contactName, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -112,7 +112,7 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
           )
           .build()
 
-      val result: Future[Result] = route(application, postRequest()).value
+      val result: Future[Result] = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -147,7 +147,7 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
 
       val application: Application = applicationBuilder(userAnswers = None).build()
 
-      val result: Future[Result] = route(application, getRequest()).value
+      val result: Future[Result] = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -160,7 +160,7 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
 
       val application: Application = applicationBuilder(userAnswers = None).build()
 
-      val result: Future[Result] = route(application, postRequest()).value
+      val result: Future[Result] = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -173,7 +173,7 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
 
       val application: Application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result: Future[Result] = route(application, getRequest()).value
+      val result: Future[Result] = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -186,7 +186,7 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
 
       val application: Application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result: Future[Result] = route(application, postRequest()).value
+      val result: Future[Result] = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -197,12 +197,12 @@ class IsApplicantSecondaryLegalContactUkBasedControllerSpec extends SpecBase wit
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

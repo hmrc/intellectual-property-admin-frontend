@@ -64,10 +64,10 @@ class IpRightsRegistrationEndControllerSpec
 
   val baseAnswers: UserAnswers = UserAnswers(afaId).set(IpRightsTypePage(index), IpRightsType.Design).success.value
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, ipRightsRegistrationEndRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, ipRightsRegistrationEndRoute)
       .withFormUrlEncodedBody(
         "value.day"   -> validAnswer.getDayOfMonth.toString,
@@ -81,14 +81,14 @@ class IpRightsRegistrationEndControllerSpec
 
       val application = applicationBuilder(userAnswers = Some(baseAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IpRightsRegistrationEndView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, index, afaId, rightType)(getRequest(), messages).toString
+        view(form, NormalMode, index, afaId, rightType)(getRequest, messages).toString
 
       application.stop()
     }
@@ -101,7 +101,7 @@ class IpRightsRegistrationEndControllerSpec
 
       val view = application.injector.instanceOf[IpRightsRegistrationEndView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
@@ -125,7 +125,7 @@ class IpRightsRegistrationEndControllerSpec
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -160,7 +160,7 @@ class IpRightsRegistrationEndControllerSpec
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -172,7 +172,7 @@ class IpRightsRegistrationEndControllerSpec
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -220,12 +220,12 @@ class IpRightsRegistrationEndControllerSpec
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

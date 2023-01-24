@@ -19,12 +19,12 @@ package connectors
 import models.Service
 import play.api.Configuration
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpResponse}
+import uk.gov.hmrc.http.HttpReads.Implicits.{readFromJson, readRaw}
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class ConsignmentConnector @Inject() (config: Configuration, httpClient: HttpClient)(implicit ec: ExecutionContext) {
-
+class ConsignmentConnector @Inject() (config: Configuration, httpClient: HttpClient) {
   private val baseUrl = config.get[Service]("microservice.services.intellectual-property")
 
   private val getNxtConsignmentIdUrl = s"$baseUrl/intellectual-property/consignmentId"

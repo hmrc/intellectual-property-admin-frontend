@@ -51,10 +51,10 @@ class ApplicantLegalContactControllerSpec extends SpecBase with MockitoSugar wit
   override val emptyUserAnswers: UserAnswers =
     UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.name, None)).success.value
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, applicantLegalContactRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, applicantLegalContactRoute)
       .withFormUrlEncodedBody(
         ("name", "name value"),
@@ -71,12 +71,12 @@ class ApplicantLegalContactControllerSpec extends SpecBase with MockitoSugar wit
 
       val view = application.injector.instanceOf[ApplicantLegalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId, validAnswer.name)(getRequest(), messages).toString
+        view(form, NormalMode, afaId, validAnswer.name)(getRequest, messages).toString
 
       application.stop()
     }
@@ -89,12 +89,12 @@ class ApplicantLegalContactControllerSpec extends SpecBase with MockitoSugar wit
 
       val view = application.injector.instanceOf[ApplicantLegalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), NormalMode, afaId, validAnswer.name)(getRequest(), messages).toString
+        view(form.fill(validAnswer), NormalMode, afaId, validAnswer.name)(getRequest, messages).toString
 
       application.stop()
     }
@@ -113,7 +113,7 @@ class ApplicantLegalContactControllerSpec extends SpecBase with MockitoSugar wit
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -148,7 +148,7 @@ class ApplicantLegalContactControllerSpec extends SpecBase with MockitoSugar wit
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -160,7 +160,7 @@ class ApplicantLegalContactControllerSpec extends SpecBase with MockitoSugar wit
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -171,12 +171,12 @@ class ApplicantLegalContactControllerSpec extends SpecBase with MockitoSugar wit
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

@@ -50,10 +50,10 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, companyApplyingIsRightsHolderRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, companyApplyingIsRightsHolderRoute)
       .withFormUrlEncodedBody(("value", CompanyApplyingIsRightsHolder.values.head.toString))
 
@@ -66,14 +66,14 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[CompanyApplyingIsRightsHolderView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId, companyName)(getRequest(), messages).toString
+        view(form, NormalMode, afaId, companyName)(getRequest, messages).toString
 
       application.stop()
     }
@@ -124,7 +124,7 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -162,7 +162,7 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -174,7 +174,7 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -187,7 +187,7 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -198,12 +198,12 @@ class CompanyApplyingIsRightsHolderControllerSpec extends SpecBase with MockitoS
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

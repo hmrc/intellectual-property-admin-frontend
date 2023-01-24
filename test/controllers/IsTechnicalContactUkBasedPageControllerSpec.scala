@@ -51,10 +51,10 @@ class IsTechnicalContactUkBasedPageControllerSpec extends SpecBase with MockitoS
   lazy private val isTechnicalContactUkBasedRoute =
     routes.IsTechnicalContactUkBasedController.onPageLoad(NormalMode, afaId).url
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isTechnicalContactUkBasedRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, isTechnicalContactUkBasedRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -64,14 +64,14 @@ class IsTechnicalContactUkBasedPageControllerSpec extends SpecBase with MockitoS
 
       val application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IsTechnicalContactUkBasedView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, technicalContact.contactName, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, technicalContact.contactName, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -84,7 +84,7 @@ class IsTechnicalContactUkBasedPageControllerSpec extends SpecBase with MockitoS
 
       val view = application.injector.instanceOf[IsTechnicalContactUkBasedView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
@@ -108,7 +108,7 @@ class IsTechnicalContactUkBasedPageControllerSpec extends SpecBase with MockitoS
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -143,7 +143,7 @@ class IsTechnicalContactUkBasedPageControllerSpec extends SpecBase with MockitoS
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -156,7 +156,7 @@ class IsTechnicalContactUkBasedPageControllerSpec extends SpecBase with MockitoS
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -169,7 +169,7 @@ class IsTechnicalContactUkBasedPageControllerSpec extends SpecBase with MockitoS
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -182,7 +182,7 @@ class IsTechnicalContactUkBasedPageControllerSpec extends SpecBase with MockitoS
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -193,12 +193,12 @@ class IsTechnicalContactUkBasedPageControllerSpec extends SpecBase with MockitoS
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

@@ -58,14 +58,14 @@ class SelectTechnicalContactControllerSpec
   lazy val selectTechnicalContactRoute: String =
     routes.SelectTechnicalContactController.onPageLoad(NormalMode, afaId).url
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, selectTechnicalContactRoute)
 
   def postRequest(contactOption: ContactOptions): FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, selectTechnicalContactRoute)
       .withFormUrlEncodedBody(("value", contactOption.toString))
 
-  def postRequestRandomValue(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequestRandomValue: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, selectTechnicalContactRoute)
       .withFormUrlEncodedBody(("value", "invalidValue"))
 
@@ -79,14 +79,14 @@ class SelectTechnicalContactControllerSpec
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[SelectTechnicalContactView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId, companyApplyingName, Seq.empty)(getRequest(), messages).toString()
+        view(form, NormalMode, afaId, companyApplyingName, Seq.empty)(getRequest, messages).toString()
     }
 
     "populate the view correctly on a GET when the question has previously been answered" in {
@@ -103,13 +103,13 @@ class SelectTechnicalContactControllerSpec
 
       val view = application.injector.instanceOf[SelectTechnicalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
         view(form.fill(ContactOptions.RepresentativeContact), NormalMode, afaId, companyApplyingName, Seq.empty)(
-          getRequest(),
+          getRequest,
           messages
         ).toString
 
@@ -296,7 +296,7 @@ class SelectTechnicalContactControllerSpec
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -320,12 +320,12 @@ class SelectTechnicalContactControllerSpec
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequestRandomValue)
+      redirectIfLocked(afaId, () => postRequestRandomValue)
     }
   }
 }

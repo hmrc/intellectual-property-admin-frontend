@@ -51,10 +51,10 @@ class IsRepresentativeContactUkBasedControllerSpec extends SpecBase with Mockito
   lazy private val isRepresentativeContactUkBasedRoute =
     routes.IsRepresentativeContactUkBasedController.onPageLoad(NormalMode, afaId).url
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, isRepresentativeContactUkBasedRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, isRepresentativeContactUkBasedRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -64,14 +64,14 @@ class IsRepresentativeContactUkBasedControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = Some(baseUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IsRepresentativeContactUkBasedView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, rightsHolderContact.contactName, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, rightsHolderContact.contactName, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -84,12 +84,12 @@ class IsRepresentativeContactUkBasedControllerSpec extends SpecBase with Mockito
 
       val view = application.injector.instanceOf[IsRepresentativeContactUkBasedView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), NormalMode, rightsHolderContact.contactName, afaId)(getRequest(), messages).toString
+        view(form.fill(true), NormalMode, rightsHolderContact.contactName, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -108,7 +108,7 @@ class IsRepresentativeContactUkBasedControllerSpec extends SpecBase with Mockito
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -143,7 +143,7 @@ class IsRepresentativeContactUkBasedControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -156,7 +156,7 @@ class IsRepresentativeContactUkBasedControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -169,7 +169,7 @@ class IsRepresentativeContactUkBasedControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -182,7 +182,7 @@ class IsRepresentativeContactUkBasedControllerSpec extends SpecBase with Mockito
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -193,12 +193,12 @@ class IsRepresentativeContactUkBasedControllerSpec extends SpecBase with Mockito
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

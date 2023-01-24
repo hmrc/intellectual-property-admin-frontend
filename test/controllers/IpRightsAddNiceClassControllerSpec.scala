@@ -49,10 +49,10 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, ipRightsAddNiceClassRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, ipRightsAddNiceClassRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -72,7 +72,7 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IpRightsAddNiceClassView]
 
@@ -94,7 +94,7 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -155,6 +155,6 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
 
   "for a GET" must {
 
-    redirectIfLocked(afaId, getRequest)
+    redirectIfLocked(afaId, () => getRequest)
   }
 }

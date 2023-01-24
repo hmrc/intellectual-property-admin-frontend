@@ -56,10 +56,10 @@ class IpRightsDescriptionWithBrandControllerSpec
 
   val validAnswer: IpRightsDescriptionWithBrand = IpRightsDescriptionWithBrand("brand", "value 2")
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, ipRightsDescriptionWithBrandRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, ipRightsDescriptionWithBrandRoute)
       .withFormUrlEncodedBody(("brand", "value 1"), ("value", "value 2"))
 
@@ -71,12 +71,12 @@ class IpRightsDescriptionWithBrandControllerSpec
 
       val view = application.injector.instanceOf[IpRightsDescriptionWithBrandView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, index, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, index, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -113,7 +113,7 @@ class IpRightsDescriptionWithBrandControllerSpec
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -148,7 +148,7 @@ class IpRightsDescriptionWithBrandControllerSpec
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -160,7 +160,7 @@ class IpRightsDescriptionWithBrandControllerSpec
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -204,12 +204,12 @@ class IpRightsDescriptionWithBrandControllerSpec
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

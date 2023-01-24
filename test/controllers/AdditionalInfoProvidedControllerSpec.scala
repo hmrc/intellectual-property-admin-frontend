@@ -48,10 +48,10 @@ class AdditionalInfoProvidedControllerSpec extends SpecBase with MockitoSugar wi
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, additionalInfoProvidedRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, additionalInfoProvidedRoute)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -64,14 +64,14 @@ class AdditionalInfoProvidedControllerSpec extends SpecBase with MockitoSugar wi
         .build()
 
       when(mockAfaService.set(any())(any())) thenReturn Future.successful(true)
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[AdditionalInfoProvidedView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -84,7 +84,7 @@ class AdditionalInfoProvidedControllerSpec extends SpecBase with MockitoSugar wi
 
       val view = application.injector.instanceOf[AdditionalInfoProvidedView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
@@ -106,7 +106,7 @@ class AdditionalInfoProvidedControllerSpec extends SpecBase with MockitoSugar wi
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -141,7 +141,7 @@ class AdditionalInfoProvidedControllerSpec extends SpecBase with MockitoSugar wi
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -154,7 +154,7 @@ class AdditionalInfoProvidedControllerSpec extends SpecBase with MockitoSugar wi
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -165,12 +165,12 @@ class AdditionalInfoProvidedControllerSpec extends SpecBase with MockitoSugar wi
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

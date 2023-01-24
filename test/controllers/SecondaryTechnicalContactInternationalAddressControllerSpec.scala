@@ -57,10 +57,10 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec
 
   val validAnswer: InternationalAddress = InternationalAddress("line 1", None, "town", "country", None)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, applicantSecondaryTechnicalContactInternationalAddressRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, applicantSecondaryTechnicalContactInternationalAddressRoute)
       .withFormUrlEncodedBody(("line1", "line 1"), ("town", "town"), ("country", "country"))
 
@@ -73,12 +73,12 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec
       val view: SecondaryTechnicalContactInternationalAddressView =
         application.injector.instanceOf[SecondaryTechnicalContactInternationalAddressView]
 
-      val result: Future[Result] = route(application, getRequest()).value
+      val result: Future[Result] = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, secondaryTechnicalContact.contactName, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, secondaryTechnicalContact.contactName, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -93,13 +93,13 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec
       val view: SecondaryTechnicalContactInternationalAddressView =
         application.injector.instanceOf[SecondaryTechnicalContactInternationalAddressView]
 
-      val result: Future[Result] = route(application, getRequest()).value
+      val result: Future[Result] = route(application, getRequest).value
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
         view(form.fill(validAnswer), NormalMode, secondaryTechnicalContact.contactName, afaId)(
-          getRequest(),
+          getRequest,
           messages
         ).toString
 
@@ -120,7 +120,7 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec
           )
           .build()
 
-      val result: Future[Result] = route(application, postRequest()).value
+      val result: Future[Result] = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -156,7 +156,7 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec
 
       val application: Application = applicationBuilder(userAnswers = None).build()
 
-      val result: Future[Result] = route(application, getRequest()).value
+      val result: Future[Result] = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -168,7 +168,7 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec
 
       val application: Application = applicationBuilder(userAnswers = None).build()
 
-      val result: Future[Result] = route(application, postRequest()).value
+      val result: Future[Result] = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -181,7 +181,7 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec
 
       val application: Application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result: Future[Result] = route(application, getRequest()).value
+      val result: Future[Result] = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad.url
@@ -193,7 +193,7 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec
 
       val application: Application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result: Future[Result] = route(application, postRequest()).value
+      val result: Future[Result] = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -204,12 +204,12 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

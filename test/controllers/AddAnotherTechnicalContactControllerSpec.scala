@@ -48,10 +48,10 @@ class AddAnotherTechnicalContactControllerSpec extends SpecBase with MockitoSuga
     routes.AddAnotherTechnicalContactController.onSubmit(NormalMode, afaId).url
   override val emptyUserAnswers: UserAnswers           = UserAnswers(afaId)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, addAnotherTechnicalContactRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, addAnotherTechnicalContactRoutePost)
       .withFormUrlEncodedBody(("value", "true"))
 
@@ -61,14 +61,14 @@ class AddAnotherTechnicalContactControllerSpec extends SpecBase with MockitoSuga
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[AddAnotherTechnicalContactView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -81,7 +81,7 @@ class AddAnotherTechnicalContactControllerSpec extends SpecBase with MockitoSuga
 
       val view = application.injector.instanceOf[AddAnotherTechnicalContactView]
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual OK
 
@@ -105,7 +105,7 @@ class AddAnotherTechnicalContactControllerSpec extends SpecBase with MockitoSuga
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -140,7 +140,7 @@ class AddAnotherTechnicalContactControllerSpec extends SpecBase with MockitoSuga
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -153,7 +153,7 @@ class AddAnotherTechnicalContactControllerSpec extends SpecBase with MockitoSuga
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -164,12 +164,12 @@ class AddAnotherTechnicalContactControllerSpec extends SpecBase with MockitoSuga
 
     "for a GET" must {
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

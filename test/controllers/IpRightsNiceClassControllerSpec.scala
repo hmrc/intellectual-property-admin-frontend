@@ -53,10 +53,10 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
 
   override val emptyUserAnswers: UserAnswers = UserAnswers(afaId)
 
-  def getRequest(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequest: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, ipRightsNiceClassRoute)
 
-  def postRequest(): FakeRequest[AnyContentAsFormUrlEncoded] =
+  def postRequest: FakeRequest[AnyContentAsFormUrlEncoded] =
     FakeRequest(POST, ipRightsNiceClassRoute)
       .withFormUrlEncodedBody(("value", "1"))
 
@@ -68,14 +68,14 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       val view = application.injector.instanceOf[IpRightsNiceClassView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, iprIndex, niceClassIndex, afaId)(getRequest(), messages).toString
+        view(form, NormalMode, iprIndex, niceClassIndex, afaId)(getRequest, messages).toString
 
       application.stop()
     }
@@ -113,7 +113,7 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
           )
           .build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual onwardRoute.url
@@ -247,7 +247,7 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, getRequest()).value
+      val result = route(application, getRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -260,7 +260,7 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val result = route(application, postRequest()).value
+      val result = route(application, postRequest).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -321,7 +321,7 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
         }
       }
 
-      redirectIfLocked(afaId, getRequest)
+      redirectIfLocked(afaId, () => getRequest)
     }
 
     "for a POST" must {
@@ -382,7 +382,7 @@ class IpRightsNiceClassControllerSpec extends SpecBase with MockitoSugar with Lo
         }
       }
 
-      redirectIfLocked(afaId, postRequest)
+      redirectIfLocked(afaId, () => postRequest)
     }
   }
 }

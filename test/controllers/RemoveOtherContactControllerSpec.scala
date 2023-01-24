@@ -48,10 +48,10 @@ class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with 
   val secondaryTechContactUkBased                   = true
   val secondaryTechContactAddress: UkAddress        = UkAddress("street", None, "town", None, "postcode")
 
-  def getRequestLegal(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequestLegal: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, RemoveSecondaryLegalContactRoute)
 
-  def getRequestTechnical(): FakeRequest[AnyContentAsEmpty.type] =
+  def getRequestTechnical: FakeRequest[AnyContentAsEmpty.type] =
     FakeRequest(GET, RemoveSecondaryTechnicalContactRoute)
 
   lazy private val RemoveSecondaryLegalContactRoute     = routes.RemoveOtherContactController.onDelete(afaId, "legal").url
@@ -87,7 +87,7 @@ class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with 
           )
           .build()
 
-      val result = route(application, getRequestLegal()).value
+      val result = route(application, getRequestLegal).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -123,7 +123,7 @@ class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with 
           )
           .build()
 
-      val result = route(application, getRequestTechnical()).value
+      val result = route(application, getRequestTechnical).value
 
       status(result) mustEqual SEE_OTHER
 
@@ -137,7 +137,7 @@ class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with 
 
     val application = applicationBuilder(userAnswers = None).build()
 
-    val result = route(application, getRequestLegal()).value
+    val result = route(application, getRequestLegal).value
 
     status(result) mustEqual SEE_OTHER
 
@@ -147,6 +147,6 @@ class RemoveOtherContactControllerSpec extends SpecBase with LockAfaChecks with 
   }
 
   "for a GET" must {
-    redirectIfLocked(afaId, getRequestLegal)
+    redirectIfLocked(afaId, () => getRequestLegal)
   }
 }
