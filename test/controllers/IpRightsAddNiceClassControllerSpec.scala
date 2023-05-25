@@ -38,6 +38,8 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
 
   def onwardRoute: Call = Call("GET", "/foo")
 
+  val request = FakeRequest()
+
   val afaId: AfaId   = userAnswersId
   val iprIndex       = 0
   val niceClassIndex = 0
@@ -85,7 +87,7 @@ class IpRightsAddNiceClassControllerSpec extends SpecBase with IprIndexValidatio
           afaId,
           expectedSections,
           routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 1, afaId).url
-        )(messages).toString
+        )(messages, request).toString
 
       application.stop()
     }

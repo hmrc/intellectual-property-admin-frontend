@@ -153,7 +153,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
           canCreateAfa = false,
           noEvidenceProvided,
           companyApplying.name
-        )(messages).toString
+        )(messages, request).toString
 
       application.stop()
     }
@@ -241,7 +241,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
           canCreateAfa = false,
           noEvidenceProvided,
           companyApplying.name
-        )(messages).toString
+        )(messages, request).toString
 
       application.stop()
     }
@@ -348,7 +348,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
           canCreateAfa = false,
           noEvidenceProvided,
           companyApplying.name
-        )(messages).toString
+        )(messages, request).toString
 
       application.stop()
     }
@@ -433,7 +433,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
           canCreateAfa = false,
           noEvidenceProvided,
           companyApplying.name
-        )(messages).toString
+        )(messages, request).toString
 
       application.stop()
     }
@@ -537,7 +537,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
           canCreateAfa = false,
           noEvidenceProvided,
           companyApplying.name
-        )(messages).toString
+        )(messages, request).toString
 
       application.stop()
     }
@@ -585,7 +585,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
           canCreateAfa = true,
           noEvidenceProvided,
           companyApplying.name
-        )(messages).toString
+        )(messages, request).toString
 
       application.stop()
     }
@@ -645,7 +645,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
           canCreateAfa = false,
           noEvidenceProvided,
           companyApplying.name
-        )(messages).toString
+        )(messages, request).toString
 
       application.stop()
     }
@@ -686,7 +686,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with TryValues with Mockit
           canCreateAfa = true,
           noEvidenceProvided,
           companyApplying.name
-        )(messages).toString
+        )(messages, request).toString
 
       application.stop()
     }

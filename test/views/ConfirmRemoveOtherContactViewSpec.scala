@@ -18,11 +18,14 @@ package views
 
 import controllers.routes
 import models.UserAnswers
+import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat
 import views.behaviours.ViewBehaviours
 import views.html.ConfirmRemoveOtherContactView
 
 class ConfirmRemoveOtherContactViewSpec extends ViewBehaviours {
+
+  val request = FakeRequest()
 
   val messageKeyPrefix = "confirmRemoveOtherContact"
 
@@ -33,7 +36,7 @@ class ConfirmRemoveOtherContactViewSpec extends ViewBehaviours {
       val view = injectInstanceOf[ConfirmRemoveOtherContactView](Some(UserAnswers(afaId)))
 
       def applyView: HtmlFormat.Appendable =
-        view.apply(afaId, "legal")(messages)
+        view.apply(afaId, "legal")(messages, request)
 
       behave like normalPageUsingDesignSystem(
         frontendAppConfig,
@@ -58,7 +61,7 @@ class ConfirmRemoveOtherContactViewSpec extends ViewBehaviours {
       val view = injectInstanceOf[ConfirmRemoveOtherContactView](Some(UserAnswers(afaId)))
 
       def applyView: HtmlFormat.Appendable =
-        view.apply(afaId, "technical")(messages)
+        view.apply(afaId, "technical")(messages, request)
 
       behave like normalPageUsingDesignSystem(
         frontendAppConfig,

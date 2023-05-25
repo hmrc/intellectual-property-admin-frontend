@@ -18,12 +18,15 @@ package views
 
 import controllers.routes
 import models.{NormalMode, UserAnswers}
+import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat
 import viewmodels.ReviewRow
 import views.behaviours.ViewBehaviours
 import views.html.IpRightsAddNiceClassView
 
 class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
+
+  val request = FakeRequest()
 
   val messageKeyPrefix      = "ipRightsAddNiceClass"
   val reviewRow1: ReviewRow =
@@ -45,7 +48,7 @@ class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
         afaId,
         Seq.empty,
         routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url
-      )(messages)
+      )(messages, request)
 
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView(), messageKeyPrefix)
 
@@ -62,7 +65,7 @@ class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
         afaId,
         Seq(reviewRow1, reviewRow2),
         routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, afaId).url
-      )(messages)
+      )(messages, request)
     )
 
     "render a row without a delete option that" must {

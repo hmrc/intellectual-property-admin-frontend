@@ -20,12 +20,15 @@ import models.NormalMode
 import org.jsoup.nodes.Document
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import play.api.mvc.Call
+import play.api.test.FakeRequest
 import play.twirl.api.{Html, HtmlFormat}
 import viewmodels.{AnswerSection, IpRightAnswerRowWithUrl}
 import views.behaviours.ViewBehaviours
 import views.html.CheckIprDetailsView
 
 class CheckIprDetailsViewSpec extends ViewBehaviours {
+
+  val request   = FakeRequest()
   val emptyCall = Call("Foo", "Bar", "Baz")
 
   val singleLine: AnswerSection =
@@ -42,7 +45,7 @@ class CheckIprDetailsViewSpec extends ViewBehaviours {
   val view = injectInstanceOf[CheckIprDetailsView]()
 
   def applyView(answers: AnswerSection): HtmlFormat.Appendable =
-    view.apply(NormalMode, afaId, 0, answers, None, emptyCall)(messages)
+    view.apply(NormalMode, afaId, 0, answers, None, emptyCall)(messages, request)
 
   behave like normalPageUsingDesignSystem(frontendAppConfig, applyView(singleLine), "checkIprDetails")
 

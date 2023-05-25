@@ -18,6 +18,7 @@ package views
 
 import models.UserAnswers
 import org.jsoup.nodes.Document
+import play.api.test.FakeRequest
 import viewmodels.SubmissionResult
 import views.behaviours.ViewBehaviours
 import views.html.SubmissionResultView
@@ -35,7 +36,9 @@ class SubmissionResultViewSpec extends ViewBehaviours {
 
     val submissionResult = SubmissionResult(afaId, applicantCompanyName, expirationDate)
 
-    val applyView = view.apply(submissionResult)(messages)
+    val request = FakeRequest()
+
+    val applyView = view.apply(submissionResult)(messages, request)
 
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView, "submissionResult", afaIdInHeader = false)
 

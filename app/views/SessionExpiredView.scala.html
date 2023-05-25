@@ -19,7 +19,7 @@
     heading1: designsystembasedcomponents.heading1
 )
 
-@()(implicit messages: Messages)
+@()(implicit messages: Messages, request: Request[_])
 
 @layout(
     pageTitle = Some(messages("session_expired.title")), timeout = false

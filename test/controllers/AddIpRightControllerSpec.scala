@@ -74,7 +74,10 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(NormalMode, afaId, expectedSections, addIpRightsUrl(1), numberOfIpRights = 1, nextPage)(messages).toString
+        view(NormalMode, afaId, expectedSections, addIpRightsUrl(1), numberOfIpRights = 1, nextPage)(
+          messages,
+          getRequest
+        ).toString
 
       application.stop()
     }
@@ -119,7 +122,8 @@ class AddIpRightControllerSpec extends SpecBase with MockitoSugar with LockAfaCh
 
       contentAsString(result) mustEqual
         view(NormalMode, afaId, expectedSections, addIpRightsUrl(3), expectedSections.toOption.get.size, nextPage)(
-          messages
+          messages,
+          getRequest
         ).toString
 
       application.stop()
