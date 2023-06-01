@@ -24,7 +24,7 @@ import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.Helpers._
-import play.api.test.{FakeHeaders, FakeRequest, Injecting}
+import play.api.test.{FakeRequest, Injecting}
 import views.html.ShutterPage
 
 class ShutteringFilterSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuite with OptionValues with Injecting {
