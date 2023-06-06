@@ -17,6 +17,7 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.hmrcfrontend.views.html.components._
 @import views.designsystembasedcomponents.FooterLinks
+@import views.html.helper.CSPNonce
 
 @this(
         govukLayout: GovukLayout,
@@ -32,7 +33,7 @@
         headBlock: Option[Html] = None,
         timeout: Boolean = true,
         js: Option[Html] = None,
-)(contentBlock: Html)(implicit messages: Messages)
+)(contentBlock: Html)(implicit requestHeader: RequestHeader, messages: Messages)
 
 @head = {
 @if(timeout) {
@@ -47,8 +48,8 @@ title = Some(messages("timeout.heading")),
 message = Some(messages("timeout.text"))
 ))
 }
-        <script src="https://cdn.optimizely.com/js/20055379615.js"></script>
-        <script src='@controllers.routes.Assets.versioned("javascripts/gtm.js")'></script>
+        <script @CSPNonce.attr src="https://cdn.optimizely.com/js/20055379615.js"></script>
+        <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/gtm.js")'></script>
         <!-- Google Tag Manager -->
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PLWQQZB" height="0" width="0" style="display:none;visibility:hidden"></iframe>
         <!-- End Google Tag Manager -->
@@ -60,9 +61,9 @@ message = Some(messages("timeout.text"))
 }
 
 @scripts = {
-    <script src='@routes.Assets.versioned("lib/govuk-frontend/govuk/all.js")'></script>
-    <script src='@routes.Assets.versioned("lib/hmrc-frontend/hmrc/all.js")'></script>
-    <script src='@routes.Assets.versioned("javascripts/admin.js")'></script>
+    <script @CSPNonce.attr src='@routes.Assets.versioned("lib/govuk-frontend/govuk/all.js")'></script>
+    <script @CSPNonce.attr src='@routes.Assets.versioned("lib/hmrc-frontend/hmrc/all.js")'></script>
+    <script @CSPNonce.attr src='@routes.Assets.versioned("javascripts/admin.js")'></script>
 
 @js.map(x => x)
 }

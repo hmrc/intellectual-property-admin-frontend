@@ -16,6 +16,7 @@
 
 package views
 
+import play.api.test.FakeRequest
 import views.behaviours.ViewBehaviours
 import views.html.SessionExpiredView
 
@@ -25,7 +26,9 @@ class SessionExpiredViewSpec extends ViewBehaviours {
 
     val view = injectInstanceOf[SessionExpiredView]()
 
-    val applyView = view.apply()(messages)
+    val request = FakeRequest()
+
+    val applyView = view.apply()(messages, request)
 
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView, "session_expired", afaIdInHeader = false)
     behave like pageWithGuidance(applyView, "session_expired", Seq("guidance.one", "guidance.two"))

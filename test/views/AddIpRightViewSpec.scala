@@ -19,12 +19,15 @@ package views
 import models.{NormalMode, UserAnswers}
 import org.jsoup.nodes.Document
 import play.api.mvc.Call
+import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat
 import viewmodels.{DisplayAnswerRow, IprReviewRow}
 import views.behaviours.ViewBehaviours
 import views.html.AddIpRightView
 
 class AddIpRightViewSpec extends ViewBehaviours {
+
+  val request = FakeRequest()
 
   val messageKeyPrefix                   = "addIpRight"
   def actionSelector(index: Int): String = s"dl > div > dd:nth-child($index) > a"
@@ -36,7 +39,8 @@ class AddIpRightViewSpec extends ViewBehaviours {
     def applyView(numberOfIpRights: Int): HtmlFormat.Appendable = {
       val nextPage = Call("get", "anything")
       view.apply(NormalMode, afaId, Left(DisplayAnswerRow("", HtmlFormat.escape(""))), "", numberOfIpRights, nextPage)(
-        messages
+        messages,
+        request
       )
     }
 
@@ -49,7 +53,7 @@ class AddIpRightViewSpec extends ViewBehaviours {
         "/add",
         1,
         nextPage
-      )(messages)
+      )(messages, request)
     }
 
     behave like normalPageUsingDesignSystem(

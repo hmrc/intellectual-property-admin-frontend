@@ -24,7 +24,7 @@
     govukPanel : GovukPanel
 )
 
-@(submissionResult: SubmissionResult)(implicit messages: Messages)
+@(submissionResult: SubmissionResult)(implicit messages: Messages, request: Request[_])
 
 @layout(pageTitle = Some(messages("submissionResult.title"))) {
 

@@ -16,16 +16,19 @@
 
 package views
 
+import play.api.test.FakeRequest
 import views.behaviours.ViewBehaviours
 import views.html.UnauthorisedView
 
 class UnauthorisedViewSpec extends ViewBehaviours {
 
+  val request = FakeRequest()
+
   "Unauthorised view" must {
 
     val view = injectInstanceOf[UnauthorisedView]()
 
-    val applyView = view.apply()(messages)
+    val applyView = view.apply()(messages, request)
 
     behave like normalPageUsingDesignSystem(frontendAppConfig, applyView, "unauthorised", afaIdInHeader = false)
   }

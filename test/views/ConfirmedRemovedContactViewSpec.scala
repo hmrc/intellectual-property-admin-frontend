@@ -17,16 +17,19 @@
 package views
 
 import org.jsoup.nodes.Document
+import play.api.test.FakeRequest
 import views.behaviours.ViewBehaviours
 import views.html.ConfirmedRemovedContactView
 
 class ConfirmedRemovedContactViewSpec extends ViewBehaviours {
 
+  val request = FakeRequest()
+
   "ConfirmedRemovedContactView" must {
     "when passed technical return the confirmed removed technical contact page" must {
       val view = injectInstanceOf[ConfirmedRemovedContactView](Some(emptyUserAnswers))
 
-      val applyView = view.apply(afaId, "technical")(messages)
+      val applyView = view.apply(afaId, "technical")(messages, request)
 
       behave like normalPageUsingDesignSystem(
         frontendAppConfig,
@@ -57,7 +60,7 @@ class ConfirmedRemovedContactViewSpec extends ViewBehaviours {
     "when passed legal return the confirmed removed legal contact page" must {
       val view = injectInstanceOf[ConfirmedRemovedContactView](Some(emptyUserAnswers))
 
-      val applyView = view.apply(afaId, "legal")(messages)
+      val applyView = view.apply(afaId, "legal")(messages, request)
 
       behave like normalPageUsingDesignSystem(
         frontendAppConfig,

@@ -22,11 +22,14 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
+import play.api.mvc.AnyContentAsEmpty
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, Injecting}
 import views.html.ShutterPage
 
 class ShutteringFilterSpec extends AnyFreeSpec with Matchers with GuiceOneAppPerSuite with OptionValues with Injecting {
+
+  val requestHeader: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
 
   override lazy val app: Application = new GuiceApplicationBuilder()
     .configure(
@@ -46,7 +49,7 @@ class ShutteringFilterSpec extends AnyFreeSpec with Matchers with GuiceOneAppPer
         val result = route(app, FakeRequest(GET, controllers.routes.ViewDraftsController.onPageLoad().url)).value
 
         status(result) mustEqual SERVICE_UNAVAILABLE
-        contentAsString(result) mustEqual view().toString
+        contentAsString(result) mustEqual view()(requestHeader).toString
       }
     }
 

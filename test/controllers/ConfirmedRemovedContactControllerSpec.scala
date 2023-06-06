@@ -53,7 +53,7 @@ class ConfirmedRemovedContactControllerSpec extends SpecBase with LockAfaChecks 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(afaId, contactToRemoveLegal)(messages).toString
+        view(afaId, contactToRemoveLegal)(messages, getRequestLegal).toString
 
       application.stop()
     }
@@ -68,7 +68,7 @@ class ConfirmedRemovedContactControllerSpec extends SpecBase with LockAfaChecks 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(afaId, contactToRemoveTechnical)(messages).toString
+        view(afaId, contactToRemoveTechnical)(messages, getRequestTechnical).toString
 
       application.stop()
     }
