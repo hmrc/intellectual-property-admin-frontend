@@ -26,15 +26,19 @@ class WhoIsTechnicalContactFormProvider @Inject() extends Mappings {
 
   val nameCompanyEmailLimit: Int = 200
   val phonesLimit: Int           = 100
+  val rejectXssChars: String     = """^[^<>"&]*$"""
 
   def apply(): Form[TechnicalContact] = Form(
     mapping(
       "contactName"      -> text("whoIsTechnicalContact.error.contactName.required")
-        .verifying(maxLength(nameCompanyEmailLimit, "whoIsTechnicalContact.error.contactName.length")),
+        .verifying(maxLength(nameCompanyEmailLimit, "whoIsTechnicalContact.error.contactName.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "companyName"      -> text("whoIsTechnicalContact.error.companyName.required")
-        .verifying(maxLength(nameCompanyEmailLimit, "whoIsTechnicalContact.error.companyName.length")),
+        .verifying(maxLength(nameCompanyEmailLimit, "whoIsTechnicalContact.error.companyName.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "contactTelephone" -> text("whoIsTechnicalContact.error.contactTelephone.required")
-        .verifying(maxLength(phonesLimit, "whoIsTechnicalContact.error.contactTelephone.length")),
+        .verifying(maxLength(phonesLimit, "whoIsTechnicalContact.error.contactTelephone.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "contactEmail"     -> email.verifying(validateEmail)
     )(TechnicalContact.apply)(TechnicalContact.unapply)
   )

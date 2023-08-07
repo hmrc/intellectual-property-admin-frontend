@@ -27,13 +27,16 @@ class IpRightsDescriptionWithBrandFormProvider @Inject() extends Mappings {
 
   val brandMaxLength: Int       = 100
   val descriptionMaxLength: Int = 1000
+  val rejectXssChars: String    = """^[^<>"&]*$"""
 
   def apply(): Form[IpRightsDescriptionWithBrand] = Form(
     mapping(
       "brand" -> text("ipRightsDescriptionWithBrand.error.brand.required")
-        .verifying(maxLength(brandMaxLength, "ipRightsDescriptionWithBrand.error.brand.length")),
+        .verifying(maxLength(brandMaxLength, "ipRightsDescriptionWithBrand.error.brand.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "value" -> text("ipRightsDescriptionWithBrand.error.description.required")
         .verifying(maxLength(descriptionMaxLength, "ipRightsDescriptionWithBrand.error.description.length"))
+        .verifying(regexp(rejectXssChars, ""))
     )(IpRightsDescriptionWithBrand.apply)(IpRightsDescriptionWithBrand.unapply)
   )
 }

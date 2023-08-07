@@ -26,28 +26,34 @@ class SecondaryTechnicalContactUkAddressFormProvider @Inject() extends Mappings 
 
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[UkAddress] = Form(
     mapping(
       "line1"    ->
         text("secondaryTechnicalContactUkAddress.error.line1.required")
-          .verifying(maxLength(linesMaxLength, "secondaryTechnicalContactUkAddress.error.line1.length")),
+          .verifying(maxLength(linesMaxLength, "secondaryTechnicalContactUkAddress.error.line1.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "secondaryTechnicalContactUkAddress.error.line2.length"))
+            .verifying(regexp(rejectXssChars, ""))
         ),
       "town"     ->
         text("secondaryTechnicalContactUkAddress.error.town.required")
-          .verifying(maxLength(linesMaxLength, "secondaryTechnicalContactUkAddress.error.town.length")),
+          .verifying(maxLength(linesMaxLength, "secondaryTechnicalContactUkAddress.error.town.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "county"   ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "secondaryTechnicalContactUkAddress.error.county.length"))
+            .verifying(regexp(rejectXssChars, ""))
         ),
       "postCode" ->
         text("secondaryTechnicalContactUkAddress.error.postCode.required")
           .verifying(maxLength(postcodeMaxLength, "secondaryTechnicalContactUkAddress.error.postCode.length"))
+          .verifying(regexp(rejectXssChars, ""))
     )(UkAddress.apply)(UkAddress.unapply)
   )
 }

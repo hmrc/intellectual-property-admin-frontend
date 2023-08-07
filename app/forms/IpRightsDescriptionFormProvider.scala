@@ -23,11 +23,13 @@ import play.api.data.Form
 
 class IpRightsDescriptionFormProvider @Inject() extends Mappings {
 
-  val maxLength: Int = 1000
+  val maxLength: Int         = 1000
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[String] =
     Form(
       "value" -> text("ipRightsDescription.error.required")
         .verifying(maxLength(maxLength, "ipRightsDescription.error.length"))
+        .verifying(regexp(rejectXssChars, ""))
     )
 }

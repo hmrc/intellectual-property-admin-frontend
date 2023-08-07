@@ -24,20 +24,25 @@ import models.ApplicantLegalContact
 
 class ApplicantLegalContactFormProvider @Inject() extends Mappings {
 
-  val nameEmailLimit: Int = 200
-  val phonesLimit: Int    = 100
+  val nameEmailLimit: Int    = 200
+  val phonesLimit: Int       = 100
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[ApplicantLegalContact] = Form(
     mapping(
       "companyName"    -> text("applicantLegalContact.error.companyName.required")
-        .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.companyName.length")),
+        .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.companyName.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "name"           -> text("applicantLegalContact.error.name.required")
-        .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.name.length")),
+        .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.name.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "telephone"      -> text("applicantLegalContact.error.telephone.required")
-        .verifying(maxLength(phonesLimit, "applicantLegalContact.error.telephone.length")),
+        .verifying(maxLength(phonesLimit, "applicantLegalContact.error.telephone.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "otherTelephone" -> optional(
         Forms.text
           .verifying(maxLength(phonesLimit, "applicantLegalContact.error.otherTelephone.length"))
+          .verifying(regexp(rejectXssChars, ""))
       ),
       "email"          -> email.verifying(validateEmail)
     )(ApplicantLegalContact.apply)(ApplicantLegalContact.unapply)

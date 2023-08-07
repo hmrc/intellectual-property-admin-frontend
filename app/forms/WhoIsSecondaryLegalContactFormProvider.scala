@@ -23,17 +23,21 @@ import play.api.data.Forms.mapping
 
 class WhoIsSecondaryLegalContactFormProvider extends Mappings {
 
-  val nameEmailLimit: Int = 200
-  val phonesLimit: Int    = 100
+  val nameEmailLimit: Int    = 200
+  val phonesLimit: Int       = 100
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[WhoIsSecondaryLegalContact] = Form(
     mapping(
       "companyName" -> text("whoIsSecondaryLegalContact.error.companyName.required")
-        .verifying(maxLength(nameEmailLimit, "whoIsSecondaryLegalContact.error.companyName.length")),
+        .verifying(maxLength(nameEmailLimit, "whoIsSecondaryLegalContact.error.companyName.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "name"        -> text("whoIsSecondaryLegalContact.error.name.required")
-        .verifying(maxLength(nameEmailLimit, "whoIsSecondaryLegalContact.error.name.length")),
+        .verifying(maxLength(nameEmailLimit, "whoIsSecondaryLegalContact.error.name.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "telephone"   -> text("whoIsSecondaryLegalContact.error.telephone.required")
-        .verifying(maxLength(phonesLimit, "whoIsSecondaryLegalContact.error.telephone.length")),
+        .verifying(maxLength(phonesLimit, "whoIsSecondaryLegalContact.error.telephone.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "email"       -> email.verifying(validateEmail)
     )(WhoIsSecondaryLegalContact.apply)(WhoIsSecondaryLegalContact.unapply)
   )

@@ -24,28 +24,34 @@ import models.InternationalAddress
 
 class TechnicalContactInternationalAddressFormProvider @Inject() extends Mappings {
 
-  val maxLength: Int = 100
+  val maxLength: Int         = 100
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[InternationalAddress] = Form(
     mapping(
       "line1"    ->
         text("technicalContactInternationalAddress.error.line1.required")
-          .verifying(maxLength(maxLength, "technicalContactInternationalAddress.error.line1.length")),
+          .verifying(maxLength(maxLength, "technicalContactInternationalAddress.error.line1.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "technicalContactInternationalAddress.error.line2.length"))
+            .verifying(regexp(rejectXssChars, ""))
         ),
       "town"     ->
         text("technicalContactInternationalAddress.error.town.required")
-          .verifying(maxLength(maxLength, "technicalContactInternationalAddress.error.town.length")),
+          .verifying(maxLength(maxLength, "technicalContactInternationalAddress.error.town.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "country"  ->
         text("technicalContactInternationalAddress.error.country.required")
-          .verifying(maxLength(maxLength, "technicalContactInternationalAddress.error.country.length")),
+          .verifying(maxLength(maxLength, "technicalContactInternationalAddress.error.country.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "postCode" ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "technicalContactInternationalAddress.error.postCode.length"))
+            .verifying(regexp(rejectXssChars, ""))
         )
     )(InternationalAddress.apply)(InternationalAddress.unapply)
   )

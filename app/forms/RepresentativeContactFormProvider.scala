@@ -24,21 +24,26 @@ import play.api.data.Forms._
 
 class RepresentativeContactFormProvider @Inject() extends Mappings {
 
-  val nameEmailLimit: Int = 200
-  val phoneRoleLimit: Int = 100
+  val nameEmailLimit: Int    = 200
+  val phoneRoleLimit: Int    = 100
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[RepresentativeDetails] = Form(
     mapping(
       "name"        -> text("representativeContact.error.name.required")
-        .verifying(maxLength(nameEmailLimit, "representativeContact.error.name.length")),
+        .verifying(maxLength(nameEmailLimit, "representativeContact.error.name.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "companyName" -> text("representativeContact.error.companyName.required")
-        .verifying(maxLength(nameEmailLimit, "representativeContact.error.companyName.length")),
+        .verifying(maxLength(nameEmailLimit, "representativeContact.error.companyName.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "telephone"   -> text("representativeContact.error.telephone.required")
-        .verifying(maxLength(phoneRoleLimit, "representativeContact.error.telephone.length")),
+        .verifying(maxLength(phoneRoleLimit, "representativeContact.error.telephone.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "email"       -> email.verifying(validateEmail),
       "role"        -> optional(
         Forms.text
           .verifying(maxLength(phoneRoleLimit, "representativeContact.error.role.length"))
+          .verifying(regexp(rejectXssChars, ""))
       )
     )(RepresentativeDetails.apply)(RepresentativeDetails.unapply)
   )

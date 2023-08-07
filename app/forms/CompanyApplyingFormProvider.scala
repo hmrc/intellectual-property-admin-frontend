@@ -24,15 +24,18 @@ import models.CompanyApplying
 
 class CompanyApplyingFormProvider @Inject() extends Mappings {
 
-  val maxLength: Int = 200
+  val maxLength: Int         = 200
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[CompanyApplying] = Form(
     mapping(
       "companyName"    -> text("companyApplying.error.companyName.required")
-        .verifying(maxLength(maxLength, "companyApplying.error.companyName.length")),
+        .verifying(maxLength(maxLength, "companyApplying.error.companyName.length"))
+        .verifying(regexp(rejectXssChars, "")),
       "companyAcronym" -> optional(
         Forms.text
           .verifying(maxLength(maxLength, "companyApplying.error.companyAcronym.length"))
+          .verifying(regexp(rejectXssChars, ""))
       )
     )(CompanyApplying.apply)(CompanyApplying.unapply)
   )

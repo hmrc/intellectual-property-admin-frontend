@@ -24,28 +24,34 @@ import play.api.data.{Form, Forms}
 
 class SecondaryTechnicalContactInternationalAddressFormProvider @Inject() extends Mappings {
 
-  val maxLength: Int = 100
+  val maxLength: Int         = 100
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[InternationalAddress] = Form(
     mapping(
       "line1"    ->
         text("secondaryTechnicalContactInternationalAddress.error.line1.required")
-          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.line1.length")),
+          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.line1.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.line2.length"))
+            .verifying(regexp(rejectXssChars, ""))
         ),
       "town"     ->
         text("secondaryTechnicalContactInternationalAddress.error.town.required")
-          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.town.length")),
+          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.town.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "country"  ->
         text("secondaryTechnicalContactInternationalAddress.error.country.required")
-          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.country.length")),
+          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.country.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "postCode" ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.postCode.length"))
+            .verifying(regexp(rejectXssChars, ""))
         )
     )(InternationalAddress.apply)(InternationalAddress.unapply)
   )

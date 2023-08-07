@@ -24,28 +24,34 @@ import models.InternationalAddress
 
 class ApplicantLegalContactInternationalAddressFormProvider @Inject() extends Mappings {
 
-  val maxLength: Int = 100
+  val maxLength: Int         = 100
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[InternationalAddress] = Form(
     mapping(
       "line1"    ->
         text("applicantLegalContactInternationalAddress.error.line1.required")
-          .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.line1.length")),
+          .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.line1.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.line2.length"))
+            .verifying(regexp(rejectXssChars, ""))
         ),
       "town"     ->
         text("applicantLegalContactInternationalAddress.error.town.required")
-          .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.town.length")),
+          .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.town.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "country"  ->
         text("applicantLegalContactInternationalAddress.error.country.required")
-          .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.country.length")),
+          .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.country.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "postCode" ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.postCode.length"))
+            .verifying(regexp(rejectXssChars, ""))
         )
     )(InternationalAddress.apply)(InternationalAddress.unapply)
   )

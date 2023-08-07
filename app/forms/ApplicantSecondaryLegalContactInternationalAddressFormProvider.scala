@@ -24,28 +24,34 @@ import play.api.data.{Form, Forms}
 
 class ApplicantSecondaryLegalContactInternationalAddressFormProvider @Inject() extends Mappings {
 
-  val maxLength: Int = 100
+  val maxLength: Int         = 100
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[InternationalAddress] = Form(
     mapping(
       "line1"    ->
         text("applicantSecondaryLegalContactInternationalAddress.error.line1.required")
-          .verifying(maxLength(maxLength, "applicantSecondaryLegalContactInternationalAddress.error.line1.length")),
+          .verifying(maxLength(maxLength, "applicantSecondaryLegalContactInternationalAddress.error.line1.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "applicantSecondaryLegalContactInternationalAddress.error.line2.length"))
+            .verifying(regexp(rejectXssChars, ""))
         ),
       "town"     ->
         text("applicantSecondaryLegalContactInternationalAddress.error.town.required")
-          .verifying(maxLength(maxLength, "applicantSecondaryLegalContactInternationalAddress.error.town.length")),
+          .verifying(maxLength(maxLength, "applicantSecondaryLegalContactInternationalAddress.error.town.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "country"  ->
         text("applicantSecondaryLegalContactInternationalAddress.error.country.required")
-          .verifying(maxLength(maxLength, "applicantSecondaryLegalContactInternationalAddress.error.country.length")),
+          .verifying(maxLength(maxLength, "applicantSecondaryLegalContactInternationalAddress.error.country.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "postCode" ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "applicantSecondaryLegalContactInternationalAddress.error.postCode.length"))
+            .verifying(regexp(rejectXssChars, ""))
         )
     )(InternationalAddress.apply)(InternationalAddress.unapply)
   )

@@ -24,28 +24,34 @@ import play.api.data.{Form, Forms}
 
 class RepresentativeContactInternationalAddressFormProvider @Inject() extends Mappings {
 
-  val maxLength: Int = 100
+  val maxLength: Int         = 100
+  val rejectXssChars: String = """^[^<>"&]*$"""
 
   def apply(): Form[InternationalAddress] = Form(
     mapping(
       "line1"    ->
         text("representativeContactInternationalAddress.error.line1.required")
-          .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.line1.length")),
+          .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.line1.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.line2.length"))
+            .verifying(regexp(rejectXssChars, ""))
         ),
       "town"     ->
         text("representativeContactInternationalAddress.error.town.required")
-          .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.town.length")),
+          .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.town.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "country"  ->
         text("representativeContactInternationalAddress.error.country.required")
-          .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.country.length")),
+          .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.country.length"))
+          .verifying(regexp(rejectXssChars, "")),
       "postCode" ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.postCode.length"))
+            .verifying(regexp(rejectXssChars, ""))
         )
     )(InternationalAddress.apply)(InternationalAddress.unapply)
   )
