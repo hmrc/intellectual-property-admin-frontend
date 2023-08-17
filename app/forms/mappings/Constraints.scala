@@ -71,6 +71,14 @@ trait Constraints extends EmailValidation {
         Invalid(errorKey, regex)
     }
 
+  protected def regexpArgs(regex: String, errorKey: String, args: Seq[Any]): Constraint[String] =
+    Constraint {
+      case str if str.matches(regex) =>
+        Valid
+      case _                         =>
+        Invalid(errorKey, (args :: errorKey.toList): _*)
+    }
+
   protected def maxLength(maximum: Int, errorKey: String, args: Any*): Constraint[String] =
     Constraint {
       case str if str.length <= maximum =>

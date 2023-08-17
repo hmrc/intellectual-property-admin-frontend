@@ -23,8 +23,10 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
 
   val form = new ApplicantLegalContactFormProvider()()
 
-  val nameEmailLimit: Int = 200
-  val phonesLimit: Int    = 100
+  val nameEmailLimit: Int    = 200
+  val phonesLimit: Int       = 100
+  val rejectXssChars: String = """^[^<>"&]*$"""
+  val regexKey               = "regex.error"
 
   "companyName" must {
 
@@ -50,6 +52,20 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "return an error when passed a value with an invalid character" in {
+      val testInput        = Map(
+        "companyName"    -> "<>",
+        "name"           -> "name",
+        "telephone"      -> "1123",
+        "otherTelephone" -> "1234",
+        "email"          -> "email@email"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest should contain(FormError(fieldName, regexKey, List(rejectXssChars)))
+    }
+
   }
 
   "name" must {
@@ -76,6 +92,19 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "return an error when passed a value with an invalid character" in {
+      val testInput        = Map(
+        "companyName"    -> "company",
+        "name"           -> "<?>",
+        "telephone"      -> "1123",
+        "otherTelephone" -> "1234",
+        "email"          -> "email@email"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest should contain(FormError(fieldName, regexKey, List(rejectXssChars)))
+    }
   }
 
   "telephone" must {
@@ -102,6 +131,19 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "return an error when passed a value with an invalid character" in {
+      val testInput        = Map(
+        "companyName"    -> "company",
+        "name"           -> "name",
+        "telephone"      -> "1123<",
+        "otherTelephone" -> "1234",
+        "email"          -> "email@email"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest should contain(FormError(fieldName, regexKey, List(rejectXssChars)))
+    }
   }
 
   "otherTelephone" must {
@@ -121,6 +163,19 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       maxLength = phonesLimit,
       lengthError = FormError(fieldName, lengthKey, Seq(phonesLimit))
     )
+
+    "return an error when passed a value with an invalid character" in {
+      val testInput        = Map(
+        "companyName"    -> "company",
+        "name"           -> "name",
+        "telephone"      -> "1123",
+        "otherTelephone" -> "1234<>",
+        "email"          -> "email@email"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest should contain(FormError(fieldName, regexKey, List(rejectXssChars)))
+    }
   }
 
   "email" must {

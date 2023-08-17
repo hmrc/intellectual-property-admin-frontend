@@ -17,11 +17,11 @@
 package forms
 
 import javax.inject.Inject
-
 import forms.mappings.Mappings
 import play.api.data.Form
 import play.api.data.Forms._
 import models.IpRightsDescriptionWithBrand
+import play.api.i18n.Messages
 
 class IpRightsDescriptionWithBrandFormProvider @Inject() extends Mappings {
 
@@ -29,14 +29,16 @@ class IpRightsDescriptionWithBrandFormProvider @Inject() extends Mappings {
   val descriptionMaxLength: Int = 1000
   val rejectXssChars: String    = """^[^<>"&]*$"""
 
-  def apply(): Form[IpRightsDescriptionWithBrand] = Form(
+  val regexErrorKey: String = "regex.error"
+
+  def apply(messages: Messages): Form[IpRightsDescriptionWithBrand] = Form(
     mapping(
       "brand" -> text("ipRightsDescriptionWithBrand.error.brand.required")
         .verifying(maxLength(brandMaxLength, "ipRightsDescriptionWithBrand.error.brand.length"))
-        .verifying(regexp(rejectXssChars, "")),
+        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("ipRightsDescriptionWithBrand.brand"))),
       "value" -> text("ipRightsDescriptionWithBrand.error.description.required")
         .verifying(maxLength(descriptionMaxLength, "ipRightsDescriptionWithBrand.error.description.length"))
-        .verifying(regexp(rejectXssChars, ""))
+        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("ipRightsDescriptionWithBrand.description")))
     )(IpRightsDescriptionWithBrand.apply)(IpRightsDescriptionWithBrand.unapply)
   )
 }

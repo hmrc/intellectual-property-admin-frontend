@@ -21,6 +21,7 @@ import forms.mappings.Mappings
 import play.api.data.{Form, Forms}
 import play.api.data.Forms._
 import models.UkAddress
+import play.api.i18n.Messages
 
 class CompanyApplyingUkAddressFormProvider @Inject() extends Mappings {
 
@@ -28,32 +29,34 @@ class CompanyApplyingUkAddressFormProvider @Inject() extends Mappings {
   val postcodeMaxLength: Int = 10
   val rejectXssChars: String = """^[^<>"&]*$"""
 
-  def apply(): Form[UkAddress] = Form(
+  val regexErrorKey: String = "regex.error"
+
+  def apply(messages: Messages): Form[UkAddress] = Form(
     mapping(
       "line1"    ->
         text("companyApplyingUkAddress.error.line1.required")
           .verifying(maxLength(linesMaxLength, "companyApplyingUkAddress.error.line1.length"))
-          .verifying(regexp(rejectXssChars, "")),
+          .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplyingUkAddress.line1"))),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "companyApplyingUkAddress.error.line2.length"))
-            .verifying(regexp(rejectXssChars, ""))
+            .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplyingUkAddress.line2")))
         ),
       "town"     ->
         text("companyApplyingUkAddress.error.town.required")
           .verifying(maxLength(linesMaxLength, "companyApplyingUkAddress.error.town.length"))
-          .verifying(regexp(rejectXssChars, "")),
+          .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplyingUkAddress.town"))),
       "county"   ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "companyApplyingUkAddress.error.county.length"))
-            .verifying(regexp(rejectXssChars, ""))
+            .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplyingUkAddress.countyNoOption")))
         ),
       "postCode" ->
         text("companyApplyingUkAddress.error.postCode.required")
           .verifying(maxLength(postcodeMaxLength, "companyApplyingUkAddress.error.postCode.length"))
-          .verifying(regexp(rejectXssChars, ""))
+          .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplyingUkAddress.postCode")))
     )(UkAddress.apply)(UkAddress.unapply)
   )
 }

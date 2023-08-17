@@ -26,7 +26,7 @@ import navigation.Navigator
 import pages.{ApplicantSecondaryLegalContactUkAddressPage, WhoIsSecondaryLegalContactPage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import services.AfaService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.ApplicantSecondaryLegalContactUkAddressView
@@ -48,7 +48,7 @@ class ApplicantSecondaryLegalContactUkAddressController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  private def form: Form[UkAddress] = formProvider()
+  private def form(implicit request: Request[_]): Form[UkAddress] = formProvider(request2Messages)
 
   def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>

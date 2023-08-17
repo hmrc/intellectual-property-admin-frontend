@@ -26,6 +26,8 @@ class IpRightsRegistrationNumberFormProvider @Inject() extends Mappings {
   val maxLength: Int         = 100
   val rejectXssChars: String = """^[^<>"&]*$"""
 
+  val regexErrorKey: String = "regex.error"
+
   def apply(ipRightsName: String, existingRegistrationNumbers: Seq[String]): Form[String] = {
 
     val duplicateRegistrationNumberConstraint: Constraint[String] = Constraint { regNum =>
@@ -40,7 +42,6 @@ class IpRightsRegistrationNumberFormProvider @Inject() extends Mappings {
       "value" -> text("ipRightsRegistrationNumber.error.required", ipRightsName)
         .verifying(maxLength(maxLength, "ipRightsRegistrationNumber.error.length", ipRightsName))
         .verifying(duplicateRegistrationNumberConstraint)
-        .verifying(regexp(rejectXssChars, ""))
     )
   }
 }

@@ -419,6 +419,7 @@ companyApplyingUkAddress.error.line2.length = Second line of building and street
 companyApplyingUkAddress.error.town.length = Town or city must be 100 characters or less
 companyApplyingUkAddress.error.county.length = County must be 100 characters or less
 companyApplyingUkAddress.error.postCode.length = Postcode must be 10 characters or less
+companyApplyingUkAddress.countyNoOption = County
 
 companyApplyingInternationalAddress.title = What is the address for {0}?
 companyApplyingInternationalAddress.heading = What is the address for {0}?
@@ -747,3 +748,7 @@ confirmedRemovedContact.technical = Technical
 email.required = Enter an email address
 email.length = Email address must be 256 characters or less
 email.format = Enter an email address in the correct format, like name@example.com
+
+regex.error = {0} cannot contain <, >, " or &
+addressLine.1 = Address Line 1
+companyName.1 = Applicant (or Company Name)

@@ -21,6 +21,7 @@ import forms.mappings.Mappings
 import play.api.data.{Form, Forms}
 import play.api.data.Forms._
 import models.UkAddress
+import play.api.i18n.Messages
 
 class TechnicalContactUkAddressFormProvider @Inject() extends Mappings {
 
@@ -28,32 +29,34 @@ class TechnicalContactUkAddressFormProvider @Inject() extends Mappings {
   val postcodeMaxLength: Int = 10
   val rejectXssChars: String = """^[^<>"&]*$"""
 
-  def apply(): Form[UkAddress] = Form(
+  val regexErrorKey: String = "regex.error"
+
+  def apply(messages: Messages): Form[UkAddress] = Form(
     mapping(
       "line1"    ->
         text("technicalContactUkAddress.error.line1.required")
           .verifying(maxLength(linesMaxLength, "technicalContactUkAddress.error.line1.length"))
-          .verifying(regexp(rejectXssChars, "")),
+          .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("technicalContactUkAddress.line1"))),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "technicalContactUkAddress.error.line2.length"))
-            .verifying(regexp(rejectXssChars, ""))
+            .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("technicalContactUkAddress.line2")))
         ),
       "town"     ->
         text("technicalContactUkAddress.error.town.required")
           .verifying(maxLength(linesMaxLength, "technicalContactUkAddress.error.town.length"))
-          .verifying(regexp(rejectXssChars, "")),
+          .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("technicalContactUkAddress.town"))),
       "county"   ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "technicalContactUkAddress.error.county.length"))
-            .verifying(regexp(rejectXssChars, ""))
+            .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("technicalContactUkAddress.county")))
         ),
       "postCode" ->
         text("technicalContactUkAddress.error.postCode.required")
           .verifying(maxLength(postcodeMaxLength, "technicalContactUkAddress.error.postCode.length"))
-          .verifying(regexp(rejectXssChars, ""))
+          .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("technicalContactUkAddress.postCode")))
     )(UkAddress.apply)(UkAddress.unapply)
   )
 }

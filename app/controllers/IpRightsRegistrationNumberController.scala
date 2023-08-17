@@ -26,7 +26,7 @@ import navigation.Navigator
 import pages.{IpRightsRegistrationNumberPage, IpRightsTypePage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import queries.IprDetailsQuery
 import services.AfaService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController

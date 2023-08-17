@@ -20,6 +20,7 @@ import forms.mappings.Mappings
 import models.WhoIsSecondaryLegalContact
 import play.api.data.Form
 import play.api.data.Forms.mapping
+import play.api.i18n.Messages
 
 class WhoIsSecondaryLegalContactFormProvider extends Mappings {
 
@@ -27,17 +28,19 @@ class WhoIsSecondaryLegalContactFormProvider extends Mappings {
   val phonesLimit: Int       = 100
   val rejectXssChars: String = """^[^<>"&]*$"""
 
-  def apply(): Form[WhoIsSecondaryLegalContact] = Form(
+  val regexErrorKey: String = "regex.error"
+
+  def apply(messages: Messages): Form[WhoIsSecondaryLegalContact] = Form(
     mapping(
       "companyName" -> text("whoIsSecondaryLegalContact.error.companyName.required")
         .verifying(maxLength(nameEmailLimit, "whoIsSecondaryLegalContact.error.companyName.length"))
-        .verifying(regexp(rejectXssChars, "")),
+        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("whoIsSecondaryLegalContact.companyName.label"))),
       "name"        -> text("whoIsSecondaryLegalContact.error.name.required")
         .verifying(maxLength(nameEmailLimit, "whoIsSecondaryLegalContact.error.name.length"))
-        .verifying(regexp(rejectXssChars, "")),
+        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("whoIsSecondaryLegalContact.name.label"))),
       "telephone"   -> text("whoIsSecondaryLegalContact.error.telephone.required")
         .verifying(maxLength(phonesLimit, "whoIsSecondaryLegalContact.error.telephone.length"))
-        .verifying(regexp(rejectXssChars, "")),
+        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("whoIsSecondaryLegalContact.telephone.label"))),
       "email"       -> email.verifying(validateEmail)
     )(WhoIsSecondaryLegalContact.apply)(WhoIsSecondaryLegalContact.unapply)
   )

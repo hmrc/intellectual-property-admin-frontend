@@ -16,26 +16,32 @@
 
 package forms
 
-import javax.inject.Inject
 import forms.mappings.Mappings
-import play.api.data.{Form, Forms}
-import play.api.data.Forms._
 import models.CompanyApplying
+import play.api.data.Forms._
+import play.api.data.{Form, Forms}
+import play.api.i18n.Messages
 
-class CompanyApplyingFormProvider @Inject() extends Mappings {
+import javax.inject.Inject
+
+class CompanyApplyingFormProvider @Inject() () extends Mappings {
 
   val maxLength: Int         = 200
   val rejectXssChars: String = """^[^<>"&]*$"""
 
-  def apply(): Form[CompanyApplying] = Form(
+  val regexErrorKey: String = "regex.error"
+
+  def apply(messages: Messages): Form[CompanyApplying] = Form(
     mapping(
       "companyName"    -> text("companyApplying.error.companyName.required")
         .verifying(maxLength(maxLength, "companyApplying.error.companyName.length"))
-        .verifying(regexp(rejectXssChars, "")),
+        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplying.companyName"))),
       "companyAcronym" -> optional(
         Forms.text
           .verifying(maxLength(maxLength, "companyApplying.error.companyAcronym.length"))
-          .verifying(regexp(rejectXssChars, ""))
+          .verifying(
+            regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplying.acronym.checkYourAnswersLabel"))
+          )
       )
     )(CompanyApplying.apply)(CompanyApplying.unapply)
   )

@@ -26,7 +26,7 @@ import navigation.Navigator
 import pages.RepresentativeDetailsPage
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
 import services.AfaService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.RepresentativeContactView
@@ -49,7 +49,7 @@ class RepresentativeContactController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  private def form: Form[RepresentativeDetails] = formProvider()
+  private def form(implicit request: Request[_]): Form[RepresentativeDetails] = formProvider(request2Messages)
 
   def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData) { implicit request =>

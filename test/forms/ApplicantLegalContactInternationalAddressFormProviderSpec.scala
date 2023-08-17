@@ -21,8 +21,10 @@ import play.api.data.FormError
 
 class ApplicantLegalContactInternationalAddressFormProviderSpec extends StringFieldBehaviours {
 
-  val form      = new ApplicantLegalContactInternationalAddressFormProvider()()
-  val maxLength = 100
+  val form                   = new ApplicantLegalContactInternationalAddressFormProvider()()
+  val maxLength              = 100
+  val rejectXssChars: String = """^[^<>"&]*$"""
+  val regexKey               = "regex.error"
 
   ".line1" must {
 
