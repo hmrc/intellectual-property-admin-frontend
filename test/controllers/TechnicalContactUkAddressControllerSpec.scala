@@ -20,7 +20,6 @@ import base.SpecBase
 import forms.TechnicalContactUkAddressFormProvider
 import models.{AfaId, NormalMode, TechnicalContact, UkAddress, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{TechnicalContactUkAddressPage, WhoIsTechnicalContactPage}
@@ -41,7 +40,7 @@ class TechnicalContactUkAddressControllerSpec extends SpecBase with MockitoSugar
   val afaId: AfaId = userAnswersId
 
   val formProvider                  = new TechnicalContactUkAddressFormProvider()
-  private def form: Form[UkAddress] = formProvider()
+  private def form: Form[UkAddress] = formProvider(messages)
 
   lazy private val technicalContactUkAddressRoute =
     routes.TechnicalContactUkAddressController.onPageLoad(NormalMode, afaId).url

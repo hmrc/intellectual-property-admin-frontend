@@ -30,7 +30,7 @@ class RepresentativeContactUkAddressViewSpec extends TextInputViewBehaviours[UkA
 
   val contactName = "foo"
 
-  override val form = new RepresentativeContactUkAddressFormProvider()()
+  override val form = new RepresentativeContactUkAddressFormProvider()(messages)
 
   "representativeContactUkAddress" must {
 

@@ -17,13 +17,17 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.TechnicalContact
+import play.api.data.{Form, FormError}
+import utils.TestUtils
 
-class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours {
+class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours with TestUtils {
 
-  val form             = new WhoIsTechnicalContactFormProvider()()
-  val nameLimit: Int   = 200
-  val phonesLimit: Int = 100
+  val formProvider = new WhoIsTechnicalContactFormProvider()
+
+  val form: Form[TechnicalContact] = formProvider(messages)
+  val nameLimit: Int               = 200
+  val phonesLimit: Int             = 100
 
   ".companyName" must {
 

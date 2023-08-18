@@ -29,7 +29,7 @@ class WhoIsSecondaryLegalContactViewSpec extends TextInputViewBehaviours[WhoIsSe
 
   val messageKeyPrefix = "whoIsSecondaryLegalContact"
 
-  override val form = new WhoIsSecondaryLegalContactFormProvider()()
+  override val form = new WhoIsSecondaryLegalContactFormProvider()(messages)
 
   "WhoIsSecondaryLegalContactView" must {
 

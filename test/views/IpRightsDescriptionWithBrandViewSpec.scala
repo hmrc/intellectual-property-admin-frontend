@@ -28,7 +28,7 @@ class IpRightsDescriptionWithBrandViewSpec extends TextInputViewBehaviours[IpRig
 
   val messageKeyPrefix = "ipRightsDescriptionWithBrand"
 
-  override val form = new IpRightsDescriptionWithBrandFormProvider()()
+  override val form = new IpRightsDescriptionWithBrandFormProvider()(messages)
 
   "IpRightsDescriptionWithBrandView" must {
 

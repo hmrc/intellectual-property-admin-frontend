@@ -18,13 +18,15 @@ package forms
 
 import forms.behaviours.StringFieldBehaviours
 import play.api.data.FormError
+import utils.TestUtils
 
-class TechnicalContactUkAddressFormProviderSpec extends StringFieldBehaviours {
+class TechnicalContactUkAddressFormProviderSpec extends StringFieldBehaviours with TestUtils {
 
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
 
-  val form = new TechnicalContactUkAddressFormProvider()()
+  val formProvider = new TechnicalContactUkAddressFormProvider()
+  val form         = formProvider(messages)
 
   ".line1" must {
 

@@ -20,7 +20,6 @@ import base.SpecBase
 import forms.RepresentativeContactFormProvider
 import models.{AfaId, CompanyApplying, NormalMode, RepresentativeDetails, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{CompanyApplyingPage, RepresentativeDetailsPage}
@@ -41,7 +40,7 @@ class RepresentativeContactControllerSpec extends SpecBase with MockitoSugar wit
   val afaId: AfaId = userAnswersId
 
   val formProvider                              = new RepresentativeContactFormProvider()
-  private def form: Form[RepresentativeDetails] = formProvider()
+  private def form: Form[RepresentativeDetails] = formProvider(messages)
 
   lazy val representativeContactRoute: String = routes.RepresentativeContactController.onPageLoad(NormalMode, afaId).url
 

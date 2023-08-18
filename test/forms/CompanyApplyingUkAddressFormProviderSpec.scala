@@ -17,14 +17,17 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.UkAddress
+import play.api.data.{Form, FormError}
+import utils.TestUtils
 
-class CompanyApplyingUkAddressFormProviderSpec extends StringFieldBehaviours {
+class CompanyApplyingUkAddressFormProviderSpec extends StringFieldBehaviours with TestUtils {
 
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
 
-  val form = new CompanyApplyingUkAddressFormProvider()()
+  val formProvider          = new CompanyApplyingUkAddressFormProvider()
+  val form: Form[UkAddress] = formProvider(messages)
 
   ".line1" must {
 

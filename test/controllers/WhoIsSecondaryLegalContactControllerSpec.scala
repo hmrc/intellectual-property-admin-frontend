@@ -20,7 +20,6 @@ import base.SpecBase
 import forms.WhoIsSecondaryLegalContactFormProvider
 import models.{AfaId, CompanyApplying, NormalMode, UserAnswers, WhoIsSecondaryLegalContact}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{CompanyApplyingPage, WhoIsSecondaryLegalContactPage}
@@ -41,7 +40,7 @@ class WhoIsSecondaryLegalContactControllerSpec extends SpecBase with MockitoSuga
   val afaId: AfaId = userAnswersId
 
   val formProvider                                   = new WhoIsSecondaryLegalContactFormProvider()
-  private def form: Form[WhoIsSecondaryLegalContact] = formProvider()
+  private def form: Form[WhoIsSecondaryLegalContact] = formProvider(messages)
 
   lazy val whoIsSecondaryLegalContactRoute: String     =
     routes.WhoIsSecondaryLegalContactController.onPageLoad(NormalMode, afaId).url

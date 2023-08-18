@@ -20,7 +20,6 @@ import base.SpecBase
 import forms.IpRightsDescriptionWithBrandFormProvider
 import models.{AfaId, IpRightsDescriptionWithBrand, NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.mockito.MockitoSugar
@@ -47,7 +46,7 @@ class IpRightsDescriptionWithBrandControllerSpec
   val afaId: AfaId = userAnswersId
 
   val formProvider = new IpRightsDescriptionWithBrandFormProvider()
-  private def form = formProvider()
+  private def form = formProvider(messages)
 
   lazy val ipRightsDescriptionWithBrandRoute: String =
     routes.IpRightsDescriptionWithBrandController.onPageLoad(NormalMode, index, afaId).url

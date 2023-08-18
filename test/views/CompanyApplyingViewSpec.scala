@@ -28,7 +28,7 @@ class CompanyApplyingViewSpec extends TextInputViewBehaviours[CompanyApplying] {
 
   val messageKeyPrefix = "companyApplying"
 
-  override val form = new CompanyApplyingFormProvider()()
+  override val form = new CompanyApplyingFormProvider()(messages)
 
   "CompanyApplyingView" must {
 

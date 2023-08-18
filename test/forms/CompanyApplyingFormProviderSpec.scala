@@ -17,13 +17,16 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.CompanyApplying
+import play.api.data.{Form, FormError}
+import utils.TestUtils
 
-class CompanyApplyingFormProviderSpec extends StringFieldBehaviours {
+class CompanyApplyingFormProviderSpec extends StringFieldBehaviours with TestUtils {
 
   val maxLength = 200
 
-  val form = new CompanyApplyingFormProvider()()
+  val formProvider                = new CompanyApplyingFormProvider()
+  val form: Form[CompanyApplying] = formProvider(messages)
 
   ".companyName" must {
 

@@ -17,13 +17,16 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.IpRightsDescriptionWithBrand
+import play.api.data.{Form, FormError}
+import utils.TestUtils
 
-class IpRightsDescriptionWithBrandFormProviderSpec extends StringFieldBehaviours {
+class IpRightsDescriptionWithBrandFormProviderSpec extends StringFieldBehaviours with TestUtils {
 
-  val form                      = new IpRightsDescriptionWithBrandFormProvider()()
-  val brandMaxLength: Int       = 100
-  val descriptionMaxLength: Int = 1000
+  val formProvider                             = new IpRightsDescriptionWithBrandFormProvider()
+  val form: Form[IpRightsDescriptionWithBrand] = formProvider(messages)
+  val brandMaxLength: Int                      = 100
+  val descriptionMaxLength: Int                = 1000
   ".brand" must {
 
     val fieldName   = "brand"

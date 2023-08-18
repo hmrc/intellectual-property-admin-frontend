@@ -18,10 +18,12 @@ package forms
 
 import forms.behaviours.StringFieldBehaviours
 import play.api.data.FormError
+import utils.TestUtils
 
-class RepresentativeContactUkAddressFormProviderSpec extends StringFieldBehaviours {
+class RepresentativeContactUkAddressFormProviderSpec extends StringFieldBehaviours with TestUtils {
 
-  val form = new RepresentativeContactUkAddressFormProvider()()
+  val formProvider = new RepresentativeContactUkAddressFormProvider()
+  val form         = formProvider(messages)
 
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10

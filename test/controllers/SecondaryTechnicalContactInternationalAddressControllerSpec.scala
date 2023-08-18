@@ -20,7 +20,6 @@ import base.SpecBase
 import forms.SecondaryTechnicalContactInternationalAddressFormProvider
 import models.{AfaId, InternationalAddress, NormalMode, TechnicalContact, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{SecondaryTechnicalContactInternationalAddressPage, WhoIsSecondaryTechnicalContactPage}
@@ -47,7 +46,7 @@ class SecondaryTechnicalContactInternationalAddressControllerSpec
   val secondaryTechnicalContact: TechnicalContact = TechnicalContact("companyName", "name", "telephone", "email")
 
   val formProvider                             = new SecondaryTechnicalContactInternationalAddressFormProvider()
-  private def form: Form[InternationalAddress] = formProvider()
+  private def form: Form[InternationalAddress] = formProvider(messages)
 
   lazy val applicantSecondaryTechnicalContactInternationalAddressRoute: String =
     routes.SecondaryTechnicalContactInternationalAddressController.onPageLoad(NormalMode, afaId).url

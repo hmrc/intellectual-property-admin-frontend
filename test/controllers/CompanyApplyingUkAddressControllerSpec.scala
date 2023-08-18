@@ -20,7 +20,6 @@ import base.SpecBase
 import forms.CompanyApplyingUkAddressFormProvider
 import models.{AfaId, CompanyApplying, NormalMode, UkAddress, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{CompanyApplyingPage, CompanyApplyingUkAddressPage}
@@ -42,7 +41,7 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
   val companyApplying: CompanyApplying = CompanyApplying("name", None)
 
   val formProvider = new CompanyApplyingUkAddressFormProvider()
-  private def form = formProvider()
+  private def form = formProvider(messages)
 
   lazy private val companyApplyingUkAddressRoute =
     routes.CompanyApplyingUkAddressController.onPageLoad(NormalMode, afaId).url

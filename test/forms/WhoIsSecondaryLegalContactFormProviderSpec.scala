@@ -17,12 +17,15 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.WhoIsSecondaryLegalContact
+import play.api.data.{Form, FormError}
+import utils.TestUtils
 
-class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
+class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours with TestUtils {
 
-  val errorKey = "whoIsSecondaryLegalContact.error.required"
-  val form     = new WhoIsSecondaryLegalContactFormProvider()()
+  val errorKey                               = "whoIsSecondaryLegalContact.error.required"
+  val formProvider                           = new WhoIsSecondaryLegalContactFormProvider()
+  val form: Form[WhoIsSecondaryLegalContact] = formProvider(messages)
 
   val nameLimit: Int   = 200
   val phonesLimit: Int = 100
