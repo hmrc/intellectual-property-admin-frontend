@@ -32,23 +32,23 @@ class RepresentativeContactFormProvider @Inject() extends Mappings {
 
   val regexErrorKey: String = "regex.error"
 
-  def apply(messages: Messages): Form[RepresentativeDetails] = Form(
+  def apply(implicit messages: Messages): Form[RepresentativeDetails] = Form(
     mapping(
       "name"        -> text("representativeContact.error.name.required")
         .verifying(maxLength(nameEmailLimit, "representativeContact.error.name.length"))
-        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("representativeContact.name.label"))),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "representativeContact.name.label")),
       "companyName" -> text("representativeContact.error.companyName.required")
         .verifying(maxLength(nameEmailLimit, "representativeContact.error.companyName.length"))
-        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("representativeContact.companyName.label"))),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "representativeContact.companyName.label")),
       "telephone"   -> text("representativeContact.error.telephone.required")
         .verifying(maxLength(phoneRoleLimit, "representativeContact.error.telephone.length"))
-        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("representativeContact.telephone.label"))),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "representativeContact.telephone.label")),
       "email"       -> email.verifying(validateEmail),
       "role"        -> optional(
         Forms.text
           .verifying(maxLength(phoneRoleLimit, "representativeContact.error.role.length"))
           .verifying(
-            regexpArgs(rejectXssChars, regexErrorKey, messages("representativeContact.role.checkYourAnswersLabel"))
+            regexpDynamic(rejectXssChars, regexErrorKey, "representativeContact.role.checkYourAnswersLabel")
           )
       )
     )(RepresentativeDetails.apply)(RepresentativeDetails.unapply)

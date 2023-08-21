@@ -31,46 +31,39 @@ class SecondaryTechnicalContactInternationalAddressFormProvider @Inject() extend
 
   val regexErrorKey: String = "regex.error"
 
-  def apply(messages: Messages): Form[InternationalAddress] = Form(
+  def apply(implicit messages: Messages): Form[InternationalAddress] = Form(
     mapping(
-      "line1"    ->
-        text("secondaryTechnicalContactInternationalAddress.error.line1.required")
-          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.line1.length"))
-          .verifying(
-            regexpArgs(rejectXssChars, regexErrorKey, messages("secondaryTechnicalContactInternationalAddress.line1"))
-          ),
-      "line2"    ->
-        optional(
-          Forms.text
-            .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.line2.length"))
-            .verifying(
-              regexpArgs(rejectXssChars, regexErrorKey, messages("secondaryTechnicalContactInternationalAddress.line2"))
-            )
+      "line1"    -> text("secondaryTechnicalContactInternationalAddress.error.line1.required")
+        .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.line1.length"))
+        .verifying(
+          regexpDynamic(
+            rejectXssChars,
+            regexErrorKey,
+            "secondaryTechnicalContactInternationalAddress.line1"
+          )
         ),
-      "town"     ->
-        text("secondaryTechnicalContactInternationalAddress.error.town.required")
-          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.town.length"))
+      "line2"    -> optional(
+        Forms.text
+          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.line2.length"))
           .verifying(
-            regexpArgs(rejectXssChars, regexErrorKey, messages("secondaryTechnicalContactInternationalAddress.town"))
-          ),
-      "country"  ->
-        text("secondaryTechnicalContactInternationalAddress.error.country.required")
-          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.country.length"))
+            regexpDynamic(rejectXssChars, regexErrorKey, "secondaryTechnicalContactInternationalAddress.line2")
+          )
+      ),
+      "town"     -> text("secondaryTechnicalContactInternationalAddress.error.town.required")
+        .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.town.length"))
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "secondaryTechnicalContactInternationalAddress.town")),
+      "country"  -> text("secondaryTechnicalContactInternationalAddress.error.country.required")
+        .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.country.length"))
+        .verifying(
+          regexpDynamic(rejectXssChars, regexErrorKey, "secondaryTechnicalContactInternationalAddress.country")
+        ),
+      "postCode" -> optional(
+        Forms.text
+          .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.postCode.length"))
           .verifying(
-            regexpArgs(rejectXssChars, regexErrorKey, messages("secondaryTechnicalContactInternationalAddress.country"))
-          ),
-      "postCode" ->
-        optional(
-          Forms.text
-            .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.postCode.length"))
-            .verifying(
-              regexpArgs(
-                rejectXssChars,
-                regexErrorKey,
-                messages("secondaryTechnicalContactInternationalAddress.postCode")
-              )
-            )
-        )
+            regexpDynamic(rejectXssChars, regexErrorKey, "secondaryTechnicalContactInternationalAddress.postCode")
+          )
+      )
     )(InternationalAddress.apply)(InternationalAddress.unapply)
   )
 }

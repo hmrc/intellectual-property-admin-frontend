@@ -21,6 +21,7 @@ import forms.mappings.Mappings
 import play.api.data.{Form, Forms}
 import play.api.data.Forms._
 import models.ApplicantLegalContact
+import play.api.i18n.Messages
 
 class ApplicantLegalContactFormProvider @Inject() extends Mappings {
 
@@ -28,21 +29,23 @@ class ApplicantLegalContactFormProvider @Inject() extends Mappings {
   val phonesLimit: Int       = 100
   val rejectXssChars: String = """^[^<>"&]*$"""
 
-  def apply(): Form[ApplicantLegalContact] = Form(
+  val regexErrorKey: String = "regex.error"
+
+  def apply(implicit messages: Messages): Form[ApplicantLegalContact] = Form(
     mapping(
       "companyName"    -> text("applicantLegalContact.error.companyName.required")
         .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.companyName.length"))
-        .verifying(regexp(rejectXssChars, "")),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.companyName.label")),
       "name"           -> text("applicantLegalContact.error.name.required")
         .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.name.length"))
-        .verifying(regexp(rejectXssChars, "")),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.name.label")),
       "telephone"      -> text("applicantLegalContact.error.telephone.required")
         .verifying(maxLength(phonesLimit, "applicantLegalContact.error.telephone.length"))
-        .verifying(regexp(rejectXssChars, "")),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.telephone.label")),
       "otherTelephone" -> optional(
         Forms.text
           .verifying(maxLength(phonesLimit, "applicantLegalContact.error.otherTelephone.length"))
-          .verifying(regexp(rejectXssChars, ""))
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.otherTelephone.label"))
       ),
       "email"          -> email.verifying(validateEmail)
     )(ApplicantLegalContact.apply)(ApplicantLegalContact.unapply)

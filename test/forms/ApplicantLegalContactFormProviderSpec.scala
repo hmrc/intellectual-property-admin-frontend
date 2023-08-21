@@ -17,11 +17,20 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.ApplicantLegalContact
+import play.api.data.{Form, FormError}
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
+
+import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
 
-  val form = new ApplicantLegalContactFormProvider()()
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
+
+  val formProvider                      = new ApplicantLegalContactFormProvider()
+  val form: Form[ApplicantLegalContact] = formProvider(stubMessages)
 
   val nameEmailLimit: Int    = 200
   val phonesLimit: Int       = 100
@@ -33,6 +42,8 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
     val fieldName   = "companyName"
     val requiredKey = "applicantLegalContact.error.companyName.required"
     val lengthKey   = "applicantLegalContact.error.companyName.length"
+
+    val companyNameKey = "applicantLegalContact.companyName.label"
 
     behave like fieldThatBindsValidData(
       form,
@@ -63,7 +74,7 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       )
       val invalidValueTest = form.bind(testInput).errors
 
-      invalidValueTest should contain(FormError(fieldName, regexKey, List(rejectXssChars)))
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(companyNameKey)))
     }
 
   }
@@ -73,6 +84,8 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
     val fieldName   = "name"
     val requiredKey = "applicantLegalContact.error.name.required"
     val lengthKey   = "applicantLegalContact.error.name.length"
+
+    val nameKey = "applicantLegalContact.name.label"
 
     behave like fieldThatBindsValidData(
       form,
@@ -103,7 +116,7 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       )
       val invalidValueTest = form.bind(testInput).errors
 
-      invalidValueTest should contain(FormError(fieldName, regexKey, List(rejectXssChars)))
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(nameKey)))
     }
   }
 
@@ -112,6 +125,8 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
     val fieldName   = "telephone"
     val requiredKey = "applicantLegalContact.error.telephone.required"
     val lengthKey   = "applicantLegalContact.error.telephone.length"
+
+    val telephoneKey = "applicantLegalContact.telephone.label"
 
     behave like fieldThatBindsValidData(
       form,
@@ -142,7 +157,7 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       )
       val invalidValueTest = form.bind(testInput).errors
 
-      invalidValueTest should contain(FormError(fieldName, regexKey, List(rejectXssChars)))
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(telephoneKey)))
     }
   }
 
@@ -150,6 +165,8 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
 
     val fieldName = "otherTelephone"
     val lengthKey = "applicantLegalContact.error.otherTelephone.length"
+
+    val otherTelephoneKey = "applicantLegalContact.otherTelephone.label"
 
     behave like fieldThatBindsValidData(
       form,
@@ -174,7 +191,7 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       )
       val invalidValueTest = form.bind(testInput).errors
 
-      invalidValueTest should contain(FormError(fieldName, regexKey, List(rejectXssChars)))
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(otherTelephoneKey)))
     }
   }
 

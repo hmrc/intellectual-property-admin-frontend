@@ -30,17 +30,17 @@ class WhoIsSecondaryLegalContactFormProvider extends Mappings {
 
   val regexErrorKey: String = "regex.error"
 
-  def apply(messages: Messages): Form[WhoIsSecondaryLegalContact] = Form(
+  def apply(implicit messages: Messages): Form[WhoIsSecondaryLegalContact] = Form(
     mapping(
       "companyName" -> text("whoIsSecondaryLegalContact.error.companyName.required")
         .verifying(maxLength(nameEmailLimit, "whoIsSecondaryLegalContact.error.companyName.length"))
-        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("whoIsSecondaryLegalContact.companyName.label"))),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsSecondaryLegalContact.companyName.label")),
       "name"        -> text("whoIsSecondaryLegalContact.error.name.required")
         .verifying(maxLength(nameEmailLimit, "whoIsSecondaryLegalContact.error.name.length"))
-        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("whoIsSecondaryLegalContact.name.label"))),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsSecondaryLegalContact.name.label")),
       "telephone"   -> text("whoIsSecondaryLegalContact.error.telephone.required")
         .verifying(maxLength(phonesLimit, "whoIsSecondaryLegalContact.error.telephone.length"))
-        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("whoIsSecondaryLegalContact.telephone.label"))),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsSecondaryLegalContact.telephone.label")),
       "email"       -> email.verifying(validateEmail)
     )(WhoIsSecondaryLegalContact.apply)(WhoIsSecondaryLegalContact.unapply)
   )

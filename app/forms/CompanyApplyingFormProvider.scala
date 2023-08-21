@@ -31,16 +31,16 @@ class CompanyApplyingFormProvider @Inject() () extends Mappings {
 
   val regexErrorKey: String = "regex.error"
 
-  def apply(messages: Messages): Form[CompanyApplying] = Form(
+  def apply(implicit messages: Messages): Form[CompanyApplying] = Form(
     mapping(
       "companyName"    -> text("companyApplying.error.companyName.required")
         .verifying(maxLength(maxLength, "companyApplying.error.companyName.length"))
-        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplying.companyName"))),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "companyApplying.companyName")),
       "companyAcronym" -> optional(
         Forms.text
           .verifying(maxLength(maxLength, "companyApplying.error.companyAcronym.length"))
           .verifying(
-            regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplying.acronym.checkYourAnswersLabel"))
+            regexpDynamic(rejectXssChars, regexErrorKey, "companyApplying.acronym.checkYourAnswersLabel")
           )
       )
     )(CompanyApplying.apply)(CompanyApplying.unapply)

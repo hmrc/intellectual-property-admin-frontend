@@ -32,17 +32,17 @@ class WhoIsTechnicalContactFormProvider @Inject() extends Mappings {
 
   val regexErrorKey: String = "regex.error"
 
-  def apply(messages: Messages): Form[TechnicalContact] = Form(
+  def apply(implicit messages: Messages): Form[TechnicalContact] = Form(
     mapping(
       "contactName"      -> text("whoIsTechnicalContact.error.contactName.required")
         .verifying(maxLength(nameCompanyEmailLimit, "whoIsTechnicalContact.error.contactName.length"))
-        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("whoIsTechnicalContact.contactName"))),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsTechnicalContact.contactName")),
       "companyName"      -> text("whoIsTechnicalContact.error.companyName.required")
         .verifying(maxLength(nameCompanyEmailLimit, "whoIsTechnicalContact.error.companyName.length"))
-        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("whoIsTechnicalContact.companyName"))),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsTechnicalContact.companyName")),
       "contactTelephone" -> text("whoIsTechnicalContact.error.contactTelephone.required")
         .verifying(maxLength(phonesLimit, "whoIsTechnicalContact.error.contactTelephone.length"))
-        .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("whoIsTechnicalContact.contactTelephone"))),
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsTechnicalContact.contactTelephone")),
       "contactEmail"     -> email.verifying(validateEmail)
     )(TechnicalContact.apply)(TechnicalContact.unapply)
   )

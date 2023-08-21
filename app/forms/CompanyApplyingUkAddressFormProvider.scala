@@ -31,32 +31,34 @@ class CompanyApplyingUkAddressFormProvider @Inject() extends Mappings {
 
   val regexErrorKey: String = "regex.error"
 
-  def apply(messages: Messages): Form[UkAddress] = Form(
+  def apply(implicit messages: Messages): Form[UkAddress] = Form(
     mapping(
       "line1"    ->
         text("companyApplyingUkAddress.error.line1.required")
           .verifying(maxLength(linesMaxLength, "companyApplyingUkAddress.error.line1.length"))
-          .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplyingUkAddress.line1"))),
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "companyApplyingUkAddress.line1")),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "companyApplyingUkAddress.error.line2.length"))
-            .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplyingUkAddress.line2")))
+            .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "companyApplyingUkAddress.line2"))
         ),
       "town"     ->
         text("companyApplyingUkAddress.error.town.required")
           .verifying(maxLength(linesMaxLength, "companyApplyingUkAddress.error.town.length"))
-          .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplyingUkAddress.town"))),
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "companyApplyingUkAddress.town")),
       "county"   ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "companyApplyingUkAddress.error.county.length"))
-            .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplyingUkAddress.countyNoOption")))
+            .verifying(
+              regexpDynamic(rejectXssChars, regexErrorKey, "companyApplyingUkAddress.countyNoOption")
+            )
         ),
       "postCode" ->
         text("companyApplyingUkAddress.error.postCode.required")
           .verifying(maxLength(postcodeMaxLength, "companyApplyingUkAddress.error.postCode.length"))
-          .verifying(regexpArgs(rejectXssChars, regexErrorKey, messages("companyApplyingUkAddress.postCode")))
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "companyApplyingUkAddress.postCode"))
     )(UkAddress.apply)(UkAddress.unapply)
   )
 }
