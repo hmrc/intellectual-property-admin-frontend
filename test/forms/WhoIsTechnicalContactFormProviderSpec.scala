@@ -16,16 +16,22 @@
 
 package forms
 
+import base.SpecBase
 import forms.behaviours.StringFieldBehaviours
 import models.TechnicalContact
 import play.api.data.{Form, FormError}
-import utils.TestUtils
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
 
-class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours with TestUtils {
+import java.util.Locale
+
+class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   val formProvider = new WhoIsTechnicalContactFormProvider()
 
-  val form: Form[TechnicalContact] = formProvider(messages)
+  val form: Form[TechnicalContact] = formProvider(stubMessages)
   val nameLimit: Int               = 200
   val phonesLimit: Int             = 100
 

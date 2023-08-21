@@ -20,10 +20,12 @@ import base.SpecBase
 import forms.ApplicantLegalContactUkAddressFormProvider
 import models.{AfaId, ApplicantLegalContact, NormalMode, UkAddress, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
+import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{ApplicantLegalContactPage, ApplicantLegalContactUkAddressPage}
 import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest
@@ -31,9 +33,12 @@ import play.api.test.Helpers._
 import services.AfaService
 import views.html.ApplicantLegalContactUkAddressView
 
+import java.util.Locale
 import scala.concurrent.Future
 
 class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   def onwardRoute: Call = Call("GET", "/foo")
 
@@ -43,7 +48,7 @@ class ApplicantLegalContactUkAddressControllerSpec extends SpecBase with Mockito
     ApplicantLegalContact("name", "companyName", "telephone", None, "email")
 
   val formProvider                  = new ApplicantLegalContactUkAddressFormProvider()
-  private def form: Form[UkAddress] = formProvider(messages)
+  private def form: Form[UkAddress] = formProvider(stubMessages)
 
   lazy private val applicantLegalContactUkAddressRoute =
     routes.ApplicantLegalContactUkAddressController.onPageLoad(NormalMode, afaId).url

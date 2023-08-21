@@ -16,15 +16,21 @@
 
 package forms
 
+import base.SpecBase
 import forms.behaviours.StringFieldBehaviours
 import models.IpRightsDescriptionWithBrand
 import play.api.data.{Form, FormError}
-import utils.TestUtils
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
 
-class IpRightsDescriptionWithBrandFormProviderSpec extends StringFieldBehaviours with TestUtils {
+import java.util.Locale
+
+class IpRightsDescriptionWithBrandFormProviderSpec extends StringFieldBehaviours {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   val formProvider                             = new IpRightsDescriptionWithBrandFormProvider()
-  val form: Form[IpRightsDescriptionWithBrand] = formProvider(messages)
+  val form: Form[IpRightsDescriptionWithBrand] = formProvider(stubMessages)
   val brandMaxLength: Int                      = 100
   val descriptionMaxLength: Int                = 1000
   ".brand" must {

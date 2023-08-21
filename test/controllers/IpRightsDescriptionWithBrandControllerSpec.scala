@@ -20,10 +20,12 @@ import base.SpecBase
 import forms.IpRightsDescriptionWithBrandFormProvider
 import models.{AfaId, IpRightsDescriptionWithBrand, NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
+import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.mockito.MockitoSugar
 import pages.IpRightsDescriptionWithBrandPage
+import play.api.i18n.{Lang, Messages}
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest
@@ -31,6 +33,7 @@ import play.api.test.Helpers._
 import services.AfaService
 import views.html.IpRightsDescriptionWithBrandView
 
+import java.util.Locale
 import scala.concurrent.Future
 
 class IpRightsDescriptionWithBrandControllerSpec
@@ -39,6 +42,8 @@ class IpRightsDescriptionWithBrandControllerSpec
     with LockAfaChecks
     with IprIndexValidation {
 
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
+
   def onwardRoute: Call = Call("GET", "/foo")
 
   val index = 0
@@ -46,7 +51,7 @@ class IpRightsDescriptionWithBrandControllerSpec
   val afaId: AfaId = userAnswersId
 
   val formProvider = new IpRightsDescriptionWithBrandFormProvider()
-  private def form = formProvider(messages)
+  private def form = formProvider(stubMessages)
 
   lazy val ipRightsDescriptionWithBrandRoute: String =
     routes.IpRightsDescriptionWithBrandController.onPageLoad(NormalMode, index, afaId).url

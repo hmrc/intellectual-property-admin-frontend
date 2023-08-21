@@ -16,18 +16,24 @@
 
 package forms
 
+import base.SpecBase
 import forms.behaviours.StringFieldBehaviours
 import models.RepresentativeDetails
 import play.api.data.{Form, FormError}
-import utils.TestUtils
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
 
-class RepresentativeContactFormProviderSpec extends StringFieldBehaviours with TestUtils {
+import java.util.Locale
+
+class RepresentativeContactFormProviderSpec extends StringFieldBehaviours {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   val nameLimit: Int      = 200
   val phoneRoleLimit: Int = 100
 
   val formProvider                      = new RepresentativeContactFormProvider()
-  val form: Form[RepresentativeDetails] = formProvider(messages)
+  val form: Form[RepresentativeDetails] = formProvider(stubMessages)
 
   "companyName" must {
 

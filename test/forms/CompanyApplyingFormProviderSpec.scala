@@ -16,17 +16,23 @@
 
 package forms
 
+import base.SpecBase
 import forms.behaviours.StringFieldBehaviours
 import models.CompanyApplying
 import play.api.data.{Form, FormError}
-import utils.TestUtils
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
 
-class CompanyApplyingFormProviderSpec extends StringFieldBehaviours with TestUtils {
+import java.util.Locale
+
+class CompanyApplyingFormProviderSpec extends StringFieldBehaviours {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   val maxLength = 200
 
   val formProvider                = new CompanyApplyingFormProvider()
-  val form: Form[CompanyApplying] = formProvider(messages)
+  val form: Form[CompanyApplying] = formProvider(stubMessages)
 
   ".companyName" must {
 

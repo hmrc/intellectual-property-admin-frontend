@@ -16,17 +16,23 @@
 
 package forms
 
+import base.SpecBase
 import forms.behaviours.StringFieldBehaviours
 import play.api.data.FormError
-import utils.TestUtils
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
 
-class TechnicalContactUkAddressFormProviderSpec extends StringFieldBehaviours with TestUtils {
+import java.util.Locale
+
+class TechnicalContactUkAddressFormProviderSpec extends StringFieldBehaviours {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
 
   val formProvider = new TechnicalContactUkAddressFormProvider()
-  val form         = formProvider(messages)
+  val form         = formProvider(stubMessages)
 
   ".line1" must {
 

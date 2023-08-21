@@ -16,16 +16,22 @@
 
 package forms
 
+import base.SpecBase
 import forms.behaviours.StringFieldBehaviours
 import models.WhoIsSecondaryLegalContact
 import play.api.data.{Form, FormError}
-import utils.TestUtils
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
 
-class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours with TestUtils {
+import java.util.Locale
+
+class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   val errorKey                               = "whoIsSecondaryLegalContact.error.required"
   val formProvider                           = new WhoIsSecondaryLegalContactFormProvider()
-  val form: Form[WhoIsSecondaryLegalContact] = formProvider(messages)
+  val form: Form[WhoIsSecondaryLegalContact] = formProvider(stubMessages)
 
   val nameLimit: Int   = 200
   val phonesLimit: Int = 100
