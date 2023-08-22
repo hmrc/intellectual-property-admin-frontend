@@ -16,7 +16,6 @@
 
 package forms
 
-import base.SpecBase
 import forms.behaviours.StringFieldBehaviours
 import models.WhoIsSecondaryLegalContact
 import play.api.data.{Form, FormError}
@@ -24,6 +23,7 @@ import play.api.i18n.{Lang, Messages}
 import play.api.test.Helpers.stubMessagesApi
 
 import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
 
@@ -35,6 +35,14 @@ class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
 
   val nameLimit: Int   = 200
   val phonesLimit: Int = 100
+
+  val regexKey             = "regex.error"
+  val companyNameFieldName = "companyName"
+  val companyNameKey       = "whoIsSecondaryLegalContact.companyName.label"
+  val nameFieldName        = "name"
+  val nameKey              = "whoIsSecondaryLegalContact.name.label"
+  val telephoneFieldName   = "telephone"
+  val telephoneKey         = "whoIsSecondaryLegalContact.telephone.label"
 
   "companyName" must {
 
@@ -140,5 +148,35 @@ class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+  }
+
+  "An error" must {
+    "be returned when passing an invalid character in one form field" in {
+      val testInput        = Map(
+        "companyName" -> "company 1<>",
+        "name"        -> "name",
+        "telephone"   -> "0203234567",
+        "email"       -> "email@email.com"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(companyNameFieldName, regexKey, ArraySeq(companyNameKey)))
+    }
+
+    "be returned when passing an invalid character in multiple form fields" in {
+      val testInput        = Map(
+        "companyName" -> "company 1<>",
+        "name"        -> "name&",
+        "telephone"   -> "<&>",
+        "email"       -> "email@email.com"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(
+        FormError(companyNameFieldName, regexKey, ArraySeq(companyNameKey)),
+        FormError(nameFieldName, regexKey, ArraySeq(nameKey)),
+        FormError(telephoneFieldName, regexKey, ArraySeq(telephoneKey))
+      )
+    }
   }
 }

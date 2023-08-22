@@ -23,6 +23,7 @@ import play.api.i18n.{Lang, Messages}
 import play.api.test.Helpers.stubMessagesApi
 
 import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class RepresentativeContactUkAddressFormProviderSpec extends StringFieldBehaviours {
 
@@ -33,6 +34,14 @@ class RepresentativeContactUkAddressFormProviderSpec extends StringFieldBehaviou
 
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
+
+  val regexKey       = "regex.error"
+  val line1FieldName = "line1"
+  val line1Key       = "representativeContactUkAddress.line1"
+  val line2FieldName = "line2"
+  val line2Key       = "representativeContactUkAddress.line2"
+  val townFieldName  = "town"
+  val townKey        = "representativeContactUkAddress.town"
 
   ".line1" must {
 
@@ -158,5 +167,37 @@ class RepresentativeContactUkAddressFormProviderSpec extends StringFieldBehaviou
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+  }
+
+  "an error" must {
+    "be returned when passing an invalid character in one form field" in {
+      val testInput        = Map(
+        "line1"    -> "address 1",
+        "line2"    -> "address 2&&",
+        "town"     -> "town",
+        "county"   -> "county",
+        "postCode" -> "nw1 2as"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(line2FieldName, regexKey, ArraySeq(line2Key)))
+    }
+
+    "be returned when passing an invalid character in multiple form fields" in {
+      val testInput        = Map(
+        "line1"    -> "address 1<>",
+        "line2"    -> "address 2&&",
+        "town"     -> "<&>",
+        "county"   -> "county",
+        "postCode" -> "nw1 2as"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(
+        FormError(line1FieldName, regexKey, ArraySeq(line1Key)),
+        FormError(line2FieldName, regexKey, ArraySeq(line2Key)),
+        FormError(townFieldName, regexKey, ArraySeq(townKey))
+      )
+    }
   }
 }
