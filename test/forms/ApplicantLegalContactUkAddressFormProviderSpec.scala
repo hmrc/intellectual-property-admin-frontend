@@ -16,13 +16,14 @@
 
 package forms
 
-import base.SpecBase
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.UkAddress
+import play.api.data.{Form, FormError}
 import play.api.i18n.{Lang, Messages}
 import play.api.test.Helpers.stubMessagesApi
 
 import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class ApplicantLegalContactUkAddressFormProviderSpec extends StringFieldBehaviours {
 
@@ -31,14 +32,18 @@ class ApplicantLegalContactUkAddressFormProviderSpec extends StringFieldBehaviou
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
 
-  val formProvider = new ApplicantLegalContactUkAddressFormProvider()
-  val form         = formProvider(stubMessages)
+  val regexKey = "regex.error"
+
+  val formProvider          = new ApplicantLegalContactUkAddressFormProvider()
+  val form: Form[UkAddress] = formProvider(stubMessages)
 
   ".line1" must {
 
     val fieldName   = "line1"
     val requiredKey = "applicantLegalContactUkAddress.error.line1.required"
     val lengthKey   = "applicantLegalContactUkAddress.error.line1.length"
+
+    val line1Key = "applicantLegalContactUkAddress.line1"
 
     behave like fieldThatBindsValidData(
       form,
@@ -58,12 +63,29 @@ class ApplicantLegalContactUkAddressFormProviderSpec extends StringFieldBehaviou
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "return an error when passed a value with an invalid character" in {
+
+      val testInput = Map(
+        "line1"    -> "<",
+        "line2"    -> "address2",
+        "town"     -> "town",
+        "county"   -> "county",
+        "postCode" -> "abc 123"
+      )
+
+      val invalidTestInput = form.bind(testInput).errors
+
+      invalidTestInput shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(line1Key)))
+    }
   }
 
   ".line2" must {
 
     val fieldName = "line2"
     val lengthKey = "applicantLegalContactUkAddress.error.line2.length"
+
+    val line2Key = "applicantLegalContactUkAddress.line2"
 
     behave like fieldThatBindsValidData(
       form,
@@ -82,6 +104,21 @@ class ApplicantLegalContactUkAddressFormProviderSpec extends StringFieldBehaviou
       form,
       fieldName
     )
+
+    "return an error when passed a value with an invalid character" in {
+
+      val testInput = Map(
+        "line1"    -> "address 1",
+        "line2"    -> "<>",
+        "town"     -> "town",
+        "county"   -> "county",
+        "postCode" -> "abc 123"
+      )
+
+      val invalidTestInput = form.bind(testInput).errors
+
+      invalidTestInput shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(line2Key)))
+    }
   }
 
   ".town" must {
@@ -90,6 +127,8 @@ class ApplicantLegalContactUkAddressFormProviderSpec extends StringFieldBehaviou
     val requiredKey = "applicantLegalContactUkAddress.error.town.required"
     val lengthKey   = "applicantLegalContactUkAddress.error.town.length"
 
+    val townKey = "applicantLegalContactUkAddress.town"
+
     behave like fieldThatBindsValidData(
       form,
       fieldName,
@@ -108,12 +147,29 @@ class ApplicantLegalContactUkAddressFormProviderSpec extends StringFieldBehaviou
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "return an error when passed a value with an invalid character" in {
+
+      val testInput = Map(
+        "line1"    -> "address 1",
+        "line2"    -> "address 2",
+        "town"     -> "&",
+        "county"   -> "county",
+        "postCode" -> "abc 123"
+      )
+
+      val invalidTestInput = form.bind(testInput).errors
+
+      invalidTestInput shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(townKey)))
+    }
   }
 
   ".county" must {
 
     val fieldName = "county"
     val lengthKey = "applicantLegalContactUkAddress.error.county.length"
+
+    val countyKey = "applicantLegalContactUkAddress.county"
 
     behave like fieldThatBindsValidData(
       form,
@@ -132,6 +188,21 @@ class ApplicantLegalContactUkAddressFormProviderSpec extends StringFieldBehaviou
       form,
       fieldName
     )
+
+    "return an error when passed a value with an invalid character" in {
+
+      val testInput = Map(
+        "line1"    -> "address 1",
+        "line2"    -> "address 2",
+        "town"     -> "town",
+        "county"   -> "&&",
+        "postCode" -> "abc 123"
+      )
+
+      val invalidTestInput = form.bind(testInput).errors
+
+      invalidTestInput shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(countyKey)))
+    }
   }
 
   ".postCode" must {
@@ -139,6 +210,8 @@ class ApplicantLegalContactUkAddressFormProviderSpec extends StringFieldBehaviou
     val fieldName   = "postCode"
     val requiredKey = "applicantLegalContactUkAddress.error.postCode.required"
     val lengthKey   = "applicantLegalContactUkAddress.error.postCode.length"
+
+    val postCodeKey = "applicantLegalContactUkAddress.postCode"
 
     behave like fieldThatBindsValidData(
       form,
@@ -158,5 +231,20 @@ class ApplicantLegalContactUkAddressFormProviderSpec extends StringFieldBehaviou
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "return an error when passed a value with an invalid character" in {
+
+      val testInput = Map(
+        "line1"    -> "address 1",
+        "line2"    -> "address 2",
+        "town"     -> "town",
+        "county"   -> "county",
+        "postCode" -> "<>"
+      )
+
+      val invalidTestInput = form.bind(testInput).errors
+
+      invalidTestInput shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(postCodeKey)))
+    }
   }
 }

@@ -419,7 +419,6 @@ companyApplyingUkAddress.error.line2.length = Second line of building and street
 companyApplyingUkAddress.error.town.length = Town or city must be 100 characters or less
 companyApplyingUkAddress.error.county.length = County must be 100 characters or less
 companyApplyingUkAddress.error.postCode.length = Postcode must be 10 characters or less
-companyApplyingUkAddress.countyNoOption = County
 
 companyApplyingInternationalAddress.title = What is the address for {0}?
 companyApplyingInternationalAddress.heading = What is the address for {0}?

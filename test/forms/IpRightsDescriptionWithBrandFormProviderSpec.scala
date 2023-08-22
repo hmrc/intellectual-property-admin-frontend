@@ -16,7 +16,6 @@
 
 package forms
 
-import base.SpecBase
 import forms.behaviours.StringFieldBehaviours
 import models.IpRightsDescriptionWithBrand
 import play.api.data.{Form, FormError}
@@ -24,6 +23,7 @@ import play.api.i18n.{Lang, Messages}
 import play.api.test.Helpers.stubMessagesApi
 
 import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class IpRightsDescriptionWithBrandFormProviderSpec extends StringFieldBehaviours {
 
@@ -33,6 +33,13 @@ class IpRightsDescriptionWithBrandFormProviderSpec extends StringFieldBehaviours
   val form: Form[IpRightsDescriptionWithBrand] = formProvider(stubMessages)
   val brandMaxLength: Int                      = 100
   val descriptionMaxLength: Int                = 1000
+
+  val regexKey       = "regex.error"
+  val brandKey       = "ipRightsDescriptionWithBrand.brand"
+  val valueKey       = "ipRightsDescriptionWithBrand.description"
+  val brandFieldName = "brand"
+  val valueFieldName = "value"
+
   ".brand" must {
 
     val fieldName   = "brand"
@@ -83,5 +90,30 @@ class IpRightsDescriptionWithBrandFormProviderSpec extends StringFieldBehaviours
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+  }
+
+  "An error" must {
+    "be returned when passing an invalid character in one form field" in {
+      val testInput        = Map(
+        "brand" -> "<>",
+        "value" -> "100"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(brandFieldName, regexKey, ArraySeq(brandKey)))
+    }
+
+    "be returned when passing an invalid character in multiple form fields" in {
+      val testInput        = Map(
+        "brand" -> "<",
+        "value" -> "200&&"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(
+        FormError(brandFieldName, regexKey, ArraySeq(brandKey)),
+        FormError(valueFieldName, regexKey, ArraySeq(valueKey))
+      )
+    }
   }
 }

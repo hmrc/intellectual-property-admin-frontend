@@ -32,10 +32,9 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
   val formProvider                      = new ApplicantLegalContactFormProvider()
   val form: Form[ApplicantLegalContact] = formProvider(stubMessages)
 
-  val nameEmailLimit: Int    = 200
-  val phonesLimit: Int       = 100
-  val rejectXssChars: String = """^[^<>"&]*$"""
-  val regexKey               = "regex.error"
+  val nameEmailLimit: Int = 200
+  val phonesLimit: Int    = 100
+  val regexKey            = "regex.error"
 
   "companyName" must {
 
