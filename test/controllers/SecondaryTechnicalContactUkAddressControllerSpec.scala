@@ -26,6 +26,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import pages.{SecondaryTechnicalContactUkAddressPage, WhoIsSecondaryTechnicalContactPage}
 import play.api.Application
 import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call, Result}
 import play.api.test.FakeRequest
@@ -33,18 +34,21 @@ import play.api.test.Helpers._
 import services.AfaService
 import views.html.SecondaryTechnicalContactUkAddressView
 
+import java.util.Locale
 import scala.concurrent.Future
 
 class SecondaryTechnicalContactUkAddressControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
+
   val afaId: AfaId = userAnswersId
 
   val secondaryTechnicalContact: TechnicalContact = TechnicalContact("company Name", "name", "telephone", "email")
 
   val formProvider                  = new SecondaryTechnicalContactUkAddressFormProvider()
-  private def form: Form[UkAddress] = formProvider()
+  private def form: Form[UkAddress] = formProvider(stubMessages)
 
   lazy private val secondaryTechnicalContactUkAddressRoute =
     routes.SecondaryTechnicalContactUkAddressController.onPageLoad(NormalMode, afaId).url

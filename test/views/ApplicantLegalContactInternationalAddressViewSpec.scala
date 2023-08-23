@@ -30,7 +30,7 @@ class ApplicantLegalContactInternationalAddressViewSpec extends TextInputViewBeh
 
   val contactName = "foo"
 
-  override val form = new ApplicantLegalContactInternationalAddressFormProvider()()
+  override val form = new ApplicantLegalContactInternationalAddressFormProvider()(messages)
 
   "ApplicantLegalContactInternationalAddressView" must {
 

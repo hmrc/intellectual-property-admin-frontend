@@ -25,7 +25,7 @@ import navigation.Navigator
 import pages.ApplicantLegalContactInternationalAddressPage
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import queries.ApplicantLegalContactNameQuery
 import services.AfaService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -48,7 +48,7 @@ class ApplicantLegalContactInternationalAddressController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  private def form: Form[InternationalAddress] = formProvider()
+  private def form(implicit request: Request[_]): Form[InternationalAddress] = formProvider(request2Messages)
 
   def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>

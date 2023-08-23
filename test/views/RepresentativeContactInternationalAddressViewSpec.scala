@@ -30,7 +30,7 @@ class RepresentativeContactInternationalAddressViewSpec extends TextInputViewBeh
 
   val contactName = "foo"
 
-  override val form = new RepresentativeContactInternationalAddressFormProvider()()
+  override val form = new RepresentativeContactInternationalAddressFormProvider()(messages)
 
   "representativeContactInternationalAddress" must {
 

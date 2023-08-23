@@ -25,6 +25,8 @@ import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{IpRightsDescriptionPage, IpRightsTypePage}
+import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest
@@ -32,11 +34,14 @@ import play.api.test.Helpers._
 import services.AfaService
 import views.html.IpRightsDescriptionView
 
+import java.util.Locale
 import scala.concurrent.Future
 
 class IpRightsDescriptionControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks with IprIndexValidation {
 
   def onwardRoute: Call = Call("GET", "/foo")
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   val afaId: AfaId = userAnswersId
 
@@ -44,8 +49,8 @@ class IpRightsDescriptionControllerSpec extends SpecBase with MockitoSugar with 
 
   val rightType: IpRightsType.Design.type = IpRightsType.Design
 
-  val formProvider = new IpRightsDescriptionFormProvider()
-  private def form = formProvider()
+  val formProvider               = new IpRightsDescriptionFormProvider()
+  private def form: Form[String] = formProvider(stubMessages)
 
   lazy val ipRightsDescriptionRoute: String =
     routes.IpRightsDescriptionController.onPageLoad(NormalMode, index, afaId).url

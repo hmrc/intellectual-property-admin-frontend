@@ -16,7 +16,6 @@
 
 package forms
 
-import base.SpecBase
 import forms.behaviours.StringFieldBehaviours
 import play.api.data.FormError
 import play.api.i18n.{Lang, Messages}

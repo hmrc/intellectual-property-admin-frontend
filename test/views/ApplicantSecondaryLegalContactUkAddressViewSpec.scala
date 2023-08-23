@@ -30,7 +30,7 @@ class ApplicantSecondaryLegalContactUkAddressViewSpec extends TextInputViewBehav
 
   val secondaryLegalContactName: String = "foo"
 
-  override val form = new ApplicantSecondaryLegalContactUkAddressFormProvider()()
+  override val form = new ApplicantSecondaryLegalContactUkAddressFormProvider()(messages)
 
   "Applicant Secondary Legal Contact UK Address View" must {
 

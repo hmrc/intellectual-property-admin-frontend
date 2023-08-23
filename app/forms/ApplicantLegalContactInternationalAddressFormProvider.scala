@@ -21,37 +21,41 @@ import forms.mappings.Mappings
 import play.api.data.{Form, Forms}
 import play.api.data.Forms._
 import models.InternationalAddress
+import play.api.i18n.Messages
 
 class ApplicantLegalContactInternationalAddressFormProvider @Inject() extends Mappings {
 
   val maxLength: Int         = 100
   val rejectXssChars: String = """^[^<>"&]*$"""
+  val regexErrorKey: String  = "regex.error"
 
-  def apply(): Form[InternationalAddress] = Form(
+  def apply(implicit messages: Messages): Form[InternationalAddress] = Form(
     mapping(
       "line1"    ->
         text("applicantLegalContactInternationalAddress.error.line1.required")
           .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.line1.length"))
-          .verifying(regexp(rejectXssChars, "")),
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactInternationalAddress.line1")),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.line2.length"))
-            .verifying(regexp(rejectXssChars, ""))
+            .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactInternationalAddress.line2"))
         ),
       "town"     ->
         text("applicantLegalContactInternationalAddress.error.town.required")
           .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.town.length"))
-          .verifying(regexp(rejectXssChars, "")),
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactInternationalAddress.town")),
       "country"  ->
         text("applicantLegalContactInternationalAddress.error.country.required")
           .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.country.length"))
-          .verifying(regexp(rejectXssChars, "")),
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactInternationalAddress.country")),
       "postCode" ->
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.postCode.length"))
-            .verifying(regexp(rejectXssChars, ""))
+            .verifying(
+              regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactInternationalAddress.postCode")
+            )
         )
     )(InternationalAddress.apply)(InternationalAddress.unapply)
   )

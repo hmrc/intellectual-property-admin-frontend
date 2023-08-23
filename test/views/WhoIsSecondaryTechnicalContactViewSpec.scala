@@ -30,7 +30,7 @@ class WhoIsSecondaryTechnicalContactViewSpec extends TextInputViewBehaviours[Tec
   val messageKeyPrefix: String = "whoIsSecondaryTechnicalContact"
   val applicantName: String    = "applicantName"
 
-  override val form = new WhoIsSecondaryTechnicalContactFormProvider()()
+  override val form = new WhoIsSecondaryTechnicalContactFormProvider()(messages)
 
   "WhoIsSecondaryTechnicalContactView" must {
 

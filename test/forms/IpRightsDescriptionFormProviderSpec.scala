@@ -17,15 +17,27 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import play.api.data.{Form, FormError}
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
+
+import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class IpRightsDescriptionFormProviderSpec extends StringFieldBehaviours {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   val requiredKey = "ipRightsDescription.error.required"
   val lengthKey   = "ipRightsDescription.error.length"
   val maxLength   = 1000
 
-  val form = new IpRightsDescriptionFormProvider()()
+  val regexKey       = "regex.error"
+  val valueFieldName = "value"
+  val valueKey       = "ipRightsDescription.label"
+
+  val formProvider       = new IpRightsDescriptionFormProvider()
+  val form: Form[String] = formProvider(stubMessages)
 
   ".value" must {
 
@@ -49,5 +61,16 @@ class IpRightsDescriptionFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+  }
+
+  "An error" must {
+    "be returned when passing an invalid character the form field" in {
+      val testInput        = Map(
+        "value" -> "val&&"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(valueFieldName, regexKey, ArraySeq(valueKey)))
+    }
   }
 }

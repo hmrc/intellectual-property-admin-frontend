@@ -20,13 +20,13 @@ import controllers.actions._
 import forms.TechnicalContactInternationalAddressFormProvider
 
 import javax.inject.Inject
-import models.{AfaId, Mode}
+import models.{AfaId, InternationalAddress, Mode}
 import models.requests.DataRequest
 import navigation.Navigator
 import pages.{TechnicalContactInternationalAddressPage, WhoIsTechnicalContactPage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import services.AfaService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.TechnicalContactInternationalAddressView
@@ -48,7 +48,7 @@ class TechnicalContactInternationalAddressController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  private def form = formProvider()
+  private def form(implicit request: Request[_]): Form[InternationalAddress] = formProvider(request2Messages)
 
   def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData).async { implicit request =>
