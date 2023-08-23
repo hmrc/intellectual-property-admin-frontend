@@ -749,5 +749,3 @@ email.length = Email address must be 256 characters or less
 email.format = Enter an email address in the correct format, like name@example.com
 
 regex.error = {0} cannot contain <, >, " or &
-addressLine.1 = Address Line 1
-companyName.1 = Applicant (or Company Name)
