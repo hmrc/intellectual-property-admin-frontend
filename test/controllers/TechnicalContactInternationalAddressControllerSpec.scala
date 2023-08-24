@@ -25,6 +25,7 @@ import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{TechnicalContactInternationalAddressPage, WhoIsTechnicalContactPage}
 import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest
@@ -32,16 +33,19 @@ import play.api.test.Helpers._
 import services.AfaService
 import views.html.TechnicalContactInternationalAddressView
 
+import java.util.Locale
 import scala.concurrent.Future
 
 class TechnicalContactInternationalAddressControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks {
 
   def onwardRoute: Call = Call("GET", "/foo")
 
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
+
   val afaId: AfaId = userAnswersId
 
   val formProvider                             = new TechnicalContactInternationalAddressFormProvider()
-  private def form: Form[InternationalAddress] = formProvider()
+  private def form: Form[InternationalAddress] = formProvider(stubMessages)
 
   lazy val technicalContactInternationalAddressRoute: String =
     routes.TechnicalContactInternationalAddressController.onPageLoad(NormalMode, afaId).url

@@ -25,6 +25,7 @@ import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{CompanyApplyingPage, WhoIsSecondaryLegalContactPage}
 import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest
@@ -32,16 +33,19 @@ import play.api.test.Helpers._
 import services.AfaService
 import views.html.WhoIsSecondaryLegalContactView
 
+import java.util.Locale
 import scala.concurrent.Future
 
 class WhoIsSecondaryLegalContactControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   def onwardRoute: Call = Call("GET", "/foo")
 
   val afaId: AfaId = userAnswersId
 
   val formProvider                                   = new WhoIsSecondaryLegalContactFormProvider()
-  private def form: Form[WhoIsSecondaryLegalContact] = formProvider()
+  private def form: Form[WhoIsSecondaryLegalContact] = formProvider(stubMessages)
 
   lazy val whoIsSecondaryLegalContactRoute: String     =
     routes.WhoIsSecondaryLegalContactController.onPageLoad(NormalMode, afaId).url

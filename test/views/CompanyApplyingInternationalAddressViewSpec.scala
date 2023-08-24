@@ -30,7 +30,7 @@ class CompanyApplyingInternationalAddressViewSpec extends TextInputViewBehaviour
 
   val contactName = "foo"
 
-  override val form = new CompanyApplyingInternationalAddressFormProvider()()
+  override val form = new CompanyApplyingInternationalAddressFormProvider()(messages)
 
   "companyApplyingInternationalAddress" must {
 

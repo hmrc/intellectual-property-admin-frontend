@@ -17,15 +17,33 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.TechnicalContact
+import play.api.data.{Form, FormError}
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
+
+import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class WhoIsSecondaryTechnicalContactFormProviderSpec extends StringFieldBehaviours {
 
-  val errorKey = "whoIsSecondaryTechnicalContact.error.required"
-  val form     = new WhoIsSecondaryTechnicalContactFormProvider()()
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
+
+  val errorKey                     = "whoIsSecondaryTechnicalContact.error.required"
+  val formProvider                 = new WhoIsSecondaryTechnicalContactFormProvider()
+  val form: Form[TechnicalContact] = formProvider(stubMessages)
 
   val nameLimit: Int   = 200
   val phonesLimit: Int = 100
+
+  val regexKey             = "regex.error"
+  val nameFieldName        = "name"
+  val companyNameFieldName = "companyName"
+  val telephoneFieldName   = "telephone"
+
+  val nameKey        = "whoIsSecondaryTechnicalContact.name.label"
+  val companyNameKey = "whoIsSecondaryTechnicalContact.companyName.label"
+  val telephoneKey   = "whoIsSecondaryTechnicalContact.telephone.label"
 
   "name" must {
 
@@ -106,5 +124,35 @@ class WhoIsSecondaryTechnicalContactFormProviderSpec extends StringFieldBehaviou
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+  }
+
+  "An error" must {
+    "be returned when passing an invalid character in one form field" in {
+      val testInput        = Map(
+        "name"        -> "&",
+        "companyName" -> "Company 1",
+        "telephone"   -> "1234",
+        "email"       -> "email@email.com"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(nameFieldName, regexKey, ArraySeq(nameKey)))
+    }
+
+    "be returned when passing an invalid character in multiple form fields" in {
+      val testInput        = Map(
+        "name"        -> "&",
+        "companyName" -> "Company<>",
+        "telephone"   -> "1234>",
+        "email"       -> "email@email.com"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(
+        FormError(nameFieldName, regexKey, ArraySeq(nameKey)),
+        FormError(companyNameFieldName, regexKey, ArraySeq(companyNameKey)),
+        FormError(telephoneFieldName, regexKey, ArraySeq(telephoneKey))
+      )
+    }
   }
 }

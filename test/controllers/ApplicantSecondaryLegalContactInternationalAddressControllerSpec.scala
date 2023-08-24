@@ -26,6 +26,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import pages.{ApplicantSecondaryLegalContactInternationalAddressPage, WhoIsSecondaryLegalContactPage}
 import play.api.Application
 import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call, Result}
 import play.api.test.FakeRequest
@@ -33,6 +34,7 @@ import play.api.test.Helpers._
 import services.AfaService
 import views.html.ApplicantSecondaryLegalContactInternationalAddressView
 
+import java.util.Locale
 import scala.concurrent.Future
 
 class ApplicantSecondaryLegalContactInternationalAddressControllerSpec
@@ -42,13 +44,15 @@ class ApplicantSecondaryLegalContactInternationalAddressControllerSpec
 
   def onwardRoute: Call = Call("GET", "/foo")
 
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
+
   val afaId: AfaId = userAnswersId
 
   val secondaryLegalContact: WhoIsSecondaryLegalContact =
     WhoIsSecondaryLegalContact("name", "companyName", "telephone", "email")
 
   val formProvider                             = new ApplicantSecondaryLegalContactInternationalAddressFormProvider()
-  private def form: Form[InternationalAddress] = formProvider()
+  private def form: Form[InternationalAddress] = formProvider(stubMessages)
 
   lazy val applicantSecondaryLegalContactInternationalAddressRoute: String =
     routes.ApplicantSecondaryLegalContactInternationalAddressController.onPageLoad(NormalMode, afaId).url

@@ -31,7 +31,7 @@ class ApplicantLegalContactViewSpec extends TextInputViewBehaviours[ApplicantLeg
   val messageKeyPrefix      = "applicantLegalContact"
   val applicantName: String = nonEmptyString.sample.value
 
-  override val form = new ApplicantLegalContactFormProvider()()
+  override val form = new ApplicantLegalContactFormProvider()(messages)
 
   "ApplicantLegalContactView" must {
 

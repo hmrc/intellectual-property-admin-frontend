@@ -17,23 +17,26 @@
 package forms
 
 import javax.inject.Inject
-
 import forms.mappings.Mappings
 import play.api.data.Form
 import play.api.data.Forms._
 import models.IpRightsDescriptionWithBrand
+import play.api.i18n.Messages
+import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
 
 class IpRightsDescriptionWithBrandFormProvider @Inject() extends Mappings {
 
   val brandMaxLength: Int       = 100
   val descriptionMaxLength: Int = 1000
 
-  def apply(): Form[IpRightsDescriptionWithBrand] = Form(
+  def apply(implicit messages: Messages): Form[IpRightsDescriptionWithBrand] = Form(
     mapping(
       "brand" -> text("ipRightsDescriptionWithBrand.error.brand.required")
-        .verifying(maxLength(brandMaxLength, "ipRightsDescriptionWithBrand.error.brand.length")),
+        .verifying(maxLength(brandMaxLength, "ipRightsDescriptionWithBrand.error.brand.length"))
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "ipRightsDescriptionWithBrand.brand")),
       "value" -> text("ipRightsDescriptionWithBrand.error.description.required")
         .verifying(maxLength(descriptionMaxLength, "ipRightsDescriptionWithBrand.error.description.length"))
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "ipRightsDescriptionWithBrand.description"))
     )(IpRightsDescriptionWithBrand.apply)(IpRightsDescriptionWithBrand.unapply)
   )
 }

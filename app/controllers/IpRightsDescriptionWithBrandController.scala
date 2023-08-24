@@ -25,7 +25,7 @@ import navigation.Navigator
 import pages.IpRightsDescriptionWithBrandPage
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
 import services.AfaService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.IpRightsDescriptionWithBrandView
@@ -48,7 +48,7 @@ class IpRightsDescriptionWithBrandController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  private def form = formProvider()
+  private def form(implicit request: Request[_]) = formProvider(request2Messages)
 
   def onPageLoad(mode: Mode, index: Int, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData andThen validateIndex(index)) {

@@ -17,17 +17,19 @@
 package forms
 
 import javax.inject.Inject
-
 import forms.mappings.Mappings
 import play.api.data.Form
+import play.api.i18n.Messages
+import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
 
 class IpRightsDescriptionFormProvider @Inject() extends Mappings {
 
   val maxLength: Int = 1000
 
-  def apply(): Form[String] =
+  def apply(implicit messages: Messages): Form[String] =
     Form(
       "value" -> text("ipRightsDescription.error.required")
         .verifying(maxLength(maxLength, "ipRightsDescription.error.length"))
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "ipRightsDescription.label"))
     )
 }

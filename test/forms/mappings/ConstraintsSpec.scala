@@ -22,8 +22,11 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.data.validation.{Invalid, Valid}
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
 
 import java.time.LocalDate
+import java.util.Locale
 
 class ConstraintsSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks with Generators with Constraints {
 
@@ -96,6 +99,20 @@ class ConstraintsSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyC
     "return Invalid for an input that does not match the expression" in {
       val result = regexp("""^\d+$""", "error.invalid")("foo")
       result mustEqual Invalid("error.invalid", """^\d+$""")
+    }
+  }
+
+  "regexpDynamic" must {
+    val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
+
+    "return Valid for an input that matches the expression" in {
+      val result = regexpDynamic("""^[^<>"&]*$""", "regex.error", "dynamic.message")(stubMessages)("foo")
+      result mustEqual Valid
+    }
+
+    "return Invalid for an input that does not match the expression" in {
+      val result = regexpDynamic("""^[^<>"&]*$""", "regex.error", "dynamic.message")(stubMessages)("&&")
+      result mustEqual Invalid("regex.error", "dynamic.message")
     }
   }
 

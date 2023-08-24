@@ -30,7 +30,7 @@ class TechnicalContactInternationalAddressViewSpec extends TextInputViewBehaviou
 
   val contactName = "foo"
 
-  override val form = new TechnicalContactInternationalAddressFormProvider()()
+  override val form = new TechnicalContactInternationalAddressFormProvider()(messages)
 
   "TechnicalContactInternationalAddressView" must {
 

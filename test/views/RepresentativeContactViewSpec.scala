@@ -31,7 +31,7 @@ class RepresentativeContactViewSpec extends TextInputViewBehaviours[Representati
   val messageKeyPrefix = "representativeContact"
   val applicantName    = nonEmptyString.sample.value
 
-  override val form = new RepresentativeContactFormProvider()()
+  override val form = new RepresentativeContactFormProvider()(messages)
 
   "RepresentativeContactView" must {
 

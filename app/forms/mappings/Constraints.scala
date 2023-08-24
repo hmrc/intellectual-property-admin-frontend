@@ -17,8 +17,8 @@
 package forms.mappings
 
 import java.time.LocalDate
-
 import play.api.data.validation.{Constraint, Invalid, Valid}
+import play.api.i18n.Messages
 
 trait Constraints extends EmailValidation {
 
@@ -69,6 +69,16 @@ trait Constraints extends EmailValidation {
         Valid
       case _                         =>
         Invalid(errorKey, regex)
+    }
+
+  protected def regexpDynamic(regex: String, errorKey: String, dynamicMessage: String)(implicit
+    messages: Messages
+  ): Constraint[String] =
+    Constraint {
+      case str if str.matches(regex) =>
+        Valid
+      case _                         =>
+        Invalid(errorKey, messages(dynamicMessage))
     }
 
   protected def maxLength(maximum: Int, errorKey: String, args: Any*): Constraint[String] =

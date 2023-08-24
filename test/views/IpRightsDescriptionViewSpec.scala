@@ -29,7 +29,7 @@ class IpRightsDescriptionViewSpec extends TextInputViewBehaviours[String] {
 
   val messageKeyPrefix = "ipRightsDescription"
 
-  val form = new IpRightsDescriptionFormProvider()()
+  val form = new IpRightsDescriptionFormProvider()(messages)
 
   val rightsType = IpRightsType.Design
 

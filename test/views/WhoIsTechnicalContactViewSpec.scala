@@ -29,7 +29,7 @@ class WhoIsTechnicalContactViewSpec extends TextInputViewBehaviours[TechnicalCon
 
   val messageKeyPrefix = "whoIsTechnicalContact"
 
-  override val form = new WhoIsTechnicalContactFormProvider()()
+  override val form = new WhoIsTechnicalContactFormProvider()(messages)
 
   "WhoIsTechnicalContactView" must {
 

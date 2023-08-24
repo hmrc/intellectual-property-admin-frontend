@@ -25,7 +25,7 @@ import navigation.Navigator
 import pages.WhoIsTechnicalContactPage
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
 import services.AfaService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.WhoIsTechnicalContactView
@@ -47,7 +47,7 @@ class WhoIsTechnicalContactController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  private def form: Form[TechnicalContact] = formProvider()
+  private def form(implicit request: Request[_]): Form[TechnicalContact] = formProvider(request2Messages)
 
   def onPageLoad(mode: Mode, afaId: AfaId): Action[AnyContent] =
     (identify andThen getLock(afaId) andThen getData(afaId) andThen requireData) { implicit request =>

@@ -21,33 +21,40 @@ import forms.mappings.Mappings
 import play.api.data.{Form, Forms}
 import play.api.data.Forms._
 import models.UkAddress
+import play.api.i18n.Messages
+import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
 
 class TechnicalContactUkAddressFormProvider @Inject() extends Mappings {
 
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
 
-  def apply(): Form[UkAddress] = Form(
+  def apply(implicit messages: Messages): Form[UkAddress] = Form(
     mapping(
       "line1"    ->
         text("technicalContactUkAddress.error.line1.required")
-          .verifying(maxLength(linesMaxLength, "technicalContactUkAddress.error.line1.length")),
+          .verifying(maxLength(linesMaxLength, "technicalContactUkAddress.error.line1.length"))
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "technicalContactUkAddress.line1")),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "technicalContactUkAddress.error.line2.length"))
+            .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "technicalContactUkAddress.line2"))
         ),
       "town"     ->
         text("technicalContactUkAddress.error.town.required")
-          .verifying(maxLength(linesMaxLength, "technicalContactUkAddress.error.town.length")),
+          .verifying(maxLength(linesMaxLength, "technicalContactUkAddress.error.town.length"))
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "technicalContactUkAddress.town")),
       "county"   ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "technicalContactUkAddress.error.county.length"))
+            .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "technicalContactUkAddress.county"))
         ),
       "postCode" ->
         text("technicalContactUkAddress.error.postCode.required")
           .verifying(maxLength(postcodeMaxLength, "technicalContactUkAddress.error.postCode.length"))
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "technicalContactUkAddress.postCode"))
     )(UkAddress.apply)(UkAddress.unapply)
   )
 }

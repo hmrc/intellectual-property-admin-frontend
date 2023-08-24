@@ -30,7 +30,7 @@ class ApplicantSecondaryLegalContactInternationalAddressViewSpec extends TextInp
 
   val secondaryLegalContactName = "foo"
 
-  override val form = new ApplicantSecondaryLegalContactInternationalAddressFormProvider()()
+  override val form = new ApplicantSecondaryLegalContactInternationalAddressFormProvider()(messages)
 
   "ApplicantSecondaryLegalContactInternationalAddressView" must {
 

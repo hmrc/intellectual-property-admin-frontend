@@ -19,15 +19,27 @@ package forms
 import forms.behaviours.StringFieldBehaviours
 import models.IpRightsType
 import play.api.data.FormError
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
+
+import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class IpRightsRegistrationNumberFormProviderSpec extends StringFieldBehaviours {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   val requiredKey          = "ipRightsRegistrationNumber.error.required"
   val lengthKey            = "ipRightsRegistrationNumber.error.length"
   val maxLength            = 100
   val ipRightsType: String = IpRightsType.Copyright.toString
+  val regexKey             = "regex.error"
+  val valueFieldName       = "value"
+  val valueKey             = "ipRightsRegistrationNumber.checkYourAnswersLabel"
 
-  val form = new IpRightsRegistrationNumberFormProvider()(ipRightsType, Seq("firstRegNum", "secondRegNum"))
+  val form = new IpRightsRegistrationNumberFormProvider()(ipRightsType, Seq("firstRegNum", "secondRegNum"))(
+    stubMessages
+  )
 
   ".value" must {
 
@@ -56,10 +68,21 @@ class IpRightsRegistrationNumberFormProviderSpec extends StringFieldBehaviours {
 
       val regNum = "registrationNumber"
 
-      val form = new IpRightsRegistrationNumberFormProvider()(regNum, Seq("REG NUM"))
+      val form = new IpRightsRegistrationNumberFormProvider()(regNum, Seq("REG NUM"))(stubMessages)
 
       val result = form.bind(Map("value" -> "reg num")).apply("value")
       result.errors shouldEqual Seq(FormError("value", "ipRightsRegistrationNumber.error.duplicate", Seq("reg num")))
+    }
+  }
+
+  "An error" must {
+    "be returned when passing an invalid character in one form field" in {
+      val testInput        = Map(
+        "value" -> "&&&"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(valueFieldName, regexKey, ArraySeq(valueKey)))
     }
   }
 }

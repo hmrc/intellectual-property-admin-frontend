@@ -17,20 +17,32 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.ApplicantLegalContact
+import play.api.data.{Form, FormError}
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
+
+import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
 
-  val form = new ApplicantLegalContactFormProvider()()
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
+
+  val formProvider                      = new ApplicantLegalContactFormProvider()
+  val form: Form[ApplicantLegalContact] = formProvider(stubMessages)
 
   val nameEmailLimit: Int = 200
   val phonesLimit: Int    = 100
+  val regexKey            = "regex.error"
 
   "companyName" must {
 
     val fieldName   = "companyName"
     val requiredKey = "applicantLegalContact.error.companyName.required"
     val lengthKey   = "applicantLegalContact.error.companyName.length"
+
+    val companyNameKey = "applicantLegalContact.companyName.label"
 
     behave like fieldThatBindsValidData(
       form,
@@ -50,6 +62,20 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "return an error when passed a value with an invalid character" in {
+      val testInput        = Map(
+        "companyName"    -> "<>",
+        "name"           -> "name",
+        "telephone"      -> "1123",
+        "otherTelephone" -> "1234",
+        "email"          -> "email@email"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(companyNameKey)))
+    }
+
   }
 
   "name" must {
@@ -58,6 +84,8 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
     val requiredKey = "applicantLegalContact.error.name.required"
     val lengthKey   = "applicantLegalContact.error.name.length"
 
+    val nameKey = "applicantLegalContact.name.label"
+
     behave like fieldThatBindsValidData(
       form,
       fieldName,
@@ -76,6 +104,19 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "return an error when passed a value with an invalid character" in {
+      val testInput        = Map(
+        "companyName"    -> "company",
+        "name"           -> "<?>",
+        "telephone"      -> "1123",
+        "otherTelephone" -> "1234",
+        "email"          -> "email@email"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(nameKey)))
+    }
   }
 
   "telephone" must {
@@ -83,6 +124,8 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
     val fieldName   = "telephone"
     val requiredKey = "applicantLegalContact.error.telephone.required"
     val lengthKey   = "applicantLegalContact.error.telephone.length"
+
+    val telephoneKey = "applicantLegalContact.telephone.label"
 
     behave like fieldThatBindsValidData(
       form,
@@ -102,12 +145,27 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "return an error when passed a value with an invalid character" in {
+      val testInput        = Map(
+        "companyName"    -> "company",
+        "name"           -> "name",
+        "telephone"      -> "1123<",
+        "otherTelephone" -> "1234",
+        "email"          -> "email@email"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(telephoneKey)))
+    }
   }
 
   "otherTelephone" must {
 
     val fieldName = "otherTelephone"
     val lengthKey = "applicantLegalContact.error.otherTelephone.length"
+
+    val otherTelephoneKey = "applicantLegalContact.otherTelephone.label"
 
     behave like fieldThatBindsValidData(
       form,
@@ -121,6 +179,19 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       maxLength = phonesLimit,
       lengthError = FormError(fieldName, lengthKey, Seq(phonesLimit))
     )
+
+    "return an error when passed a value with an invalid character" in {
+      val testInput        = Map(
+        "companyName"    -> "company",
+        "name"           -> "name",
+        "telephone"      -> "1123",
+        "otherTelephone" -> "1234<>",
+        "email"          -> "email@email"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(otherTelephoneKey)))
+    }
   }
 
   "email" must {

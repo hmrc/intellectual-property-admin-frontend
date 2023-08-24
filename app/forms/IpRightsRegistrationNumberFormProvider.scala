@@ -20,11 +20,16 @@ import javax.inject.Inject
 import forms.mappings.Mappings
 import play.api.data.Form
 import play.api.data.validation.{Constraint, Invalid, Valid}
+import play.api.i18n.Messages
+import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
 
 class IpRightsRegistrationNumberFormProvider @Inject() extends Mappings {
 
-  val maxLength: Int                                                                      = 100
-  def apply(ipRightsName: String, existingRegistrationNumbers: Seq[String]): Form[String] = {
+  val maxLength: Int = 100
+
+  def apply(ipRightsName: String, existingRegistrationNumbers: Seq[String])(implicit
+    messages: Messages
+  ): Form[String] = {
 
     val duplicateRegistrationNumberConstraint: Constraint[String] = Constraint { regNum =>
       if (existingRegistrationNumbers contains regNum.toUpperCase) {
@@ -38,6 +43,7 @@ class IpRightsRegistrationNumberFormProvider @Inject() extends Mappings {
       "value" -> text("ipRightsRegistrationNumber.error.required", ipRightsName)
         .verifying(maxLength(maxLength, "ipRightsRegistrationNumber.error.length", ipRightsName))
         .verifying(duplicateRegistrationNumberConstraint)
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "ipRightsRegistrationNumber.checkYourAnswersLabel"))
     )
   }
 }

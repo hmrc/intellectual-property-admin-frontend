@@ -17,19 +17,31 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.CompanyApplying
+import play.api.data.{Form, FormError}
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
+
+import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class CompanyApplyingFormProviderSpec extends StringFieldBehaviours {
 
-  val maxLength = 200
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
-  val form = new CompanyApplyingFormProvider()()
+  val maxLength = 200
+  val regexKey  = "regex.error"
+
+  val formProvider                = new CompanyApplyingFormProvider()
+  val form: Form[CompanyApplying] = formProvider(stubMessages)
 
   ".companyName" must {
 
     val fieldName   = "companyName"
     val requiredKey = "companyApplying.error.companyName.required"
     val lengthKey   = "companyApplying.error.companyName.length"
+
+    val companyNameKey = "companyApplying.companyName"
 
     behave like fieldThatBindsValidData(
       form,
@@ -49,12 +61,25 @@ class CompanyApplyingFormProviderSpec extends StringFieldBehaviours {
       fieldName,
       requiredError = FormError(fieldName, requiredKey)
     )
+
+    "return an error when passed a value with an invalid character" in {
+
+      val testInput        = Map(
+        "companyName"    -> "<",
+        "companyAcronym" -> "ABC"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(companyNameKey)))
+    }
   }
 
   ".companyAcronym" must {
 
     val fieldName = "companyAcronym"
     val lengthKey = "companyApplying.error.companyAcronym.length"
+
+    val companyAcronymKey = "companyApplying.companyAcronym"
 
     behave like fieldThatBindsValidData(
       form,
@@ -73,6 +98,17 @@ class CompanyApplyingFormProviderSpec extends StringFieldBehaviours {
       form,
       fieldName
     )
+
+    "return an error when passed a value with an invalid character" in {
+
+      val testInput        = Map(
+        "companyName"    -> "company",
+        "companyAcronym" -> "&>"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(companyAcronymKey)))
+    }
 
   }
 }

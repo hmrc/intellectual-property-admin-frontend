@@ -17,12 +17,30 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.InternationalAddress
+import play.api.data.{Form, FormError}
+import play.api.i18n.{Lang, Messages}
+import play.api.test.Helpers.stubMessagesApi
+
+import java.util.Locale
+import scala.collection.immutable.ArraySeq
 
 class ApplicantSecondaryLegalContactInternationalAddressFormProviderSpec extends StringFieldBehaviours {
 
-  val form      = new ApplicantSecondaryLegalContactInternationalAddressFormProvider()()
-  val maxLength = 100
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
+
+  val formProvider                     = new ApplicantSecondaryLegalContactInternationalAddressFormProvider()
+  val form: Form[InternationalAddress] = formProvider(stubMessages)
+  val maxLength                        = 100
+
+  val regexKey       = "regex.error"
+  val line1FieldName = "line1"
+  val line2FieldName = "line2"
+  val townFieldName  = "town"
+
+  val line1Key = "applicantSecondaryLegalContactInternationalAddress.line1"
+  val line2Key = "applicantSecondaryLegalContactInternationalAddress.line2"
+  val townKey  = "applicantSecondaryLegalContactInternationalAddress.town"
 
   ".line1" must {
 
@@ -148,5 +166,37 @@ class ApplicantSecondaryLegalContactInternationalAddressFormProviderSpec extends
       form,
       fieldName
     )
+  }
+
+  "An error" must {
+    "be returned when passing an invalid character in one form field" in {
+      val testInput        = Map(
+        "line1"    -> "address&",
+        "line2"    -> "address 2",
+        "town"     -> "town",
+        "country"  -> "country",
+        "postCode" -> "postCode"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(line1FieldName, regexKey, ArraySeq(line1Key)))
+    }
+
+    "be returned when passing an invalid character in multiple form fields" in {
+      val testInput        = Map(
+        "line1"    -> "address&",
+        "line2"    -> "address 2<",
+        "town"     -> "town<&?>",
+        "country"  -> "country",
+        "postCode" -> "postCode"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(
+        FormError(line1FieldName, regexKey, ArraySeq(line1Key)),
+        FormError(line2FieldName, regexKey, ArraySeq(line2Key)),
+        FormError(townFieldName, regexKey, ArraySeq(townKey))
+      )
+    }
   }
 }

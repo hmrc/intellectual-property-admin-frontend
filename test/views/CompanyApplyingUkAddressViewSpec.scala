@@ -30,7 +30,7 @@ class CompanyApplyingUkAddressViewSpec extends TextInputViewBehaviours[UkAddress
 
   val contactName = "foo"
 
-  override val form = new CompanyApplyingUkAddressFormProvider()()
+  override val form = new CompanyApplyingUkAddressFormProvider()(messages)
 
   "companyApplyingUkAddress" must {
 

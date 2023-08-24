@@ -42,7 +42,7 @@ class CompanyApplyingUkAddressControllerSpec extends SpecBase with MockitoSugar 
   val companyApplying: CompanyApplying = CompanyApplying("name", None)
 
   val formProvider = new CompanyApplyingUkAddressFormProvider()
-  private def form = formProvider()
+  private def form = formProvider(messages)
 
   lazy private val companyApplyingUkAddressRoute =
     routes.CompanyApplyingUkAddressController.onPageLoad(NormalMode, afaId).url

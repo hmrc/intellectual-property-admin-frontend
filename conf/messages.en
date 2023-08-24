@@ -747,3 +747,5 @@ confirmedRemovedContact.technical = Technical
 email.required = Enter an email address
 email.length = Email address must be 256 characters or less
 email.format = Enter an email address in the correct format, like name@example.com
+
+regex.error = {0} cannot contain <, >, " or &

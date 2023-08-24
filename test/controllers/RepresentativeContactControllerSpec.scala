@@ -25,6 +25,7 @@ import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{CompanyApplyingPage, RepresentativeDetailsPage}
 import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest
@@ -32,16 +33,19 @@ import play.api.test.Helpers._
 import services.AfaService
 import views.html.RepresentativeContactView
 
+import java.util.Locale
 import scala.concurrent.Future
 
 class RepresentativeContactControllerSpec extends SpecBase with MockitoSugar with LockAfaChecks {
+
+  val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
   def onwardRoute: Call = Call("GET", "/foo")
 
   val afaId: AfaId = userAnswersId
 
   val formProvider                              = new RepresentativeContactFormProvider()
-  private def form: Form[RepresentativeDetails] = formProvider()
+  private def form: Form[RepresentativeDetails] = formProvider(stubMessages)
 
   lazy val representativeContactRoute: String = routes.RepresentativeContactController.onPageLoad(NormalMode, afaId).url
 

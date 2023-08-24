@@ -21,33 +21,40 @@ import forms.mappings.Mappings
 import play.api.data.{Form, Forms}
 import play.api.data.Forms._
 import models.UkAddress
+import play.api.i18n.Messages
+import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
 
 class ApplicantLegalContactUkAddressFormProvider @Inject() extends Mappings {
 
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
 
-  def apply(): Form[UkAddress] = Form(
+  def apply(implicit messages: Messages): Form[UkAddress] = Form(
     mapping(
       "line1"    ->
         text("applicantLegalContactUkAddress.error.line1.required")
-          .verifying(maxLength(linesMaxLength, "applicantLegalContactUkAddress.error.line1.length")),
+          .verifying(maxLength(linesMaxLength, "applicantLegalContactUkAddress.error.line1.length"))
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactUkAddress.line1")),
       "line2"    ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "applicantLegalContactUkAddress.error.line2.length"))
+            .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactUkAddress.line2"))
         ),
       "town"     ->
         text("applicantLegalContactUkAddress.error.town.required")
-          .verifying(maxLength(linesMaxLength, "applicantLegalContactUkAddress.error.town.length")),
+          .verifying(maxLength(linesMaxLength, "applicantLegalContactUkAddress.error.town.length"))
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactUkAddress.town")),
       "county"   ->
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "applicantLegalContactUkAddress.error.county.length"))
+            .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactUkAddress.county"))
         ),
       "postCode" ->
         text("applicantLegalContactUkAddress.error.postCode.required")
           .verifying(maxLength(postcodeMaxLength, "applicantLegalContactUkAddress.error.postCode.length"))
+          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactUkAddress.postCode"))
     )(UkAddress.apply)(UkAddress.unapply)
   )
 }

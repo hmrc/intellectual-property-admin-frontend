@@ -20,11 +20,11 @@ import config.FrontendAppConfig
 import controllers.actions._
 import generators.ModelGenerators
 import models.{AfaId, UserAnswers}
+import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.TryValues
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice._
-import org.scalacheck.Arbitrary.arbitrary
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.inject.{Injector, bind}

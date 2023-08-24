@@ -16,23 +16,30 @@
 
 package forms
 
-import javax.inject.Inject
 import forms.mappings.Mappings
-import play.api.data.{Form, Forms}
-import play.api.data.Forms._
 import models.CompanyApplying
+import play.api.data.Forms._
+import play.api.data.{Form, Forms}
+import play.api.i18n.Messages
+import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
 
-class CompanyApplyingFormProvider @Inject() extends Mappings {
+import javax.inject.Inject
+
+class CompanyApplyingFormProvider @Inject() () extends Mappings {
 
   val maxLength: Int = 200
 
-  def apply(): Form[CompanyApplying] = Form(
+  def apply(implicit messages: Messages): Form[CompanyApplying] = Form(
     mapping(
       "companyName"    -> text("companyApplying.error.companyName.required")
-        .verifying(maxLength(maxLength, "companyApplying.error.companyName.length")),
+        .verifying(maxLength(maxLength, "companyApplying.error.companyName.length"))
+        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "companyApplying.companyName")),
       "companyAcronym" -> optional(
         Forms.text
           .verifying(maxLength(maxLength, "companyApplying.error.companyAcronym.length"))
+          .verifying(
+            regexpDynamic(rejectXssChars, regexErrorKey, "companyApplying.companyAcronym")
+          )
       )
     )(CompanyApplying.apply)(CompanyApplying.unapply)
   )
