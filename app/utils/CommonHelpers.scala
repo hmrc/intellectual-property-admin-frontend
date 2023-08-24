@@ -23,6 +23,9 @@ import play.api.mvc.AnyContent
 
 object CommonHelpers {
 
+  val rejectXssChars: String = """^[^<>"&]*$"""
+  val regexErrorKey: String  = "regex.error"
+
   def getApplicantName[A](block: String => A)(implicit request: DataRequest[AnyContent], messages: Messages): A =
     block {
       request.userAnswers

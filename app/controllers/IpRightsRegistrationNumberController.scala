@@ -24,7 +24,7 @@ import navigation.Navigator
 import pages.{IpRightsRegistrationNumberPage, IpRightsTypePage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import queries.IprDetailsQuery
 import services.AfaService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -55,7 +55,7 @@ class IpRightsRegistrationNumberController @Inject() (
       implicit request =>
         getIpRightsType(index) { ipRightsType =>
           getOtherExistingRegistrationNumbers(index) { regNums =>
-            val form = formProvider(ipRightsType, regNums)
+            def form(implicit request: Request[_]): Form[String] = formProvider(ipRightsType, regNums)(request2Messages)
 
             val preparedForm = request.userAnswers.get(IpRightsRegistrationNumberPage(index)) match {
               case None        => form

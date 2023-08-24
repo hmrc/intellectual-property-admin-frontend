@@ -23,14 +23,12 @@ import models.RepresentativeDetails
 import play.api.data.{Form, Forms}
 import play.api.data.Forms._
 import play.api.i18n.Messages
+import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
 
 class RepresentativeContactFormProvider @Inject() extends Mappings {
 
-  val nameEmailLimit: Int    = 200
-  val phoneRoleLimit: Int    = 100
-  val rejectXssChars: String = """^[^<>"&]*$"""
-
-  val regexErrorKey: String = "regex.error"
+  val nameEmailLimit: Int = 200
+  val phoneRoleLimit: Int = 100
 
   def apply(implicit messages: Messages): Form[RepresentativeDetails] = Form(
     mapping(

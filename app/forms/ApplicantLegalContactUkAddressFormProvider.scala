@@ -22,14 +22,12 @@ import play.api.data.{Form, Forms}
 import play.api.data.Forms._
 import models.UkAddress
 import play.api.i18n.Messages
+import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
 
 class ApplicantLegalContactUkAddressFormProvider @Inject() extends Mappings {
 
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10
-  val rejectXssChars: String = """^[^<>"&]*$"""
-
-  val regexErrorKey: String = "regex.error"
 
   def apply(implicit messages: Messages): Form[UkAddress] = Form(
     mapping(

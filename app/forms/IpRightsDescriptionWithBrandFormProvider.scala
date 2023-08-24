@@ -22,14 +22,12 @@ import play.api.data.Form
 import play.api.data.Forms._
 import models.IpRightsDescriptionWithBrand
 import play.api.i18n.Messages
+import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
 
 class IpRightsDescriptionWithBrandFormProvider @Inject() extends Mappings {
 
   val brandMaxLength: Int       = 100
   val descriptionMaxLength: Int = 1000
-  val rejectXssChars: String    = """^[^<>"&]*$"""
-
-  val regexErrorKey: String = "regex.error"
 
   def apply(implicit messages: Messages): Form[IpRightsDescriptionWithBrand] = Form(
     mapping(
