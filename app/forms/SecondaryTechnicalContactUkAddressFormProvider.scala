@@ -50,7 +50,9 @@ class SecondaryTechnicalContactUkAddressFormProvider @Inject() extends Mappings 
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "secondaryTechnicalContactUkAddress.error.county.length"))
-            .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "secondaryTechnicalContactUkAddress.county"))
+            .verifying(
+              regexpDynamic(rejectXssChars, regexErrorKey, "secondaryTechnicalContactUkAddress.county.noOption")
+            )
         ),
       "postCode" ->
         text("secondaryTechnicalContactUkAddress.error.postCode.required")

@@ -169,7 +169,7 @@ class ApplicantLegalContactUkAddressFormProviderSpec extends StringFieldBehaviou
     val fieldName = "county"
     val lengthKey = "applicantLegalContactUkAddress.error.county.length"
 
-    val countyKey = "applicantLegalContactUkAddress.county"
+    val countyKey = "applicantLegalContactUkAddress.county.noOption"
 
     behave like fieldThatBindsValidData(
       form,

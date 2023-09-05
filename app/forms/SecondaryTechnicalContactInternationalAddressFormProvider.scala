@@ -59,7 +59,11 @@ class SecondaryTechnicalContactInternationalAddressFormProvider @Inject() extend
         Forms.text
           .verifying(maxLength(maxLength, "secondaryTechnicalContactInternationalAddress.error.postCode.length"))
           .verifying(
-            regexpDynamic(rejectXssChars, regexErrorKey, "secondaryTechnicalContactInternationalAddress.postCode")
+            regexpDynamic(
+              rejectXssChars,
+              regexErrorKey,
+              "secondaryTechnicalContactInternationalAddress.postCode.noOption"
+            )
           )
       )
     )(InternationalAddress.apply)(InternationalAddress.unapply)

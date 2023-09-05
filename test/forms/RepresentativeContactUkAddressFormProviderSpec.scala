@@ -17,7 +17,8 @@
 package forms
 
 import forms.behaviours.StringFieldBehaviours
-import play.api.data.FormError
+import models.UkAddress
+import play.api.data.{Form, FormError}
 import play.api.i18n.{Lang, Messages}
 import play.api.test.Helpers.stubMessagesApi
 
@@ -28,8 +29,8 @@ class RepresentativeContactUkAddressFormProviderSpec extends StringFieldBehaviou
 
   val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
-  val formProvider = new RepresentativeContactUkAddressFormProvider()
-  val form         = formProvider(stubMessages)
+  val formProvider          = new RepresentativeContactUkAddressFormProvider()
+  val form: Form[UkAddress] = formProvider(stubMessages)
 
   val linesMaxLength: Int    = 100
   val postcodeMaxLength: Int = 10

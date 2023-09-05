@@ -79,7 +79,7 @@ class CompanyApplyingFormProviderSpec extends StringFieldBehaviours {
     val fieldName = "companyAcronym"
     val lengthKey = "companyApplying.error.companyAcronym.length"
 
-    val companyAcronymKey = "companyApplying.companyAcronym"
+    val companyAcronymKey = "companyApplying.companyAcronym.noOption"
 
     behave like fieldThatBindsValidData(
       form,

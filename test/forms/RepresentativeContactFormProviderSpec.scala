@@ -35,7 +35,7 @@ class RepresentativeContactFormProviderSpec extends StringFieldBehaviours {
   val regexKey         = "regex.error"
   val nameKey          = "representativeContact.name.label"
   val companyNameKey   = "representativeContact.companyName.label"
-  val roleKey          = "representativeContact.role.label"
+  val roleKey          = "representativeContact.role.label.noOption"
   val nameFieldName    = "name"
   val companyFieldName = "companyName"
   val roleFieldName    = "role"

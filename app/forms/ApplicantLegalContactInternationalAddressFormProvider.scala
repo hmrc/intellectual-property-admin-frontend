@@ -53,7 +53,11 @@ class ApplicantLegalContactInternationalAddressFormProvider @Inject() extends Ma
           Forms.text
             .verifying(maxLength(maxLength, "applicantLegalContactInternationalAddress.error.postCode.length"))
             .verifying(
-              regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContactInternationalAddress.postCode")
+              regexpDynamic(
+                rejectXssChars,
+                regexErrorKey,
+                "applicantLegalContactInternationalAddress.postCode.noOption"
+              )
             )
         )
     )(InternationalAddress.apply)(InternationalAddress.unapply)

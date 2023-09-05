@@ -38,7 +38,7 @@ class CompanyApplyingFormProvider @Inject() () extends Mappings {
         Forms.text
           .verifying(maxLength(maxLength, "companyApplying.error.companyAcronym.length"))
           .verifying(
-            regexpDynamic(rejectXssChars, regexErrorKey, "companyApplying.companyAcronym")
+            regexpDynamic(rejectXssChars, regexErrorKey, "companyApplying.companyAcronym.noOption")
           )
       )
     )(CompanyApplying.apply)(CompanyApplying.unapply)

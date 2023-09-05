@@ -46,7 +46,7 @@ class RepresentativeContactFormProvider @Inject() extends Mappings {
         Forms.text
           .verifying(maxLength(phoneRoleLimit, "representativeContact.error.role.length"))
           .verifying(
-            regexpDynamic(rejectXssChars, regexErrorKey, "representativeContact.role.label")
+            regexpDynamic(rejectXssChars, regexErrorKey, "representativeContact.role.label.noOption")
           )
       )
     )(RepresentativeDetails.apply)(RepresentativeDetails.unapply)

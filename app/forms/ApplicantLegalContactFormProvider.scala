@@ -43,7 +43,9 @@ class ApplicantLegalContactFormProvider @Inject() extends Mappings {
       "otherTelephone" -> optional(
         Forms.text
           .verifying(maxLength(phonesLimit, "applicantLegalContact.error.otherTelephone.length"))
-          .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.otherTelephone.label"))
+          .verifying(
+            regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.otherTelephone.label.noOption")
+          )
       ),
       "email"          -> email.verifying(validateEmail)
     )(ApplicantLegalContact.apply)(ApplicantLegalContact.unapply)

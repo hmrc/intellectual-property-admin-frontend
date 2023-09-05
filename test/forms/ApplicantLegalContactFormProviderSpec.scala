@@ -165,7 +165,7 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
     val fieldName = "otherTelephone"
     val lengthKey = "applicantLegalContact.error.otherTelephone.length"
 
-    val otherTelephoneKey = "applicantLegalContact.otherTelephone.label"
+    val otherTelephoneKey = "applicantLegalContact.otherTelephone.label.noOption"
 
     behave like fieldThatBindsValidData(
       form,
