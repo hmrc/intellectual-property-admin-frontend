@@ -23,7 +23,7 @@ import models.TechnicalContact
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.Messages
-import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
+import utils.CommonHelpers.{errorKeyXSSNoAmpersand, regexErrorKey, regexXSSNoAmpersand, rejectXssChars}
 
 class WhoIsTechnicalContactFormProvider @Inject() extends Mappings {
 
@@ -37,7 +37,7 @@ class WhoIsTechnicalContactFormProvider @Inject() extends Mappings {
         .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsTechnicalContact.contactName")),
       "companyName"      -> text("whoIsTechnicalContact.error.companyName.required")
         .verifying(maxLength(nameCompanyEmailLimit, "whoIsTechnicalContact.error.companyName.length"))
-        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsTechnicalContact.companyName")),
+        .verifying(regexpDynamic(regexXSSNoAmpersand, errorKeyXSSNoAmpersand, "whoIsTechnicalContact.companyName")),
       "contactTelephone" -> text("whoIsTechnicalContact.error.contactTelephone.required")
         .verifying(maxLength(phonesLimit, "whoIsTechnicalContact.error.contactTelephone.length"))
         .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsTechnicalContact.contactTelephone")),

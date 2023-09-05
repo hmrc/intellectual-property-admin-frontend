@@ -37,6 +37,7 @@ class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
   val phonesLimit: Int = 100
 
   val regexKey             = "regex.error"
+  val regexKeyNoAmpersand  = "error.regexXSSNoAmpersand"
   val companyNameFieldName = "companyName"
   val companyNameKey       = "whoIsSecondaryLegalContact.companyName.label"
   val nameFieldName        = "name"
@@ -160,7 +161,7 @@ class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
       )
       val invalidValueTest = form.bind(testInput).errors
 
-      invalidValueTest shouldBe Seq(FormError(companyNameFieldName, regexKey, ArraySeq(companyNameKey)))
+      invalidValueTest shouldBe Seq(FormError(companyNameFieldName, regexKeyNoAmpersand, ArraySeq(companyNameKey)))
     }
 
     "be returned when passing an invalid character in multiple form fields" in {
@@ -173,7 +174,7 @@ class WhoIsSecondaryLegalContactFormProviderSpec extends StringFieldBehaviours {
       val invalidValueTest = form.bind(testInput).errors
 
       invalidValueTest shouldBe Seq(
-        FormError(companyNameFieldName, regexKey, ArraySeq(companyNameKey)),
+        FormError(companyNameFieldName, regexKeyNoAmpersand, ArraySeq(companyNameKey)),
         FormError(nameFieldName, regexKey, ArraySeq(nameKey)),
         FormError(telephoneFieldName, regexKey, ArraySeq(telephoneKey))
       )

@@ -36,6 +36,7 @@ class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours {
   val phonesLimit: Int             = 100
 
   val regexKey                  = "regex.error"
+  val regexKeyNoAmpersand       = "error.regexXSSNoAmpersand"
   val contactNameFieldName      = "contactName"
   val contactNameKey            = "whoIsTechnicalContact.contactName"
   val companyNameFieldName      = "companyName"
@@ -153,19 +154,19 @@ class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours {
     "be returned when passing an invalid character in one form field" in {
       val testInput        = Map(
         "contactName"      -> "bob",
-        "companyName"      -> "company 1&",
+        "companyName"      -> "company 1<",
         "contactTelephone" -> "0203495678",
         "contactEmail"     -> "email@email.com"
       )
       val invalidValueTest = form.bind(testInput).errors
 
-      invalidValueTest shouldBe Seq(FormError(companyNameFieldName, regexKey, ArraySeq(companyNameKey)))
+      invalidValueTest shouldBe Seq(FormError(companyNameFieldName, regexKeyNoAmpersand, ArraySeq(companyNameKey)))
     }
 
     "be returned when passing an invalid character in multiple form fields" in {
       val testInput        = Map(
         "contactName"      -> "bob&<>",
-        "companyName"      -> "company 1&",
+        "companyName"      -> "company 1<>",
         "contactTelephone" -> "0203495678 &&*",
         "contactEmail"     -> "email@email.com"
       )
@@ -173,7 +174,7 @@ class WhoIsTechnicalContactFormProviderSpec extends StringFieldBehaviours {
 
       invalidValueTest shouldBe Seq(
         FormError(contactNameFieldName, regexKey, ArraySeq(contactNameKey)),
-        FormError(companyNameFieldName, regexKey, ArraySeq(companyNameKey)),
+        FormError(companyNameFieldName, regexKeyNoAmpersand, ArraySeq(companyNameKey)),
         FormError(contactTelephoneFieldName, regexKey, ArraySeq(contactTelephoneKey))
       )
     }

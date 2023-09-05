@@ -21,7 +21,7 @@ import models.WhoIsSecondaryLegalContact
 import play.api.data.Form
 import play.api.data.Forms.mapping
 import play.api.i18n.Messages
-import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
+import utils.CommonHelpers.{errorKeyXSSNoAmpersand, regexErrorKey, regexXSSNoAmpersand, rejectXssChars}
 
 class WhoIsSecondaryLegalContactFormProvider extends Mappings {
 
@@ -32,7 +32,9 @@ class WhoIsSecondaryLegalContactFormProvider extends Mappings {
     mapping(
       "companyName" -> text("whoIsSecondaryLegalContact.error.companyName.required")
         .verifying(maxLength(nameEmailLimit, "whoIsSecondaryLegalContact.error.companyName.length"))
-        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsSecondaryLegalContact.companyName.label")),
+        .verifying(
+          regexpDynamic(regexXSSNoAmpersand, errorKeyXSSNoAmpersand, "whoIsSecondaryLegalContact.companyName.label")
+        ),
       "name"        -> text("whoIsSecondaryLegalContact.error.name.required")
         .verifying(maxLength(nameEmailLimit, "whoIsSecondaryLegalContact.error.name.length"))
         .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsSecondaryLegalContact.name.label")),

@@ -35,6 +35,7 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
   val nameEmailLimit: Int = 200
   val phonesLimit: Int    = 100
   val regexKey            = "regex.error"
+  val regexKeyNoAmpersand = "error.regexXSSNoAmpersand"
 
   "companyName" must {
 
@@ -73,7 +74,7 @@ class ApplicantLegalContactFormProviderSpec extends StringFieldBehaviours {
       )
       val invalidValueTest = form.bind(testInput).errors
 
-      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(companyNameKey)))
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKeyNoAmpersand, ArraySeq(companyNameKey)))
     }
 
   }

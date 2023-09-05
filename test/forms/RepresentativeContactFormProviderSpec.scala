@@ -32,13 +32,14 @@ class RepresentativeContactFormProviderSpec extends StringFieldBehaviours {
   val nameLimit: Int      = 200
   val phoneRoleLimit: Int = 100
 
-  val regexKey         = "regex.error"
-  val nameKey          = "representativeContact.name.label"
-  val companyNameKey   = "representativeContact.companyName.label"
-  val roleKey          = "representativeContact.role.label.noOption"
-  val nameFieldName    = "name"
-  val companyFieldName = "companyName"
-  val roleFieldName    = "role"
+  val regexKey            = "regex.error"
+  val regexKeyNoAmpersand = "error.regexXSSNoAmpersand"
+  val nameKey             = "representativeContact.name.label"
+  val companyNameKey      = "representativeContact.companyName.label"
+  val roleKey             = "representativeContact.role.label.noOption"
+  val nameFieldName       = "name"
+  val companyFieldName    = "companyName"
+  val roleFieldName       = "role"
 
   val formProvider                      = new RepresentativeContactFormProvider()
   val form: Form[RepresentativeDetails] = formProvider(stubMessages)
@@ -187,7 +188,7 @@ class RepresentativeContactFormProviderSpec extends StringFieldBehaviours {
 
       invalidValueTest shouldBe Seq(
         FormError(nameFieldName, regexKey, ArraySeq(nameKey)),
-        FormError(companyFieldName, regexKey, ArraySeq(companyNameKey)),
+        FormError(companyFieldName, regexKeyNoAmpersand, ArraySeq(companyNameKey)),
         FormError(roleFieldName, regexKey, ArraySeq(roleKey))
       )
     }

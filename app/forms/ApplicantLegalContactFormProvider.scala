@@ -22,7 +22,7 @@ import play.api.data.{Form, Forms}
 import play.api.data.Forms._
 import models.ApplicantLegalContact
 import play.api.i18n.Messages
-import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
+import utils.CommonHelpers.{errorKeyXSSNoAmpersand, regexErrorKey, regexXSSNoAmpersand, rejectXssChars}
 
 class ApplicantLegalContactFormProvider @Inject() extends Mappings {
 
@@ -33,7 +33,9 @@ class ApplicantLegalContactFormProvider @Inject() extends Mappings {
     mapping(
       "companyName"    -> text("applicantLegalContact.error.companyName.required")
         .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.companyName.length"))
-        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.companyName.label")),
+        .verifying(
+          regexpDynamic(regexXSSNoAmpersand, errorKeyXSSNoAmpersand, "applicantLegalContact.companyName.label")
+        ),
       "name"           -> text("applicantLegalContact.error.name.required")
         .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.name.length"))
         .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.name.label")),
