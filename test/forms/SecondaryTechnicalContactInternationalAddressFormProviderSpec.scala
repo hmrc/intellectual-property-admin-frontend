@@ -36,7 +36,7 @@ class SecondaryTechnicalContactInternationalAddressFormProviderSpec extends Stri
   val countryFieldName  = "country"
   val countryKey        = "secondaryTechnicalContactInternationalAddress.country"
   val postCodeFieldName = "postCode"
-  val postCodeKey       = "secondaryTechnicalContactInternationalAddress.postCode"
+  val postCodeKey       = "secondaryTechnicalContactInternationalAddress.postCode.noOption"
 
   val formProvider                     = new SecondaryTechnicalContactInternationalAddressFormProvider()
   val form: Form[InternationalAddress] = formProvider(stubMessages)

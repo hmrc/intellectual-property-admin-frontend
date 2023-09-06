@@ -65,7 +65,7 @@ class ApplicantSecondaryLegalContactInternationalAddressFormProvider @Inject() e
               regexpDynamic(
                 rejectXssChars,
                 regexErrorKey,
-                "applicantSecondaryLegalContactInternationalAddress.postCode"
+                "applicantSecondaryLegalContactInternationalAddress.postCode.noOption"
               )
             )
         )

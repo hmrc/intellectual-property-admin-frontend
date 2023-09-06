@@ -26,6 +26,9 @@ object CommonHelpers {
   val rejectXssChars: String = """^[^<>"&]*$"""
   val regexErrorKey: String  = "regex.error"
 
+  val regexXSSNoAmpersand: String    = """^[^<>"]*$"""
+  val errorKeyXSSNoAmpersand: String = "error.regexXSSNoAmpersand"
+
   def getApplicantName[A](block: String => A)(implicit request: DataRequest[AnyContent], messages: Messages): A =
     block {
       request.userAnswers

@@ -50,7 +50,9 @@ class ApplicantSecondaryLegalContactUkAddressFormProvider @Inject() extends Mapp
         optional(
           Forms.text
             .verifying(maxLength(linesMaxLength, "applicantSecondaryLegalContactUkAddress.error.county.length"))
-            .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantSecondaryLegalContactUkAddress.county"))
+            .verifying(
+              regexpDynamic(rejectXssChars, regexErrorKey, "applicantSecondaryLegalContactUkAddress.county.noOption")
+            )
         ),
       "postCode" ->
         text("applicantSecondaryLegalContactUkAddress.error.postCode.required")

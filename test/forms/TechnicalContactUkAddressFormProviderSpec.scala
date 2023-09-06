@@ -38,7 +38,7 @@ class TechnicalContactUkAddressFormProviderSpec extends StringFieldBehaviours {
   val townFieldName   = "town"
   val townKey         = "technicalContactUkAddress.town"
   val countyFieldName = "county"
-  val countyKey       = "technicalContactUkAddress.county"
+  val countyKey       = "technicalContactUkAddress.county.noOption"
 
   val formProvider          = new TechnicalContactUkAddressFormProvider()
   val form: Form[UkAddress] = formProvider(stubMessages)

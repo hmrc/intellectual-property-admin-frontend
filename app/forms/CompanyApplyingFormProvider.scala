@@ -21,7 +21,7 @@ import models.CompanyApplying
 import play.api.data.Forms._
 import play.api.data.{Form, Forms}
 import play.api.i18n.Messages
-import utils.CommonHelpers.{regexErrorKey, rejectXssChars}
+import utils.CommonHelpers.{errorKeyXSSNoAmpersand, regexErrorKey, regexXSSNoAmpersand, rejectXssChars}
 
 import javax.inject.Inject
 
@@ -33,12 +33,12 @@ class CompanyApplyingFormProvider @Inject() () extends Mappings {
     mapping(
       "companyName"    -> text("companyApplying.error.companyName.required")
         .verifying(maxLength(maxLength, "companyApplying.error.companyName.length"))
-        .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "companyApplying.companyName")),
+        .verifying(regexpDynamic(regexXSSNoAmpersand, errorKeyXSSNoAmpersand, "companyApplying.companyName")),
       "companyAcronym" -> optional(
         Forms.text
           .verifying(maxLength(maxLength, "companyApplying.error.companyAcronym.length"))
           .verifying(
-            regexpDynamic(rejectXssChars, regexErrorKey, "companyApplying.companyAcronym")
+            regexpDynamic(rejectXssChars, regexErrorKey, "companyApplying.companyAcronym.noOption")
           )
       )
     )(CompanyApplying.apply)(CompanyApplying.unapply)

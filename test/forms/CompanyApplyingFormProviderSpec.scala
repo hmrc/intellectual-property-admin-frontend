@@ -29,8 +29,9 @@ class CompanyApplyingFormProviderSpec extends StringFieldBehaviours {
 
   val stubMessages: Messages = stubMessagesApi().preferred(Seq(Lang(Locale.ENGLISH)))
 
-  val maxLength = 200
-  val regexKey  = "regex.error"
+  val maxLength           = 200
+  val regexKey            = "regex.error"
+  val regexKeyNoAmpersand = "error.regexXSSNoAmpersand"
 
   val formProvider                = new CompanyApplyingFormProvider()
   val form: Form[CompanyApplying] = formProvider(stubMessages)
@@ -70,7 +71,7 @@ class CompanyApplyingFormProviderSpec extends StringFieldBehaviours {
       )
       val invalidValueTest = form.bind(testInput).errors
 
-      invalidValueTest shouldBe Seq(FormError(fieldName, regexKey, ArraySeq(companyNameKey)))
+      invalidValueTest shouldBe Seq(FormError(fieldName, regexKeyNoAmpersand, ArraySeq(companyNameKey)))
     }
   }
 
@@ -79,7 +80,7 @@ class CompanyApplyingFormProviderSpec extends StringFieldBehaviours {
     val fieldName = "companyAcronym"
     val lengthKey = "companyApplying.error.companyAcronym.length"
 
-    val companyAcronymKey = "companyApplying.companyAcronym"
+    val companyAcronymKey = "companyApplying.companyAcronym.noOption"
 
     behave like fieldThatBindsValidData(
       form,

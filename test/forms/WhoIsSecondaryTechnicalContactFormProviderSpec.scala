@@ -37,6 +37,7 @@ class WhoIsSecondaryTechnicalContactFormProviderSpec extends StringFieldBehaviou
   val phonesLimit: Int = 100
 
   val regexKey             = "regex.error"
+  val regexKeyNoAmpersand  = "error.regexXSSNoAmpersand"
   val nameFieldName        = "name"
   val companyNameFieldName = "companyName"
   val telephoneFieldName   = "telephone"
@@ -150,7 +151,7 @@ class WhoIsSecondaryTechnicalContactFormProviderSpec extends StringFieldBehaviou
 
       invalidValueTest shouldBe Seq(
         FormError(nameFieldName, regexKey, ArraySeq(nameKey)),
-        FormError(companyNameFieldName, regexKey, ArraySeq(companyNameKey)),
+        FormError(companyNameFieldName, regexKeyNoAmpersand, ArraySeq(companyNameKey)),
         FormError(telephoneFieldName, regexKey, ArraySeq(telephoneKey))
       )
     }

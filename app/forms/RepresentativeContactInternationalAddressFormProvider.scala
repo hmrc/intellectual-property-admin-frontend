@@ -54,7 +54,11 @@ class RepresentativeContactInternationalAddressFormProvider @Inject() extends Ma
           Forms.text
             .verifying(maxLength(maxLength, "representativeContactInternationalAddress.error.postCode.length"))
             .verifying(
-              regexpDynamic(rejectXssChars, regexErrorKey, "representativeContactInternationalAddress.postCode")
+              regexpDynamic(
+                rejectXssChars,
+                regexErrorKey,
+                "representativeContactInternationalAddress.postCode.noOption"
+              )
             )
         )
     )(InternationalAddress.apply)(InternationalAddress.unapply)

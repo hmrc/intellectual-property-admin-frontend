@@ -52,7 +52,9 @@ class CompanyApplyingInternationalAddressFormProvider @Inject() extends Mappings
         optional(
           Forms.text
             .verifying(maxLength(maxLength, "companyApplyingInternationalAddress.error.postCode.length"))
-            .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "companyApplyingInternationalAddress.postCode"))
+            .verifying(
+              regexpDynamic(rejectXssChars, regexErrorKey, "companyApplyingInternationalAddress.postCode.noOption")
+            )
         )
     )(InternationalAddress.apply)(InternationalAddress.unapply)
   )

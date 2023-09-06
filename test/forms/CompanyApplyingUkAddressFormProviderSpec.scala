@@ -162,7 +162,7 @@ class CompanyApplyingUkAddressFormProviderSpec extends StringFieldBehaviours {
 
     val fieldName = "county"
     val lengthKey = "companyApplyingUkAddress.error.county.length"
-    val countyKey = "companyApplyingUkAddress.county"
+    val countyKey = "companyApplyingUkAddress.county.noOption"
 
     behave like fieldThatBindsValidData(
       form,
