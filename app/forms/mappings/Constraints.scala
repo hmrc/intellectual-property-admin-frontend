@@ -104,4 +104,12 @@ trait Constraints extends EmailValidation {
       case _                              =>
         Valid
     }
+
+  protected def regexpIgnoreWhiteSpaces(regex: String, errorKey: String, args: Any*): Constraint[String] =
+    Constraint {
+      case str if str.filterNot(_.isWhitespace).matches(regex) =>
+        Valid
+      case _                                                   =>
+        Invalid(errorKey, args: _*)
+    }
 }
