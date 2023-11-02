@@ -29,6 +29,8 @@ object CommonHelpers {
   val regexXSSNoAmpersand: String    = """^[^<>"]*$"""
   val errorKeyXSSNoAmpersand: String = "error.regexXSSNoAmpersand"
 
+  val telephoneRegex = """^\+[0-9]{1,19}$|^00[0-9]{1,19}|^0[0-9]{9,10}$"""
+
   def getApplicantName[A](block: String => A)(implicit request: DataRequest[AnyContent], messages: Messages): A =
     block {
       request.userAnswers

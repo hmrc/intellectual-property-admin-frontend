@@ -50,7 +50,7 @@ class RepresentativeContactControllerSpec extends SpecBase with MockitoSugar wit
   lazy val representativeContactRoute: String = routes.RepresentativeContactController.onPageLoad(NormalMode, afaId).url
 
   val validAnswer: RepresentativeDetails =
-    RepresentativeDetails("name", "CompanyName", "phone", "email@example.com", Some("role"))
+    RepresentativeDetails("name", "CompanyName", "07700 900 982", "email@example.com", Some("role"))
 
   override val emptyUserAnswers: UserAnswers =
     UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.contactName, None)).success.value
@@ -64,7 +64,7 @@ class RepresentativeContactControllerSpec extends SpecBase with MockitoSugar wit
         ("name", "name value"),
         ("companyName", "companyName value"),
         ("role", "role value"),
-        ("telephone", "telephone value"),
+        ("telephone", "07700 900 982"),
         ("email", "email@example.com")
       )
 

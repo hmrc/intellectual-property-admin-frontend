@@ -50,7 +50,7 @@ class ApplicantLegalContactControllerSpec extends SpecBase with MockitoSugar wit
   lazy val applicantLegalContactRoute: String = routes.ApplicantLegalContactController.onPageLoad(NormalMode, afaId).url
 
   val validAnswer: ApplicantLegalContact =
-    ApplicantLegalContact("name", "companyName", "123123123", None, "email@example.com")
+    ApplicantLegalContact("name", "companyName", "07700 900 982", None, "email@example.com")
 
   override val emptyUserAnswers: UserAnswers =
     UserAnswers(afaId).set(CompanyApplyingPage, CompanyApplying(validAnswer.name, None)).success.value
@@ -63,7 +63,7 @@ class ApplicantLegalContactControllerSpec extends SpecBase with MockitoSugar wit
       .withFormUrlEncodedBody(
         ("name", "name value"),
         ("companyName", "companyName value"),
-        ("telephone", "telephone value"),
+        ("telephone", "07700 900 982"),
         ("email", "email@example.com")
       )
 

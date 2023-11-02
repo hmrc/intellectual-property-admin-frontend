@@ -117,8 +117,8 @@ class RepresentativeContactFormProviderSpec extends StringFieldBehaviours {
 
   "telephone" must {
 
-    val fieldName = "telephone"
-    val lengthKey = "representativeContact.error.telephone.length"
+    val fieldName    = "telephone"
+    val telephoneKey = "representativeContact.error.telephone.validFormat"
 
     behave like fieldThatBindsValidData(
       form,
@@ -126,12 +126,19 @@ class RepresentativeContactFormProviderSpec extends StringFieldBehaviours {
       stringsWithMaxLength(phoneRoleLimit)
     )
 
-    behave like fieldWithMaxLength(
-      form,
-      fieldName,
-      maxLength = phoneRoleLimit,
-      lengthError = FormError(fieldName, lengthKey, Seq(phoneRoleLimit))
-    )
+    "return an error when an invalid number has been entered" in {
+      val testInput        = Map(
+        "name"        -> "name",
+        "companyName" -> "Microsoft",
+        "telephone"   -> "abc",
+        "email"       -> "email@email.com",
+        "role"        -> "role"
+      )
+      val invalidValueTest = form.bind(testInput).errors
+
+      invalidValueTest shouldBe Seq(FormError(fieldName, telephoneKey))
+    }
+
   }
 
   "email" must {

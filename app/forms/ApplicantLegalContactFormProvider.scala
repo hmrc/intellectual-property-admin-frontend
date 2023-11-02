@@ -22,7 +22,7 @@ import play.api.data.{Form, Forms}
 import play.api.data.Forms._
 import models.ApplicantLegalContact
 import play.api.i18n.Messages
-import utils.CommonHelpers.{errorKeyXSSNoAmpersand, regexErrorKey, regexXSSNoAmpersand, rejectXssChars}
+import utils.CommonHelpers.{errorKeyXSSNoAmpersand, regexErrorKey, regexXSSNoAmpersand, rejectXssChars, telephoneRegex}
 
 class ApplicantLegalContactFormProvider @Inject() extends Mappings {
 
@@ -40,11 +40,11 @@ class ApplicantLegalContactFormProvider @Inject() extends Mappings {
         .verifying(maxLength(nameEmailLimit, "applicantLegalContact.error.name.length"))
         .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.name.label")),
       "telephone"      -> text("applicantLegalContact.error.telephone.required")
-        .verifying(maxLength(phonesLimit, "applicantLegalContact.error.telephone.length"))
+        .verifying(regexpIgnoreWhiteSpaces(telephoneRegex, "representativeContact.error.telephone.validFormat"))
         .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.telephone.label")),
       "otherTelephone" -> optional(
         Forms.text
-          .verifying(maxLength(phonesLimit, "applicantLegalContact.error.otherTelephone.length"))
+          .verifying(regexpIgnoreWhiteSpaces(telephoneRegex, "representativeContact.error.telephone.validFormat"))
           .verifying(
             regexpDynamic(rejectXssChars, regexErrorKey, "applicantLegalContact.otherTelephone.label.noOption")
           )
