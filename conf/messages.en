@@ -519,7 +519,7 @@ representativeContact.error.name.length = Name must be 100 characters or less
 representativeContact.error.companyName.length = Company name must be 100 characters or less
 representativeContact.error.role.length = Role must be 50 characters or less
 representativeContact.error.email.length = Email address must be 100 characters or less
-representativeContact.error.telephone.validFormat = Enter a telephone number like 01632 9620 001, 07700 900 982 or +44 808 157 0192
+representativeContact.error.telephone.validFormat = Enter a telephone number like 01632 960 001, 07700 900 982 or +44 808 157 0192
 
 representativeEvidenceOfPowerToAct.title = Is {0} authorised to make this application?
 representativeEvidenceOfPowerToAct.heading = Is {0} authorised to make this application?
