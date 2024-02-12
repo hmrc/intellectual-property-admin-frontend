@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import models.{AfaId, TechnicalContact, UkAddress, UserAnswers, WhoIsSecondaryLegalContact}
-import org.mockito.Matchers.{any, eq => eqTo}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito.{times, verify, when}
 import org.scalatestplus.mockito.MockitoSugar
 import pages._

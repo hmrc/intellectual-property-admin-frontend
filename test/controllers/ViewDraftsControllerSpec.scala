@@ -29,7 +29,7 @@ import play.api.test.Helpers._
 import services.{AfaService, LockService}
 import viewmodels.DraftRow
 import views.html.ViewDraftsView
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers.any
 
 import scala.concurrent.Future
 

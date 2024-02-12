@@ -21,7 +21,7 @@ import base.SpecBase
 import forms.IpRightsRegistrationNumberFormProvider
 import models.{AfaId, IpRightsType, NiceClassId, NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.mockito.MockitoSugar

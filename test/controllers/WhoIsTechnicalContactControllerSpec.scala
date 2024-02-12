@@ -20,7 +20,7 @@ import base.SpecBase
 import forms.WhoIsTechnicalContactFormProvider
 import models.{AfaId, NormalMode, TechnicalContact, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.WhoIsTechnicalContactPage

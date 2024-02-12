@@ -20,7 +20,7 @@ import base.SpecBase
 import forms.DeleteDraftFormProvider
 import models.{AfaId, CompanyApplying, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.{any, eq => eqTo}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.mockito.MockitoSugar

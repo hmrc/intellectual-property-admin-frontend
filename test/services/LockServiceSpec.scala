@@ -19,7 +19,7 @@ package services
 import connectors.LockConnector
 import generators.AfaGenerators
 import models.{AfaId, Lock}
-import org.mockito.Matchers.{any, eq => eqTo}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito
 import org.mockito.Mockito._
 import org.scalatest.concurrent.ScalaFutures

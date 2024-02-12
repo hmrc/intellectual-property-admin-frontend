@@ -22,7 +22,7 @@ import base.SpecBase
 import models.CompanyApplyingIsRightsHolder.Authorised
 import models._
 import navigation.Navigator
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatest.TryValues
 import org.scalatestplus.mockito.MockitoSugar

@@ -21,7 +21,7 @@ import base.SpecBase
 import forms.SelectOtherTechnicalContactFormProvider
 import models.{AfaId, CompanyApplying, ContactOptions, NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito
 import org.mockito.Mockito.when
 import org.scalatest.BeforeAndAfterEach

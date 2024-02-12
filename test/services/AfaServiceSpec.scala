@@ -21,7 +21,7 @@ import generators.AfaGenerators
 import models.CompanyApplyingIsRightsHolder._
 import models.afa._
 import models.{AfaId, ApplicantLegalContact, CompanyApplying, CompanyApplyingIsRightsHolder, IpRightsDescriptionWithBrand, IpRightsSupplementaryProtectionCertificateType, IpRightsType, NiceClassId, RepresentativeDetails, TechnicalContact, UkAddress, UserAnswers, afa}
-import org.mockito.Matchers.{any, eq => eqTo}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito._
 import org.mockito.{ArgumentCaptor, Mockito}
 import org.scalacheck.Arbitrary._

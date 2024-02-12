@@ -22,7 +22,7 @@ import base.SpecBase
 import constants.PublishedAfaConstants.publishedAfa
 import models.UserAnswers
 import models.afa.PublishedAfa
-import org.mockito.Matchers.{eq => eqTo, _}
+import org.mockito.ArgumentMatchers.{eq => eqTo, _}
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
