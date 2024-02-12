@@ -17,7 +17,7 @@
 package controllers.actions
 
 import base.SpecBase
-import org.mockito.Matchers._
+import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.scalatest.matchers.must.Matchers
 import org.scalatestplus.mockito.MockitoSugar

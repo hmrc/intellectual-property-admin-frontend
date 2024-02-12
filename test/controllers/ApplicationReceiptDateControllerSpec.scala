@@ -26,7 +26,7 @@ import forms.ApplicationReceiptDateFormProvider
 import models.auditing.DraftStarted
 import models.{AfaId, NormalMode, Region, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.{any, eq => eqTo}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito.{times, verify, when}
 import org.mockito.{ArgumentCaptor, Mockito}
 import org.scalatest.BeforeAndAfterEach

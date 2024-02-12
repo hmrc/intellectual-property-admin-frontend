@@ -23,5 +23,5 @@ case class CompanyApplying(name: String, acronym: Option[String])
 object CompanyApplying {
   val name = "companyName"
 
-  implicit val format = Json.format[CompanyApplying]
+  implicit val format: OFormat[CompanyApplying] = Json.format[CompanyApplying]
 }

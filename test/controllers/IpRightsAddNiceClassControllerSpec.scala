@@ -20,7 +20,7 @@ import base.SpecBase
 import generators.Generators
 import models.{AfaId, NiceClassId, NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary.arbitrary
 import pages.{IpRightsAddNiceClassPage, IpRightsNiceClassPage}

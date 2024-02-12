@@ -18,7 +18,7 @@ package viewmodels
 
 import generators.Generators
 import models.{CompanyApplying, Region, UserAnswers}
-import org.mockito.Matchers.{any, eq => eqTo}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary
 import org.scalacheck.Arbitrary.arbitrary

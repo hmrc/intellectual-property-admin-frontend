@@ -1,36 +1,23 @@
-import sbt._
+import sbt.*
 
 object AppDependencies {
-  import play.core.PlayVersion
 
-  private val bootstrapVersion = "7.23.0"
+  private val bootstrapVersion = "8.4.0"
 
   val compile: Seq[ModuleID] = Seq(
     play.sbt.PlayImport.ws,
-    "uk.gov.hmrc"   %% "play-conditional-form-mapping" % "1.13.0-play-28",
-    "uk.gov.hmrc"   %% "bootstrap-frontend-play-28"    % bootstrapVersion,
-    "uk.gov.hmrc"   %% "secure"                        % "8.1.0",
-    "org.typelevel" %% "cats-core"                     % "2.10.0",
-    "uk.gov.hmrc"   %% "play-frontend-hmrc"            % "7.29.0-play-28"
+    "uk.gov.hmrc"   %% "play-conditional-form-mapping-play-30" % "2.0.0",
+    "uk.gov.hmrc"   %% "bootstrap-frontend-play-30"            % bootstrapVersion,
+    "uk.gov.hmrc"   %% "secure"                                % "8.2.0",
+    "org.typelevel" %% "cats-core"                             % "2.10.0",
+    "uk.gov.hmrc"   %% "play-frontend-hmrc-play-30"            % "8.4.0"
   )
 
   val test: Seq[ModuleID] = Seq(
-    "uk.gov.hmrc"            %% "bootstrap-test-play-28"   % bootstrapVersion,
-    "org.scalatestplus.play" %% "scalatestplus-play"       % "5.1.0",
-    "org.pegdown"             % "pegdown"                  % "1.6.0",
+    "uk.gov.hmrc"            %% "bootstrap-test-play-30"   % bootstrapVersion,
     "org.jsoup"               % "jsoup"                    % "1.15.4",
-    "com.typesafe.play"      %% "play-test"                % PlayVersion.current,
-    "org.mockito"             % "mockito-all"              % "2.0.2-beta",
-    "org.scalatestplus"      %% "mockito-3-4"              % "3.2.10.0",
-    "org.scalatestplus"      %% "scalacheck-1-14"          % "3.2.2.0",
-    "com.vladsch.flexmark"    % "flexmark-all"             % "0.36.8",
-    "org.scalacheck"         %% "scalacheck"               % "1.17.0",
-    "com.github.tomakehurst"  % "wiremock-standalone"      % "2.27.2"
-  ).map(_ % "test,it")
-
-  val overrides: Seq[ModuleID] = Seq(
-    "commons-codec" % "commons-codec" % "1.16.0"
-  )
+    "org.scalatestplus"      %% "scalacheck-1-17"          % "3.2.17.0"
+  ).map(_ % Test)
 
   def apply(): Seq[ModuleID] = compile ++ test
 }

@@ -20,7 +20,7 @@ import base.SpecBase
 import forms.IsRepresentativeContactLegalContactFormProvider
 import models.{AfaId, NormalMode, RepresentativeDetails, UkAddress, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{IsRepresentativeContactLegalContactPage, IsRepresentativeContactUkBasedPage, RepresentativeContactUkAddressPage, RepresentativeDetailsPage}

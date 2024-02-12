@@ -25,7 +25,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import pages.{RepresentativeContactUkAddressPage, RepresentativeDetailsPage}
 import play.api.data.Form
 import play.api.i18n.{Lang, Messages}
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers.any
 import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Call}
 import play.api.test.FakeRequest

@@ -20,7 +20,7 @@ import base.SpecBase
 import forms.CompanyApplyingInternationalAddressFormProvider
 import models.{AfaId, CompanyApplying, InternationalAddress, NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.{CompanyApplyingInternationalAddressPage, CompanyApplyingPage}

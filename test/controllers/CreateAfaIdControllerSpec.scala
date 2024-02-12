@@ -21,7 +21,7 @@ import connectors.AfaConnector
 import generators.ModelGenerators
 import models.AfaId
 import navigation.Navigator
-import org.mockito.Matchers.any
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.TryValues

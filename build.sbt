@@ -7,20 +7,14 @@ import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 lazy val appName: String = "intellectual-property-admin-frontend"
 
 lazy val root = (project in file("."))
-  .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin)
+  .enablePlugins(PlayScala, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin)
-  .configs(IntegrationTest)
-  .settings(
-    // To resolve a bug with version 2.x.x of the scoverage plugin - https://github.com/sbt/sbt/issues/6997
-    libraryDependencySchemes ++= Seq("org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always)
-  )
-  .settings(inConfig(IntegrationTest)(itSettings): _*)
-  .settings(DefaultBuildSettings.scalaSettings: _*)
-  .settings(DefaultBuildSettings.defaultSettings(): _*)
-  .settings(inConfig(Test)(testSettings): _*)
+  .settings(DefaultBuildSettings.scalaSettings *)
+  .settings(DefaultBuildSettings.defaultSettings() *)
+  .settings(inConfig(Test)(testSettings) *)
   .settings(majorVersion := 0)
   .settings(
-    scalaVersion := "2.13.10",
+    scalaVersion := "2.13.12",
     name := appName,
     RoutesKeys.routesImport += "models._",
     TwirlKeys.templateImports ++= Seq(
@@ -45,40 +39,19 @@ lazy val root = (project in file("."))
     scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
     scalafmtOnCompile := true,
     libraryDependencies ++= AppDependencies(),
-    dependencyOverrides ++= AppDependencies.overrides,
     retrieveManaged := true,
-    update / evictionWarningOptions :=
-      EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
     resolvers ++= Seq(Resolver.jcenterRepo),
-    // prevent removal of unused code which generates warning errors due to use of third-party libs
-    uglifyCompressOptions := Seq("unused=false", "dead_code=false"),
     pipelineStages := Seq(digest),
     // below line required to force asset pipeline to operate in dev rather than only prod
-    Assets / pipelineStages := Seq(concat, uglify)
+    Assets / pipelineStages := Seq(concat)
   )
 
-lazy val testSettings: Seq[Def.Setting[_]] = Seq(
+lazy val testSettings: Seq[Def.Setting[?]] = Seq(
   fork := true,
   javaOptions ++= Seq(
     "-Dconfig.resource=test.application.conf"
   ),
   unmanagedSourceDirectories ++= Seq(
     baseDirectory.value / "test-utils"
-  )
-)
-
-lazy val itSettings = Defaults.itSettings ++ Seq(
-  unmanagedSourceDirectories := Seq(
-    baseDirectory.value / "it",
-    baseDirectory.value / "test-utils"
-  ),
-  unmanagedResourceDirectories := Seq(
-    baseDirectory.value / "it" / "resources"
-  ),
-  parallelExecution := false,
-  fork := true,
-  javaOptions ++= Seq(
-    "-Dconfig.resource=it.application.conf",
-    "-Dlogger.resource=it.logback.xml"
   )
 )
