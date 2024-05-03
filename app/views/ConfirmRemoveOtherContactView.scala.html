@@ -27,10 +27,7 @@
 @(afaId: AfaId, contactToRemove: String)(implicit messages: Messages, request: Request[_])
 
 @layout(
- pageTitle = Some(messages("confirmRemoveOtherContact.title", contactToRemove))
-) {
-
-    @backLink()
+ pageTitle = Some(messages("confirmRemoveOtherContact.title", contactToRemove))) {
 
     @afaReferenceHeading(afaId)
 

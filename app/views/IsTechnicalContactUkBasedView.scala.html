@@ -30,12 +30,9 @@
 @(form: Form[_], mode: Mode, infringementContactName: String, afaId: AfaId)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Some(errorPrefix(form) + " " + messages("isTechnicalContactUkBased.title", infringementContactName))
-) {
+    pageTitle = Some(errorPrefix(form) + " " + messages("isTechnicalContactUkBased.title", infringementContactName))) {
 
     @formHelper(action = IsTechnicalContactUkBasedController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors, Some("value-yes"))
 

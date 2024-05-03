@@ -40,8 +40,6 @@
 
     @formHelper(action = UnlockAfaController.onSubmit(afaId), Symbol("autoComplete") -> "off") {
 
-        @backLink()
-
         @errorSummary(form.errors, Some("value-yes"))
 
         @inputRadiosYesNo(

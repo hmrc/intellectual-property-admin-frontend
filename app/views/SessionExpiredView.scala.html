@@ -22,8 +22,7 @@
 @()(implicit messages: Messages, request: Request[_])
 
 @layout(
-    pageTitle = Some(messages("session_expired.title")), timeout = false
-) {
+    pageTitle = Some(messages("session_expired.title")), timeout = false, showBackLink = false) {
 
     @heading1("session_expired.heading")
 

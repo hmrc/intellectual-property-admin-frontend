@@ -32,12 +32,9 @@
 @(form: Form[_], mode: Mode, contactName: String, afaId: AfaId)(implicit request: Request[_], messages: Messages)
 
 @layout(
-   pageTitle = Some(errorPrefix(form) + " " + messages("representativeContactInternationalAddress.title", contactName))
-) {
+   pageTitle = Some(errorPrefix(form) + " " + messages("representativeContactInternationalAddress.title", contactName))) {
 
     @formHelper(action = RepresentativeContactInternationalAddressController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors)
 

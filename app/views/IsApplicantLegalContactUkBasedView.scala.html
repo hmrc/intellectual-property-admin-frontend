@@ -31,12 +31,9 @@
 @(form: Form[_], mode: Mode, applicantLegalContactName: String, afaId: AfaId)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Some(s"${errorPrefix(form)} ${messages("isApplicantLegalContactUkBased.title", applicantLegalContactName)}")
-    ) {
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("isApplicantLegalContactUkBased.title", applicantLegalContactName)}")) {
 
     @formHelper(action = IsApplicantLegalContactUkBasedController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors, Some("value-yes"))
 

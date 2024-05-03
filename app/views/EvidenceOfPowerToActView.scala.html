@@ -37,8 +37,6 @@ pageTitle = Some(s"${errorPrefix(form)} ${messages("representativeEvidenceOfPowe
 
     @formHelper(action = EvidenceOfPowerToActController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
-        @backLink()
-
         @errorSummary(form.errors, Some("value-yes"))
 
         @afaReferenceHeading(afaId)

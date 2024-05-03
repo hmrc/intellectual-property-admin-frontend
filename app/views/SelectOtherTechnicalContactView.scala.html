@@ -35,8 +35,6 @@
 
         @formHelper(action = routes.SelectOtherTechnicalContactController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
-            @backLink()
-
             @selectContactErrorSummary(errors = form.errors, firstField = contactsRadioOptions.headOption)
 
             @afaReferenceHeading(afaId)

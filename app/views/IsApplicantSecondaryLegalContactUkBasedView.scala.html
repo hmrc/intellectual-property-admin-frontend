@@ -30,12 +30,10 @@
 @(form: Form[_], mode: Mode, applicantSecondaryLegalContactName: String, afaId: AfaId)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Some(s"${errorPrefix(form)} ${messages("isApplicantSecondaryLegalContactUkBased.title", applicantSecondaryLegalContactName)}")
-    ) {
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("isApplicantSecondaryLegalContactUkBased.title",
+    applicantSecondaryLegalContactName)}")) {
 
     @formHelper(action = routes.IsApplicantSecondaryLegalContactUkBasedController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors, Some("value-yes"))
 

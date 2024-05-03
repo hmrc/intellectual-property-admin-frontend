@@ -31,11 +31,11 @@
 
 @(form: Form[_], mode: Mode, index: Int, afaId: AfaId, rightType: Option[IpRightsType])(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsDescription.title", messages(s"ipRightsType.${rightType.getOrElse("right").toString}").toLowerCase)}")) {
+@layout(pageTitle =
+    Some(s"${errorPrefix(form)} ${messages("ipRightsDescription.title",
+    messages(s"ipRightsType.${rightType.getOrElse("right").toString}").toLowerCase)}")) {
 
     @formHelper(action = IpRightsDescriptionController.onSubmit(mode, index, afaId), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors)
 
