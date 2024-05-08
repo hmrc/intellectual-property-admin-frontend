@@ -55,5 +55,7 @@ class IpRightsNiceClassViewSpec extends TextInputViewBehaviours[NiceClassId] {
 
     behave like pageWithGuidance(applyView(form), messageKeyPrefix, Seq("guidance"))
 
+    behave like pageWithHintText(applyView(form), s"$messageKeyPrefix.guidance")
+
   }
 }

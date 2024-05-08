@@ -226,4 +226,14 @@ trait ViewBehaviours extends ViewSpecBase {
 
     }
 
+  def pageWithHintText(view: HtmlFormat.Appendable, hintText: String): Unit =
+    "display hint text with the correct message" in {
+
+      val doc  = asDocument(view)
+      val hint = doc.getElementsByClass("govuk-hint")
+
+      hint.text mustEqual messages(hintText)
+
+    }
+
 }

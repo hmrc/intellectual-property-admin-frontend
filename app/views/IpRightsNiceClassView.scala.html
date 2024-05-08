@@ -24,6 +24,7 @@
     errorSummary: designsystembasedcomponents.errorSummary,
     afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
     heading1: designsystembasedcomponents.heading1,
+    heading1Label: designsystembasedcomponents.heading1Label,
     inputText: designsystembasedcomponents.inputText,
     button: designsystembasedcomponents.button,
     goToHomeLink: designsystembasedcomponents.goToHomeLink
@@ -41,13 +42,14 @@
 
         @afaReferenceHeading(afaId)
 
-        @heading1("ipRightsNiceClass.heading")
+        @heading1Label("ipRightsNiceClass.heading")
 
         @inputText(
             form = form,
             id = "value",
             name = "value",
-            label = "ipRightsNiceClass.guidance",
+            label = "",
+            hintText = Some("ipRightsNiceClass.guidance"),
             isPageHeading = false,
             classes = Some("govuk-input--width-3")
         )
