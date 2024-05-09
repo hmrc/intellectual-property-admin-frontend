@@ -26,12 +26,14 @@
         link: designsystembasedcomponents.link,
         appConfig: config.FrontendAppConfig,
         footerLinks: FooterLinks,
-        hmrcTimeoutDialog: HmrcTimeoutDialog
+        hmrcTimeoutDialog: HmrcTimeoutDialog,
+        backLink: designsystembasedcomponents.backLink
 )
 
 @(pageTitle: Option[String] = None,
         headBlock: Option[Html] = None,
         timeout: Boolean = true,
+        showBackLink: Boolean = true,
         js: Option[Html] = None,
 )(contentBlock: Html)(implicit requestHeader: RequestHeader, messages: Messages)
 
@@ -68,11 +70,16 @@ message = Some(messages("timeout.text"))
 @js.map(x => x)
 }
 
+@beforeContentBlock = {
+    @if(showBackLink) {
+        @backLink()
+    }
+}
 
 @govukLayout(
     pageTitle = if(pageTitle.isDefined) {Some(pageTitle.get + " - " + messages("site.service_name"))} else {None},
     headBlock = Some(head),
-    beforeContentBlock = None,
+    beforeContentBlock = Some(beforeContentBlock),
     bodyEndBlock = None,
     scriptsBlock = Some(scripts),
     headerBlock = Some(siteHeader(timeout)),

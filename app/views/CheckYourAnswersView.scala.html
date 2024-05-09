@@ -30,8 +30,7 @@
 @(afaId: AfaId, answerSections: Seq[AnswerSection], onwardUrl: String, buttonKey: String, canCreateAfa: Boolean, noEvidenceProvided: Boolean, companyName: String)(implicit messages: Messages, request: Request[_])
 
 @layout(
-    pageTitle = Some(messages("checkYourAnswers.title"))
-) {
+    pageTitle = Some(messages("checkYourAnswers.title")), showBackLink = false) {
 
     @afaReferenceHeading(afaId)
 

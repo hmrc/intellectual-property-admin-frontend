@@ -34,8 +34,6 @@
 
     @formHelper(action = ApplicationReceiptDateController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
-        @backLink()
-
         @dateErrorSummary(form.errors)
 
         @afaReferenceHeading(afaId = afaId)

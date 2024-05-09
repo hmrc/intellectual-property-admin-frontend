@@ -34,8 +34,6 @@
 
     @formHelper(action = DeleteDraftController.onSubmit(afaId), Symbol("autoComplete") -> "off") {
 
-        @backLink()
-
         @errorSummary(form.errors, Some("value-yes"))
 
         @afaReferenceHeading(afaId)

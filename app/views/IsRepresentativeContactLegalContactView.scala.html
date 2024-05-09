@@ -32,12 +32,10 @@
 @(form: Form[_], mode: Mode, afaId: AfaId, representativeContactName: String)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Some(s"${errorPrefix(form)} ${messages("isRepresentativeContactLegalContact.title", representativeContactName)}")
-    ) {
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("isRepresentativeContactLegalContact.title",
+    representativeContactName)}")) {
 
     @formHelper(action = IsRepresentativeContactLegalContactController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors, Some("value-yes"))
 

@@ -34,8 +34,6 @@
 
     @formHelper(action = IpRightsRegistrationEndController.onSubmit(mode, index, afaId), Symbol("autoComplete") -> "off") {
 
-        @backLink()
-
         @dateErrorSummary(form.errors)
 
         @afaReferenceHeading(afaId)

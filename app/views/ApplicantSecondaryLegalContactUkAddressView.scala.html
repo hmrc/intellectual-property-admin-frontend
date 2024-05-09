@@ -32,12 +32,9 @@
 @(form: Form[_], mode: Mode, contactName: String, afaId: AfaId)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Some(errorPrefix(form) + " " + messages("applicantSecondaryLegalContactUkAddress.title", contactName))
-) {
+    pageTitle = Some(errorPrefix(form) + " " + messages("applicantSecondaryLegalContactUkAddress.title", contactName))) {
 
     @formHelper(action = routes.ApplicantSecondaryLegalContactUkAddressController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors)
 

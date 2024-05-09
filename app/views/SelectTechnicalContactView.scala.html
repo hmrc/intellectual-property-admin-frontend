@@ -32,12 +32,9 @@
 @(form: Form[_], mode: Mode, afaId: AfaId, companyName: String, contactsRadioOptions: Seq[(ContactOptions, String)])(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Some(s"${errorPrefix(form)} ${messages("selectTechnicalContact.title")}")
-) {
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("selectTechnicalContact.title")}")) {
 
     @formHelper(action = SelectTechnicalContactController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @selectContactErrorSummary(form.errors, firstField = contactsRadioOptions.headOption)
 

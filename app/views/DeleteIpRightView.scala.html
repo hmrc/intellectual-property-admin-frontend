@@ -30,12 +30,9 @@
 @(form: Form[_], mode: Mode, afaId: AfaId, index: Int)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Some(s"${errorPrefix(form)} ${messages("deleteIpRight.title")}")
-) {
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("deleteIpRight.title")}")) {
 
     @formHelper(action = DeleteIpRightController.onSubmit(mode, afaId, index), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors, Some("value-yes"))
 

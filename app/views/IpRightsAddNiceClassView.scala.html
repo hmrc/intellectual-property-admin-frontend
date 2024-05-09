@@ -33,10 +33,7 @@
 @(mode: Mode, ipRightsIndex: Int, afaId: AfaId, reviewRows: Seq[ReviewRow], addNiceClassUrl: String)(implicit messages: Messages, request: Request[_])
 
 @layout(
-    pageTitle = Some(messages("ipRightsAddNiceClass.title"))
-) {
-
-    @backLink()
+    pageTitle = Some(messages("ipRightsAddNiceClass.title"))) {
 
     @afaReferenceHeading(afaId)
 

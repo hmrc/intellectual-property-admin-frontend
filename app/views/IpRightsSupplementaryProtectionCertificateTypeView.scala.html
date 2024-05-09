@@ -31,12 +31,9 @@
 @(form: Form[_], mode: Mode, index: Int, afaId: AfaId)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsSupplementaryProtectionCertificateType.title")}")
-    ) {
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsSupplementaryProtectionCertificateType.title")}")) {
 
     @formHelper(action = IpRightsSupplementaryProtectionCertificateTypeController.onSubmit(mode, index, afaId), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors, Some("ipRightsSupplementaryProtectionCertificateType.medicinal"))
 
