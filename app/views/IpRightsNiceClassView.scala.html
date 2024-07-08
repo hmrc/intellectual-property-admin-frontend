@@ -36,8 +36,6 @@
 
     @formHelper(action = IpRightsNiceClassController.onSubmit(mode, iprIndex, niceClassIndex, afaId), Symbol("autoComplete") -> "off") {
 
-        @backLink()
-
         @errorSummary(form.errors)
 
         @afaReferenceHeading(afaId)

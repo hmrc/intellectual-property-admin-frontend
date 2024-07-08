@@ -21,7 +21,7 @@
 
 @()(implicit messages: Messages, request: Request[_])
 
-@layout(pageTitle = Some(messages("unauthorised.title")), timeout = false) {
+@layout(pageTitle = Some(messages("unauthorised.title")), timeout = false, showBackLink = false) {
 
     @heading1("unauthorised.heading")
 }

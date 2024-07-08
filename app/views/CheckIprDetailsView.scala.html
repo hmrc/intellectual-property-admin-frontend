@@ -30,8 +30,7 @@
 @(mode: Mode, afaId: AfaId, index: Int, mainSection: AnswerSection, niceClassSection: Option[AnswerSection], nextPage: Call)(implicit messages: Messages, request: Request[_])
 
 @layout(
-    pageTitle = Some(messages("checkIprDetails.title"))
-) {
+    pageTitle = Some(messages("checkIprDetails.title")), showBackLink = false) {
 
     @afaReferenceHeading(afaId)
 

@@ -30,12 +30,9 @@
 @(form: Form[_], mode: Mode, afaId: AfaId, iprIndex: Int, niceClassIndex: Int)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Some(s"${errorPrefix(form)} ${messages("deleteNiceClass.title")}")
-    ) {
+    pageTitle = Some(s"${errorPrefix(form)} ${messages("deleteNiceClass.title")}")) {
 
     @formHelper(action = DeleteNiceClassController.onSubmit(mode, afaId, iprIndex, niceClassIndex), Symbol("autoComplete") -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors, Some("value-yes"))
 
