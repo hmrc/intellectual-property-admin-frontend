@@ -32,6 +32,7 @@ timeout.keepAlive = Stay signed in
 timeout.signOutLink = Sign out now
 
 site.back = Back
+site.cancel = Cancel
 site.delete = Delete
 site.remove = Remove
 site.edit = Change

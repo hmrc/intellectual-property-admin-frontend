@@ -21,7 +21,8 @@
     backLink: designsystembasedcomponents.backLink,
     afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
     heading1: designsystembasedcomponents.heading1,
-    linkButton: designsystembasedcomponents.linkButton
+    linkButton: designsystembasedcomponents.linkButton,
+    link: designsystembasedcomponents.link
 )
 
 @(afaId: AfaId, contactToRemove: String)(implicit messages: Messages, request: Request[_])
@@ -35,8 +36,10 @@
 
     <p class="govuk-body">@messages("confirmRemoveOtherContact.guidance", contactToRemove)</p>
 
-    @linkButton(routes.RemoveOtherContactController.onDelete(afaId, contactToRemove).url, "confirmRemoveOtherContact.button.confirm")
-
+    <div class="govuk-button-group">
+        @linkButton(routes.RemoveOtherContactController.onDelete(afaId, contactToRemove).url, "confirmRemoveOtherContact.button.confirm")
+        @link(routes.CheckYourAnswersController.onPageLoad(afaId).url, "site.cancel")
+    </div>
 }
 
 @{
