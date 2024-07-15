@@ -61,7 +61,7 @@ applicationReceiptDate.error.required = The application date must include {0}
 applicationReceiptDate.error.invalid = Enter a valid date
 applicationReceiptDate.error.future = The application date must be in the past
 applicationReceiptDate.error.minDate = The date cannot be before the 1st of January 2018
-        
+
 isTechnicalContactUkBased.title = Is {0} based in the UK?
 isTechnicalContactUkBased.heading = Is {0} based in the UK?
 isTechnicalContactUkBased.checkYourAnswersLabel = UK based
@@ -80,7 +80,7 @@ isRepresentativeContactLegalContact.guidance = This the person we will contact a
 isRepresentativeContactLegalContact.checkYourAnswersLabel = Same as representative contact
 isRepresentativeContactLegalContact.checkYourAnswersLabel.hiddenText = if legal contact is same as representative contact
 isRepresentativeContactLegalContact.error.required = Select yes if they are the legal contact
-        
+
 applicantLegalContactUkAddress.title = What is the legal address for {0}?
 applicantLegalContactUkAddress.heading = What is the legal address for {0}?
 applicantLegalContactUkAddress.line1 = Building and street
