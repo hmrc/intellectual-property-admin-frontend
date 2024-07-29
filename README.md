@@ -9,4 +9,14 @@ HMRC use this digital service to input these applications to a UK database, and 
 
 Border Force use this digital service to access the database, find contact information for Rights Holders, and record the seizure of suspected IP-infringing goods.
 
-Port Number : 9876
+## Local Development
+
+To run the service locally on port 9876:
+```
+sbt run
+```
+
+To test the service:
+```
+sbt test
+```
