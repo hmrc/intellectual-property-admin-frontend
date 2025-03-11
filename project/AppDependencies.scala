@@ -8,9 +8,10 @@ object AppDependencies {
     play.sbt.PlayImport.ws,
     "uk.gov.hmrc"   %% "play-conditional-form-mapping-play-30" % "2.0.0",
     "uk.gov.hmrc"   %% "bootstrap-frontend-play-30"            % bootstrapVersion,
-    "uk.gov.hmrc"   %% "secure"                                % "8.2.0",
+    "uk.gov.hmrc"   %% "secure"                                % "8.2.0" exclude("org.bouncycastle", "bcprov-jdk15on"),
     "org.typelevel" %% "cats-core"                             % "2.10.0",
-    "uk.gov.hmrc"   %% "play-frontend-hmrc-play-30"            % "8.5.0"
+    "uk.gov.hmrc"   %% "play-frontend-hmrc-play-30"            % "8.5.0",
+    "org.bouncycastle" % "bcprov-jdk18on"                      % "1.80"
   )
 
   val test: Seq[ModuleID] = Seq(
