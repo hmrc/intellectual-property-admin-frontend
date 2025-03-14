@@ -22,7 +22,6 @@ import play.twirl.api.Html
 import base.SpecBase
 import models.{AfaId, UserAnswers}
 import org.scalatest.Assertion
-
 import scala.reflect.ClassTag
 
 trait ViewSpecBase extends SpecBase {
