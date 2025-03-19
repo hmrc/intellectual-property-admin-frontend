@@ -63,7 +63,10 @@ message = Some(messages("timeout.text"))
 }
 
 @scripts = {
-    <script @CSPNonce.attr src='@routes.Assets.versioned("lib/govuk-frontend/govuk/all.js")'></script>
+   <script @CSPNonce.attr type="module">
+    import { initAll } from '@routes.Assets.versioned("lib/govuk-frontend/dist/govuk/govuk-frontend.min.js")'
+    initAll()
+</script>
     <script @CSPNonce.attr src='@routes.Assets.versioned("lib/hmrc-frontend/hmrc/all.js")'></script>
     <script @CSPNonce.attr src='@routes.Assets.versioned("javascripts/admin.js")'></script>
 

@@ -1,5 +1,5 @@
 // initialise GovUK and HMRC libs
-GOVUKFrontend.initAll();
+
 HMRCFrontend.initAll();
 
 // =====================================================
