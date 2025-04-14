@@ -54,12 +54,6 @@ To run this services Unit tests you can use the following command:
 > `sbt test`
 
 
-## Running tests
-
-To run this services Unit tests you can use the following command:
-
-> `sbt test`
-
 ## Scalafmt and Scalastyle
 
 To check if all the scala files in the project are formatted correctly:
