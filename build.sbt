@@ -9,8 +9,6 @@ lazy val appName: String = "intellectual-property-admin-frontend"
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin)
-  .settings(DefaultBuildSettings.scalaSettings *)
-  .settings(DefaultBuildSettings.defaultSettings() *)
   .settings(inConfig(Test)(testSettings) *)
   .settings(majorVersion := 0)
   .settings(
@@ -41,7 +39,6 @@ lazy val root = (project in file("."))
     scalafmtOnCompile := true,
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
-    resolvers ++= Seq(Resolver.jcenterRepo),
     pipelineStages := Seq(digest),
     // below line required to force asset pipeline to operate in dev rather than only prod
     Assets / pipelineStages := Seq(concat)
