@@ -18,54 +18,56 @@ package connectors
 
 import models.afa.{InitialAfa, PublishedAfa}
 import models.{AfaId, LockedException, Service, UserAnswers}
+import org.checkerframework.checker.units.qual.A
 import play.api.Configuration
 import play.api.http.Status
-import play.api.libs.json.JsObject
+import play.api.libs.json.{JsObject, Json}
 import uk.gov.hmrc.http.HttpReads.Implicits._
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads, HttpResponse}
+import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads, HttpResponse, StringContextOps}
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class AfaConnector @Inject() (
   config: Configuration,
-  httpClient: HttpClient
+  httpClient: HttpClientV2
 )(implicit ec: ExecutionContext) {
 
   private val baseUrl = config.get[Service]("microservice.services.intellectual-property")
 
-  private val afaId = s"$baseUrl/intellectual-property/afaId"
+  private val afaIdUrl = s"$baseUrl/intellectual-property/afaId"
 
-  def url(afaId: String) = s"$baseUrl/intellectual-property/afa/$afaId"
+  def url(afaId: String): String = s"$baseUrl/intellectual-property/afa/$afaId"
 
   def getNextAfaId()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[AfaId] =
-    httpClient.GET[AfaId](afaId)
+    httpClient
+      .get(url"$afaIdUrl")
+      .execute[AfaId]
 
   def submit(afa: InitialAfa)(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[PublishedAfa] =
-    httpClient.PUT[InitialAfa, PublishedAfa](url(afa.id.toString), afa)
+    httpClient
+      .put(url"${url(afa.id.toString)}")
+      .withBody(Json.toJson(afa))
+      .execute[PublishedAfa]
 
-  def submitTestOnlyAfa(afa: String, afaId: String)(implicit
-    ec: ExecutionContext,
-    hc: HeaderCarrier
-  ): Future[HttpResponse] =
-    httpClient.PUTString[HttpResponse](
-      url(afaId),
-      afa,
-      Seq {
-        "Content-Type" -> "application/json"
-      }
-    )
+  def submitTestOnlyAfa(afa: String, afaId: String)(implicit hc: HeaderCarrier): Future[HttpResponse] =
+    httpClient
+      .put(url"${url(afaId)}")
+      .setHeader("Content-Type" -> "application/json")
+      .withBody(afa)
+      .execute[HttpResponse]
 
-  def bulkInsert(afas: Seq[PublishedAfa])(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Int] = {
-
+  def bulkInsert(afas: Seq[PublishedAfa])(implicit hc: HeaderCarrier): Future[Int] = {
     val url = s"$baseUrl/intellectual-property/afa/test-only/bulk-upsert"
-
-    httpClient.POST[Seq[PublishedAfa], Int](url, afas)
+    httpClient
+      .post(url"$url")
+      .withBody(Json.toJson(afas))
+      .execute[Int]
   }
 
   private def lockable[A](implicit rds: HttpReads[A]): HttpReads[A] =
     new HttpReads[A] {
-
       override def read(method: String, url: String, response: HttpResponse): A =
         if (response.status == Status.LOCKED) {
           throw response.json.as[LockedException]
@@ -75,22 +77,31 @@ class AfaConnector @Inject() (
     }
 
   def getDraft(afaId: AfaId)(implicit hc: HeaderCarrier): Future[Option[JsObject]] = {
-    val url = s"$baseUrl/intellectual-property/draft-afa/$afaId"
-    httpClient.GET[Option[JsObject]](url)(lockable, implicitly, implicitly)
+    val draftUrl = s"$baseUrl/intellectual-property/draft-afa/$afaId"
+    httpClient
+      .get(url"$draftUrl")
+      .execute[Option[JsObject]](lockable, ec)
   }
 
   def set(afaId: AfaId, userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] = {
-    val url = s"$baseUrl/intellectual-property/draft-afa/$afaId"
-    httpClient.PUT[UserAnswers, Boolean](url, userAnswers)(implicitly, lockable, implicitly, implicitly)
+    val draftUrl = s"$baseUrl/intellectual-property/draft-afa/$afaId"
+    httpClient
+      .put(url"$draftUrl")
+      .withBody(Json.toJson(userAnswers))
+      .execute[Boolean](lockable, ec)
   }
 
   def removeDraft(afaId: AfaId)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = {
-    val url = s"$baseUrl/intellectual-property/draft-afa/$afaId"
-    httpClient.DELETE[Option[UserAnswers]](url)(lockable, implicitly, implicitly)
+    val draftUrl = s"$baseUrl/intellectual-property/draft-afa/$afaId"
+    httpClient
+      .delete(url"$draftUrl")
+      .execute[Option[UserAnswers]](lockable, ec)
   }
 
   def draftList(implicit hc: HeaderCarrier): Future[List[UserAnswers]] = {
-    val url = s"$baseUrl/intellectual-property/draft-afas/list"
-    httpClient.GET[List[UserAnswers]](url)(lockable, implicitly, implicitly)
+    val listUrl = s"$baseUrl/intellectual-property/draft-afas/list"
+    httpClient
+      .get(url"$listUrl")
+      .execute[List[UserAnswers]](lockable, ec)
   }
 }

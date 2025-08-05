@@ -19,22 +19,23 @@ package connectors
 import models.{AfaId, Lock, LockedException, Service}
 import play.api.Configuration
 import play.api.http.Status
+import play.api.libs.json.Json
 import uk.gov.hmrc.http.HttpReads.Implicits._
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads, HttpResponse}
+import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, StringContextOps}
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class LockConnector @Inject() (
   config: Configuration,
-  httpClient: HttpClient
+  httpClient: HttpClientV2
 )(implicit ec: ExecutionContext) {
 
   private val baseUrl = config.get[Service]("microservice.services.intellectual-property")
 
   private def lockable[A](implicit rds: HttpReads[A]): HttpReads[A] =
     new HttpReads[A] {
-
       override def read(method: String, url: String, response: HttpResponse): A =
         if (response.status == Status.LOCKED) {
           throw response.json.as[LockedException]
@@ -46,27 +47,37 @@ class LockConnector @Inject() (
   def lock(afaId: AfaId)(implicit hc: HeaderCarrier): Future[Boolean] = {
     val url = s"$baseUrl/intellectual-property/draft-locks/$afaId/lock"
     httpClient
-      .POSTEmpty[HttpResponse](url)(lockable, implicitly, implicitly)
+      .post(url"$url")
+      .execute[Boolean]
       .map(_ => true)
   }
 
   def getExistingLock(afaId: AfaId)(implicit hc: HeaderCarrier): Future[Option[Lock]] = {
     val url = s"$baseUrl/intellectual-property/draft-locks/$afaId/lock"
-    httpClient.GET[Option[Lock]](url)(lockable, implicitly, implicitly)
+    httpClient
+      .get(url"$url")
+      .execute[Option[Lock]](lockable, ec)
   }
 
   def lockList(implicit hc: HeaderCarrier): Future[List[Lock]] = {
     val url = s"$baseUrl/intellectual-property/draft-locks/list"
-    httpClient.GET[List[Lock]](url)(lockable, implicitly, implicitly)
+    httpClient
+      .get(url"$url")
+      .execute[List[Lock]](lockable, ec)
   }
 
   def removeLock(afaId: AfaId)(implicit hc: HeaderCarrier): Future[Unit] = {
     val url = s"$baseUrl/intellectual-property/draft-locks/$afaId"
-    httpClient.DELETE[Unit](url)(lockable, implicitly, implicitly)
+    httpClient
+      .delete(url"$url")
+      .execute[Unit](lockable, ec)
   }
 
   def replaceLock(afaId: AfaId)(implicit hc: HeaderCarrier): Future[Boolean] = {
     val url = s"$baseUrl/intellectual-property/draft-locks/$afaId/replace"
-    httpClient.POST[AfaId, Boolean](url, afaId)(implicitly, lockable, implicitly, implicitly)
+    httpClient
+      .post(url"$url")
+      .withBody(Json.toJson(afaId))
+      .execute[Boolean](lockable, ec)
   }
 }
