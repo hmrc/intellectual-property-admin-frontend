@@ -48,7 +48,7 @@ class LockConnector @Inject() (
     val url = s"$baseUrl/intellectual-property/draft-locks/$afaId/lock"
     httpClient
       .post(url"$url")
-      .execute[Boolean]
+      .execute[HttpResponse](lockable, ec)
       .map(_ => true)
   }
 

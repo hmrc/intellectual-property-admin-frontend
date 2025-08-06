@@ -58,7 +58,7 @@ class AfaConnector @Inject() (
       .withBody(afa)
       .execute[HttpResponse]
 
-  def bulkInsert(afas: Seq[PublishedAfa])(implicit hc: HeaderCarrier): Future[Int] = {
+  def bulkInsert(afas: Seq[PublishedAfa])(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Int] = {
     val url = s"$baseUrl/intellectual-property/afa/test-only/bulk-upsert"
     httpClient
       .post(url"$url")
