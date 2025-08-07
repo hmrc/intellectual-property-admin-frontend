@@ -18,13 +18,15 @@ package connectors
 
 import models.Service
 import play.api.Configuration
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpResponse}
+import play.api.libs.json.Json
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, StringContextOps}
 import uk.gov.hmrc.http.HttpReads.Implicits.{readFromJson, readRaw}
+import uk.gov.hmrc.http.client.HttpClientV2
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class ConsignmentConnector @Inject() (config: Configuration, httpClient: HttpClient) {
+class ConsignmentConnector @Inject() (config: Configuration, httpClient: HttpClientV2) {
   private val baseUrl = config.get[Service]("microservice.services.intellectual-property")
 
   private val getNxtConsignmentIdUrl = s"$baseUrl/intellectual-property/consignmentId"
@@ -32,15 +34,16 @@ class ConsignmentConnector @Inject() (config: Configuration, httpClient: HttpCli
   private def setConsignmentUrl(consignmentId: String) = s"$baseUrl/intellectual-property/consignments/$consignmentId"
 
   def getNextConsignmentId()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[String] =
-    httpClient.GET[String](getNxtConsignmentIdUrl)
+    httpClient.get(url"$getNxtConsignmentIdUrl").execute[String]
 
   def submitTestOnlyConsignment(consignment: String, consignmentId: String)(implicit
     ec: ExecutionContext,
     hc: HeaderCarrier
-  ): Future[HttpResponse] =
-    httpClient.PUTString[HttpResponse](
-      setConsignmentUrl(consignmentId),
-      consignment,
-      Seq("Content-Type" -> "application/json")
-    )
+  ): Future[HttpResponse] = {
+    val consignmentUrl = setConsignmentUrl(consignmentId)
+    httpClient
+      .put(url"$consignmentUrl")
+      .withBody(Json.toJson(consignment))
+      .execute[HttpResponse]
+  }
 }
