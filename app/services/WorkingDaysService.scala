@@ -21,13 +21,15 @@ import models.Region
 import play.api.Configuration
 import play.api.http.Status
 import play.api.libs.json._
-import uk.gov.hmrc.http.{HttpClient, _}
+import uk.gov.hmrc.http.HttpErrorFunctions
+import uk.gov.hmrc.http.client.HttpClientV2
 
 import java.time.LocalDate
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
+import uk.gov.hmrc.http._
 
-class WorkingDaysService @Inject() (config: Configuration, httpClient: HttpClient) extends HttpErrorFunctions {
+class WorkingDaysService @Inject() (config: Configuration, httpClient: HttpClientV2) extends HttpErrorFunctions {
 
   private val baseUrl = config.get[Service]("microservice.services.intellectual-property")
 
@@ -56,6 +58,6 @@ class WorkingDaysService @Inject() (config: Configuration, httpClient: HttpClien
   ): Future[LocalDate] = {
 
     val url = s"$baseUrl/intellectual-property/working-days/$region/$from/$numberOfDays"
-    httpClient.GET[LocalDate](url)(asDate, implicitly, implicitly)
+    httpClient.get(url"$url").execute[LocalDate](asDate, implicitly)
   }
 }
