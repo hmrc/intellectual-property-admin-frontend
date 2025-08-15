@@ -13,12 +13,12 @@ Border Force use this digital service to access the database, find contact infor
 ## Running dependencies
 
 Using [sm2](https://github.com/hmrc/sm2)
-with the service manager profile `IPR_ALL` will start
+with the service manager profile `PIPR_ALL` will start
 all the Intellectual Property microservices as well as the services
 that they depend on.
 
 ```
-sm2 --start IPR_ALL
+sm2 --start PIPR_ALL
 ```
 
 To stop the microservice from running on service manager (e.g. to run your own version locally), you can run:
