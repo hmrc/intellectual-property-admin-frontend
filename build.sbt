@@ -38,6 +38,7 @@ lazy val root = (project in file("."))
     scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
     scalafmtOnCompile := true,
     libraryDependencies ++= AppDependencies(),
+    excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),
     retrieveManaged := true,
     pipelineStages := Seq(digest),
     // below line required to force asset pipeline to operate in dev rather than only prod
