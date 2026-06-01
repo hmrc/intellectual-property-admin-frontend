@@ -15,6 +15,6 @@ addSbtPlugin("org.playframework"  % "sbt-plugin"            % "3.0.10" exclude (
 addSbtPlugin("org.scalastyle"    %% "scalastyle-sbt-plugin" % "1.0.0")
 addSbtPlugin("org.scalameta"      % "sbt-scalafmt"          % "2.4.6")
 addSbtPlugin("org.scoverage"      % "sbt-scoverage"         % "2.4.2")
-addSbtPlugin("io.github.irundaia" % "sbt-sassify"           % "1.5.2")
+addSbtPlugin("uk.gov.hmrc"        % "sbt-sass-compiler"     % "0.13.0")
 addSbtPlugin("com.github.sbt"     % "sbt-concat"            % "1.0.0")
 addSbtPlugin("com.github.sbt"     % "sbt-digest"            % "2.0.0")

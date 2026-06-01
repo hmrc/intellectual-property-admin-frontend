@@ -104,7 +104,7 @@ trait ViewBehaviours extends ViewSpecBase {
         }
 
         "display accessibility footer link" in {
-          val link = asDocument(view).select("footer > div > div > div > ul > li:nth-of-type(1) > a")
+          val link = asDocument(view).select("footer > div > div > div > div > ul > li:nth-of-type(1) > a")
           link.attr("href") mustBe appConfig.manageIprAccessibilityUrl
           link.text mustBe messages("accessibilityStatement.footerUrl.text")
         }
