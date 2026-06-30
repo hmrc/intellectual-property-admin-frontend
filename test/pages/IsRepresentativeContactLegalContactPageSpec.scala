@@ -47,7 +47,7 @@ class IsRepresentativeContactLegalContactPageSpec extends PageBehaviours {
           .success
           .value
 
-        answers.get(IsRepresentativeContactLegalContactPage) mustBe Some(true)
+        answers.get(IsRepresentativeContactLegalContactPage) shouldBe Some(true)
       }
     }
 
@@ -67,11 +67,11 @@ class IsRepresentativeContactLegalContactPageSpec extends PageBehaviours {
           .success
           .value
 
-        answers.get(IsRepresentativeContactLegalContactPage) mustBe Some(true)
+        answers.get(IsRepresentativeContactLegalContactPage) shouldBe Some(true)
 
         val result = answers.remove(IsRepresentativeContactLegalContactPage).success.value
 
-        result.get(IsRepresentativeContactLegalContactPage) must not be defined
+        result.get(IsRepresentativeContactLegalContactPage) should not be defined
       }
     }
 
@@ -112,10 +112,10 @@ class IsRepresentativeContactLegalContactPageSpec extends PageBehaviours {
 
         val result = answers.set(IsRepresentativeContactLegalContactPage, true).success.value
 
-        result.get(ApplicantLegalContactPage) mustBe Some(representativeContact.getAsLegal)
-        result.get(IsApplicantLegalContactUkBasedPage) mustBe Some(true)
-        result.get(ApplicantLegalContactUkAddressPage) mustBe Some(ukRepAddress)
-        result.get(ApplicantLegalContactInternationalAddressPage) must not be defined
+        result.get(ApplicantLegalContactPage)                   shouldBe Some(representativeContact.getAsLegal)
+        result.get(IsApplicantLegalContactUkBasedPage)          shouldBe Some(true)
+        result.get(ApplicantLegalContactUkAddressPage)          shouldBe Some(ukRepAddress)
+        result.get(ApplicantLegalContactInternationalAddressPage) should not be defined
       }
     }
 
@@ -154,10 +154,10 @@ class IsRepresentativeContactLegalContactPageSpec extends PageBehaviours {
 
         val result = answers.set(IsRepresentativeContactLegalContactPage, true).success.value
 
-        result.get(ApplicantLegalContactPage) mustBe Some(representativeContact.getAsLegal)
-        result.get(IsApplicantLegalContactUkBasedPage) mustBe Some(false)
-        result.get(ApplicantLegalContactUkAddressPage) must not be defined
-        result.get(ApplicantLegalContactInternationalAddressPage) mustBe Some(internationalRepAddress)
+        result.get(ApplicantLegalContactPage)                     shouldBe Some(representativeContact.getAsLegal)
+        result.get(IsApplicantLegalContactUkBasedPage)            shouldBe Some(false)
+        result.get(ApplicantLegalContactUkAddressPage)              should not be defined
+        result.get(ApplicantLegalContactInternationalAddressPage) shouldBe Some(internationalRepAddress)
       }
     }
   }

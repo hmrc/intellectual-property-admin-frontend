@@ -14,13 +14,11 @@
  * limitations under the License.
  *@
 
-@import controllers.routes._
 @import models.{Mode, IpRightsType}
 
 @this(
     layout: Layout,
     formHelper: FormWithCSRF,
-    backLink: designsystembasedcomponents.backLink,
     errorSummary: designsystembasedcomponents.errorSummary,
     afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
     inputRadios: designsystembasedcomponents.inputRadios,
@@ -32,7 +30,7 @@
 
 @layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsType.title")}")) {
 
-    @formHelper(action = IpRightsTypeController.onSubmit(mode, index, afaId), Symbol("autoComplete") -> "off") {
+    @formHelper(action = routes.IpRightsTypeController.onSubmit(mode, index, afaId), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors, Some("ipRightsType.trademark"))
 

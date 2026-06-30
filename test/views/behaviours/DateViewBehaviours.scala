@@ -57,21 +57,21 @@ trait DateViewBehaviours extends ViewBehaviours with BeforeAndAfterEach {
 
       if (hintText.isDefined) {
         "have the correct hint text" in {
-          elementText(Selectors.hintText) shouldBe messages(messageKeyPrefix + ".hint", hintArgs)
+          elementText(Selectors.hintText) mustEqual messages(messageKeyPrefix + ".hint", hintArgs)
         }
       }
 
       "have the correct field labels day" in {
-        elementText(Selectors.firstLabel) shouldBe "Day"
+        elementText(Selectors.firstLabel) mustEqual "Day"
       }
       "have the correct field labels month" in {
-        elementText(Selectors.secondLabel) shouldBe "Month"
+        elementText(Selectors.secondLabel) mustEqual "Month"
       }
       "have the correct field labels year" in {
-        elementText(Selectors.thirdLabel) shouldBe "Year"
+        elementText(Selectors.thirdLabel) mustEqual "Year"
       }
       "have the correct button text" in {
-        elementText(Selectors.button) shouldBe "Save and continue"
+        elementText(Selectors.button) mustEqual "Save and continue"
       }
     }
     "behave like a date page with an error" must {
@@ -82,29 +82,29 @@ trait DateViewBehaviours extends ViewBehaviours with BeforeAndAfterEach {
       }
       if (hintText.isDefined) {
         "have the correct hint text" in {
-          elementText(Selectors.hintText) shouldBe messages(messageKeyPrefix + ".hint", hintArgs)
+          elementText(Selectors.hintText) mustEqual messages(messageKeyPrefix + ".hint", hintArgs)
         }
       }
       "have link to error field" in {
         val link = element(Selectors.errorSummaryLink)
-        link.attr(Selectors.href) shouldBe "#value.day"
-        link.text()               shouldBe errorText
+        link.attr(Selectors.href) mustEqual "#value.day"
+        link.text() mustEqual errorText
       }
       "have error on the field" in {
         val error = element(Selectors.errorMessage)
-        error.text shouldBe "Error: " + errorText
+        error.text mustEqual "Error: " + errorText
       }
       "have the correct field labels day" in {
-        elementText(Selectors.firstLabel) shouldBe "Day"
+        elementText(Selectors.firstLabel) mustEqual "Day"
       }
       "have the correct field labels month" in {
-        elementText(Selectors.secondLabel) shouldBe "Month"
+        elementText(Selectors.secondLabel) mustEqual "Month"
       }
       "have the correct field labels year" in {
-        elementText(Selectors.thirdLabel) shouldBe "Year"
+        elementText(Selectors.thirdLabel) mustEqual "Year"
       }
       "have the correct button text" in {
-        elementText(Selectors.button) shouldBe "Save and continue"
+        elementText(Selectors.button) mustEqual "Save and continue"
       }
     }
   }

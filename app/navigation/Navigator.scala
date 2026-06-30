@@ -87,10 +87,9 @@ class Navigator @Inject() () {
     case SecondaryTechnicalContactInternationalAddressPage      =>
       ua => routes.IpRightsTypeController.onPageLoad(NormalMode, 0, ua.id)
     case SecondaryTechnicalContactUkAddressPage                 =>
-      ua =>
-        routes.IpRightsTypeController.onPageLoad(NormalMode, 0, ua.id)
+      ua => routes.IpRightsTypeController.onPageLoad(NormalMode, 0, ua.id)
 
-      // ------------------------- Break out of flow if rights exist here -------------------------
+    // ------------------------- Break out of flow if rights exist here -------------------------
     // Adding rights
     case IpRightsTypePage(id)                                   => ipRightsTypeRoute(id)
     case IpRightsRegistrationNumberPage(id)                     =>

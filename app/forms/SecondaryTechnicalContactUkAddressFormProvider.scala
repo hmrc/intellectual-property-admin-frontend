@@ -58,6 +58,6 @@ class SecondaryTechnicalContactUkAddressFormProvider @Inject() extends Mappings 
         text("secondaryTechnicalContactUkAddress.error.postCode.required")
           .verifying(maxLength(postcodeMaxLength, "secondaryTechnicalContactUkAddress.error.postCode.length"))
           .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "secondaryTechnicalContactUkAddress.postCode"))
-    )(UkAddress.apply)(UkAddress.unapply)
+    )(UkAddress.apply)((a: UkAddress) => Some(a.line1, a.line2, a.town, a.county, a.postCode))
   )
 }

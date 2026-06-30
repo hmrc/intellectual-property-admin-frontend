@@ -20,6 +20,7 @@ import org.jsoup.nodes.Document
 import play.api.data.{Form, FormError}
 import play.twirl.api.HtmlFormat
 import views.behaviours.ViewBehaviours
+import org.scalatest.matchers.should.Matchers.shouldBe
 
 trait TextInputViewBehaviours[A] extends ViewBehaviours {
 
@@ -53,7 +54,7 @@ trait TextInputViewBehaviours[A] extends ViewBehaviours {
           elementNotExist(Selectors.errorSummary)
         }
         "contain the expected form action" in {
-          element(Selectors.form).attr("action") mustBe expectedFormAction
+          element(Selectors.form).attr("action") shouldBe expectedFormAction
         }
         for (inputId <- textInputIds) {
           s"contain an input for $inputId" in {
@@ -61,7 +62,7 @@ trait TextInputViewBehaviours[A] extends ViewBehaviours {
           }
           s"not have an error class associated with the input for $inputId" in {
             val errorInput = doc.getElementById(inputId)
-            errorInput.hasClass(Selectors.inputErrorClassName) mustBe false
+            errorInput.hasClass(Selectors.inputErrorClassName) shouldBe false
           }
         }
       }
@@ -98,14 +99,14 @@ trait TextInputViewBehaviours[A] extends ViewBehaviours {
           }
           "have link to the input in error with the correct error message" in {
             val link = element(Selectors.errorSummaryLink)
-            link.attr(Selectors.href) mustBe s"#$inputId"
-            link.text() mustBe errorMessage
+            link.attr(Selectors.href) shouldBe s"#$inputId"
+            link.text()               shouldBe errorMessage
           }
           s"have an error label for the error input with id '$inputId'" in {
             val errorInput = doc.getElementById(inputId)
-            errorInput.hasClass(Selectors.inputErrorClassName) mustBe true
-            val errorSpan  = doc.getElementById(s"$inputId-error")
-            errorSpan.text mustBe messages(s"Error: $errorMessage")
+            errorInput.hasClass(Selectors.inputErrorClassName) shouldBe true
+            val errorSpan = doc.getElementById(s"$inputId-error")
+            errorSpan.text shouldBe messages(s"Error: $errorMessage")
           }
         }
       }
@@ -128,7 +129,7 @@ trait TextInputViewBehaviours[A] extends ViewBehaviours {
         }
 
         "contain the expected form action" in {
-          element(Selectors.form).attr("action") mustBe expectedFormAction
+          element(Selectors.form).attr("action") shouldBe expectedFormAction
         }
         for (inputId <- textInputIds) {
           s"contain an input for $inputId" in {
@@ -136,7 +137,7 @@ trait TextInputViewBehaviours[A] extends ViewBehaviours {
           }
           s"not have an error class associated with the input for $inputId" in {
             val errorInput = doc.getElementById(inputId)
-            errorInput.hasClass(Selectors.textAreaErrorClassName) mustBe false
+            errorInput.hasClass(Selectors.textAreaErrorClassName) shouldBe false
           }
         }
       }
@@ -173,14 +174,14 @@ trait TextInputViewBehaviours[A] extends ViewBehaviours {
           }
           "have link to the input in error with the correct error message" in {
             val link = element(Selectors.errorSummaryLink)
-            link.attr(Selectors.href) mustBe s"#$inputId"
-            link.text() mustBe errorMessage
+            link.attr(Selectors.href) shouldBe s"#$inputId"
+            link.text()               shouldBe errorMessage
           }
           s"have an error label for the error input with id '$inputId'" in {
             val errorInput = doc.getElementById(inputId)
-            errorInput.hasClass(Selectors.textAreaErrorClassName) mustBe true
-            val errorSpan  = doc.getElementById(s"$inputId-error")
-            errorSpan.text mustBe messages(s"Error: $errorMessage")
+            errorInput.hasClass(Selectors.textAreaErrorClassName) shouldBe true
+            val errorSpan = doc.getElementById(s"$inputId-error")
+            errorSpan.text shouldBe messages(s"Error: $errorMessage")
           }
         }
       }

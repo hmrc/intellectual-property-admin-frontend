@@ -41,10 +41,10 @@ class IpRightsTypePageSpec extends PageBehaviours {
         forAll(arbitrary[UserAnswers], newTypeGen) { (userAnswers, rightsType) =>
           val result = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-          result.get(IpRightsRegistrationNumberPage(0))   must not be defined
-          result.get(IpRightsRegistrationEndPage(0))      must not be defined
-          result.get(IpRightsDescriptionWithBrandPage(0)) must not be defined
-          result.get(IpRightsNiceClassPage(0, 0))         must not be defined
+          result.get(IpRightsRegistrationNumberPage(0))   should not be defined
+          result.get(IpRightsRegistrationEndPage(0))      should not be defined
+          result.get(IpRightsDescriptionWithBrandPage(0)) should not be defined
+          result.get(IpRightsNiceClassPage(0, 0))         should not be defined
         }
       }
 
@@ -55,7 +55,7 @@ class IpRightsTypePageSpec extends PageBehaviours {
 
           val result = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-          result.get(IpRightsSupplementaryProtectionCertificateTypePage(0)) must not be defined
+          result.get(IpRightsSupplementaryProtectionCertificateTypePage(0)) should not be defined
         }
       }
     }
@@ -67,15 +67,15 @@ class IpRightsTypePageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers], typeGen) { (userAnswers, rightsType) =>
         val result = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-        result.get(IpRightsDescriptionWithBrandPage(0)) must not be defined
-        result.get(IpRightsNiceClassPage(0, 0))         must not be defined
+        result.get(IpRightsDescriptionWithBrandPage(0)) should not be defined
+        result.get(IpRightsNiceClassPage(0, 0))         should not be defined
       }
     }
 
     "be required for index 0" in {
 
       forAll(arbitrary[UserAnswers]) { userAnswers =>
-        IpRightsTypePage(0).isRequired(userAnswers).value mustEqual true
+        IpRightsTypePage(0).isRequired(userAnswers).value shouldBe true
       }
     }
 
@@ -84,7 +84,7 @@ class IpRightsTypePageSpec extends PageBehaviours {
       val arbitrarilyHighIndex = 1000
 
       forAll(arbitrary[UserAnswers], Gen.chooseNum(1, arbitrarilyHighIndex)) { (userAnswers, index) =>
-        IpRightsTypePage(index).isRequired(userAnswers).value mustEqual false
+        IpRightsTypePage(index).isRequired(userAnswers).value shouldBe false
       }
     }
   }

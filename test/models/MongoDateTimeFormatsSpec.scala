@@ -18,7 +18,7 @@ package models
 
 import org.scalatest.OptionValues
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import play.api.libs.json.Json
 
 import java.time.{LocalDate, LocalDateTime}
@@ -37,17 +37,17 @@ class MongoDateTimeFormatsSpec extends AnyFreeSpec with Matchers with OptionValu
 
     "must serialise to json" in {
       val result = Json.toJson(testDate)
-      result mustEqual json
+      result shouldBe json
     }
 
     "must deserialise from json" in {
       val result = json.as[LocalDateTime]
-      result mustEqual testDate
+      result shouldBe testDate
     }
 
     "must serialise/deserialise to the same value" in {
       val result = Json.toJson(testDate).as[LocalDateTime]
-      result mustEqual testDate
+      result shouldBe testDate
     }
   }
 }

@@ -19,7 +19,7 @@ package models
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.OptionValues
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsString, Json}
@@ -40,7 +40,7 @@ class CompanyApplyingIsRightsHolderSpec
         JsString(companyApplyingIsRightsHolder.toString)
           .validate[CompanyApplyingIsRightsHolder]
           .asOpt
-          .value mustEqual companyApplyingIsRightsHolder
+          .value shouldBe companyApplyingIsRightsHolder
       }
     }
 
@@ -49,7 +49,7 @@ class CompanyApplyingIsRightsHolderSpec
       val gen = arbitrary[String] suchThat (!CompanyApplyingIsRightsHolder.values.map(_.toString).contains(_))
 
       forAll(gen) { invalidValue =>
-        JsString(invalidValue).validate[CompanyApplyingIsRightsHolder] mustEqual JsError("error.invalid")
+        JsString(invalidValue).validate[CompanyApplyingIsRightsHolder] shouldBe JsError("error.invalid")
       }
     }
 
@@ -58,7 +58,7 @@ class CompanyApplyingIsRightsHolderSpec
       val gen = Gen.oneOf(CompanyApplyingIsRightsHolder.values.toSeq)
 
       forAll(gen) { companyApplyingIsRightsHolder =>
-        Json.toJson(companyApplyingIsRightsHolder) mustEqual JsString(companyApplyingIsRightsHolder.toString)
+        Json.toJson(companyApplyingIsRightsHolder) shouldBe JsString(companyApplyingIsRightsHolder.toString)
       }
     }
   }

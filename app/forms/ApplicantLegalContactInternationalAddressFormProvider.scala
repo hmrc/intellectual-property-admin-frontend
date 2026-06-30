@@ -60,6 +60,6 @@ class ApplicantLegalContactInternationalAddressFormProvider @Inject() extends Ma
               )
             )
         )
-    )(InternationalAddress.apply)(InternationalAddress.unapply)
+    )(InternationalAddress.apply)((a: InternationalAddress) => Some(a.line1, a.line2, a.town, a.country, a.postCode))
   )
 }

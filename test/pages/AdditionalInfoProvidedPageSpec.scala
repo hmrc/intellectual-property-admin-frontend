@@ -43,7 +43,7 @@ class AdditionalInfoProvidedPageSpec extends PageBehaviours {
 
         val result = answers.set(AdditionalInfoProvidedPage, false).success.value
 
-        result.get(RestrictedHandlingPage) mustNot be(defined)
+        result.get(RestrictedHandlingPage) shouldNot be(defined)
       }
     }
   }

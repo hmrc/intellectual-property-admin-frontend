@@ -39,7 +39,7 @@ class ApplicantLegalContactInternationalAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        ApplicantLegalContactInternationalAddressPage.isRequired(answers).value mustEqual true
+        ApplicantLegalContactInternationalAddressPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -52,7 +52,7 @@ class ApplicantLegalContactInternationalAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        ApplicantLegalContactInternationalAddressPage.isRequired(answers).value mustEqual false
+        ApplicantLegalContactInternationalAddressPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -64,7 +64,7 @@ class ApplicantLegalContactInternationalAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        ApplicantLegalContactInternationalAddressPage.isRequired(answers) must not be defined
+        ApplicantLegalContactInternationalAddressPage.isRequired(answers) should not be defined
       }
     }
   }

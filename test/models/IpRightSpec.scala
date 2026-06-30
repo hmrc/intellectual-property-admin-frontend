@@ -19,7 +19,7 @@ package models
 import generators.AfaGenerators
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsSuccess, Json}
 
@@ -41,7 +41,7 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
             "description" -> description
           )
 
-          json.validate[IpRight] mustEqual JsSuccess(Copyright(description))
+          json.validate[IpRight] shouldBe JsSuccess(Copyright(description))
         }
       }
 
@@ -53,7 +53,7 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
             "description" -> description
           )
 
-          json.validate[IpRight] mustEqual JsSuccess(PlantVariety(description))
+          json.validate[IpRight] shouldBe JsSuccess(PlantVariety(description))
         }
       }
 
@@ -69,7 +69,7 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
               "description"        -> description
             )
 
-            json.validate[IpRight] mustEqual JsSuccess(
+            json.validate[IpRight] shouldBe JsSuccess(
               SupplementaryProtectionCertificate(certificateType, registrationNumber, registrationEnd, description)
             )
         }
@@ -83,7 +83,7 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
             "description" -> description
           )
 
-          json.validate[IpRight] mustEqual JsSuccess(SemiconductorTopography(description))
+          json.validate[IpRight] shouldBe JsSuccess(SemiconductorTopography(description))
         }
       }
 
@@ -95,7 +95,7 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
             "description" -> description
           )
 
-          json.validate[IpRight] mustEqual JsSuccess(GeographicalIndication(description))
+          json.validate[IpRight] shouldBe JsSuccess(GeographicalIndication(description))
         }
       }
 
@@ -110,7 +110,7 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
               "description"        -> description
             )
 
-            json.validate[IpRight] mustEqual JsSuccess(Design(registrationNumber, registrationEnd, description))
+            json.validate[IpRight] shouldBe JsSuccess(Design(registrationNumber, registrationEnd, description))
         }
       }
 
@@ -125,7 +125,7 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
               "description"        -> description
             )
 
-            json.validate[IpRight] mustEqual JsSuccess(Patent(registrationNumber, registrationEnd, description))
+            json.validate[IpRight] shouldBe JsSuccess(Patent(registrationNumber, registrationEnd, description))
         }
       }
 
@@ -146,7 +146,7 @@ class IpRightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyCheck
               }
             )
 
-            json.validate[IpRight] mustEqual JsSuccess(
+            json.validate[IpRight] shouldBe JsSuccess(
               Trademark(registrationNumber, registrationEnd, Some(brand), description, niceClasses)
             )
         }

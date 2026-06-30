@@ -23,7 +23,7 @@ import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.{ApplicationReceiptDatePage, CompanyApplyingPage}
@@ -62,7 +62,7 @@ class DraftRowSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChec
             .success
             .value
 
-          DraftRow(answers, isLocked) mustEqual DraftRow(
+          DraftRow(answers, isLocked) shouldBe DraftRow(
             Some(companyName),
             answers.id,
             Some(arbitraryFutureDate),

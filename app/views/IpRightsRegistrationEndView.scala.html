@@ -19,7 +19,6 @@
 
 @this(
     layout: Layout,
-    backLink: designsystembasedcomponents.backLink,
     dateErrorSummary: designsystembasedcomponents.dateErrorSummary,
     inputDate: designsystembasedcomponents.inputDate,
     button: designsystembasedcomponents.button,
@@ -32,7 +31,7 @@
 
 @layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("ipRightsRegistrationEnd.title", ipRightsType)}")) {
 
-    @formHelper(action = IpRightsRegistrationEndController.onSubmit(mode, index, afaId), Symbol("autoComplete") -> "off") {
+    @formHelper(action = routes.IpRightsRegistrationEndController.onSubmit(mode, index, afaId), Symbol("autoComplete") -> "off") {
 
         @dateErrorSummary(form.errors)
 

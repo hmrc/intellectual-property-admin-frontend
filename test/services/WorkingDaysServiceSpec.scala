@@ -24,7 +24,7 @@ import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.OptionValues
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.Application
@@ -88,7 +88,7 @@ class WorkingDaysServiceSpec
             )
         )
 
-        service.workingDays(region, inputDate, daysToAdd)(implicitly, hc).futureValue mustEqual replyDate
+        service.workingDays(region, inputDate, daysToAdd)(implicitly, hc).futureValue shouldBe replyDate
       }
     }
 
@@ -109,7 +109,7 @@ class WorkingDaysServiceSpec
           )
 
           whenReady(service.workingDays(region, inputDate, daysToAdd)(implicitly, hc).failed) {
-            _ mustBe an[Exception]
+            _ shouldBe an[Exception]
           }
       }
     }

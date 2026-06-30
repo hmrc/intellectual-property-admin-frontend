@@ -20,7 +20,7 @@ import generators.Generators
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsSuccess, Json}
 
@@ -43,7 +43,7 @@ class DesignSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks
             "description"        -> description
           )
 
-          json.validate[Design] mustEqual JsSuccess(Design(registrationNumber, registrationEnd, description))
+          json.validate[Design] shouldBe JsSuccess(Design(registrationNumber, registrationEnd, description))
       }
     }
 
@@ -60,7 +60,7 @@ class DesignSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks
               "description"        -> description
             )
 
-            json.validate[Design] mustEqual JsError(
+            json.validate[Design] shouldBe JsError(
               "rightsType must be `design`"
             )
           }

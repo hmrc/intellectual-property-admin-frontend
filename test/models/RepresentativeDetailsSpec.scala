@@ -16,7 +16,7 @@
 
 package models
 
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class RepresentativeDetailsSpec extends AnyWordSpec with Matchers {
@@ -30,7 +30,7 @@ class RepresentativeDetailsSpec extends AnyWordSpec with Matchers {
       val role    = Some("CEO")
       val rep     = new RepresentativeDetails(name, company, phone, email, role)
       val legal   = new ApplicantLegalContact(company, name, phone, None, email)
-      rep.getAsLegal mustEqual legal
+      rep.getAsLegal shouldBe legal
     }
 
   }

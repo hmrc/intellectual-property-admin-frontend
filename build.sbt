@@ -6,13 +6,14 @@ import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
 lazy val appName: String = "intellectual-property-admin-frontend"
 
+ThisBuild / scalaVersion := "3.3.7"
+ThisBuild / majorVersion := 0
+
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin)
   .settings(inConfig(Test)(testSettings) *)
-  .settings(majorVersion := 0)
   .settings(
-    scalaVersion := "2.13.18",
     name := appName,
     RoutesKeys.routesImport += "models._",
     TwirlKeys.templateImports ++= Seq(
@@ -33,9 +34,21 @@ lazy val root = (project in file("."))
     ScoverageKeys.coverageMinimumStmtTotal := 90,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true,
-    scalacOptions ++= Seq("-feature"),
-    scalacOptions += "-Wconf:src=routes/.*:s",
-    scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
+    scalacOptions ++= Seq(
+      // Twirl-generated Scala (views)
+      "-Wconf:msg=unused import&src=.*/target/scala-.*/.*views.*:s",
+      "-Wconf:msg=unused import&src=.*/src_managed/.*:s",
+
+      // Play routes-generated Scala
+      "-Wconf:msg=unused import&src=.*/conf/.*:s",
+      "-Wconf:msg=unused import&src=.*/routes/.*:s",
+
+      // Silence unused pattern variables from Play routes
+      "-Wconf:msg=unused pattern variable&src=.*/conf/.*:s",
+      "-Wconf:msg=unused pattern variable&src=.*/routes/.*:s",
+
+      "-feature"
+    ),
     scalafmtOnCompile := true,
     libraryDependencies ++= AppDependencies(),
     excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),

@@ -42,6 +42,8 @@ class WhoIsSecondaryTechnicalContactFormProvider extends Mappings {
         .verifying(maxLength(phonesLimit, "whoIsSecondaryTechnicalContact.error.telephone.length"))
         .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsSecondaryTechnicalContact.telephone.label")),
       "email"       -> email.verifying(validateEmail)
-    )(TechnicalContact.apply)(TechnicalContact.unapply)
+    )(TechnicalContact.apply)((t: TechnicalContact) =>
+      Some(t.contactName, t.companyName, t.contactTelephone, t.contactEmail)
+    )
   )
 }

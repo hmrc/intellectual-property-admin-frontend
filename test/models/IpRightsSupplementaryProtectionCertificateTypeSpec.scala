@@ -19,7 +19,7 @@ package models
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.OptionValues
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsString, Json}
@@ -40,7 +40,7 @@ class IpRightsSupplementaryProtectionCertificateTypeSpec
         JsString(ipRightsSupplementaryProtectionCertificateType.toString)
           .validate[IpRightsSupplementaryProtectionCertificateType]
           .asOpt
-          .value mustEqual ipRightsSupplementaryProtectionCertificateType
+          .value shouldBe ipRightsSupplementaryProtectionCertificateType
       }
     }
 
@@ -50,7 +50,7 @@ class IpRightsSupplementaryProtectionCertificateTypeSpec
         arbitrary[String] suchThat (!IpRightsSupplementaryProtectionCertificateType.values.map(_.toString).contains(_))
 
       forAll(gen) { invalidValue =>
-        JsString(invalidValue).validate[IpRightsSupplementaryProtectionCertificateType] mustEqual JsError(
+        JsString(invalidValue).validate[IpRightsSupplementaryProtectionCertificateType] shouldBe JsError(
           "error.invalid"
         )
       }
@@ -61,7 +61,7 @@ class IpRightsSupplementaryProtectionCertificateTypeSpec
       val gen = Gen.oneOf(IpRightsSupplementaryProtectionCertificateType.values.toSeq)
 
       forAll(gen) { ipRightsSupplementaryProtectionCertificateType =>
-        Json.toJson(ipRightsSupplementaryProtectionCertificateType) mustEqual JsString(
+        Json.toJson(ipRightsSupplementaryProtectionCertificateType) shouldBe JsString(
           ipRightsSupplementaryProtectionCertificateType.toString
         )
       }

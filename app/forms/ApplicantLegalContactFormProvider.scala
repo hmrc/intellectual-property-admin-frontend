@@ -50,6 +50,8 @@ class ApplicantLegalContactFormProvider @Inject() extends Mappings {
           )
       ),
       "email"          -> email.verifying(validateEmail)
-    )(ApplicantLegalContact.apply)(ApplicantLegalContact.unapply)
+    )(ApplicantLegalContact.apply)((a: ApplicantLegalContact) =>
+      Some(a.companyName, a.name, a.telephone, a.otherTelephone, a.email)
+    )
   )
 }

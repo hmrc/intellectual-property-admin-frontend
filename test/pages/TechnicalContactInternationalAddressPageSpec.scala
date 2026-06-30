@@ -39,7 +39,7 @@ class TechnicalContactInternationalAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        TechnicalContactInternationalAddressPage.isRequired(answers).value mustEqual true
+        TechnicalContactInternationalAddressPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -52,7 +52,7 @@ class TechnicalContactInternationalAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        TechnicalContactInternationalAddressPage.isRequired(answers).value mustEqual false
+        TechnicalContactInternationalAddressPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -65,7 +65,7 @@ class TechnicalContactInternationalAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        TechnicalContactInternationalAddressPage.isRequired(answers) must not be defined
+        TechnicalContactInternationalAddressPage.isRequired(answers) should not be defined
       }
     }
   }

@@ -37,6 +37,6 @@ class IpRightsDescriptionWithBrandFormProvider @Inject() extends Mappings {
       "value" -> text("ipRightsDescriptionWithBrand.error.description.required")
         .verifying(maxLength(descriptionMaxLength, "ipRightsDescriptionWithBrand.error.description.length"))
         .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "ipRightsDescriptionWithBrand.description"))
-    )(IpRightsDescriptionWithBrand.apply)(IpRightsDescriptionWithBrand.unapply)
+    )(IpRightsDescriptionWithBrand.apply)((r: IpRightsDescriptionWithBrand) => Some(r.brand, r.description))
   )
 }

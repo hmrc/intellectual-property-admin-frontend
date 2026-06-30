@@ -69,6 +69,8 @@ class ApplicantSecondaryLegalContactInternationalAddressFormProvider @Inject() e
               )
             )
         )
-    )(InternationalAddress.apply)(InternationalAddress.unapply)
+    )(InternationalAddress.apply)((ua: InternationalAddress) =>
+      Some((ua.line1, ua.line2, ua.town, ua.country, ua.postCode))
+    )
   )
 }

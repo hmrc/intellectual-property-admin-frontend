@@ -42,7 +42,7 @@ class ApplicationReceiptDatePageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers], arbitraryUkAfaId(None)) { (userAnswers, afaId) =>
         val answers = userAnswers.copy(id = afaId)
 
-        ApplicationReceiptDatePage.isRequired(answers).value mustEqual true
+        ApplicationReceiptDatePage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -51,7 +51,7 @@ class ApplicationReceiptDatePageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers], arbitraryGbAfaId(None)) { (userAnswers, afaId) =>
         val answers = userAnswers.copy(id = afaId)
 
-        ApplicationReceiptDatePage.isRequired(answers).value mustEqual false
+        ApplicationReceiptDatePage.isRequired(answers).value shouldBe false
       }
     }
   }

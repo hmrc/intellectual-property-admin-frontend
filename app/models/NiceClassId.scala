@@ -42,6 +42,9 @@ object NiceClassId {
       case _            => None
     }
 
+  def apply(value: Int): NiceClassId =
+    new NiceClassId(value)
+
   implicit lazy val reads: Reads[NiceClassId] = new Reads[NiceClassId] {
 
     override def reads(json: JsValue): JsResult[NiceClassId] = {

@@ -14,13 +14,11 @@
  * limitations under the License.
  *@
 
-@import controllers.routes._
 @import models.Mode
 
 @this(
     layout: Layout,
     formHelper: FormWithCSRF,
-    backLink: designsystembasedcomponents.backLink,
     afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
     button: designsystembasedcomponents.button,
     errorSummary: designsystembasedcomponents.errorSummary,
@@ -32,7 +30,7 @@
 
 @layout(pageTitle = Some(s"${errorPrefix(form)} ${messages("deleteDraft.title", rightsHolder)}")) {
 
-    @formHelper(action = DeleteDraftController.onSubmit(afaId), Symbol("autoComplete") -> "off") {
+    @formHelper(action = routes.DeleteDraftController.onSubmit(afaId), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors, Some("value-yes"))
 

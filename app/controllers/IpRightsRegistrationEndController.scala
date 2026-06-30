@@ -91,7 +91,7 @@ class IpRightsRegistrationEndController @Inject() (
   )(block: String => Future[Result])(implicit request: DataRequest[AnyContent], messages: Messages): Future[Result] =
     request.userAnswers
       .get(IpRightsTypePage(index))
-      .map { rightsType: IpRightsType =>
+      .map { (rightsType: IpRightsType) =>
         block(messages(s"ipRightsType.${rightsType.toString}").toLowerCase)
       }
       .getOrElse(Future.successful(Redirect(routes.SessionExpiredController.onPageLoad)))

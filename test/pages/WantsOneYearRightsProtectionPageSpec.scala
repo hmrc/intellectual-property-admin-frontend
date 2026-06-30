@@ -35,7 +35,7 @@ class WantsOneYearRightsProtectionPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(IsExOfficioPage, true).success.value
 
-        WantsOneYearRightsProtectionPage.isRequired(answers).value mustEqual true
+        WantsOneYearRightsProtectionPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -44,7 +44,7 @@ class WantsOneYearRightsProtectionPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(IsExOfficioPage, false).success.value
 
-        WantsOneYearRightsProtectionPage.isRequired(answers).value mustEqual false
+        WantsOneYearRightsProtectionPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -53,7 +53,7 @@ class WantsOneYearRightsProtectionPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.remove(IsExOfficioPage).success.value
 
-        WantsOneYearRightsProtectionPage.isRequired(answers) must not be defined
+        WantsOneYearRightsProtectionPage.isRequired(answers) should not be defined
       }
     }
   }

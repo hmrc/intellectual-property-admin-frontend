@@ -21,7 +21,7 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.OptionValues
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json._
 
@@ -35,7 +35,7 @@ class NiceClassIdSpec
   "must serialise" in {
 
     forAll(arbitrary[NiceClassId]) { niceClassId =>
-      Json.toJson(niceClassId) mustEqual JsNumber(niceClassId.value)
+      Json.toJson(niceClassId) shouldBe JsNumber(niceClassId.value)
     }
   }
 
@@ -44,7 +44,7 @@ class NiceClassIdSpec
     forAll(Gen.choose(1, 45)) { number =>
       val json = JsNumber(number)
 
-      json.validate[NiceClassId].asOpt.value mustEqual NiceClassId.fromInt(number).value
+      json.validate[NiceClassId].asOpt.value shouldBe NiceClassId.fromInt(number).value
     }
   }
 
@@ -53,7 +53,7 @@ class NiceClassIdSpec
     forAll(Gen.choose(1, 45).map(_.toString)) { number =>
       val json = JsString(number)
 
-      json.validate[NiceClassId].asOpt.value mustEqual NiceClassId.fromString(number).value
+      json.validate[NiceClassId].asOpt.value shouldBe NiceClassId.fromString(number).value
     }
   }
 
@@ -61,7 +61,7 @@ class NiceClassIdSpec
     forAll(Gen.choose(1, 45).map(_.toString)) { number =>
       val json = Json.obj("niceClass" -> number)
 
-      json.validate[NiceClassId].asOpt.value mustEqual NiceClassId.fromString(number).value
+      json.validate[NiceClassId].asOpt.value shouldBe NiceClassId.fromString(number).value
     }
   }
 
@@ -72,7 +72,7 @@ class NiceClassIdSpec
     forAll(gen) { invalidNumber =>
       val json = JsNumber(invalidNumber)
 
-      json.validate[NiceClassId] mustEqual JsError("NICE class Id is not valid")
+      json.validate[NiceClassId] shouldBe JsError("NICE class Id is not valid")
     }
   }
 
@@ -83,7 +83,7 @@ class NiceClassIdSpec
     forAll(gen.map(_.toString)) { invalidString =>
       val json = JsString(invalidString)
 
-      json.validate[NiceClassId] mustEqual JsError("NICE class Id is not valid")
+      json.validate[NiceClassId] shouldBe JsError("NICE class Id is not valid")
     }
   }
 
@@ -92,7 +92,7 @@ class NiceClassIdSpec
     forAll(Gen.alphaStr) { invalidString =>
       val json = JsString(invalidString)
 
-      json.validate[NiceClassId] mustEqual JsError("NICE class Id is not valid")
+      json.validate[NiceClassId] shouldBe JsError("NICE class Id is not valid")
     }
   }
 }

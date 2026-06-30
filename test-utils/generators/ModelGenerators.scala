@@ -16,7 +16,7 @@
 
 package generators
 
-import java.time.{LocalDate, Year}
+import java.time.LocalDate
 
 import models.{WhoIsSecondaryLegalContact, _}
 import org.scalacheck.Arbitrary.arbitrary
@@ -110,7 +110,7 @@ trait ModelGenerators {
     for {
       year <- Gen.chooseNum(minYear, maxYear)
       id   <- sequenceNumberGenerator
-    } yield AfaId(Year.parse(year.toString), id, prefix = AfaId.GB)
+    } yield AfaId(year.toString, id.toString, prefix = AfaId.GB).get
   }
 
   def arbitraryGbAfaIdTwoDigit(id: Option[Int] = None): Gen[AfaId] = {
@@ -127,7 +127,7 @@ trait ModelGenerators {
     for {
       year <- Gen.chooseNum(minYear, maxYear)
       id   <- sequenceNumberGenerator
-    } yield AfaId(Year.parse(year.toString), id, prefix = AfaId.GB(false))
+    } yield AfaId(year.toString, id.toString, prefix = AfaId.GB(false)).get
   }
 
   def arbitraryUkAfaId(id: Option[Int] = None): Gen[AfaId] = {
@@ -145,7 +145,7 @@ trait ModelGenerators {
     for {
       year <- Gen.chooseNum(minYear, maxYear)
       id   <- sequenceNumberGenerator
-    } yield AfaId(Year.parse(year.toString), id, prefix = AfaId.UK)
+    } yield AfaId(year.toString, id.toString, prefix = AfaId.UK).get
   }
 
   def arbitraryGbAfaId(id: Option[Int] = None): Gen[AfaId] =

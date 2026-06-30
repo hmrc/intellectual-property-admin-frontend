@@ -18,7 +18,7 @@ package views
 
 import models.NormalMode
 import org.jsoup.nodes.Document
-import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
+import org.scalatest.matchers.should.Matchers.shouldBe
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.twirl.api.{Html, HtmlFormat}

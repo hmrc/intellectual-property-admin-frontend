@@ -39,7 +39,7 @@ class ApplicantLegalContactUkAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        ApplicantLegalContactUkAddressPage.isRequired(answers).value mustEqual true
+        ApplicantLegalContactUkAddressPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -52,7 +52,7 @@ class ApplicantLegalContactUkAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        ApplicantLegalContactUkAddressPage.isRequired(answers).value mustEqual false
+        ApplicantLegalContactUkAddressPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -65,7 +65,7 @@ class ApplicantLegalContactUkAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        ApplicantLegalContactUkAddressPage.isRequired(answers) must not be defined
+        ApplicantLegalContactUkAddressPage.isRequired(answers) should not be defined
       }
     }
   }

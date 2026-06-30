@@ -57,6 +57,6 @@ class CompanyApplyingUkAddressFormProvider @Inject() extends Mappings {
         text("companyApplyingUkAddress.error.postCode.required")
           .verifying(maxLength(postcodeMaxLength, "companyApplyingUkAddress.error.postCode.length"))
           .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "companyApplyingUkAddress.postCode"))
-    )(UkAddress.apply)(UkAddress.unapply)
+    )(UkAddress.apply)((a: UkAddress) => Some(a.line1, a.line2, a.town, a.county, a.postCode))
   )
 }

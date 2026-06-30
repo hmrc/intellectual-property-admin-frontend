@@ -41,6 +41,6 @@ class CompanyApplyingFormProvider @Inject() () extends Mappings {
             regexpDynamic(rejectXssChars, regexErrorKey, "companyApplying.companyAcronym.noOption")
           )
       )
-    )(CompanyApplying.apply)(CompanyApplying.unapply)
+    )(CompanyApplying.apply)((a: CompanyApplying) => Some(a.name, a.acronym))
   )
 }

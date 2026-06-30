@@ -24,7 +24,7 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.Application
@@ -83,7 +83,7 @@ class AfaConnectorSpec
             )
 
             whenReady(connector.submit(initialAfa)(implicitly, hc)) { result =>
-              result mustEqual publishedAfa
+              result shouldBe publishedAfa
             }
         }
       }
@@ -106,7 +106,7 @@ class AfaConnectorSpec
             )
 
             whenReady(connector.submit(initialAfa)(implicitly, hc).failed) {
-              _ mustBe an[Exception]
+              _ shouldBe an[Exception]
             }
         }
       }
@@ -128,7 +128,7 @@ class AfaConnectorSpec
           )
 
           whenReady(connector.bulkInsert(afas)(implicitly, hc)) { result =>
-            result mustEqual afas.size
+            result shouldBe afas.size
           }
         }
       }
@@ -151,7 +151,7 @@ class AfaConnectorSpec
             )
 
             whenReady(connector.bulkInsert(afas)(implicitly, hc).failed) {
-              _ mustBe an[Exception]
+              _ shouldBe an[Exception]
             }
         }
       }
@@ -173,7 +173,7 @@ class AfaConnectorSpec
           )
 
           whenReady(connector.getNextAfaId()(implicitly, hc)) { result =>
-            result mustEqual afaId
+            result shouldBe afaId
           }
         }
       }
@@ -195,7 +195,7 @@ class AfaConnectorSpec
           )
 
           whenReady(connector.getNextAfaId()(implicitly, hc).failed) {
-            _ mustBe an[Exception]
+            _ shouldBe an[Exception]
           }
         }
       }
@@ -216,7 +216,7 @@ class AfaConnectorSpec
         )
 
         whenReady(connector.getDraft(afaId)(hc)) { result =>
-          result.get mustBe jsonObj
+          result.get shouldBe jsonObj
         }
 
       }
@@ -238,7 +238,7 @@ class AfaConnectorSpec
           )
 
           whenReady(connector.getDraft(afaId)(hc).failed) {
-            _ mustBe an[Exception]
+            _ shouldBe an[Exception]
           }
         }
       }
@@ -259,7 +259,7 @@ class AfaConnectorSpec
         )
 
         whenReady(connector.removeDraft(afaId)(hc)) { result =>
-          result.get mustBe userAnswers
+          result.get shouldBe userAnswers
         }
 
       }
@@ -281,7 +281,7 @@ class AfaConnectorSpec
           )
 
           whenReady(connector.removeDraft(afaId)(hc).failed) {
-            _ mustBe an[Exception]
+            _ shouldBe an[Exception]
           }
         }
       }
@@ -302,7 +302,7 @@ class AfaConnectorSpec
         )
 
         whenReady(connector.set(afaId, userAnswers)(hc)) { result =>
-          result mustBe true
+          result shouldBe true
         }
 
       }
@@ -324,7 +324,7 @@ class AfaConnectorSpec
           )
 
           whenReady(connector.set(afaId, userAnswers)(hc).failed) {
-            _ mustBe an[Exception]
+            _ shouldBe an[Exception]
           }
         }
       }
@@ -347,7 +347,7 @@ class AfaConnectorSpec
         )
 
         whenReady(connector.draftList(hc)) { result =>
-          result mustBe draftList
+          result shouldBe draftList
         }
 
       }
@@ -369,7 +369,7 @@ class AfaConnectorSpec
           )
 
           whenReady(connector.draftList(hc).failed) {
-            _ mustBe an[Exception]
+            _ shouldBe an[Exception]
           }
         }
       }
