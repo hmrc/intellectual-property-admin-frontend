@@ -23,7 +23,6 @@ import base.SpecBase
 import models.{AfaId, UserAnswers}
 import org.scalatest.Assertion
 import scala.reflect.ClassTag
-import org.scalatest.matchers.should.Matchers
 
 trait ViewSpecBase extends SpecBase {
 

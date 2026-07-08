@@ -274,7 +274,7 @@ class RichJsValueSpec
 
         val pathToRemove = JsPath \ keyToRemove
 
-        testObject                     shouldNot equal(initialObj)
+        testObject                        should not equal initialObj
         testObject.remove(pathToRemove) shouldBe JsSuccess(initialObj)
       }
     }
