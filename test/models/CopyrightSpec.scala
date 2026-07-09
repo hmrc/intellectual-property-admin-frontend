@@ -19,7 +19,7 @@ package models
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsSuccess, Json}
 
@@ -35,7 +35,7 @@ class CopyrightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
           "description" -> description
         )
 
-        json.validate[Copyright] mustEqual JsSuccess(Copyright(description))
+        json.validate[Copyright] shouldBe JsSuccess(Copyright(description))
       }
     }
 
@@ -49,7 +49,7 @@ class CopyrightSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
             "description" -> description
           )
 
-          json.validate[Copyright] mustEqual JsError(
+          json.validate[Copyright] shouldBe JsError(
             "rightsType must be `copyright`"
           )
         }

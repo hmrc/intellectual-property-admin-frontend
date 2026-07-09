@@ -43,7 +43,7 @@ class IsApplicantLegalContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsApplicantLegalContactUkBasedPage, false).success.value
 
-        result.get(ApplicantLegalContactUkAddressPage) mustNot be(defined)
+        result.get(ApplicantLegalContactUkAddressPage) should not be defined
       }
     }
 
@@ -58,7 +58,7 @@ class IsApplicantLegalContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsApplicantLegalContactUkBasedPage, true).success.value
 
-        result.get(ApplicantLegalContactInternationalAddressPage) mustNot be(defined)
+        result.get(ApplicantLegalContactInternationalAddressPage) should not be defined
       }
     }
   }

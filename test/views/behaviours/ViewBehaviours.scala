@@ -20,6 +20,7 @@ import config.FrontendAppConfig
 import org.jsoup.nodes.Element
 import play.twirl.api.HtmlFormat
 import views.ViewSpecBase
+import org.scalatest.matchers.should.Matchers.shouldBe
 
 trait ViewBehaviours extends ViewSpecBase {
 
@@ -40,7 +41,7 @@ trait ViewBehaviours extends ViewSpecBase {
           val nav  = doc.getElementById("proposition-menu")
           val span = nav.children.first
 
-          span.text mustEqual messages("site.service_name")
+          span.text shouldBe messages("site.service_name")
         }
 
         "display the correct browser title" in {
@@ -49,9 +50,9 @@ trait ViewBehaviours extends ViewSpecBase {
           val title = doc.getElementsByTag("title").first.text
 
           if (argsUsedInBrowserTitle) {
-            title mustEqual messages(s"$messageKeyPrefix.title", args: _*) + s" - ${messages("site.service_name")}"
+            title shouldBe messages(s"$messageKeyPrefix.title", args: _*) + s" - ${messages("site.service_name")}"
           } else {
-            title mustEqual messages(s"$messageKeyPrefix.title") + s" - ${messages("site.service_name")}"
+            title shouldBe messages(s"$messageKeyPrefix.title") + s" - ${messages("site.service_name")}"
           }
         }
 
@@ -68,8 +69,8 @@ trait ViewBehaviours extends ViewSpecBase {
 
         "display accessibility footer link" in {
           val link = asDocument(view).select("#footer > div  > a")
-          link.attr("href") mustBe frontendAppConfig.manageIprAccessibilityUrl
-          link.text mustBe messages("accessibilityStatement.footerUrl.text")
+          link.attr("href") shouldBe frontendAppConfig.manageIprAccessibilityUrl
+          link.text         shouldBe messages("accessibilityStatement.footerUrl.text")
         }
 
         "not display language toggles" in {
@@ -97,16 +98,16 @@ trait ViewBehaviours extends ViewSpecBase {
           val title = doc.getElementsByTag("title").first.text
 
           if (argsUsedInBrowserTitle) {
-            title mustEqual messages(s"$messageKeyPrefix.title", args: _*) + s" - ${messages("site.service_name")}"
+            title shouldBe messages(s"$messageKeyPrefix.title", args: _*) + s" - ${messages("site.service_name")}"
           } else {
-            title mustEqual messages(s"$messageKeyPrefix.title") + s" - ${messages("site.service_name")}"
+            title shouldBe messages(s"$messageKeyPrefix.title") + s" - ${messages("site.service_name")}"
           }
         }
 
         "display accessibility footer link" in {
           val link = asDocument(view).select("footer > div > div > div > div > ul > li:nth-of-type(1) > a")
-          link.attr("href") mustBe appConfig.manageIprAccessibilityUrl
-          link.text mustBe messages("accessibilityStatement.footerUrl.text")
+          link.attr("href") shouldBe appConfig.manageIprAccessibilityUrl
+          link.text         shouldBe messages("accessibilityStatement.footerUrl.text")
         }
 
         "display the correct page heading" in {
@@ -151,9 +152,9 @@ trait ViewBehaviours extends ViewSpecBase {
       val doc     = asDocument(view)
       val buttons = doc.getElementsByClass("button")
 
-      buttons.size() mustEqual 1
+      buttons.size() shouldBe 1
 
-      buttons.first().text mustEqual messages(messageKey)
+      buttons.first().text shouldBe messages(messageKey)
 
     }
 
@@ -161,7 +162,7 @@ trait ViewBehaviours extends ViewSpecBase {
       val doc     = asDocument(view)
       val buttons = doc.getElementsByClass("button")
 
-      buttons.first().attr("href") mustEqual linkUrl
+      buttons.first().attr("href") shouldBe linkUrl
     }
   }
 
@@ -172,13 +173,13 @@ trait ViewBehaviours extends ViewSpecBase {
 
     "display a single button link with the correct message" in {
 
-      buttons.size() mustEqual 1
-      buttons.first().text mustEqual messages(messageKey)
+      buttons.size()       shouldBe 1
+      buttons.first().text shouldBe messages(messageKey)
     }
 
     "display a button with the correct navigation link" in {
 
-      buttons.first().attr("href") mustEqual linkUrl
+      buttons.first().attr("href") shouldBe linkUrl
     }
   }
 
@@ -189,9 +190,9 @@ trait ViewBehaviours extends ViewSpecBase {
 
       val homeLink = doc.getElementById("manage-applications-home")
 
-      homeLink.text mustEqual messages("goToManageApplicationsHome")
+      homeLink.text shouldBe messages("goToManageApplicationsHome")
 
-      homeLink.attr("href") mustEqual injectInstanceOf[FrontendAppConfig]().manageIprHomeUrl
+      homeLink.attr("href") shouldBe injectInstanceOf[FrontendAppConfig]().manageIprHomeUrl
     }
 
   def pageWithSubmitButtonAndGoHomeLink(view: HtmlFormat.Appendable): Unit = {
@@ -201,7 +202,7 @@ trait ViewBehaviours extends ViewSpecBase {
       val doc             = asDocument(view)
       val button: Element = doc.getElementById("submit")
 
-      button.text mustEqual messages("site.continue")
+      button.text shouldBe messages("site.continue")
 
     }
 
@@ -222,7 +223,7 @@ trait ViewBehaviours extends ViewSpecBase {
       val doc     = asDocument(view)
       val buttons = doc.getElementsByClass("govuk-button")
 
-      buttons.first().text mustEqual "Save and continue"
+      buttons.first().text shouldBe "Save and continue"
 
     }
 
@@ -232,7 +233,7 @@ trait ViewBehaviours extends ViewSpecBase {
       val doc  = asDocument(view)
       val hint = doc.getElementsByClass("govuk-hint")
 
-      hint.text mustEqual messages(hintText)
+      hint.text shouldBe messages(hintText)
 
     }
 

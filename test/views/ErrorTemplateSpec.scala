@@ -17,7 +17,7 @@
 package views
 
 import org.jsoup.Jsoup
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.test.FakeRequest
 import views.html.ErrorTemplate
 import org.scalatest.matchers.should.Matchers
@@ -29,13 +29,16 @@ class ErrorTemplateSpec extends AnyWordSpec with Matchers with GuiceOneAppPerTes
   "ErrorTemplate view" should {
 
     "render the correct title, heading and message" in {
-      val view     = app.injector.instanceOf[ErrorTemplate]
-      val messages = app.injector.instanceOf[MessagesApi].preferred(FakeRequest())
+      val view               = app.injector.instanceOf[ErrorTemplate]
+      val messages: Messages =
+        app.injector.instanceOf[MessagesApi].preferred(FakeRequest())
 
       implicit val request = FakeRequest()
       implicit val msg     = messages
 
-      val doc = Jsoup.parse(view("Error Page", "Oops!", "Something went wrong").body)
+      val doc = Jsoup.parse(
+        view("Error Page", "Oops!", "Something went wrong")(msg, request).body
+      )
 
       doc.title()             shouldBe "Error Page - Protect intellectual property rights"
       doc.select("h1").text() shouldBe "Oops!"

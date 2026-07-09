@@ -35,7 +35,7 @@ class RepresentativeContactUkAddressPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(IsRepresentativeContactUkBasedPage, true).success.value
 
-        RepresentativeContactUkAddressPage.isRequired(answers).value mustEqual true
+        RepresentativeContactUkAddressPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -44,7 +44,7 @@ class RepresentativeContactUkAddressPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(IsRepresentativeContactUkBasedPage, false).success.value
 
-        RepresentativeContactUkAddressPage.isRequired(answers).value mustEqual false
+        RepresentativeContactUkAddressPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -53,7 +53,7 @@ class RepresentativeContactUkAddressPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.remove(IsRepresentativeContactUkBasedPage).success.value
 
-        RepresentativeContactUkAddressPage.isRequired(answers) must not be defined
+        RepresentativeContactUkAddressPage.isRequired(answers) should not be defined
       }
     }
   }

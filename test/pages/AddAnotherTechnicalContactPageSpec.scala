@@ -59,10 +59,10 @@ class AddAnotherTechnicalContactPageSpec extends PageBehaviours {
 
       val result = answers.set(AddAnotherTechnicalContactPage, false).success.value
 
-      result.get(WhoIsSecondaryTechnicalContactPage)                must not be defined
-      result.get(IsSecondaryTechnicalContactUkBasedPage)            must not be defined
-      result.get(SecondaryTechnicalContactUkAddressPage)            must not be defined
-      result.get(SecondaryTechnicalContactInternationalAddressPage) must not be defined
+      result.get(WhoIsSecondaryTechnicalContactPage)                should not be defined
+      result.get(IsSecondaryTechnicalContactUkBasedPage)            should not be defined
+      result.get(SecondaryTechnicalContactUkAddressPage)            should not be defined
+      result.get(SecondaryTechnicalContactInternationalAddressPage) should not be defined
     }
   }
 
@@ -92,10 +92,10 @@ class AddAnotherTechnicalContactPageSpec extends PageBehaviours {
 
       val result = answers.set(AddAnotherTechnicalContactPage, true).success.value
 
-      result.get(WhoIsSecondaryTechnicalContactPage) mustBe defined
-      result.get(IsSecondaryTechnicalContactUkBasedPage) mustBe defined
-      result.get(SecondaryTechnicalContactUkAddressPage) mustBe defined
-      result.get(SecondaryTechnicalContactInternationalAddressPage) mustBe defined
+      result.get(WhoIsSecondaryTechnicalContactPage)                shouldBe defined
+      result.get(IsSecondaryTechnicalContactUkBasedPage)            shouldBe defined
+      result.get(SecondaryTechnicalContactUkAddressPage)            shouldBe defined
+      result.get(SecondaryTechnicalContactInternationalAddressPage) shouldBe defined
     }
   }
 }

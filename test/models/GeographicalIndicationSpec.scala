@@ -19,7 +19,7 @@ package models
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsSuccess, Json}
 
@@ -35,7 +35,7 @@ class GeographicalIndicationSpec extends AnyFreeSpec with Matchers with ScalaChe
           "description" -> description
         )
 
-        json.validate[GeographicalIndication] mustEqual JsSuccess(GeographicalIndication(description))
+        json.validate[GeographicalIndication] shouldBe JsSuccess(GeographicalIndication(description))
       }
     }
 
@@ -49,7 +49,7 @@ class GeographicalIndicationSpec extends AnyFreeSpec with Matchers with ScalaChe
             "description" -> description
           )
 
-          json.validate[GeographicalIndication] mustEqual JsError(
+          json.validate[GeographicalIndication] shouldBe JsError(
             "rightsType must be `geographicalIndication`"
           )
         }

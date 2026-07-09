@@ -43,7 +43,7 @@ class IsRepresentativeContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsRepresentativeContactUkBasedPage, false).success.value
 
-        result.get(RepresentativeContactUkAddressPage) mustNot be(defined)
+        result.get(RepresentativeContactUkAddressPage) should not be defined
       }
     }
 
@@ -58,7 +58,7 @@ class IsRepresentativeContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsRepresentativeContactUkBasedPage, true).success.value
 
-        result.get(RepresentativeContactInternationalAddressPage) mustNot be(defined)
+        result.get(RepresentativeContactInternationalAddressPage) should not be defined
       }
     }
   }

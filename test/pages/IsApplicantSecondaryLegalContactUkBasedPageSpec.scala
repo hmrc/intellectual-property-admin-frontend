@@ -39,7 +39,7 @@ class IsApplicantSecondaryLegalContactUkBasedPageSpec extends PageBehaviours {
             .success
             .value
 
-        IsApplicantSecondaryLegalContactUkBasedPage.isRequired(answers).value mustEqual true
+        IsApplicantSecondaryLegalContactUkBasedPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -52,7 +52,7 @@ class IsApplicantSecondaryLegalContactUkBasedPageSpec extends PageBehaviours {
             .success
             .value
 
-        IsApplicantSecondaryLegalContactUkBasedPage.isRequired(answers).value mustEqual false
+        IsApplicantSecondaryLegalContactUkBasedPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -67,7 +67,7 @@ class IsApplicantSecondaryLegalContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsApplicantSecondaryLegalContactUkBasedPage, false).success.value
 
-        result.get(ApplicantSecondaryLegalContactUkAddressPage) mustNot be(defined)
+        result.get(ApplicantSecondaryLegalContactUkAddressPage) should not be defined
       }
     }
 
@@ -82,7 +82,7 @@ class IsApplicantSecondaryLegalContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsApplicantSecondaryLegalContactUkBasedPage, true).success.value
 
-        result.get(ApplicantSecondaryLegalContactInternationalAddressPage) mustNot be(defined)
+        result.get(ApplicantSecondaryLegalContactInternationalAddressPage) should not be defined
       }
     }
 
@@ -97,7 +97,7 @@ class IsApplicantSecondaryLegalContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsApplicantSecondaryLegalContactUkBasedPage, false).success.value
 
-        result.get(ApplicantSecondaryLegalContactUkAddressPage) mustNot be(defined)
+        result.get(ApplicantSecondaryLegalContactUkAddressPage) should not be defined
       }
     }
 

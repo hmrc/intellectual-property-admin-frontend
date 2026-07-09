@@ -14,13 +14,11 @@
  * limitations under the License.
  *@
 
-@import controllers.routes._
 @import models.Mode
 
 @this(
     layout: Layout,
     formHelper: FormWithCSRF,
-    backLink: designsystembasedcomponents.backLink,
     errorSummary: designsystembasedcomponents.errorSummary,
     afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
     heading1: designsystembasedcomponents.heading1,
@@ -35,7 +33,7 @@
     pageTitle = Some(s"${errorPrefix(form)} ${messages("isRepresentativeContactLegalContact.title",
     representativeContactName)}")) {
 
-    @formHelper(action = IsRepresentativeContactLegalContactController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
+    @formHelper(action = routes.IsRepresentativeContactLegalContactController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors, Some("value-yes"))
 

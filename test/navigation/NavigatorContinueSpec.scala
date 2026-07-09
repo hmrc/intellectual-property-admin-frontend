@@ -21,7 +21,7 @@ import generators.Generators
 import models._
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.{OptionValues, TryValues}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
@@ -251,7 +251,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(ApplicationReceiptDatePage).success.value
 
-        navigator.continue(answers) mustEqual routes.ApplicationReceiptDateController.onPageLoad(NormalMode, answers.id)
+        navigator.continue(answers) shouldBe routes.ApplicationReceiptDateController.onPageLoad(NormalMode, answers.id)
       }
     }
 
@@ -261,7 +261,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(AdditionalInfoProvidedPage).success.value
 
-        navigator.continue(answers) mustEqual routes.AdditionalInfoProvidedController.onPageLoad(NormalMode, answers.id)
+        navigator.continue(answers) shouldBe routes.AdditionalInfoProvidedController.onPageLoad(NormalMode, answers.id)
       }
     }
 
@@ -271,7 +271,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(PermissionToDestroySmallConsignmentsPage).success.value
 
-        navigator.continue(answers) mustEqual routes.PermissionToDestroySmallConsignmentsController
+        navigator.continue(answers) shouldBe routes.PermissionToDestroySmallConsignmentsController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -282,7 +282,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IsExOfficioPage).success.value
 
-        navigator.continue(answers) mustEqual routes.IsExOfficioController.onPageLoad(NormalMode, answers.id)
+        navigator.continue(answers) shouldBe routes.IsExOfficioController.onPageLoad(NormalMode, answers.id)
       }
     }
 
@@ -299,7 +299,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.WantsOneYearRightsProtectionController
+        navigator.continue(answers) shouldBe routes.WantsOneYearRightsProtectionController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -310,7 +310,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(CompanyApplyingPage).success.value
 
-        navigator.continue(answers) mustEqual routes.CompanyApplyingController.onPageLoad(NormalMode, answers.id)
+        navigator.continue(answers) shouldBe routes.CompanyApplyingController.onPageLoad(NormalMode, answers.id)
       }
 
       "when Is Ex-officio is `false`, Wants One Year Protection is unanswered and this question is unanswered" in {
@@ -327,7 +327,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.CompanyApplyingController.onPageLoad(NormalMode, answers.id)
+        navigator.continue(answers) shouldBe routes.CompanyApplyingController.onPageLoad(NormalMode, answers.id)
       }
     }
 
@@ -337,7 +337,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(CompanyApplyingIsRightsHolderPage).success.value
 
-        navigator.continue(answers) mustEqual routes.CompanyApplyingIsRightsHolderController
+        navigator.continue(answers) shouldBe routes.CompanyApplyingIsRightsHolderController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -348,7 +348,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(RepresentativeDetailsPage).success.value
 
-        navigator.continue(answers) mustEqual routes.RepresentativeContactController.onPageLoad(NormalMode, answers.id)
+        navigator.continue(answers) shouldBe routes.RepresentativeContactController.onPageLoad(NormalMode, answers.id)
       }
     }
 
@@ -358,7 +358,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IsRepresentativeContactUkBasedPage).success.value
 
-        navigator.continue(answers) mustEqual routes.IsRepresentativeContactUkBasedController
+        navigator.continue(answers) shouldBe routes.IsRepresentativeContactUkBasedController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -376,7 +376,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.RepresentativeContactUkAddressController
+        navigator.continue(answers) shouldBe routes.RepresentativeContactUkAddressController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -394,7 +394,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.RepresentativeContactInternationalAddressController
+        navigator.continue(answers) shouldBe routes.RepresentativeContactInternationalAddressController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -412,7 +412,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.IsRepresentativeContactLegalContactController
+        navigator.continue(answers) shouldBe routes.IsRepresentativeContactLegalContactController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -423,7 +423,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(ApplicantLegalContactPage).success.value
 
-        navigator.continue(answers) mustEqual routes.ApplicantLegalContactController.onPageLoad(NormalMode, answers.id)
+        navigator.continue(answers) shouldBe routes.ApplicantLegalContactController.onPageLoad(NormalMode, answers.id)
       }
     }
 
@@ -433,7 +433,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IsApplicantLegalContactUkBasedPage).success.value
 
-        navigator.continue(answers) mustEqual routes.IsApplicantLegalContactUkBasedController
+        navigator.continue(answers) shouldBe routes.IsApplicantLegalContactUkBasedController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -451,7 +451,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.ApplicantLegalContactUkAddressController
+        navigator.continue(answers) shouldBe routes.ApplicantLegalContactUkAddressController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -466,7 +466,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.ApplicantLegalContactInternationalAddressController
+        navigator.continue(answers) shouldBe routes.ApplicantLegalContactInternationalAddressController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -481,7 +481,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.AddAnotherLegalContactController.onPageLoad(NormalMode, answers.id)
+        navigator.continue(answers) shouldBe routes.AddAnotherLegalContactController.onPageLoad(NormalMode, answers.id)
       }
     }
 
@@ -495,7 +495,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.WhoIsSecondaryLegalContactController
+        navigator.continue(answers) shouldBe routes.WhoIsSecondaryLegalContactController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -510,7 +510,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.IsApplicantSecondaryLegalContactUkBasedController
+        navigator.continue(answers) shouldBe routes.IsApplicantSecondaryLegalContactUkBasedController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -525,7 +525,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.ApplicantSecondaryLegalContactUkAddressController
+        navigator.continue(answers) shouldBe routes.ApplicantSecondaryLegalContactUkAddressController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -540,7 +540,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.ApplicantSecondaryLegalContactInternationalAddressController
+        navigator.continue(answers) shouldBe routes.ApplicantSecondaryLegalContactInternationalAddressController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -555,7 +555,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.SelectTechnicalContactController.onPageLoad(NormalMode, answers.id)
+        navigator.continue(answers) shouldBe routes.SelectTechnicalContactController.onPageLoad(NormalMode, answers.id)
       }
     }
 
@@ -569,7 +569,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.WhoIsTechnicalContactController.onPageLoad(NormalMode, answers.id)
+        navigator.continue(answers) shouldBe routes.WhoIsTechnicalContactController.onPageLoad(NormalMode, answers.id)
       }
     }
 
@@ -583,7 +583,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.IsTechnicalContactUkBasedController
+        navigator.continue(answers) shouldBe routes.IsTechnicalContactUkBasedController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -601,7 +601,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.TechnicalContactUkAddressController
+        navigator.continue(answers) shouldBe routes.TechnicalContactUkAddressController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -619,7 +619,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.TechnicalContactInternationalAddressController
+        navigator.continue(answers) shouldBe routes.TechnicalContactInternationalAddressController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -634,7 +634,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.AddAnotherTechnicalContactController
+        navigator.continue(answers) shouldBe routes.AddAnotherTechnicalContactController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -649,7 +649,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.SelectOtherTechnicalContactController
+        navigator.continue(answers) shouldBe routes.SelectOtherTechnicalContactController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -664,7 +664,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.WhoIsSecondaryTechnicalContactController
+        navigator.continue(answers) shouldBe routes.WhoIsSecondaryTechnicalContactController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -679,7 +679,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.IsSecondaryTechnicalContactUkBasedController
+        navigator.continue(answers) shouldBe routes.IsSecondaryTechnicalContactUkBasedController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -697,7 +697,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.SecondaryTechnicalContactUkAddressController
+        navigator.continue(answers) shouldBe routes.SecondaryTechnicalContactUkAddressController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -715,7 +715,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.SecondaryTechnicalContactInternationalAddressController
+        navigator.continue(answers) shouldBe routes.SecondaryTechnicalContactInternationalAddressController
           .onPageLoad(NormalMode, answers.id)
       }
     }
@@ -724,7 +724,7 @@ class NavigatorContinueSpec
 
       "when there are no IP rights" in {
 
-        navigator.continue(afaWithoutRights) mustEqual routes.IpRightsTypeController
+        navigator.continue(afaWithoutRights) shouldBe routes.IpRightsTypeController
           .onPageLoad(NormalMode, 0, afaWithoutRights.id)
       }
 
@@ -734,7 +734,7 @@ class NavigatorContinueSpec
           .success
           .value
 
-        navigator.continue(x) mustEqual routes.IpRightsTypeController.onPageLoad(NormalMode, 0, afaWithoutRights.id)
+        navigator.continue(x) shouldBe routes.IpRightsTypeController.onPageLoad(NormalMode, 0, afaWithoutRights.id)
       }
     }
 
@@ -744,7 +744,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsDescriptionPage(0)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsDescriptionController.onPageLoad(NormalMode, 0, answers.id)
+        navigator.continue(answers) shouldBe routes.IpRightsDescriptionController.onPageLoad(NormalMode, 0, answers.id)
       }
     }
 
@@ -754,7 +754,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsRegistrationNumberPage(1)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsRegistrationNumberController
+        navigator.continue(answers) shouldBe routes.IpRightsRegistrationNumberController
           .onPageLoad(NormalMode, 1, answers.id)
       }
     }
@@ -765,7 +765,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsRegistrationEndPage(1)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsRegistrationEndController
+        navigator.continue(answers) shouldBe routes.IpRightsRegistrationEndController
           .onPageLoad(NormalMode, 1, answers.id)
       }
     }
@@ -780,7 +780,7 @@ class NavigatorContinueSpec
             .success
             .value
 
-        navigator.continue(answers) mustEqual routes.IpRightsDescriptionWithBrandController
+        navigator.continue(answers) shouldBe routes.IpRightsDescriptionWithBrandController
           .onPageLoad(NormalMode, 1, answers.id)
       }
     }
@@ -791,7 +791,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(pages.IpRightsNiceClassPage(1, 0)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsNiceClassController
+        navigator.continue(answers) shouldBe routes.IpRightsNiceClassController
           .onPageLoad(NormalMode, 1, 0, answers.id)
       }
     }
@@ -802,7 +802,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsRegistrationNumberPage(2)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsRegistrationNumberController
+        navigator.continue(answers) shouldBe routes.IpRightsRegistrationNumberController
           .onPageLoad(NormalMode, 2, answers.id)
       }
     }
@@ -813,7 +813,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsRegistrationEndPage(2)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsRegistrationEndController
+        navigator.continue(answers) shouldBe routes.IpRightsRegistrationEndController
           .onPageLoad(NormalMode, 2, answers.id)
       }
     }
@@ -824,7 +824,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsDescriptionPage(2)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsDescriptionController.onPageLoad(NormalMode, 2, answers.id)
+        navigator.continue(answers) shouldBe routes.IpRightsDescriptionController.onPageLoad(NormalMode, 2, answers.id)
       }
     }
 
@@ -834,7 +834,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsRegistrationNumberPage(3)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsRegistrationNumberController
+        navigator.continue(answers) shouldBe routes.IpRightsRegistrationNumberController
           .onPageLoad(NormalMode, 3, answers.id)
       }
     }
@@ -845,7 +845,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsRegistrationEndPage(3)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsRegistrationEndController
+        navigator.continue(answers) shouldBe routes.IpRightsRegistrationEndController
           .onPageLoad(NormalMode, 3, answers.id)
       }
     }
@@ -856,7 +856,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsDescriptionPage(3)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsDescriptionController.onPageLoad(NormalMode, 3, answers.id)
+        navigator.continue(answers) shouldBe routes.IpRightsDescriptionController.onPageLoad(NormalMode, 3, answers.id)
       }
     }
 
@@ -866,7 +866,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsDescriptionPage(4)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsDescriptionController.onPageLoad(NormalMode, 4, answers.id)
+        navigator.continue(answers) shouldBe routes.IpRightsDescriptionController.onPageLoad(NormalMode, 4, answers.id)
       }
     }
 
@@ -876,7 +876,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsDescriptionPage(5)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsDescriptionController.onPageLoad(NormalMode, 5, answers.id)
+        navigator.continue(answers) shouldBe routes.IpRightsDescriptionController.onPageLoad(NormalMode, 5, answers.id)
       }
     }
 
@@ -886,7 +886,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsDescriptionPage(6)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsDescriptionController.onPageLoad(NormalMode, 6, answers.id)
+        navigator.continue(answers) shouldBe routes.IpRightsDescriptionController.onPageLoad(NormalMode, 6, answers.id)
       }
     }
 
@@ -896,7 +896,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsSupplementaryProtectionCertificateTypePage(7)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsSupplementaryProtectionCertificateTypeController
+        navigator.continue(answers) shouldBe routes.IpRightsSupplementaryProtectionCertificateTypeController
           .onPageLoad(NormalMode, 7, answers.id)
       }
     }
@@ -907,7 +907,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsRegistrationNumberPage(7)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsRegistrationNumberController
+        navigator.continue(answers) shouldBe routes.IpRightsRegistrationNumberController
           .onPageLoad(NormalMode, 7, answers.id)
       }
     }
@@ -918,7 +918,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsRegistrationEndPage(7)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsRegistrationEndController
+        navigator.continue(answers) shouldBe routes.IpRightsRegistrationEndController
           .onPageLoad(NormalMode, 7, answers.id)
       }
     }
@@ -929,7 +929,7 @@ class NavigatorContinueSpec
 
         val answers = completeAfa.remove(IpRightsDescriptionPage(7)).success.value
 
-        navigator.continue(answers) mustEqual routes.IpRightsDescriptionController.onPageLoad(NormalMode, 7, answers.id)
+        navigator.continue(answers) shouldBe routes.IpRightsDescriptionController.onPageLoad(NormalMode, 7, answers.id)
       }
     }
   }
@@ -939,7 +939,7 @@ class NavigatorContinueSpec
 
       val answers = completeAfa.remove(RestrictedHandlingPage).success.value
 
-      navigator.continue(answers) mustEqual routes.RestrictedHandlingController.onPageLoad(NormalMode, answers.id)
+      navigator.continue(answers) shouldBe routes.RestrictedHandlingController.onPageLoad(NormalMode, answers.id)
     }
   }
 }

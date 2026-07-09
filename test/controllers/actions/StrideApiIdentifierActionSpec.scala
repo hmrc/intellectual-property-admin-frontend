@@ -19,7 +19,7 @@ package controllers.actions
 import base.SpecBase
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers.shouldBe
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.Configuration
@@ -32,12 +32,7 @@ import uk.gov.hmrc.auth.core.retrieve.{Credentials, Name, ~}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class StrideApiIdentifierActionSpec
-    extends SpecBase
-    with Matchers
-    with GuiceOneAppPerSuite
-    with Injecting
-    with MockitoSugar {
+class StrideApiIdentifierActionSpec extends SpecBase with GuiceOneAppPerSuite with Injecting with MockitoSugar {
 
   class Harness(authAction: ApiIdentifierAction) {
     def onPageLoad(): Action[AnyContent] = authAction(_ => Results.Ok)
@@ -65,7 +60,7 @@ class StrideApiIdentifierActionSpec
         val controller = new Harness(authAction)
         val result     = controller.onPageLoad()(FakeRequest())
 
-        status(result) mustBe OK
+        status(result) shouldBe OK
       }
     }
 
@@ -89,7 +84,7 @@ class StrideApiIdentifierActionSpec
         val controller = new Harness(authAction)
         val result     = controller.onPageLoad()(FakeRequest())
 
-        status(result) mustBe UNAUTHORIZED
+        status(result) shouldBe UNAUTHORIZED
       }
     }
 
@@ -105,7 +100,7 @@ class StrideApiIdentifierActionSpec
         val controller = new Harness(authAction)
         val result     = controller.onPageLoad()(FakeRequest())
 
-        status(result) mustBe UNAUTHORIZED
+        status(result) shouldBe UNAUTHORIZED
       }
     }
 
@@ -121,7 +116,7 @@ class StrideApiIdentifierActionSpec
         val controller = new Harness(authAction)
         val result     = controller.onPageLoad()(FakeRequest())
 
-        status(result) mustBe UNAUTHORIZED
+        status(result) shouldBe UNAUTHORIZED
       }
     }
 
@@ -137,7 +132,7 @@ class StrideApiIdentifierActionSpec
         val controller = new Harness(authAction)
         val result     = controller.onPageLoad()(FakeRequest())
 
-        status(result) mustBe UNAUTHORIZED
+        status(result) shouldBe UNAUTHORIZED
       }
     }
   }

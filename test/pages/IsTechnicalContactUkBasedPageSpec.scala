@@ -43,7 +43,7 @@ class IsTechnicalContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsTechnicalContactUkBasedPage, false).success.value
 
-        result.get(TechnicalContactUkAddressPage) mustNot be(defined)
+        result.get(TechnicalContactUkAddressPage) should not be defined
       }
     }
 
@@ -58,7 +58,7 @@ class IsTechnicalContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsTechnicalContactUkBasedPage, true).success.value
 
-        result.get(TechnicalContactInternationalAddressPage) mustNot be(defined)
+        result.get(TechnicalContactInternationalAddressPage) should not be defined
       }
     }
   }

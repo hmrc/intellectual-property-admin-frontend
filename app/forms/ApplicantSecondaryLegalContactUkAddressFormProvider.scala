@@ -58,6 +58,6 @@ class ApplicantSecondaryLegalContactUkAddressFormProvider @Inject() extends Mapp
         text("applicantSecondaryLegalContactUkAddress.error.postCode.required")
           .verifying(maxLength(postcodeMaxLength, "applicantSecondaryLegalContactUkAddress.error.postCode.length"))
           .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "applicantSecondaryLegalContactUkAddress.postCode"))
-    )(UkAddress.apply)(UkAddress.unapply)
+    )(UkAddress.apply)((ua: UkAddress) => Some((ua.line1, ua.line2, ua.town, ua.county, ua.postCode)))
   )
 }

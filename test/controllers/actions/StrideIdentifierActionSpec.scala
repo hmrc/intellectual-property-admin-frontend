@@ -33,7 +33,12 @@ import scala.concurrent.{ExecutionContext, Future}
 class AuthActionSpec extends SpecBase {
 
   class Harness(authAction: IdentifierAction) {
-    def onPageLoad() = authAction(_ => Results.Ok)
+
+    def onPageLoad() =
+      authAction.async { request =>
+        Future.successful(Results.Ok)
+      }
+
   }
 
   "Stride Identifier Action" when {

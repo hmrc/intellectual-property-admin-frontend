@@ -18,7 +18,7 @@ package models
 
 import org.scalatest.EitherValues
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import play.api.libs.json.{JsError, JsString, JsSuccess, Json}
 import play.api.mvc.PathBindable
 
@@ -29,59 +29,59 @@ class RegionSpec extends AnyFreeSpec with Matchers with EitherValues {
     val bindable = implicitly[PathBindable[Region]]
 
     "must bind England And Wales from a url" in {
-      bindable.bind("", "england-and-wales") mustBe Right(Region.EnglandAndWales)
+      bindable.bind("", "england-and-wales") shouldBe Right(Region.EnglandAndWales)
     }
 
     "must bind Scotland from a url" in {
-      bindable.bind("", "scotland") mustBe Right(Region.Scotland)
+      bindable.bind("", "scotland") shouldBe Right(Region.Scotland)
     }
 
     "must bind Northern Ireland from a url" in {
-      bindable.bind("", "northern-ireland") mustBe Right(Region.NorthernIreland)
+      bindable.bind("", "northern-ireland") shouldBe Right(Region.NorthernIreland)
     }
 
     "must fail to bind an invalid string" in {
-      bindable.bind("", "asdfsdf").isLeft mustBe true
+      bindable.bind("", "asdfsdf").isLeft shouldBe true
     }
 
     "must unbind to england-and-wales" in {
-      bindable.unbind("", Region.EnglandAndWales) mustEqual "england-and-wales"
+      bindable.unbind("", Region.EnglandAndWales) shouldBe "england-and-wales"
     }
 
     "must unbind to scotland" in {
-      bindable.unbind("", Region.Scotland) mustEqual "scotland"
+      bindable.unbind("", Region.Scotland) shouldBe "scotland"
     }
 
     "must unbind to northern-ireland" in {
-      bindable.unbind("", Region.NorthernIreland) mustEqual "northern-ireland"
+      bindable.unbind("", Region.NorthernIreland) shouldBe "northern-ireland"
     }
 
     "must serialise to england-and-wales" in {
-      Json.toJson(Region.EnglandAndWales) mustEqual JsString("england-and-wales")
+      Json.toJson(Region.EnglandAndWales) shouldBe JsString("england-and-wales")
     }
 
     "must serialise to scotland" in {
-      Json.toJson(Region.Scotland) mustEqual JsString("scotland")
+      Json.toJson(Region.Scotland) shouldBe JsString("scotland")
     }
 
     "must serialise to northern-ireland" in {
-      Json.toJson(Region.NorthernIreland) mustEqual JsString("northern-ireland")
+      Json.toJson(Region.NorthernIreland) shouldBe JsString("northern-ireland")
     }
 
     "must deserialise from england-and-wales" in {
-      JsString("england-and-wales").validate[Region] mustEqual JsSuccess(Region.EnglandAndWales)
+      JsString("england-and-wales").validate[Region] shouldBe JsSuccess(Region.EnglandAndWales)
     }
 
     "must deserialise from scotland" in {
-      JsString("scotland").validate[Region] mustEqual JsSuccess(Region.Scotland)
+      JsString("scotland").validate[Region] shouldBe JsSuccess(Region.Scotland)
     }
 
     "must deserialise from northern-ireland" in {
-      JsString("northern-ireland").validate[Region] mustEqual JsSuccess(Region.NorthernIreland)
+      JsString("northern-ireland").validate[Region] shouldBe JsSuccess(Region.NorthernIreland)
     }
 
     "must fail to deserialise from an invalid string" in {
-      JsString("blah").validate[Region] mustBe a[JsError]
+      JsString("blah").validate[Region] shouldBe a[JsError]
     }
   }
 }

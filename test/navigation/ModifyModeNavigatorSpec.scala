@@ -22,7 +22,7 @@ import models._
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.{OptionValues, TryValues}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
@@ -53,7 +53,7 @@ class ModifyModeNavigatorSpec
       case object UnknownPage extends Page
 
       forAll(arbitrary[UserAnswers]) { userAnswers =>
-        navigator.nextPage(UnknownPage, ModifyMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad(
+        navigator.nextPage(UnknownPage, ModifyMode, userAnswers) shouldBe routes.CheckYourAnswersController.onPageLoad(
           userAnswers.id
         )
       }
@@ -82,7 +82,7 @@ class ModifyModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), ModifyMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+                .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
             }
           }
 
@@ -106,7 +106,7 @@ class ModifyModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), ModifyMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+                .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
 
@@ -136,7 +136,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsTypePage(0), ModifyMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
 
@@ -155,7 +155,7 @@ class ModifyModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), ModifyMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+                .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
       }
@@ -181,7 +181,7 @@ class ModifyModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsDescriptionController.onPageLoad(ModifyMode, 0, answers.id))
+                .shouldBe(routes.IpRightsDescriptionController.onPageLoad(ModifyMode, 0, answers.id))
             }
           }
 
@@ -205,7 +205,7 @@ class ModifyModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsDescriptionController.onPageLoad(ModifyMode, 0, answers.id))
+                .shouldBe(routes.IpRightsDescriptionController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }
@@ -236,7 +236,7 @@ class ModifyModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(ModifyMode, 0, answers.id))
+                .shouldBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }
@@ -258,7 +258,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsTypePage(0), ModifyMode, answers)
-              .mustBe(routes.IpRightsRegistrationNumberController.onPageLoad(ModifyMode, 0, answers.id))
+              .shouldBe(routes.IpRightsRegistrationNumberController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }
@@ -279,7 +279,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsTypePage(0), ModifyMode, answers)
-              .mustBe(
+              .shouldBe(
                 routes.IpRightsSupplementaryProtectionCertificateTypeController.onPageLoad(ModifyMode, 0, answers.id)
               )
           }
@@ -302,7 +302,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsSupplementaryProtectionCertificateTypePage(0), ModifyMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
       }
@@ -316,7 +316,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsSupplementaryProtectionCertificateTypePage(0), ModifyMode, answers)
-              .mustBe(routes.IpRightsRegistrationNumberController.onPageLoad(ModifyMode, 0, answers.id))
+              .shouldBe(routes.IpRightsRegistrationNumberController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }
@@ -335,7 +335,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsRegistrationNumberPage(0), ModifyMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
       }
@@ -349,7 +349,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsRegistrationNumberPage(0), ModifyMode, answers)
-              .mustBe(routes.IpRightsRegistrationEndController.onPageLoad(ModifyMode, 0, answers.id))
+              .shouldBe(routes.IpRightsRegistrationEndController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }
@@ -374,7 +374,7 @@ class ModifyModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, userAnswers.id))
+                .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, userAnswers.id))
           }
         }
 
@@ -395,7 +395,7 @@ class ModifyModeNavigatorSpec
 
                 navigator
                   .nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
-                  .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+                  .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
               }
           }
         }
@@ -417,7 +417,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
-              .mustBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(ModifyMode, 0, answers.id))
+              .shouldBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }
@@ -440,7 +440,7 @@ class ModifyModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsRegistrationEndPage(0), ModifyMode, answers)
-                .mustBe(routes.IpRightsDescriptionController.onPageLoad(ModifyMode, 0, answers.id))
+                .shouldBe(routes.IpRightsDescriptionController.onPageLoad(ModifyMode, 0, answers.id))
             }
           }
         }
@@ -460,7 +460,7 @@ class ModifyModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsDescriptionPage(0), ModifyMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+                .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
             }
           }
         }
@@ -479,7 +479,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsDescriptionPage(0), ModifyMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
       }
@@ -500,7 +500,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsDescriptionPage(0), ModifyMode, answers)
-              .mustBe(routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 0, answers.id))
+              .shouldBe(routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 0, answers.id))
           }
         }
       }
@@ -517,7 +517,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsDescriptionWithBrandPage(0), ModifyMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(NormalMode, 0, answers.id))
           }
         }
       }
@@ -538,7 +538,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsDescriptionWithBrandPage(0), ModifyMode, answers)
-              .mustBe(routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 0, answers.id))
+              .shouldBe(routes.IpRightsNiceClassController.onPageLoad(NormalMode, 0, 0, answers.id))
           }
         }
       }
@@ -556,7 +556,7 @@ class ModifyModeNavigatorSpec
 
           navigator
             .nextPage(AddIpRightPage, ModifyMode, answersWithIpRights)
-            .mustBe(routes.IpRightsTypeController.onPageLoad(ModifyMode, nextIpRightsIndex, answersWithIpRights.id))
+            .shouldBe(routes.IpRightsTypeController.onPageLoad(ModifyMode, nextIpRightsIndex, answersWithIpRights.id))
       }
     }
 
@@ -569,7 +569,7 @@ class ModifyModeNavigatorSpec
 
             navigator
               .nextPage(pages.RemoveIprPage, ModifyMode, answers)
-              .mustBe(routes.IpRightsTypeController.onPageLoad(ModifyMode, 0, answers.id))
+              .shouldBe(routes.IpRightsTypeController.onPageLoad(ModifyMode, 0, answers.id))
           }
         }
       }

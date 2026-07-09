@@ -44,7 +44,7 @@ class IpRightsRegistrationNumberPageSpec extends PageBehaviours {
         }
 
         extraAnswers.foreach { case (answer, i) =>
-          answers.get(IpRightsRegistrationNumberPage(i)).value mustEqual answer
+          answers.get(IpRightsRegistrationNumberPage(i)).value shouldBe answer
         }
       }
     }
@@ -58,7 +58,7 @@ class IpRightsRegistrationNumberPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers], rightsTypeGen) { (userAnswers, rightsType) =>
         val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-        IpRightsRegistrationNumberPage(0).isRequired(answers).value mustEqual true
+        IpRightsRegistrationNumberPage(0).isRequired(answers).value shouldBe true
       }
     }
 
@@ -71,7 +71,7 @@ class IpRightsRegistrationNumberPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers], rightsTypeGen) { (userAnswers, rightsType) =>
         val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-        IpRightsRegistrationNumberPage(0).isRequired(answers).value mustEqual false
+        IpRightsRegistrationNumberPage(0).isRequired(answers).value shouldBe false
       }
     }
 
@@ -80,7 +80,7 @@ class IpRightsRegistrationNumberPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.remove(IpRightsTypePage(0)).success.value
 
-        IpRightsRegistrationNumberPage(0).isRequired(answers) must not be defined
+        IpRightsRegistrationNumberPage(0).isRequired(answers) should not be defined
       }
     }
   }

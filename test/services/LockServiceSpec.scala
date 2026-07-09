@@ -24,7 +24,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.{BeforeAndAfterEach, OptionValues, TryValues}
 import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.http.HeaderCarrier
@@ -66,7 +66,7 @@ class LockServiceSpec
           Future.successful(Some(lock))
 
         val result = service.getExistingLock(afaId)
-        result.futureValue.value mustBe lock
+        result.futureValue.value shouldBe lock
         whenReady(result) { _ =>
           verify(lockConnector, times(1)).getExistingLock(eqTo(afaId))(any())
         }
@@ -82,7 +82,7 @@ class LockServiceSpec
         when(lockConnector.removeLock(afaId)) thenReturn Future.successful((): Unit)
 
         val result = service.removeLock(afaId)
-        result.futureValue mustBe {}
+        result.futureValue shouldBe {}
 
         whenReady(result) { _ =>
           verify(lockConnector, times(1)).removeLock(eqTo(afaId))(any())
@@ -102,7 +102,7 @@ class LockServiceSpec
           Future.successful(lockList)
 
         val result = service.lockList
-        result.futureValue mustBe lockList
+        result.futureValue shouldBe lockList
 
         whenReady(result) { _ =>
           verify(lockConnector, times(1)).lockList(any())
@@ -120,7 +120,7 @@ class LockServiceSpec
           Future.successful(true)
 
         val result = service.replaceLock(afaId)
-        result.futureValue mustBe true
+        result.futureValue shouldBe true
         whenReady(result) { _ =>
           verify(lockConnector, times(1)).replaceLock(eqTo(afaId))(any())
         }
@@ -137,7 +137,7 @@ class LockServiceSpec
           Future.successful(true)
 
         val result = service.lock(afaId)
-        result.futureValue mustBe true
+        result.futureValue shouldBe true
         whenReady(result) { _ =>
           verify(lockConnector, times(1)).lock(eqTo(afaId))(any())
         }

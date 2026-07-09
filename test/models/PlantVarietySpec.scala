@@ -19,7 +19,7 @@ package models
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsSuccess, Json}
 
@@ -35,7 +35,7 @@ class PlantVarietySpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
           "description" -> description
         )
 
-        json.validate[PlantVariety] mustEqual JsSuccess(PlantVariety(description))
+        json.validate[PlantVariety] shouldBe JsSuccess(PlantVariety(description))
       }
     }
 
@@ -49,7 +49,7 @@ class PlantVarietySpec extends AnyFreeSpec with Matchers with ScalaCheckProperty
             "description" -> description
           )
 
-          json.validate[PlantVariety] mustEqual JsError(
+          json.validate[PlantVariety] shouldBe JsError(
             "rightsType must be `plantVariety`"
           )
         }

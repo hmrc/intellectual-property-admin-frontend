@@ -16,7 +16,7 @@
 
 package forms.mappings
 
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.data.validation.{Invalid, Valid}
 
@@ -32,15 +32,15 @@ class EmailConstraintSpec extends AnyWordSpec with Matchers with EmailValidation
 
         val correctEmail = "name@example.com"
 
-        validateEmail.apply(correctEmail) mustEqual Valid
+        validateEmail.apply(correctEmail) shouldBe Valid
       }
 
       "email has 256 characters and follow correct pattern" in {
 
         val correctEmail = Random.alphanumeric.take(244).mkString("") + "@example.com"
 
-        correctEmail.length mustBe 256
-        validateEmail.apply(correctEmail) mustEqual Valid
+        correctEmail.length               shouldBe 256
+        validateEmail.apply(correctEmail) shouldBe Valid
       }
     }
 
@@ -50,15 +50,15 @@ class EmailConstraintSpec extends AnyWordSpec with Matchers with EmailValidation
 
         val incorrectEmail = Random.alphanumeric.take(245).mkString("") + "@example.com"
 
-        incorrectEmail.length mustBe 257
-        validateEmail.apply(incorrectEmail) mustEqual Invalid("email.length")
+        incorrectEmail.length               shouldBe 257
+        validateEmail.apply(incorrectEmail) shouldBe Invalid("email.length")
       }
 
       "email contains two @" in {
 
         val incorrectEmail = "name@example@.com"
 
-        validateEmail.apply(incorrectEmail) mustEqual Invalid("email.format")
+        validateEmail.apply(incorrectEmail) shouldBe Invalid("email.format")
       }
 
       "email doesn't contain @" in {
@@ -66,15 +66,15 @@ class EmailConstraintSpec extends AnyWordSpec with Matchers with EmailValidation
         val incorrectEmail  = "nameexample.com"
         val incorrectEmail2 = "incorrectEmail"
 
-        validateEmail.apply(incorrectEmail) mustEqual Invalid("email.format")
-        validateEmail.apply(incorrectEmail2) mustEqual Invalid("email.format")
+        validateEmail.apply(incorrectEmail)  shouldBe Invalid("email.format")
+        validateEmail.apply(incorrectEmail2) shouldBe Invalid("email.format")
       }
 
       "email is empty" in {
 
         val emptyEmail = ""
 
-        validateEmail.apply(emptyEmail) mustEqual Invalid("email.required")
+        validateEmail.apply(emptyEmail) shouldBe Invalid("email.required")
       }
     }
   }

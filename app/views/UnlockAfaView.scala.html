@@ -14,12 +14,9 @@
  * limitations under the License.
  *@
 
-@import controllers.routes._
-
 @this(
     layout: Layout,
     formHelper: FormWithCSRF,
-    backLink: designsystembasedcomponents.backLink,
     errorSummary: designsystembasedcomponents.errorSummary,
     inputRadiosYesNo: designsystembasedcomponents.inputRadiosYesNo,
     button: designsystembasedcomponents.button,
@@ -38,7 +35,7 @@
 
 @layout(pageTitle = Some(errorPrefix(form) + " " + title)) {
 
-    @formHelper(action = UnlockAfaController.onSubmit(afaId), Symbol("autoComplete") -> "off") {
+    @formHelper(action = routes.UnlockAfaController.onSubmit(afaId), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors, Some("value-yes"))
 

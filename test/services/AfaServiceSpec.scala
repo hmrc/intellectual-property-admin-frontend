@@ -27,7 +27,7 @@ import org.mockito.{ArgumentCaptor, Mockito}
 import org.scalacheck.Arbitrary._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.{BeforeAndAfterEach, OptionValues, TryValues}
 import org.scalatestplus.mockito.MockitoSugar
 import pages._
@@ -35,11 +35,9 @@ import play.api.libs.json.{JsObject, Json}
 import uk.gov.hmrc.http.HeaderCarrier
 
 import java.time.LocalDate
-import scala.annotation.nowarn
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-@nowarn("msg=not.*?exhaustive")
 class AfaServiceSpec
     extends AnyFreeSpec
     with Matchers
@@ -150,7 +148,7 @@ class AfaServiceSpec
           legalContactOtherPhone,
           legalContactEmail,
           legalContactAddress: UkAddress
-        ) = expectedRequest.legalContact
+        ) = expectedRequest.legalContact: @unchecked
 
         val Contact(
           techContactCompanyName,
@@ -159,7 +157,7 @@ class AfaServiceSpec
           _,
           techContactEmail,
           techContactAddress: UkAddress
-        ) = expectedRequest.technicalContact
+        ) = expectedRequest.technicalContact: @unchecked
 
         val RepresentativeContact(
           contactName,
@@ -169,7 +167,7 @@ class AfaServiceSpec
           email,
           address: UkAddress,
           Some(evidenceOfPowerToAct)
-        ) = expectedRequest.representativeContact
+        ) = expectedRequest.representativeContact: @unchecked
 
         val userAnswers = {
 
@@ -253,7 +251,7 @@ class AfaServiceSpec
 
           base.copy(data = json ++ base.data)
         }
-        service.canCreateAfa(userAnswers) mustBe false
+        service.canCreateAfa(userAnswers) shouldBe false
       }
     }
 
@@ -307,7 +305,7 @@ class AfaServiceSpec
         legalContactOtherPhone,
         legalContactEmail,
         legalContactAddress: UkAddress
-      ) = expectedRequest.legalContact
+      ) = expectedRequest.legalContact: @unchecked
 
       val Contact(
         techContactCompanyName,
@@ -316,7 +314,7 @@ class AfaServiceSpec
         _,
         techContactEmail,
         techContactAddress: UkAddress
-      ) = expectedRequest.technicalContact
+      ) = expectedRequest.technicalContact: @unchecked
 
       val RepresentativeContact(
         contactName,
@@ -326,7 +324,7 @@ class AfaServiceSpec
         email,
         address: UkAddress,
         Some(evidenceOfPowerToAct)
-      ) = expectedRequest.representativeContact
+      ) = expectedRequest.representativeContact: @unchecked
 
       val userAnswers = UserAnswers(expectedRequest.id)
         .set(ApplicationReceiptDatePage, afaReceiptDate)
@@ -453,7 +451,7 @@ class AfaServiceSpec
         when(contactsService.getSecondaryLegalContactDetails(any())).thenReturn(None)
         when(contactsService.getSecondaryTechnicalContactDetails(any())).thenReturn(None)
 
-        service.canCreateAfa(userAnswers) mustBe false
+        service.canCreateAfa(userAnswers) shouldBe false
       }
 
       "must submit data" in {
@@ -469,7 +467,7 @@ class AfaServiceSpec
         when(contactsService.getSecondaryTechnicalContactDetails(any())).thenReturn(None)
 
         whenReady(service.submit(userAnswers)) { _ =>
-          captorRequest.getValue mustEqual expectedRequest
+          captorRequest.getValue shouldBe expectedRequest
         }
       }
     }
@@ -518,7 +516,7 @@ class AfaServiceSpec
         legalContactOtherPhone,
         legalContactEmail,
         legalContactAddress: UkAddress
-      ) = expectedRequest.legalContact
+      ) = expectedRequest.legalContact: @unchecked
       val Contact(
         techContactCompanyName,
         techContactName,
@@ -526,7 +524,7 @@ class AfaServiceSpec
         _,
         techContactEmail,
         techContactAddress: UkAddress
-      ) = expectedRequest.technicalContact
+      ) = expectedRequest.technicalContact: @unchecked
       val RepresentativeContact(
         contactName,
         companyName,
@@ -535,7 +533,7 @@ class AfaServiceSpec
         email,
         address: UkAddress,
         Some(evidenceOfPowerToAct)
-      ) = expectedRequest.representativeContact
+      ) = expectedRequest.representativeContact: @unchecked
 
       val userAnswers = UserAnswers(expectedRequest.id)
         .set(ApplicationReceiptDatePage, afaReceiptDate)
@@ -665,7 +663,7 @@ class AfaServiceSpec
         when(contactsService.getSecondaryLegalContactDetails(any())).thenReturn(None)
         when(contactsService.getSecondaryTechnicalContactDetails(any())).thenReturn(None)
 
-        service.canCreateAfa(userAnswers) mustBe true
+        service.canCreateAfa(userAnswers) shouldBe true
       }
 
       "must submit data" in {
@@ -681,7 +679,7 @@ class AfaServiceSpec
         when(contactsService.getSecondaryTechnicalContactDetails(any())).thenReturn(None)
 
         whenReady(service.submit(userAnswers)) { _ =>
-          captorRequest.getValue mustEqual expectedRequest
+          captorRequest.getValue shouldBe expectedRequest
         }
       }
     }
@@ -730,7 +728,7 @@ class AfaServiceSpec
         legalContactOtherPhone,
         legalContactEmail,
         legalContactAddress: UkAddress
-      ) = expectedRequest.legalContact
+      ) = expectedRequest.legalContact: @unchecked
       val Contact(
         techContactCompanyName,
         techContactName,
@@ -738,7 +736,7 @@ class AfaServiceSpec
         _,
         techContactEmail,
         techContactAddress: UkAddress
-      ) = expectedRequest.technicalContact
+      ) = expectedRequest.technicalContact: @unchecked
       val RepresentativeContact(
         contactName,
         companyName,
@@ -747,7 +745,7 @@ class AfaServiceSpec
         email,
         address: UkAddress,
         Some(evidenceOfPowerToAct)
-      ) = expectedRequest.representativeContact
+      ) = expectedRequest.representativeContact: @unchecked
 
       val userAnswers = UserAnswers(expectedRequest.id)
         .set(ApplicationReceiptDatePage, afaReceiptDate)
@@ -845,7 +843,7 @@ class AfaServiceSpec
         when(contactsService.getLegalContactDetails(any())).thenReturn(Some(expectedRequest.legalContact))
         when(contactsService.getTechnicalContactDetails(any())).thenReturn(Some(expectedRequest.technicalContact))
 
-        service.canCreateAfa(userAnswers) mustBe true
+        service.canCreateAfa(userAnswers) shouldBe true
       }
 
       "must submit data" in {
@@ -861,7 +859,7 @@ class AfaServiceSpec
         when(contactsService.getSecondaryTechnicalContactDetails(any())).thenReturn(None)
 
         whenReady(service.submit(userAnswers)) { _ =>
-          captorRequest.getValue mustEqual expectedRequest
+          captorRequest.getValue shouldBe expectedRequest
         }
       }
     }
@@ -910,7 +908,7 @@ class AfaServiceSpec
         legalContactOtherPhone,
         legalContactEmail,
         legalContactAddress: UkAddress
-      ) = expectedRequest.legalContact
+      ) = expectedRequest.legalContact: @unchecked
       val Contact(
         techContactCompanyName,
         techContactName,
@@ -918,7 +916,7 @@ class AfaServiceSpec
         _,
         techContactEmail,
         techContactAddress: UkAddress
-      ) = expectedRequest.technicalContact
+      ) = expectedRequest.technicalContact: @unchecked
       val RepresentativeContact(
         contactName,
         companyName,
@@ -927,7 +925,7 @@ class AfaServiceSpec
         email,
         address: UkAddress,
         Some(evidenceOfPowerToAct)
-      ) = expectedRequest.representativeContact
+      ) = expectedRequest.representativeContact: @unchecked
 
       val userAnswers = UserAnswers(expectedRequest.id)
         .set(ApplicationReceiptDatePage, afaReceiptDate)
@@ -1025,7 +1023,7 @@ class AfaServiceSpec
         when(contactsService.getLegalContactDetails(any())).thenReturn(Some(expectedRequest.legalContact))
         when(contactsService.getTechnicalContactDetails(any())).thenReturn(Some(expectedRequest.technicalContact))
 
-        service.canCreateAfa(userAnswers) mustBe true
+        service.canCreateAfa(userAnswers) shouldBe true
       }
 
       "must submit data" in {
@@ -1041,7 +1039,7 @@ class AfaServiceSpec
         when(contactsService.getSecondaryTechnicalContactDetails(any())).thenReturn(None)
 
         whenReady(service.submit(userAnswers)) { _ =>
-          captorRequest.getValue mustEqual expectedRequest
+          captorRequest.getValue shouldBe expectedRequest
         }
       }
     }
@@ -1115,7 +1113,7 @@ class AfaServiceSpec
         legalContactOtherPhone,
         legalContactEmail,
         legalContactAddress: UkAddress
-      ) = expectedRequest.legalContact
+      ) = expectedRequest.legalContact: @unchecked
       val Contact(
         techContactCompanyName,
         techContactName,
@@ -1123,7 +1121,7 @@ class AfaServiceSpec
         _,
         techContactEmail,
         techContactAddress: UkAddress
-      ) = expectedRequest.technicalContact
+      ) = expectedRequest.technicalContact: @unchecked
       val RepresentativeContact(
         contactName,
         companyName,
@@ -1132,7 +1130,7 @@ class AfaServiceSpec
         email,
         address: UkAddress,
         Some(evidenceOfPowerToAct)
-      ) = expectedRequest.representativeContact
+      ) = expectedRequest.representativeContact: @unchecked
 
       val userAnswers = UserAnswers(expectedRequest.id)
         .set(ApplicationReceiptDatePage, arbitraryDate)
@@ -1331,7 +1329,7 @@ class AfaServiceSpec
         when(contactsService.getSecondaryLegalContactDetails(any())).thenReturn(None)
         when(contactsService.getSecondaryTechnicalContactDetails(any())).thenReturn(None)
 
-        service.canCreateAfa(userAnswers) mustBe true
+        service.canCreateAfa(userAnswers) shouldBe true
       }
 
       "the medicinal certificate type must save as medicinalProducts when submitting" in {
@@ -1347,7 +1345,7 @@ class AfaServiceSpec
         when(contactsService.getSecondaryTechnicalContactDetails(any())).thenReturn(None)
 
         whenReady(service.submit(userAnswers)) { _ =>
-          captorRequest.getValue.ipRights(8) mustEqual
+          captorRequest.getValue.ipRights(8) shouldBe
             SupplementaryProtectionCertificate(
               "medicinalProducts",
               "certificate number",
@@ -1370,7 +1368,7 @@ class AfaServiceSpec
         when(contactsService.getSecondaryTechnicalContactDetails(any())).thenReturn(None)
 
         whenReady(service.submit(userAnswers)) { _ =>
-          captorRequest.getValue mustEqual expectedRequest
+          captorRequest.getValue shouldBe expectedRequest
         }
       }
     }
@@ -1385,7 +1383,7 @@ class AfaServiceSpec
 
         val userAnswers = UserAnswers(userAnswersId)
 
-        service.canCreateAfa(userAnswers) mustBe false
+        service.canCreateAfa(userAnswers) shouldBe false
       }
     }
 
@@ -1453,7 +1451,7 @@ class AfaServiceSpec
           .success
           .value
 
-        service.canCreateAfa(userAnswers) mustBe false
+        service.canCreateAfa(userAnswers) shouldBe false
       }
     }
 
@@ -1512,7 +1510,7 @@ class AfaServiceSpec
           .success
           .value
 
-        service.canCreateAfa(userAnswers) mustBe false
+        service.canCreateAfa(userAnswers) shouldBe false
       }
     }
 
@@ -1525,7 +1523,7 @@ class AfaServiceSpec
         when(afaConnector.removeDraft(userAnswersBaseAfaId)) thenReturn Future.successful(Some(userAnswersBase))
 
         val result: Future[Option[UserAnswers]] = service.removeDraft(userAnswersBaseAfaId)
-        result.futureValue.value mustBe userAnswersBase
+        result.futureValue.value shouldBe userAnswersBase
 
         whenReady(result) { _ =>
           verify(afaConnector, times(1)).removeDraft(eqTo(userAnswersBaseAfaId))(any())
@@ -1551,7 +1549,7 @@ class AfaServiceSpec
         when(afaConnector.draftList(any())) thenReturn Future.successful(drafts)
 
         val result: Future[List[UserAnswers]] = service.draftList(any())
-        result.futureValue mustBe drafts
+        result.futureValue shouldBe drafts
 
         whenReady(result) { _ =>
           verify(afaConnector, times(1)).draftList(any())
@@ -1570,7 +1568,7 @@ class AfaServiceSpec
         when(afaConnector.getDraft(userAnswersBaseAfaId)) thenReturn Future.successful(Some(returnJson))
 
         val result = service.getDraft(userAnswersBaseAfaId)
-        result.futureValue.value mustBe userAnswersBase
+        result.futureValue.value shouldBe userAnswersBase
 
         whenReady(result) { _ =>
           verify(afaConnector, times(1)).getDraft(eqTo(userAnswersBaseAfaId))(any())
@@ -1587,7 +1585,7 @@ class AfaServiceSpec
         when(afaConnector.set(userAnswersBaseAfaId, userAnswersBase)) thenReturn Future.successful(true)
 
         val result = service.set(userAnswersBase)
-        result.futureValue mustBe true
+        result.futureValue shouldBe true
         whenReady(result) { _ =>
           verify(afaConnector, times(1)).set(eqTo(userAnswersBaseAfaId), eqTo(userAnswersBase))(any())
         }

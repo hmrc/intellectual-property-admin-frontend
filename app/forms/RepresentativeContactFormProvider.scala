@@ -51,6 +51,8 @@ class RepresentativeContactFormProvider @Inject() extends Mappings {
             regexpDynamic(rejectXssChars, regexErrorKey, "representativeContact.role.label.noOption")
           )
       )
-    )(RepresentativeDetails.apply)(RepresentativeDetails.unapply)
+    )(RepresentativeDetails.apply)((r: RepresentativeDetails) =>
+      Some(r.contactName, r.companyName, r.phone, r.email, r.roleOrPosition)
+    )
   )
 }

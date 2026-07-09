@@ -24,6 +24,7 @@ import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behavioursDesignSystem.TextInputViewBehaviours
 import views.html.WhoIsTechnicalContactView
+import org.scalatest.matchers.should.Matchers.shouldBe
 
 class WhoIsTechnicalContactViewSpec extends TextInputViewBehaviours[TechnicalContact] {
 
@@ -61,11 +62,11 @@ class WhoIsTechnicalContactViewSpec extends TextInputViewBehaviours[TechnicalCon
     implicit val doc: Document = asDocument(renderedView)
 
     "display the correct contact name field hint" in {
-      element("#contactName-hint").text() mustBe "For example, Jane Smith"
+      element("#contactName-hint").text() shouldBe "For example, Jane Smith"
     }
 
     "display the correct telephone number field hint" in {
-      element("#contactTelephone-hint").text() mustBe "For international numbers include the country code"
+      element("#contactTelephone-hint").text() shouldBe "For international numbers include the country code"
     }
   }
 }

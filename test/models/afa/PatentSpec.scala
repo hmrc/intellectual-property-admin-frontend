@@ -20,7 +20,7 @@ import generators.Generators
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsSuccess, Json}
 
@@ -43,7 +43,7 @@ class PatentSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks
             "description"        -> description
           )
 
-          json.validate[Patent] mustEqual JsSuccess(Patent(registrationNumber, registrationEnd, description))
+          json.validate[Patent] shouldBe JsSuccess(Patent(registrationNumber, registrationEnd, description))
       }
     }
 
@@ -60,7 +60,7 @@ class PatentSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks
               "description"        -> description
             )
 
-            json.validate[Patent] mustEqual JsError(
+            json.validate[Patent] shouldBe JsError(
               "rightsType must be `patent`"
             )
           }
@@ -78,7 +78,7 @@ class PatentSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks
             "description"        -> description
           )
 
-          Json.toJson(Patent(registrationNumber, registrationEnd, description))(Patent.writes) mustEqual json
+          Json.toJson(Patent(registrationNumber, registrationEnd, description))(Patent.writes) shouldBe json
       }
     }
   }

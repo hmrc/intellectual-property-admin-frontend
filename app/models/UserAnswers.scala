@@ -83,6 +83,6 @@ object UserAnswers {
       (__ \ "_id").write[AfaId] and
         (__ \ "data").write[JsObject] and
         (__ \ "lastUpdated").write(MongoDateTimeFormats.localDateTimeWrite)
-    )(unlift(UserAnswers.unapply))
+    )((ua: UserAnswers) => (ua.id, ua.data, ua.lastUpdated))
   }
 }

@@ -46,7 +46,7 @@ class IpRightsRegistrationEndPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers], rightsTypeGen) { (userAnswers, rightsType) =>
         val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-        IpRightsRegistrationEndPage(0).isRequired(answers).value mustEqual true
+        IpRightsRegistrationEndPage(0).isRequired(answers).value shouldBe true
       }
     }
 
@@ -59,7 +59,7 @@ class IpRightsRegistrationEndPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers], rightsTypeGen) { (userAnswers, rightsType) =>
         val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-        IpRightsRegistrationEndPage(0).isRequired(answers).value mustEqual false
+        IpRightsRegistrationEndPage(0).isRequired(answers).value shouldBe false
       }
     }
 
@@ -68,7 +68,7 @@ class IpRightsRegistrationEndPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.remove(IpRightsTypePage(0)).success.value
 
-        IpRightsRegistrationEndPage(0).isRequired(answers) must not be defined
+        IpRightsRegistrationEndPage(0).isRequired(answers) should not be defined
       }
     }
   }

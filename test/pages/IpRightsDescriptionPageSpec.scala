@@ -37,7 +37,7 @@ class IpRightsDescriptionPageSpec extends PageBehaviours {
 
           val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-          IpRightsDescriptionPage(0).isRequired(answers).value mustEqual true
+          IpRightsDescriptionPage(0).isRequired(answers).value shouldBe true
         }
       }
     }
@@ -51,7 +51,7 @@ class IpRightsDescriptionPageSpec extends PageBehaviours {
             .success
             .value
 
-        IpRightsDescriptionPage(0).isRequired(answers).value mustEqual false
+        IpRightsDescriptionPage(0).isRequired(answers).value shouldBe false
       }
     }
 
@@ -60,7 +60,7 @@ class IpRightsDescriptionPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.remove(IpRightsTypePage(0)).success.value
 
-        IpRightsDescriptionPage(0).isRequired(answers) must not be defined
+        IpRightsDescriptionPage(0).isRequired(answers) should not be defined
       }
     }
   }

@@ -22,7 +22,7 @@ import models._
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.{OptionValues, TryValues}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
@@ -53,7 +53,7 @@ class CheckModeNavigatorSpec
       case object UnknownPage extends Page
 
       forAll(arbitrary[UserAnswers]) { userAnswers =>
-        navigator.nextPage(UnknownPage, CheckMode, userAnswers) mustBe routes.CheckYourAnswersController.onPageLoad(
+        navigator.nextPage(UnknownPage, CheckMode, userAnswers) shouldBe routes.CheckYourAnswersController.onPageLoad(
           userAnswers.id
         )
       }
@@ -74,7 +74,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(AdditionalInfoProvidedPage, CheckMode, answers)
-            .mustBe(routes.RestrictedHandlingController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.RestrictedHandlingController.onPageLoad(CheckMode, answers.id))
         }
       }
 
@@ -87,7 +87,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(AdditionalInfoProvidedPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
 
@@ -105,7 +105,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(AdditionalInfoProvidedPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
       }
@@ -127,7 +127,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(IsExOfficioPage, CheckMode, answers)
-            .mustBe(routes.WantsOneYearRightsProtectionController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.WantsOneYearRightsProtectionController.onPageLoad(CheckMode, answers.id))
         }
       }
 
@@ -140,7 +140,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IsExOfficioPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
 
@@ -158,7 +158,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IsExOfficioPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
       }
@@ -182,7 +182,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IsRepresentativeContactUkBasedPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
 
@@ -200,7 +200,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IsRepresentativeContactUkBasedPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
       }
@@ -219,7 +219,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(IsRepresentativeContactUkBasedPage, CheckMode, answers)
-            .mustBe(routes.RepresentativeContactUkAddressController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.RepresentativeContactUkAddressController.onPageLoad(CheckMode, answers.id))
         }
       }
 
@@ -237,7 +237,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(IsRepresentativeContactUkBasedPage, CheckMode, answers)
-            .mustBe(routes.RepresentativeContactInternationalAddressController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.RepresentativeContactInternationalAddressController.onPageLoad(CheckMode, answers.id))
         }
       }
     }
@@ -266,7 +266,7 @@ class CheckModeNavigatorSpec
 
               navigator
                 .nextPage(IsRepresentativeContactLegalContactPage, CheckMode, answers)
-                .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+                .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
 
@@ -284,7 +284,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IsRepresentativeContactLegalContactPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
       }
@@ -308,7 +308,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IsApplicantLegalContactUkBasedPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
 
@@ -326,7 +326,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IsApplicantLegalContactUkBasedPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
       }
@@ -345,7 +345,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(IsApplicantLegalContactUkBasedPage, CheckMode, answers)
-            .mustBe(routes.ApplicantLegalContactUkAddressController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.ApplicantLegalContactUkAddressController.onPageLoad(CheckMode, answers.id))
         }
       }
 
@@ -363,7 +363,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(IsApplicantLegalContactUkBasedPage, CheckMode, answers)
-            .mustBe(routes.ApplicantLegalContactInternationalAddressController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.ApplicantLegalContactInternationalAddressController.onPageLoad(CheckMode, answers.id))
         }
       }
     }
@@ -376,7 +376,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(WhoIsSecondaryLegalContactPage, CheckMode, answers)
-            .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+            .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
         }
       }
 
@@ -386,7 +386,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(WhoIsSecondaryLegalContactPage, CheckMode, answers)
-            .mustBe(routes.IsApplicantSecondaryLegalContactUkBasedController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.IsApplicantSecondaryLegalContactUkBasedController.onPageLoad(CheckMode, answers.id))
         }
       }
     }
@@ -408,7 +408,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(SelectOtherTechnicalContactPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
 
@@ -423,7 +423,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(SelectOtherTechnicalContactPage, CheckMode, answers)
-              .mustBe(routes.WhoIsSecondaryTechnicalContactController.onPageLoad(CheckMode, answers.id))
+              .shouldBe(routes.WhoIsSecondaryTechnicalContactController.onPageLoad(CheckMode, answers.id))
 
           }
 
@@ -442,7 +442,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(WhoIsTechnicalContactPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
 
@@ -460,7 +460,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IsTechnicalContactUkBasedPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
       }
@@ -472,7 +472,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(WhoIsTechnicalContactPage, CheckMode, answers)
-            .mustBe(routes.IsTechnicalContactUkBasedController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.IsTechnicalContactUkBasedController.onPageLoad(CheckMode, answers.id))
         }
       }
     }
@@ -495,7 +495,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IsTechnicalContactUkBasedPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
 
@@ -513,7 +513,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IsTechnicalContactUkBasedPage, CheckMode, answers)
-              .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+              .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
           }
         }
       }
@@ -532,7 +532,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(IsTechnicalContactUkBasedPage, CheckMode, answers)
-            .mustBe(routes.TechnicalContactUkAddressController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.TechnicalContactUkAddressController.onPageLoad(CheckMode, answers.id))
         }
       }
 
@@ -550,7 +550,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(IsTechnicalContactUkBasedPage, CheckMode, answers)
-            .mustBe(routes.TechnicalContactInternationalAddressController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.TechnicalContactInternationalAddressController.onPageLoad(CheckMode, answers.id))
         }
       }
     }
@@ -563,7 +563,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(WhoIsSecondaryTechnicalContactPage, CheckMode, answers)
-            .mustBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
+            .shouldBe(routes.CheckYourAnswersController.onPageLoad(answers.id))
         }
       }
 
@@ -573,7 +573,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(WhoIsSecondaryTechnicalContactPage, CheckMode, answers)
-            .mustBe(routes.IsSecondaryTechnicalContactUkBasedController.onPageLoad(CheckMode, answers.id))
+            .shouldBe(routes.IsSecondaryTechnicalContactUkBasedController.onPageLoad(CheckMode, answers.id))
         }
       }
     }
@@ -601,7 +601,7 @@ class CheckModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), CheckMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
+                .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
             }
           }
 
@@ -625,7 +625,7 @@ class CheckModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), CheckMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
+                .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
 
@@ -655,7 +655,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsTypePage(0), CheckMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
 
@@ -674,7 +674,7 @@ class CheckModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), CheckMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
+                .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -700,7 +700,7 @@ class CheckModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), CheckMode, answers)
-                .mustBe(routes.IpRightsDescriptionController.onPageLoad(CheckMode, 0, answers.id))
+                .shouldBe(routes.IpRightsDescriptionController.onPageLoad(CheckMode, 0, answers.id))
             }
           }
 
@@ -724,7 +724,7 @@ class CheckModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), CheckMode, answers)
-                .mustBe(routes.IpRightsDescriptionController.onPageLoad(CheckMode, 0, answers.id))
+                .shouldBe(routes.IpRightsDescriptionController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -755,7 +755,7 @@ class CheckModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsTypePage(0), CheckMode, answers)
-                .mustBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(CheckMode, 0, answers.id))
+                .shouldBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -778,7 +778,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsTypePage(0), CheckMode, answers)
-              .mustBe(routes.IpRightsRegistrationNumberController.onPageLoad(CheckMode, 0, answers.id))
+              .shouldBe(routes.IpRightsRegistrationNumberController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -799,7 +799,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsTypePage(0), CheckMode, answers)
-              .mustBe(
+              .shouldBe(
                 routes.IpRightsSupplementaryProtectionCertificateTypeController.onPageLoad(CheckMode, 0, answers.id)
               )
           }
@@ -822,7 +822,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsSupplementaryProtectionCertificateTypePage(0), CheckMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -836,7 +836,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsSupplementaryProtectionCertificateTypePage(0), CheckMode, answers)
-              .mustBe(routes.IpRightsRegistrationNumberController.onPageLoad(CheckMode, 0, answers.id))
+              .shouldBe(routes.IpRightsRegistrationNumberController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -855,7 +855,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsRegistrationNumberPage(0), CheckMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -869,7 +869,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsRegistrationNumberPage(0), CheckMode, answers)
-              .mustBe(routes.IpRightsRegistrationEndController.onPageLoad(CheckMode, 0, answers.id))
+              .shouldBe(routes.IpRightsRegistrationEndController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -893,7 +893,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsRegistrationEndPage(0), CheckMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, userAnswers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, userAnswers.id))
           }
         }
 
@@ -914,7 +914,7 @@ class CheckModeNavigatorSpec
 
                 navigator
                   .nextPage(IpRightsRegistrationEndPage(0), CheckMode, answers)
-                  .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
+                  .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
               }
           }
         }
@@ -936,7 +936,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsRegistrationEndPage(0), CheckMode, answers)
-              .mustBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(CheckMode, 0, answers.id))
+              .shouldBe(routes.IpRightsDescriptionWithBrandController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -959,7 +959,7 @@ class CheckModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsRegistrationEndPage(0), CheckMode, answers)
-                .mustBe(routes.IpRightsDescriptionController.onPageLoad(CheckMode, 0, answers.id))
+                .shouldBe(routes.IpRightsDescriptionController.onPageLoad(CheckMode, 0, answers.id))
             }
           }
         }
@@ -979,7 +979,7 @@ class CheckModeNavigatorSpec
 
               navigator
                 .nextPage(IpRightsDescriptionPage(0), CheckMode, answers)
-                .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
+                .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
             }
           }
         }
@@ -998,7 +998,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsDescriptionPage(0), CheckMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -1019,7 +1019,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsDescriptionPage(0), CheckMode, answers)
-              .mustBe(routes.IpRightsNiceClassController.onPageLoad(CheckMode, 0, 0, answers.id))
+              .shouldBe(routes.IpRightsNiceClassController.onPageLoad(CheckMode, 0, 0, answers.id))
           }
         }
       }
@@ -1036,7 +1036,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsDescriptionWithBrandPage(0), CheckMode, answers)
-              .mustBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
+              .shouldBe(routes.CheckIprDetailsController.onPageLoad(CheckMode, 0, answers.id))
           }
         }
       }
@@ -1057,7 +1057,7 @@ class CheckModeNavigatorSpec
 
             navigator
               .nextPage(IpRightsDescriptionWithBrandPage(0), CheckMode, answers)
-              .mustBe(routes.IpRightsNiceClassController.onPageLoad(CheckMode, 0, 0, answers.id))
+              .shouldBe(routes.IpRightsNiceClassController.onPageLoad(CheckMode, 0, 0, answers.id))
           }
         }
       }
@@ -1071,7 +1071,7 @@ class CheckModeNavigatorSpec
           (userAnswers, iprIndex, niceIndex) =>
             navigator
               .nextPage(IpRightsNiceClassPage(iprIndex, niceIndex), CheckMode, userAnswers)
-              .mustBe(routes.IpRightsAddNiceClassController.onPageLoad(CheckMode, iprIndex, userAnswers.id))
+              .shouldBe(routes.IpRightsAddNiceClassController.onPageLoad(CheckMode, iprIndex, userAnswers.id))
         }
       }
     }
@@ -1092,7 +1092,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(pages.DeleteNiceClassPage(0, 0), CheckMode, answers)
-            .mustBe(routes.IpRightsAddNiceClassController.onDelete(CheckMode, 0, 0, answers.id))
+            .shouldBe(routes.IpRightsAddNiceClassController.onDelete(CheckMode, 0, 0, answers.id))
         }
       }
       "user answers yes to delete the nice class and it is the only one must go to the nice class added page onPageLoad" in {
@@ -1107,7 +1107,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(pages.DeleteNiceClassPage(0, 0), CheckMode, answers)
-            .mustBe(routes.IpRightsAddNiceClassController.onPageLoad(CheckMode, 0, answers.id))
+            .shouldBe(routes.IpRightsAddNiceClassController.onPageLoad(CheckMode, 0, answers.id))
         }
       }
       "user answers no to delete the nice class must go to the nice class added page onPageLoad" in {
@@ -1125,7 +1125,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(pages.DeleteNiceClassPage(0, 0), CheckMode, answers)
-            .mustBe(routes.IpRightsAddNiceClassController.onPageLoad(CheckMode, 0, answers.id))
+            .shouldBe(routes.IpRightsAddNiceClassController.onPageLoad(CheckMode, 0, answers.id))
         }
       }
     }
@@ -1137,7 +1137,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(pages.IpRightsRemoveNiceClassPage(0), CheckMode, answers)
-            .mustBe(routes.IpRightsAddNiceClassController.onPageLoad(CheckMode, 0, answers.id))
+            .shouldBe(routes.IpRightsAddNiceClassController.onPageLoad(CheckMode, 0, answers.id))
         }
       }
       "when Nice Class no longer exists in the array, to IP right add Nice Class page onPageLoad with default niceCLassIndex of 0" in {
@@ -1152,7 +1152,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(pages.IpRightsRemoveNiceClassPage(0), CheckMode, answers)
-            .mustBe(routes.IpRightsNiceClassController.onPageLoad(CheckMode, 0, 0, answers.id))
+            .shouldBe(routes.IpRightsNiceClassController.onPageLoad(CheckMode, 0, 0, answers.id))
         }
       }
     }
@@ -1169,7 +1169,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(IpRightsAddNiceClassPage(0), CheckMode, answersWithNiceClasses)
-            .mustBe(routes.IpRightsNiceClassController.onPageLoad(CheckMode, 0, nextIndex, answersWithNiceClasses.id))
+            .shouldBe(routes.IpRightsNiceClassController.onPageLoad(CheckMode, 0, nextIndex, answersWithNiceClasses.id))
       }
     }
 
@@ -1185,7 +1185,7 @@ class CheckModeNavigatorSpec
 
           navigator
             .nextPage(AddIpRightPage, CheckMode, answersWithIpRights)
-            .mustBe(routes.IpRightsTypeController.onPageLoad(CheckMode, nextIpRightsIndex, answersWithIpRights.id))
+            .shouldBe(routes.IpRightsTypeController.onPageLoad(CheckMode, nextIpRightsIndex, answersWithIpRights.id))
       }
     }
 
@@ -1196,7 +1196,7 @@ class CheckModeNavigatorSpec
 
         navigator
           .nextPage(pages.RemoveIprPage, CheckMode, answers)
-          .mustBe(routes.AddIpRightController.onPageLoad(CheckMode, userAnswers.id))
+          .shouldBe(routes.AddIpRightController.onPageLoad(CheckMode, userAnswers.id))
       }
     }
 
@@ -1207,7 +1207,7 @@ class CheckModeNavigatorSpec
 
         navigator
           .nextPage(pages.RemoveIprPage, CheckMode, answers)
-          .mustBe(routes.IpRightsTypeController.onPageLoad(CheckMode, 0, answers.id))
+          .shouldBe(routes.IpRightsTypeController.onPageLoad(CheckMode, 0, answers.id))
       }
     }
 

@@ -14,7 +14,6 @@
  * limitations under the License.
  *@
 
-@import controllers.routes._
 @import models.Mode
 
 
@@ -22,7 +21,6 @@
     formHelper: FormWithCSRF,
     layout: Layout,
     afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
-    backLink: designsystembasedcomponents.backLink,
     errorSummary: designsystembasedcomponents.errorSummary,
     button: designsystembasedcomponents.button,
     inputRadiosYesNo: designsystembasedcomponents.inputRadiosYesNo,
@@ -35,7 +33,7 @@
 @layout(
 pageTitle = Some(s"${errorPrefix(form)} ${messages("representativeEvidenceOfPowerToAct.title", representativeContactName)}")) {
 
-    @formHelper(action = EvidenceOfPowerToActController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
+    @formHelper(action = routes.EvidenceOfPowerToActController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors, Some("value-yes"))
 

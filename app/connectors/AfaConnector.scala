@@ -18,13 +18,14 @@ package connectors
 
 import models.afa.{InitialAfa, PublishedAfa}
 import models.{AfaId, LockedException, Service, UserAnswers}
-import org.checkerframework.checker.units.qual.A
 import play.api.Configuration
 import play.api.http.Status
 import play.api.libs.json.{JsObject, Json}
 import uk.gov.hmrc.http.HttpReads.Implicits._
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, StringContextOps}
+import play.api.libs.ws.writeableOf_JsValue
+import play.api.libs.ws.DefaultBodyWritables.writeableOf_String
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}

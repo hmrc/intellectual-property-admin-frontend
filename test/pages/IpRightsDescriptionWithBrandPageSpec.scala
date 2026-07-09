@@ -39,7 +39,7 @@ class IpRightsDescriptionWithBrandPageSpec extends PageBehaviours {
             .success
             .value
 
-        IpRightsDescriptionWithBrandPage(0).isRequired(answers).value mustEqual true
+        IpRightsDescriptionWithBrandPage(0).isRequired(answers).value shouldBe true
       }
     }
 
@@ -50,7 +50,7 @@ class IpRightsDescriptionWithBrandPageSpec extends PageBehaviours {
 
           val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-          IpRightsDescriptionWithBrandPage(0).isRequired(answers).value mustEqual false
+          IpRightsDescriptionWithBrandPage(0).isRequired(answers).value shouldBe false
         }
       }
     }

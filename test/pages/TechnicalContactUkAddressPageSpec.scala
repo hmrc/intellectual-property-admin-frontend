@@ -39,7 +39,7 @@ class TechnicalContactUkAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        TechnicalContactUkAddressPage.isRequired(answers).value mustEqual true
+        TechnicalContactUkAddressPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -52,7 +52,7 @@ class TechnicalContactUkAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        TechnicalContactUkAddressPage.isRequired(answers).value mustEqual false
+        TechnicalContactUkAddressPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -65,7 +65,7 @@ class TechnicalContactUkAddressPageSpec extends PageBehaviours {
             .success
             .value
 
-        TechnicalContactUkAddressPage.isRequired(answers) must not be defined
+        TechnicalContactUkAddressPage.isRequired(answers) should not be defined
       }
     }
   }

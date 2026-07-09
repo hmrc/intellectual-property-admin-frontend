@@ -14,13 +14,11 @@
  * limitations under the License.
  *@
 
-@import controllers.routes._
 @import models.Mode
 
 @this(
         layout: Layout,
         formHelper: FormWithCSRF,
-        backLink: designsystembasedcomponents.backLink,
         selectContactErrorSummary: designsystembasedcomponents.selectContactErrorSummary,
         afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
         heading1: designsystembasedcomponents.heading1,
@@ -34,7 +32,7 @@
 @layout(
     pageTitle = Some(s"${errorPrefix(form)} ${messages("selectTechnicalContact.title")}")) {
 
-    @formHelper(action = SelectTechnicalContactController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
+    @formHelper(action = routes.SelectTechnicalContactController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @selectContactErrorSummary(form.errors, firstField = contactsRadioOptions.headOption)
 

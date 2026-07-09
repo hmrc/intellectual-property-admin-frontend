@@ -59,10 +59,10 @@ class AddAnotherLegalContactPageSpec extends PageBehaviours {
 
       val result = answers.set(AddAnotherLegalContactPage, false).success.value
 
-      result.get(WhoIsSecondaryLegalContactPage)                         must not be defined
-      result.get(IsApplicantSecondaryLegalContactUkBasedPage)            must not be defined
-      result.get(ApplicantSecondaryLegalContactUkAddressPage)            must not be defined
-      result.get(ApplicantSecondaryLegalContactInternationalAddressPage) must not be defined
+      result.get(WhoIsSecondaryLegalContactPage)                         should not be defined
+      result.get(IsApplicantSecondaryLegalContactUkBasedPage)            should not be defined
+      result.get(ApplicantSecondaryLegalContactUkAddressPage)            should not be defined
+      result.get(ApplicantSecondaryLegalContactInternationalAddressPage) should not be defined
     }
   }
 
@@ -92,10 +92,10 @@ class AddAnotherLegalContactPageSpec extends PageBehaviours {
 
       val result = answers.set(AddAnotherLegalContactPage, true).success.value
 
-      result.get(WhoIsSecondaryLegalContactPage) mustBe defined
-      result.get(IsApplicantSecondaryLegalContactUkBasedPage) mustBe defined
-      result.get(ApplicantSecondaryLegalContactUkAddressPage) mustBe defined
-      result.get(ApplicantSecondaryLegalContactInternationalAddressPage) mustBe defined
+      result.get(WhoIsSecondaryLegalContactPage)                         shouldBe defined
+      result.get(IsApplicantSecondaryLegalContactUkBasedPage)            shouldBe defined
+      result.get(ApplicantSecondaryLegalContactUkAddressPage)            shouldBe defined
+      result.get(ApplicantSecondaryLegalContactInternationalAddressPage) shouldBe defined
     }
   }
 }

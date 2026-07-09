@@ -35,7 +35,7 @@ class WhoIsSecondaryLegalContactPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(AddAnotherLegalContactPage, true).success.value
 
-        WhoIsSecondaryLegalContactPage.isRequired(answers).value mustEqual true
+        WhoIsSecondaryLegalContactPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -44,7 +44,7 @@ class WhoIsSecondaryLegalContactPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(AddAnotherLegalContactPage, false).success.value
 
-        WhoIsSecondaryLegalContactPage.isRequired(answers).value mustEqual false
+        WhoIsSecondaryLegalContactPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -53,7 +53,7 @@ class WhoIsSecondaryLegalContactPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.remove(AddAnotherLegalContactPage).success.value
 
-        WhoIsSecondaryLegalContactPage.isRequired(answers) must not be defined
+        WhoIsSecondaryLegalContactPage.isRequired(answers) should not be defined
       }
     }
   }

@@ -21,7 +21,7 @@ import models.{AfaId, Lock, LockedException, UserAnswers}
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.Application
@@ -77,7 +77,7 @@ class LockConnectorSpec
         )
 
         whenReady(connector.lock(afaId)(hc)) { result =>
-          result mustBe true
+          result shouldBe true
         }
 
       }
@@ -98,8 +98,8 @@ class LockConnectorSpec
 
         whenReady(connector.lock(afaId)(hc).failed) {
           case e: LockedException =>
-            e.userId mustEqual "id"
-            e.name mustEqual "name"
+            e.userId shouldBe "id"
+            e.name   shouldBe "name"
           case e                  => fail(s"Wanted LockedException, got: $e")
         }
 
@@ -121,7 +121,7 @@ class LockConnectorSpec
             )
         )
 
-        connector.replaceLock(afaId)(hc).futureValue mustEqual true
+        connector.replaceLock(afaId)(hc).futureValue shouldBe true
 
       }
     }
@@ -138,7 +138,7 @@ class LockConnectorSpec
         )
 
         whenReady(connector.replaceLock(afaId)(hc).failed) {
-          _ mustBe an[Exception]
+          _ shouldBe an[Exception]
         }
 
       }
@@ -159,7 +159,7 @@ class LockConnectorSpec
         )
 
         whenReady(connector.removeLock(afaId)(hc)) { result =>
-          result mustBe {}
+          result shouldBe {}
         }
       }
 
@@ -183,7 +183,7 @@ class LockConnectorSpec
         )
 
         whenReady(connector.getExistingLock(lock._id)(hc)) { result =>
-          result.get mustEqual lock
+          result.get shouldBe lock
         }
 
       }
@@ -201,7 +201,7 @@ class LockConnectorSpec
         )
 
         whenReady(connector.getExistingLock(lock._id)(hc)) { result =>
-          result must not be defined
+          result should not be defined
         }
 
       }
@@ -224,7 +224,7 @@ class LockConnectorSpec
         )
 
         whenReady(connector.lockList(hc)) { result =>
-          result mustEqual lockList
+          result shouldBe lockList
         }
 
       }

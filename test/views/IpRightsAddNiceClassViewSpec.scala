@@ -18,6 +18,7 @@ package views
 
 import controllers.routes
 import models.{NormalMode, UserAnswers}
+import org.jsoup.nodes.Document
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat
 import viewmodels.ReviewRow
@@ -58,7 +59,7 @@ class IpRightsAddNiceClassViewSpec extends ViewBehaviours {
 
     behave like pageWithSubmitButtonAndGoHomeLinkUsingDesignSystem(applyView())
 
-    implicit val doc = asDocument(
+    implicit val doc: Document = asDocument(
       view.apply(
         NormalMode,
         0,

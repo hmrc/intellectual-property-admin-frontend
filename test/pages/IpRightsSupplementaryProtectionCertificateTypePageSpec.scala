@@ -36,7 +36,7 @@ class IpRightsSupplementaryProtectionCertificateTypePageSpec extends PageBehavio
         val answers =
           userAnswers.set(IpRightsTypePage(0), IpRightsType.SupplementaryProtectionCertificate).success.value
 
-        IpRightsSupplementaryProtectionCertificateTypePage(0).isRequired(answers).value mustEqual true
+        IpRightsSupplementaryProtectionCertificateTypePage(0).isRequired(answers).value shouldBe true
       }
     }
 
@@ -47,7 +47,7 @@ class IpRightsSupplementaryProtectionCertificateTypePageSpec extends PageBehavio
 
           val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-          IpRightsSupplementaryProtectionCertificateTypePage(0).isRequired(answers).value mustEqual false
+          IpRightsSupplementaryProtectionCertificateTypePage(0).isRequired(answers).value shouldBe false
         }
       }
     }
@@ -57,7 +57,7 @@ class IpRightsSupplementaryProtectionCertificateTypePageSpec extends PageBehavio
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.remove(IpRightsTypePage(0)).success.value
 
-        IpRightsSupplementaryProtectionCertificateTypePage(0).isRequired(answers) must not be defined
+        IpRightsSupplementaryProtectionCertificateTypePage(0).isRequired(answers) should not be defined
       }
     }
   }

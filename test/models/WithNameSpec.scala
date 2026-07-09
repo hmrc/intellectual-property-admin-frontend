@@ -16,7 +16,7 @@
 
 package models
 
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class WithNameSpec extends AnyWordSpec with Matchers {
@@ -25,7 +25,7 @@ class WithNameSpec extends AnyWordSpec with Matchers {
 
   ".toString" must {
     "return the correct string" in {
-      Foo.toString mustEqual "bar"
+      Foo.toString shouldBe "bar"
     }
   }
 }

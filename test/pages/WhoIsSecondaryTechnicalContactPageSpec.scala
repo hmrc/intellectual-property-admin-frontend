@@ -35,7 +35,7 @@ class WhoIsSecondaryTechnicalContactPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(AddAnotherTechnicalContactPage, true).success.value
 
-        WhoIsSecondaryTechnicalContactPage.isRequired(answers).value mustEqual true
+        WhoIsSecondaryTechnicalContactPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -44,7 +44,7 @@ class WhoIsSecondaryTechnicalContactPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(AddAnotherTechnicalContactPage, false).success.value
 
-        WhoIsSecondaryTechnicalContactPage.isRequired(answers).value mustEqual false
+        WhoIsSecondaryTechnicalContactPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -53,7 +53,7 @@ class WhoIsSecondaryTechnicalContactPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.remove(AddAnotherTechnicalContactPage).success.value
 
-        WhoIsSecondaryTechnicalContactPage.isRequired(answers) must not be defined
+        WhoIsSecondaryTechnicalContactPage.isRequired(answers) should not be defined
       }
     }
   }

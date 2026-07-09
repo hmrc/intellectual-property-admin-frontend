@@ -21,7 +21,7 @@ import generators.AfaGenerators
 import models.afa.Contact
 import models.{ApplicantLegalContact, CompanyApplying, CompanyApplyingIsRightsHolder, ContactOptions, InternationalAddress, TechnicalContact, UkAddress, UserAnswers, WhoIsSecondaryLegalContact}
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.{OptionValues, TryValues}
 import pages._
 
@@ -100,10 +100,10 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
         implicit val implicitUserAnswers: UserAnswers =
           userAnswers.remove(RepresentativeContactUkAddressPage).success.value
 
-        service.getRepresentativeContactDetails(implicitUserAnswers) mustBe None
+        service.getRepresentativeContactDetails(implicitUserAnswers) shouldBe None
       }
       "must return representative contact when all fields are filled in" in {
-        service.getRepresentativeContactDetails mustBe Some(representativeContact)
+        service.getRepresentativeContactDetails shouldBe Some(representativeContact)
       }
     }
 
@@ -112,10 +112,10 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
         implicit val implicitUserAnswers: UserAnswers =
           userAnswers.remove(ApplicantLegalContactUkAddressPage).success.value
 
-        service.getLegalContactDetails(implicitUserAnswers) mustBe None
+        service.getLegalContactDetails(implicitUserAnswers) shouldBe None
       }
       "must return legal contact when all fields are filled in" in {
-        service.getLegalContactDetails mustBe Some(applicantLegalContact)
+        service.getLegalContactDetails shouldBe Some(applicantLegalContact)
       }
       "must return representative contact as legal when user answers yes to rep same as legal" in {
         implicit val implicitUserAnswers: UserAnswers = userAnswers
@@ -123,7 +123,7 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
           .success
           .value
 
-        service.getLegalContactDetails(implicitUserAnswers) mustBe
+        service.getLegalContactDetails(implicitUserAnswers) shouldBe
           Some(
             Contact(
               representativeDetails.companyName,
@@ -141,34 +141,34 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
       "must return None when contact has missing values" in {
         implicit val implicitUserAnswers: UserAnswers = userAnswers.remove(TechnicalContactUkAddressPage).success.value
 
-        service.getTechnicalContactDetails(implicitUserAnswers) mustBe None
+        service.getTechnicalContactDetails(implicitUserAnswers) shouldBe None
       }
       "must return technical contact when whoIsTechnicalContact fields are filled in" in {
-        service.getTechnicalContactDetails mustBe Some(technicalContactAsContact)
+        service.getTechnicalContactDetails shouldBe Some(technicalContactAsContact)
       }
     }
 
     "getSecondaryLegalContact" - {
       "must return secondaryLegal contact when secondaryLegalContact fields are filled in" in {
-        service.getSecondaryLegalContactDetails mustBe Some(applicantSecondaryLegalContact)
+        service.getSecondaryLegalContactDetails shouldBe Some(applicantSecondaryLegalContact)
       }
       "must return None when contact has missing values" in {
         implicit val implicitUserAnswers: UserAnswers =
           userAnswers.remove(ApplicantSecondaryLegalContactUkAddressPage).success.value
 
-        service.getSecondaryLegalContactDetails(implicitUserAnswers) mustBe None
+        service.getSecondaryLegalContactDetails(implicitUserAnswers) shouldBe None
       }
     }
 
     "getSecondaryTechnicalContact" - {
       "must return secondaryTechnical contact when SecondaryTechnicalContact fields are filled in" in {
-        service.getSecondaryTechnicalContactDetails mustBe Some(secondaryContactAsContact)
+        service.getSecondaryTechnicalContactDetails shouldBe Some(secondaryContactAsContact)
       }
       "must return None when contact has missing values" in {
         implicit val implicitUserAnswers: UserAnswers =
           userAnswers.remove(SecondaryTechnicalContactUkAddressPage).success.value
 
-        service.getSecondaryTechnicalContactDetails(implicitUserAnswers) mustBe None
+        service.getSecondaryTechnicalContactDetails(implicitUserAnswers) shouldBe None
       }
     }
 
@@ -186,7 +186,7 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
           .success
           .value
 
-        service.contactsToRadioOptions(None)(implicitUserAnswers) mustBe Seq.empty
+        service.contactsToRadioOptions(None)(implicitUserAnswers) shouldBe Seq.empty
       }
 
       "when only rep contact is filled must return only a rep contact name with an index" in {
@@ -198,7 +198,7 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
           .success
           .value
 
-        service.contactsToRadioOptions(None)(implicitUserAnswers) mustBe Seq(
+        service.contactsToRadioOptions(None)(implicitUserAnswers) shouldBe Seq(
           (ContactOptions.RepresentativeContact, representativeDetails.contactName)
         )
       }
@@ -212,7 +212,7 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
           .success
           .value
 
-        service.contactsToRadioOptions(None)(implicitUserAnswers) mustBe Seq(
+        service.contactsToRadioOptions(None)(implicitUserAnswers) shouldBe Seq(
           (ContactOptions.RepresentativeContact, applicantLegalDetails.name)
         )
       }
@@ -226,13 +226,13 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
           .success
           .value
 
-        service.contactsToRadioOptions(None)(implicitUserAnswers) mustBe Seq(
+        service.contactsToRadioOptions(None)(implicitUserAnswers) shouldBe Seq(
           (ContactOptions.RepresentativeContact, applicantSecondaryLegalDetails.contactName)
         )
       }
 
       "must return rep and all legal contacts with index and name" in {
-        service.contactsToRadioOptions(None) mustBe Seq(
+        service.contactsToRadioOptions(None) shouldBe Seq(
           (ContactOptions.RepresentativeContact, representativeDetails.contactName),
           (ContactOptions.LegalContact, applicantLegalDetails.name),
           (ContactOptions.SecondaryLegalContact, applicantSecondaryLegalDetails.contactName)
@@ -241,25 +241,25 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
 
       "must remove the correct contact when passed remove contact" - {
         "remove the rep contact" in {
-          service.contactsToRadioOptions(Some(ContactOptions.RepresentativeContact)) mustBe Seq(
+          service.contactsToRadioOptions(Some(ContactOptions.RepresentativeContact)) shouldBe Seq(
             (ContactOptions.LegalContact, applicantLegalDetails.name),
             (ContactOptions.SecondaryLegalContact, applicantSecondaryLegalDetails.contactName)
           )
         }
         "remove the legal contact" in {
-          service.contactsToRadioOptions(Some(ContactOptions.LegalContact)) mustBe Seq(
+          service.contactsToRadioOptions(Some(ContactOptions.LegalContact)) shouldBe Seq(
             (ContactOptions.RepresentativeContact, representativeDetails.contactName),
             (ContactOptions.SecondaryLegalContact, applicantSecondaryLegalDetails.contactName)
           )
         }
         "remove the secondary legal contact" in {
-          service.contactsToRadioOptions(Some(ContactOptions.SecondaryLegalContact)) mustBe Seq(
+          service.contactsToRadioOptions(Some(ContactOptions.SecondaryLegalContact)) shouldBe Seq(
             (ContactOptions.RepresentativeContact, representativeDetails.contactName),
             (ContactOptions.LegalContact, applicantLegalDetails.name)
           )
         }
         "do nothing for someone-else" in {
-          service.contactsToRadioOptions(Some(ContactOptions.SomeoneElse)) mustBe Seq(
+          service.contactsToRadioOptions(Some(ContactOptions.SomeoneElse)) shouldBe Seq(
             (ContactOptions.RepresentativeContact, representativeDetails.contactName),
             (ContactOptions.LegalContact, applicantLegalDetails.name),
             (ContactOptions.SecondaryLegalContact, applicantSecondaryLegalDetails.contactName)
@@ -274,9 +274,9 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
         .success
         .value
 
-      service.getContactIsUKBased(ContactOptions.RepresentativeContact)(implicitUserAnswers) mustBe Some(true)
-      service.getContactIsUKBased(ContactOptions.LegalContact)(implicitUserAnswers) mustBe Some(true)
-      service.getContactIsUKBased(ContactOptions.SecondaryLegalContact)(implicitUserAnswers) mustBe Some(false)
+      service.getContactIsUKBased(ContactOptions.RepresentativeContact)(implicitUserAnswers) shouldBe Some(true)
+      service.getContactIsUKBased(ContactOptions.LegalContact)(implicitUserAnswers)          shouldBe Some(true)
+      service.getContactIsUKBased(ContactOptions.SecondaryLegalContact)(implicitUserAnswers) shouldBe Some(false)
       assertThrows[IllegalArgumentException](
         service.getContactIsUKBased(ContactOptions.SomeoneElse)(implicitUserAnswers)
       )
@@ -294,9 +294,9 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
         .success
         .value
 
-      service.getContactUKAddress(ContactOptions.RepresentativeContact)(implicitUserAnswers) mustBe Some(ukAddress)
-      service.getContactUKAddress(ContactOptions.LegalContact)(implicitUserAnswers) mustBe Some(ukAddress2)
-      service.getContactUKAddress(ContactOptions.SecondaryLegalContact)(implicitUserAnswers) mustBe Some(ukAddress3)
+      service.getContactUKAddress(ContactOptions.RepresentativeContact)(implicitUserAnswers) shouldBe Some(ukAddress)
+      service.getContactUKAddress(ContactOptions.LegalContact)(implicitUserAnswers)          shouldBe Some(ukAddress2)
+      service.getContactUKAddress(ContactOptions.SecondaryLegalContact)(implicitUserAnswers) shouldBe Some(ukAddress3)
       assertThrows[IllegalArgumentException](
         service.getContactUKAddress(ContactOptions.SomeoneElse)(implicitUserAnswers)
       )
@@ -317,13 +317,13 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
         .success
         .value
 
-      service.getContactInternationalAddress(ContactOptions.RepresentativeContact)(implicitUserAnswers) mustBe Some(
+      service.getContactInternationalAddress(ContactOptions.RepresentativeContact)(implicitUserAnswers) shouldBe Some(
         internationalAddress
       )
-      service.getContactInternationalAddress(ContactOptions.LegalContact)(implicitUserAnswers) mustBe Some(
+      service.getContactInternationalAddress(ContactOptions.LegalContact)(implicitUserAnswers)          shouldBe Some(
         internationalAddress2
       )
-      service.getContactInternationalAddress(ContactOptions.SecondaryLegalContact)(implicitUserAnswers) mustBe Some(
+      service.getContactInternationalAddress(ContactOptions.SecondaryLegalContact)(implicitUserAnswers) shouldBe Some(
         internationalAddress3
       )
       assertThrows[IllegalArgumentException](
@@ -345,21 +345,21 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
         .success
         .value
 
-      service.getContact(ContactOptions.RepresentativeContact)(implicitUserAnswers) mustBe
+      service.getContact(ContactOptions.RepresentativeContact)(implicitUserAnswers) shouldBe
         TechnicalContact(
           representativeDetails.companyName,
           representativeDetails.contactName,
           representativeDetails.phone,
           representativeDetails.email
         )
-      service.getContact(ContactOptions.LegalContact)(implicitUserAnswers) mustBe
+      service.getContact(ContactOptions.LegalContact)(implicitUserAnswers)          shouldBe
         TechnicalContact(
           applicantLegalContactDetails.companyName,
           applicantLegalContactDetails.name,
           applicantLegalContactDetails.telephone,
           applicantLegalContactDetails.email
         )
-      service.getContact(ContactOptions.SecondaryLegalContact)(implicitUserAnswers) mustBe
+      service.getContact(ContactOptions.SecondaryLegalContact)(implicitUserAnswers) shouldBe
         TechnicalContact(
           applicantSecondaryLegalContactDetails.companyName,
           applicantSecondaryLegalContactDetails.contactName,
@@ -370,7 +370,7 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
     }
 
     "getRequiredContacts must return contacts when called" in {
-      service.getRequiredContacts mustBe Seq(
+      service.getRequiredContacts shouldBe Seq(
         Some(representativeContactAsLegal),
         Some(applicantLegalContact),
         Some(applicantSecondaryLegalContact)
@@ -382,7 +382,7 @@ class ContactsServiceSpec extends AnyFreeSpec with Matchers with AfaGenerators w
         assertThrows[IllegalArgumentException](service.convertContactToTechnical(None))
       }
       "return a technicalContact when defined" in {
-        service.convertContactToTechnical(Some(representativeContactAsLegal)) mustBe
+        service.convertContactToTechnical(Some(representativeContactAsLegal)) shouldBe
           TechnicalContact(
             representativeContact.companyName,
             representativeContact.contactName,

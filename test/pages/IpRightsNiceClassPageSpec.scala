@@ -36,7 +36,7 @@ class IpRightsNiceClassPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(IpRightsTypePage(0), IpRightsType.Trademark).success.value
 
-        IpRightsNiceClassPage(0, 0).isRequired(answers).value mustEqual true
+        IpRightsNiceClassPage(0, 0).isRequired(answers).value shouldBe true
       }
     }
 
@@ -47,7 +47,7 @@ class IpRightsNiceClassPageSpec extends PageBehaviours {
 
           val answers = userAnswers.set(IpRightsTypePage(0), rightsType).success.value
 
-          IpRightsNiceClassPage(0, 0).isRequired(answers).value mustEqual false
+          IpRightsNiceClassPage(0, 0).isRequired(answers).value shouldBe false
         }
       }
     }
@@ -57,7 +57,7 @@ class IpRightsNiceClassPageSpec extends PageBehaviours {
       val arbitrarilyHighIndex = 1000
 
       forAll(arbitrary[UserAnswers], Gen.choose(1, arbitrarilyHighIndex)) { (userAnswers, index) =>
-        IpRightsNiceClassPage(0, index).isRequired(userAnswers).value mustEqual false
+        IpRightsNiceClassPage(0, index).isRequired(userAnswers).value shouldBe false
       }
     }
 
@@ -66,7 +66,7 @@ class IpRightsNiceClassPageSpec extends PageBehaviours {
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.remove(IpRightsTypePage(0)).success.value
 
-        IpRightsNiceClassPage(0, 0).isRequired(answers) must not be defined
+        IpRightsNiceClassPage(0, 0).isRequired(answers) should not be defined
       }
     }
   }

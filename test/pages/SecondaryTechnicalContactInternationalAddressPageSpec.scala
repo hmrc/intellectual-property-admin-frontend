@@ -39,7 +39,7 @@ class SecondaryTechnicalContactInternationalAddressPageSpec extends PageBehaviou
             .success
             .value
 
-        SecondaryTechnicalContactInternationalAddressPage.isRequired(answers).value mustEqual false
+        SecondaryTechnicalContactInternationalAddressPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -52,7 +52,7 @@ class SecondaryTechnicalContactInternationalAddressPageSpec extends PageBehaviou
             .success
             .value
 
-        SecondaryTechnicalContactInternationalAddressPage.isRequired(answers).value mustEqual true
+        SecondaryTechnicalContactInternationalAddressPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -64,7 +64,7 @@ class SecondaryTechnicalContactInternationalAddressPageSpec extends PageBehaviou
             .success
             .value
 
-        SecondaryTechnicalContactInternationalAddressPage.isRequired(answers) must not be defined
+        SecondaryTechnicalContactInternationalAddressPage.isRequired(answers) should not be defined
       }
     }
   }

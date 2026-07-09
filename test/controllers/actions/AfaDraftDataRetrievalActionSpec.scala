@@ -25,7 +25,7 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.OptionValues
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.Application
@@ -66,7 +66,7 @@ class AfaDraftDataRetrievalActionSpec
     actionProvider(afaId)
       .invokeBlock(
         IdentifierRequest(FakeRequest(GET, "/"), "", ""),
-        { request: OptionalDataRequest[AnyContent] =>
+        { (request: OptionalDataRequest[AnyContent]) =>
           f(request)
           Future.successful(Results.Ok)
         }
@@ -84,7 +84,7 @@ class AfaDraftDataRetrievalActionSpec
 
         harness(
           userAnswersId,
-          request => request.userAnswers mustNot be(defined)
+          request => request.userAnswers should not be defined
         )
       }
     }
@@ -97,7 +97,7 @@ class AfaDraftDataRetrievalActionSpec
 
         harness(
           userAnswersId,
-          request => request.userAnswers mustBe defined
+          request => request.userAnswers shouldBe defined
         )
       }
     }

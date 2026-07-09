@@ -39,7 +39,7 @@ class IsSecondaryTechnicalContactUkBasedPageSpec extends PageBehaviours {
             .success
             .value
 
-        IsSecondaryTechnicalContactUkBasedPage.isRequired(answers).value mustEqual true
+        IsSecondaryTechnicalContactUkBasedPage.isRequired(answers).value shouldBe true
       }
     }
 
@@ -52,7 +52,7 @@ class IsSecondaryTechnicalContactUkBasedPageSpec extends PageBehaviours {
             .success
             .value
 
-        IsSecondaryTechnicalContactUkBasedPage.isRequired(answers).value mustEqual false
+        IsSecondaryTechnicalContactUkBasedPage.isRequired(answers).value shouldBe false
       }
     }
 
@@ -67,7 +67,7 @@ class IsSecondaryTechnicalContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsSecondaryTechnicalContactUkBasedPage, false).success.value
 
-        result.get(SecondaryTechnicalContactUkAddressPage) mustNot be(defined)
+        result.get(SecondaryTechnicalContactUkAddressPage) should not be defined
       }
     }
 
@@ -82,7 +82,7 @@ class IsSecondaryTechnicalContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsSecondaryTechnicalContactUkBasedPage, true).success.value
 
-        result.get(SecondaryTechnicalContactInternationalAddressPage) mustNot be(defined)
+        result.get(SecondaryTechnicalContactInternationalAddressPage) should not be defined
       }
     }
 
@@ -97,7 +97,7 @@ class IsSecondaryTechnicalContactUkBasedPageSpec extends PageBehaviours {
 
         val result = answers.set(IsSecondaryTechnicalContactUkBasedPage, false).success.value
 
-        result.get(SecondaryTechnicalContactUkAddressPage) mustNot be(defined)
+        result.get(SecondaryTechnicalContactUkAddressPage) should not be defined
       }
     }
 

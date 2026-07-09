@@ -21,7 +21,7 @@ import models.NiceClassId
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsSuccess, Json}
 
@@ -63,7 +63,7 @@ class TrademarkSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
             )
           )
 
-        json.validate[Trademark] mustEqual JsSuccess(
+        json.validate[Trademark] shouldBe JsSuccess(
           Trademark(registrationNumber, registrationEnd, brand, description, niceClasses)
         )
       }
@@ -102,7 +102,7 @@ class TrademarkSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
               )
             )
 
-          json.validate[Trademark] mustEqual JsError(
+          json.validate[Trademark] shouldBe JsError(
             "rightsType must be `trademark`"
           )
         }
@@ -141,7 +141,7 @@ class TrademarkSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChe
 
         Json.toJson(Trademark(registrationNumber, registrationEnd, brand, description, niceClasses))(
           Trademark.writes
-        ) mustEqual json
+        ) shouldBe json
       }
     }
   }

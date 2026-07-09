@@ -20,7 +20,7 @@ import generators.Generators
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsSuccess, Json}
 
@@ -50,7 +50,7 @@ class SupplementaryProtectionCertificateSpec
 
           json
             .validate[SupplementaryProtectionCertificate]
-            .mustEqual(
+            .shouldBe(
               JsSuccess(
                 SupplementaryProtectionCertificate(certificateType, registrationNumber, registrationEnd, description)
               )
@@ -72,7 +72,7 @@ class SupplementaryProtectionCertificateSpec
               "description"        -> description
             )
 
-            json.validate[SupplementaryProtectionCertificate] mustEqual JsError(
+            json.validate[SupplementaryProtectionCertificate] shouldBe JsError(
               "rightsType must be `supplementaryProtectionCertificate`"
             )
           }

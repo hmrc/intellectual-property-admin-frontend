@@ -100,7 +100,7 @@ class IpRightsSupplementaryProtectionCertificateTypeViewSpec extends ViewBehavio
       }
 
     lazy implicit val document =
-      asDocument(view(form.bind(Map("value" -> "")), NormalMode, 0, afaId)(fakeRequest, messages))
+      asDocument(view(form.bind(Map(("value", ""))), NormalMode, 0, afaId)(fakeRequest, messages))
 
     "display the correct document title" in {
       document.title mustBe "Error: What does this certificate cover? - Protect intellectual property rights"

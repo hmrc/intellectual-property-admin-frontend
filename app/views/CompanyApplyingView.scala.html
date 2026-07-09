@@ -14,13 +14,11 @@
  * limitations under the License.
  *@
 
-@import controllers.routes._
 @import models.Mode
 
 @this(
     layout: Layout,
     formHelper: FormWithCSRF,
-    backLink: designsystembasedcomponents.backLink,
     afaReferenceHeading: designsystembasedcomponents.afaReferenceHeading,
     errorSummary: designsystembasedcomponents.errorSummary,
     heading1: designsystembasedcomponents.heading1,
@@ -34,7 +32,7 @@
 @layout(
     pageTitle = Some(s"${errorPrefix(form)} ${messages("companyApplying.title")}")) {
 
-    @formHelper(action = CompanyApplyingController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
+    @formHelper(action = routes.CompanyApplyingController.onSubmit(mode, afaId), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors)
 

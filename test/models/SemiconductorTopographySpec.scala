@@ -19,7 +19,7 @@ package models
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsError, JsSuccess, Json}
 
@@ -35,7 +35,7 @@ class SemiconductorTopographySpec extends AnyFreeSpec with Matchers with ScalaCh
           "description" -> description
         )
 
-        json.validate[SemiconductorTopography] mustEqual JsSuccess(SemiconductorTopography(description))
+        json.validate[SemiconductorTopography] shouldBe JsSuccess(SemiconductorTopography(description))
       }
     }
 
@@ -49,7 +49,7 @@ class SemiconductorTopographySpec extends AnyFreeSpec with Matchers with ScalaCh
             "description" -> description
           )
 
-          json.validate[SemiconductorTopography] mustEqual JsError(
+          json.validate[SemiconductorTopography] shouldBe JsError(
             "rightsType must be `semiconductorTopography`"
           )
         }

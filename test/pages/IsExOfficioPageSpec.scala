@@ -43,7 +43,7 @@ class IsExOfficioPageSpec extends PageBehaviours {
 
         val result = answers.set(IsExOfficioPage, false).success.value
 
-        result.get(WantsOneYearRightsProtectionPage) mustNot be(defined)
+        result.get(WantsOneYearRightsProtectionPage) should not be defined
       }
     }
   }

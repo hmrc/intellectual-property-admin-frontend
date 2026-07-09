@@ -18,7 +18,7 @@ package filters
 
 import org.scalatest.OptionValues
 import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -48,8 +48,8 @@ class ShutteringFilterSpec extends AnyFreeSpec with Matchers with GuiceOneAppPer
 
         val result = route(app, FakeRequest(GET, controllers.routes.ViewDraftsController.onPageLoad().url)).value
 
-        status(result) mustEqual SERVICE_UNAVAILABLE
-        contentAsString(result) mustEqual view()(requestHeader).toString
+        status(result)          shouldBe SERVICE_UNAVAILABLE
+        contentAsString(result) shouldBe view()(requestHeader).toString
       }
     }
 
@@ -57,7 +57,7 @@ class ShutteringFilterSpec extends AnyFreeSpec with Matchers with GuiceOneAppPer
 
       val result = route(app, FakeRequest(GET, "/ping/ping")).value
 
-      status(result) mustEqual OK
+      status(result) shouldBe OK
     }
   }
 }

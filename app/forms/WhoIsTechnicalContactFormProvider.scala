@@ -42,6 +42,8 @@ class WhoIsTechnicalContactFormProvider @Inject() extends Mappings {
         .verifying(maxLength(phonesLimit, "whoIsTechnicalContact.error.contactTelephone.length"))
         .verifying(regexpDynamic(rejectXssChars, regexErrorKey, "whoIsTechnicalContact.contactTelephone")),
       "contactEmail"     -> email.verifying(validateEmail)
-    )(TechnicalContact.apply)(TechnicalContact.unapply)
+    )(TechnicalContact.apply)((t: TechnicalContact) =>
+      Some((t.contactName, t.companyName, t.contactTelephone, t.contactEmail))
+    )
   )
 }

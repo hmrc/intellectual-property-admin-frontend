@@ -20,7 +20,7 @@ import generators.Generators
 import models.UserAnswers
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.{OptionValues, TryValues}
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
@@ -50,7 +50,7 @@ trait PageBehaviours
             } yield (page, userAnswers.remove(page).success.value)
 
             forAll(gen) { case (page, userAnswers) =>
-              userAnswers.get(page) must be(empty)
+              userAnswers.get(page) shouldBe empty
             }
           }
         }
@@ -69,7 +69,7 @@ trait PageBehaviours
             } yield (page, savedValue, userAnswers.set(page, savedValue).success.value)
 
             forAll(gen) { case (page, savedValue, userAnswers) =>
-              userAnswers.get(page).value mustEqual savedValue
+              userAnswers.get(page).value shouldBe savedValue
             }
           }
         }
@@ -89,7 +89,7 @@ trait PageBehaviours
 
         forAll(gen) { case (page, newValue, userAnswers) =>
           val updatedAnswers = userAnswers.set(page, newValue).success.value
-          updatedAnswers.get(page).value mustEqual newValue
+          updatedAnswers.get(page).value shouldBe newValue
         }
       }
   }
@@ -106,7 +106,7 @@ trait PageBehaviours
 
         forAll(gen) { case (page, userAnswers) =>
           val updatedAnswers = userAnswers.remove(page).success.value
-          updatedAnswers.get(page) must be(empty)
+          updatedAnswers.get(page) shouldBe empty
         }
       }
   }
@@ -116,7 +116,7 @@ trait PageBehaviours
       "be required" in {
 
         forAll(genP, arbitrary[UserAnswers]) { (page, userAnswers) =>
-          page.isRequired(userAnswers).value mustEqual true
+          page.isRequired(userAnswers).value shouldBe true
         }
       }
   }

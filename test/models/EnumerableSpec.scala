@@ -16,7 +16,7 @@
 
 package models
 
-import org.scalatest.matchers.must.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.{EitherValues, OptionValues}
 import play.api.libs.json._
@@ -48,12 +48,12 @@ class EnumerableSpec extends AnyWordSpec with Matchers with EitherValues with Op
 
     Foo.values.foreach { value =>
       s"bind correctly for: $value" in {
-        Json.fromJson[Foo](JsString(value.toString)).asEither mustBe Right(value)
+        Json.fromJson[Foo](JsString(value.toString)).asEither shouldBe Right(value)
       }
     }
 
     "fail to bind for invalid values" in {
-      Json.fromJson[Foo](JsString("invalid")).asEither.left.value must contain(
+      Json.fromJson[Foo](JsString("invalid")).asEither.left.value should contain(
         JsPath -> Seq(JsonValidationError("error.invalid"))
       )
     }
@@ -67,7 +67,7 @@ class EnumerableSpec extends AnyWordSpec with Matchers with EitherValues with Op
 
     Foo.values.foreach { value =>
       s"write $value" in {
-        Json.toJson(value) mustEqual JsString(value.toString)
+        Json.toJson(value) shouldBe JsString(value.toString)
       }
     }
   }
