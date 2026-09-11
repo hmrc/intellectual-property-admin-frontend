@@ -9,7 +9,7 @@ object AppDependencies {
     "uk.gov.hmrc"            %% "play-conditional-form-mapping-play-30" % "3.5.0",
     "uk.gov.hmrc"            %% "bootstrap-frontend-play-30"            % bootstrapVersion exclude ("org.apache.commons", "commons-lang3"),
     "org.typelevel"          %% "cats-core"                             % "2.10.0",
-    "uk.gov.hmrc"            %% "play-frontend-hmrc-play-30"            % "13.9.0",
+    "uk.gov.hmrc"            %% "play-frontend-hmrc-play-30"            % "13.13.0",
     "org.bouncycastle"        % "bcprov-jdk18on"                        % "1.80",
     "ch.qos.logback"          % "logback-core"                          % "1.5.21",
     "at.yawk.lz4"             % "lz4-java"                              % "1.10.3",
