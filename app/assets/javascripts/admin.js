@@ -15,10 +15,10 @@ if (window.history && window.history.replaceState && typeof window.history.repla
 var backLink = document.querySelector('.govuk-back-link');
 if(backLink){
       backLink.addEventListener('click', function(e){
-            e.preventDefault();
             if (window.history && window.history.back && typeof window.history.back === 'function' &&
-            (docReferrer !== "" && docReferrer.indexOf(window.location.host) !== -1)) {
-        window.history.back();
-        }
-  });
+            (docReferrer !== "" && new URL(docReferrer).hostname === window.location.hostname)) {
+                e.preventDefault();
+                window.history.back();
+            }
+      });
 }
